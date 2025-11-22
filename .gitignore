@@ -1,0 +1,9 @@
+*.o
+*.a
+*.so
+*.gcno
+*.gcda
+compile_commands.json
+.cache/
+bin/
+docs/
