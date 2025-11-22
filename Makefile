@@ -1,7 +1,7 @@
 CC=gcc
 RM=rm -rf
 
-CFLAGS=-std=c99 -O2 -Wall -Wextra
+CFLAGS=-std=c99 -O2 -Wall -Wextra -fPIC
 # test flags
 TFLAGS=-std=c99 -O0 -g3 -Wall -Wextra --coverage
 
@@ -17,10 +17,8 @@ endif
 
 
 librdesc.so: $(OBJS)
-	$(CC) $(CFLAGS)   -fPIC -shared -o $@ $^
-
-librdesc.a: $(OBJS)
 	$(CC) $(CFLAGS)   -shared -o $@ $^
+
 
 $(BIN_DIR)/%.test: $(OBJS) tests/%.o | $(BIN_DIR)
 	$(CC) $(CFLAGS)   -o $@ $^
@@ -32,7 +30,7 @@ $(foreach target,$(target),$(shell $(CC) -MM *.c))
 $(foreach test_target,$(test_target),$(shell $(CC) -MM tests/*.c))
 
 
-all: librdesc.a librdesc.so
+all: librdesc.so
 
 clean:
 	$(RM) librdesc.a librdesc.so \

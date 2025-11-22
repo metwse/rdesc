@@ -9,8 +9,9 @@
 #include "bnf.h"
 
 #include <stddef.h>
-#include <stdio.h>
-#include <signal.h>
+#include <stdio.h> // IWYU pragma: export
+#include <stdlib.h> // IWYU pragma: export
+#include <signal.h> // IWYU pragma: export
 
 
 #define STACK_INITIAL_CAP 8
@@ -32,12 +33,15 @@
 /** @brief macro highlights memory allocation checks */
 #define assert_mem(c) assert(c, "out of memory")
 
+/** @brief extra checks for flow of code. */
+#define assert_logic(c, fmt, ...) \
+	assert(c, "logic error: " fmt " is/are not meaningful" \
+	       __VA_OPT__(,)__VA_ARGS__)
 
-struct rdesc_token_stack {
-	struct bnf_token *tokens;
-	size_t len;
-	size_t cap;
-};
+/** @brief code reached unreachable branch */
+#define unreachable() assert(0, "reached unreachable branch"); exit(2)
+
+struct rdesc_token_stack;
 
 
 void rdesc_token_stack_init(struct rdesc_token_stack *);

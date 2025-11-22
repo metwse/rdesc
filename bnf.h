@@ -19,7 +19,7 @@ struct bnf_token {
 struct bnf_nonterminal {
 	int id /** nonterminal identifier */;
 
-	struct rdesc_node **children /** child nodes */;
+	struct rdesc_cst **children /** child nodes */;
 	size_t child_count /** number of child ndes */;
 
 	/** @brief The production rule variant being parsed

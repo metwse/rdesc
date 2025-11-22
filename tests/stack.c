@@ -1,4 +1,5 @@
 #include "../bnf.h"
+#include "../rdesc.h"
 #include "../detail.h"
 
 #include <stdlib.h>
