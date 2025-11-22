@@ -6,7 +6,7 @@ enum token {
 	TK_NUM, TK_IDENT,
 	TK_PLUS, TK_STAR,
 	TK_LPAREN, TK_RPAREN,
-	TK_COMMA, TK_SEMI,
+	TK_COMMA, TK_SEMI, TK_NOT
 };
 
 enum nonterminal {
@@ -19,7 +19,7 @@ enum nonterminal {
 };
 
 
-const struct bnf_symbol productions[12][3][5] = {
+const struct bnf_symbol productions[12][6][5] = {
 	/* <num> ::= */ r(
 		TK(TK_NUM),
 	),
@@ -43,6 +43,9 @@ const struct bnf_symbol productions[12][3][5] = {
 	/* <factor> ::= */ r(
 		NT(NT_IDENT),
 	alt	NT(NT_NUM),
+	alt	NT(NT_NUM), TK(TK_NOT),
+	alt	TK(TK_LPAREN), NT(NT_EXPR), TK(TK_RPAREN),
+	alt	NT(NT_CALL),
 	),
 
 	/* <stmt> ::= */ r(
@@ -50,18 +53,29 @@ const struct bnf_symbol productions[12][3][5] = {
 	),
 };
 
-
 int main()
 {
 	struct rdesc p;
-	struct rdesc_cst *cst = NULL;
+	struct rdesc_node *cst = NULL;
 
-	rdesc_init(&p, 12, 3, 5, (const struct bnf_symbol *) productions);
+	rdesc_init(&p, 12, 6, 5, (const struct bnf_symbol *) productions);
 
 	rdesc_start(&p, NT_STMT);
 
 	rdesc_consume(&p, &cst, (struct bnf_token) { .id = TK_NUM } );
-	rdesc_consume(&p, &cst, (struct bnf_token) { .id = TK_PLUS } );
-	rdesc_consume(&p, &cst, (struct bnf_token) { .id = TK_NUM } );
+	rdesc_consume(&p, &cst, (struct bnf_token) { .id = TK_NOT } );
+	rdesc_consume(&p, &cst, (struct bnf_token) { .id = TK_STAR } );
+	rdesc_consume(&p, &cst, (struct bnf_token) { .id = TK_LPAREN } );
+		rdesc_consume(&p, &cst, (struct bnf_token) { .id = TK_NUM } );
+		rdesc_consume(&p, &cst, (struct bnf_token) { .id = TK_PLUS } );
+		rdesc_consume(&p, &cst, (struct bnf_token) { .id = TK_IDENT } );
+		rdesc_consume(&p, &cst, (struct bnf_token) { .id = TK_LPAREN } );
+			rdesc_consume(&p, &cst, (struct bnf_token) { .id = TK_NUM } );
+			rdesc_consume(&p, &cst, (struct bnf_token) { .id = TK_COMMA } );
+			rdesc_consume(&p, &cst, (struct bnf_token) { .id = TK_NUM } );
+			rdesc_consume(&p, &cst, (struct bnf_token) { .id = TK_STAR } );
+			rdesc_consume(&p, &cst, (struct bnf_token) { .id = TK_NUM } );
+		rdesc_consume(&p, &cst, (struct bnf_token) { .id = TK_RPAREN } );
+	rdesc_consume(&p, &cst, (struct bnf_token) { .id = TK_RPAREN } );
 	rdesc_consume(&p, &cst, (struct bnf_token) { .id = TK_SEMI } );
 }

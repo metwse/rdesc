@@ -18,6 +18,12 @@ enum rdesc_result {
 	RDESC_NOMATCH /** provided tokens do not match with any rule */,
 };
 
+struct rdesc_token_stack {
+	struct bnf_token *tokens;
+	size_t len;
+	size_t cap;
+};
+
 /** @brief Right-recursive descent parser */
 struct rdesc {
 	/** context-free grammar production rules */
@@ -34,19 +40,15 @@ struct rdesc {
 
 	/** The token stack for backtracking. When a parsing rule fails,
 	 * consumed tokens are pushedrdesc back onto this stack */
-	struct rdesc_token_stack {
-		struct bnf_token *tokens;
-		size_t len;
-		size_t cap;
-	} tokens;
+	struct rdesc_token_stack tokens;
 
-	struct rdesc_cst *root /** root of the tree */;
-	struct rdesc_cst *cur /** (current) node that parsing continues on */;
+	struct rdesc_node *root /** root of the tree */;
+	struct rdesc_node *cur /** (current) node that parsing continues on */;
 
 };
 
 /** @brief A node in the CST */
-struct rdesc_cst {
+struct rdesc_node {
 	enum bnf_symbol_type ty /** type of the symbol (token/nonterminal) */;
 
 	union {
@@ -54,7 +56,7 @@ struct rdesc_cst {
 		struct bnf_nonterminal nt /** nonterminal */;
 	};
 
-	struct rdesc_cst *parent /** parent node */;
+	struct rdesc_node *parent /** parent node */;
 };
 
 
@@ -73,24 +75,9 @@ void rdesc_clearstack(struct rdesc *,
 		      struct bnf_token **out,
 		      size_t *out_len);
 
-/**
- * @brief Continues the parsing process with tokens from stack.
- *
- * This function acts like a coroutine, consumes tokens until it either
- * completes the start symbol set by `rdesc_start` or requires more tokens
- * from the lexer.
- *
- * @param p Pointer to the parser.
- * @param out If the result is `RDESC_PARSER_READY`, this pointer is set to the
- *            root of the completed CST (`struct rdesc_cst *`).
- * @returns The status of the parse operation.
- */
-enum rdesc_result rdesc_consume_stack(struct rdesc *p,
-				      struct rdesc_cst **out);
-
 /** @brief Tries to match the next token */
 enum rdesc_result rdesc_consume(struct rdesc *p,
-				struct rdesc_cst **out,
+				struct rdesc_node **out,
 				struct bnf_token token);
 
 /**
@@ -99,7 +86,7 @@ enum rdesc_result rdesc_consume(struct rdesc *p,
  * @warning `seminfo` field in `struct bnf_token` is not freed, it is assumed
  * that the tokens used.
  */
-void rdesc_destroy_cst(struct rdesc_cst *cst);
+void rdesc_destroy_node(struct rdesc_node *cst);
 
 
 #endif

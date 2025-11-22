@@ -11,16 +11,16 @@
 #define PRODUCTIONS \
 	(*(const struct bnf_symbol (*)[p->nt_count][p->nt_variant_count][p->nt_body_length]) p->rules)
 
-#define get_body(sym) PRODUCTIONS[sym->nt.id][sym->nt.variant]
-#define get_current_rule(sym) get_body(sym)[sym->nt.child_count]
+#define get_body(node) PRODUCTIONS[node->nt.id][node->nt.variant]
+#define get_current_rule(node) get_body(node)[node->nt.child_count]
 
-#define is_grammar_complete(sym) \
-	(get_current_rule(sym).id == EOB && \
-	get_current_rule(sym).ty == BNF_SENTINEL)
+#define is_grammar_complete(node) \
+	(get_current_rule(node).id == EOB && \
+	get_current_rule(node).ty == BNF_SENTINEL)
 
-#define is_construct_end(sym) \
-	(get_body(sym)[0].id == EOC && \
-	get_body(sym)[0].ty == BNF_SENTINEL)
+#define is_construct_end(node) \
+	(get_body(node)[0].id == EOC && \
+	get_body(node)[0].ty == BNF_SENTINEL)
 
 
 enum match_result {
@@ -70,18 +70,19 @@ void rdesc_init(struct rdesc *p,
 	p->root = p->cur = NULL;
 }
 
-static void push_child(struct rdesc_cst *parent, struct rdesc_cst *child)
+static void push_child(struct rdesc_node *parent, struct rdesc_node *child)
 {
 	assert_logic(parent->ty == BNF_NONTERMINAL,
-		     "token as a parent of another symbol");
+		     "a token node cannot be a parent of another node");
 
 	parent->nt.children[parent->nt.child_count++] = child;
 }
 
-static struct rdesc_cst *new_nt_node(struct rdesc *p, struct rdesc_cst *parent,
-				     int id)
+static struct rdesc_node *new_nt_node(struct rdesc *p,
+				      struct rdesc_node *parent,
+				      int id)
 {
-	struct rdesc_cst *n = malloc(sizeof(struct rdesc_cst));
+	struct rdesc_node *n = malloc(sizeof(struct rdesc_node));
 	assert_mem(n);
 
 	n->parent = parent;
@@ -95,7 +96,7 @@ static struct rdesc_cst *new_nt_node(struct rdesc *p, struct rdesc_cst *parent,
 
 	n->nt.id = id;
 	n->nt.child_count = 0;
-	n->nt.children = malloc(sizeof(struct rdesc_cst *) * child_cap);
+	n->nt.children = malloc(sizeof(struct rdesc_node *) * child_cap);
 	assert_mem(n->nt.children);
 	n->nt.variant = 0;
 
@@ -109,9 +110,9 @@ void rdesc_start(struct rdesc *p, int start_symbol)
 	p->cur = p->root = new_nt_node(p, NULL, start_symbol);
 }
 
-struct rdesc_cst *new_tk_node(struct rdesc_cst *parent, int id)
+struct rdesc_node *new_tk_node(struct rdesc_node *parent, int id)
 {
-	struct rdesc_cst *n = malloc(sizeof(struct rdesc_cst));
+	struct rdesc_node *n = malloc(sizeof(struct rdesc_node));
 	assert_mem(n);
 
 	n->parent = parent;
@@ -133,7 +134,7 @@ static void restore_token(struct rdesc *p, struct bnf_token tk)
 static void next_variant(struct rdesc *p)
 {
 	while (p->cur->nt.child_count) {
-		struct rdesc_cst *next_cur = NULL, *child;
+		struct rdesc_node *next_cur = NULL, *child;
 
 		for (size_t i = p->cur->nt.child_count; i > 0; i--) {
 			child = p->cur->nt.children[i - 1];
@@ -160,26 +161,26 @@ static void next_variant(struct rdesc *p)
 	p->cur->nt.child_count = 0;
 }
 
-void rdesc_destroy_cst(struct rdesc_cst *sym)
+void rdesc_destroy_node(struct rdesc_node *n)
 {
-	assert_logic(sym->ty == BNF_NONTERMINAL,
+	assert_logic(n->ty == BNF_NONTERMINAL,
 		     "token nodes should not be destroyed, memory leak "
 		     "otherwise");
 
-	for (size_t i = sym->nt.child_count; i > 0; i--)
-		rdesc_destroy_cst(sym->nt.children[i - 1]);
+	for (size_t i = n->nt.child_count; i > 0; i--)
+		rdesc_destroy_node(n->nt.children[i - 1]);
 
-	free(sym->nt.children);
+	free(n->nt.children);
 
-	free(sym);
+	free(n);
 }
 
 static void backtrace(struct rdesc *p)
 {
-	struct rdesc_cst *parent = p->cur->parent, *child = NULL;
+	struct rdesc_node *parent = p->cur->parent, *child = NULL;
 
 	while (child != p->cur)
-		rdesc_destroy_cst(
+		rdesc_destroy_node(
 			child = parent->nt.children[--parent->nt.child_count]
 		);
 	p->cur = parent;
@@ -192,9 +193,6 @@ static void backtrace(struct rdesc *p)
 
 static enum match_result match(struct rdesc *p, struct bnf_token tk)
 {
-	if (p->cur == NULL)
-		return NOMATCH;
-
 	if (is_grammar_complete(p->cur)) {
 		p->cur = p->cur->parent;
 
@@ -244,57 +242,57 @@ static enum match_result match(struct rdesc *p, struct bnf_token tk)
 	}
 }
 
-enum rdesc_result rdesc_consume_stack(struct rdesc *p,
-					    struct rdesc_cst **out)
-{
-	assert_logic(p->root,
-		     "continuing an incremental parse with no nonterminal");
-
-
-	while (p->tokens.len) {
-		struct bnf_token tk = rdesc_token_stack_pop(&p->tokens);
-
-		enum rdesc_result res = rdesc_consume(p, out, tk);
-
-		if (res == RDESC_CONTINUE)
-			continue;
-		else
-			return res;
-	}
-
-	return RDESC_CONTINUE;
-}
-
-enum rdesc_result rdesc_consume(struct rdesc *p,
-				 struct rdesc_cst **out,
-				 struct bnf_token tk)
+static enum rdesc_result parser_pump(struct rdesc *p,
+				     struct rdesc_node **out,
+				     struct bnf_token *incoming_tk)
 {
 	assert_logic(p->root,
 		     "continuing an incremental parse with no nonterminal");
 
 	enum match_result res;
+	struct bnf_token tk = *incoming_tk;
 
-	do {
-		res = match(p, tk);
-	} while (res == RETRY);
+	bool has_token = incoming_tk != NULL;
 
-	switch (res) {
-	case CONTINUE:
-		return rdesc_consume_stack(p, out);
+	while (true) {
+		if (!has_token && p->tokens.len) {
+			tk = rdesc_token_stack_pop(&p->tokens);
+			has_token = true;
+		}
 
-	case NOMATCH:
-		// TODO: destroy with seminfo
-		// rdesc_destroy_cst(p->root);
+		if (!has_token)
+			return RDESC_CONTINUE;
 
-		p->root = p->cur = NULL;
-		return RDESC_NOMATCH;
+		do {
+			res = match(p, tk);
+		} while (res == RETRY);
 
-	case READY:
-		*out = p->root;
+		switch (res) {
+		case CONTINUE:
+			has_token = false;
+			break;
 
-		p->cur = p->root = NULL;
-		return RDESC_READY;
+		case NOMATCH:
+			free(p->root->nt.children);
+			free(p->root);
 
-	default: unreachable(); // GCOV_EXCL_LINE
+			p->root = p->cur = NULL;
+			return RDESC_NOMATCH;
+
+		case READY:
+			*out = p->root;
+
+			p->cur = p->root = NULL;
+			return RDESC_READY;
+
+		default: unreachable(); // GCOV_EXCL_LINE
+		}
 	}
+}
+
+enum rdesc_result rdesc_consume(struct rdesc *p,
+				struct rdesc_node **out,
+				struct bnf_token tk)
+{
+	return parser_pump(p, out, &tk);
 }

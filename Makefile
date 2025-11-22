@@ -33,7 +33,7 @@ $(foreach test_target,$(test_target),$(shell $(CC) -MM tests/*.c))
 all: librdesc.so
 
 clean:
-	$(RM) librdesc.a librdesc.so \
+	$(RM) librdesc.a librdesc.so $(BIN_DIR) \
 		$(wildcard *.o) $(wildcard */*.o) \
 		$(wildcard *.gcno) $(wildcard */*.gcno) \
 		$(wildcard *.gcda) $(wildcard */*.gcda)
