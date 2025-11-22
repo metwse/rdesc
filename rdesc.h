@@ -85,13 +85,13 @@ void rdesc_clearstack(struct rdesc *,
  *            root of the completed CST (`struct rdesc_cst *`).
  * @returns The status of the parse operation.
  */
-enum rdesc_result rdesc_continue_from_stack(struct rdesc *p,
-					    struct rdesc_cst **out);
+enum rdesc_result rdesc_consume_stack(struct rdesc *p,
+				      struct rdesc_cst **out);
 
 /** @brief Tries to match the next token */
-enum rdesc_result rdesc_continue(struct rdesc *p,
-				 struct rdesc_cst **out,
-				 struct bnf_token token);
+enum rdesc_result rdesc_consume(struct rdesc *p,
+				struct rdesc_cst **out,
+				struct bnf_token token);
 
 /**
  * @brief Recursively destroys nodes and its children.

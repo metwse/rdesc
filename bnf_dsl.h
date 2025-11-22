@@ -9,8 +9,6 @@
 #ifndef BNF_DSL_H
 #define BNF_DSL_H
 
-#include "bnf.h"
-
 #include <stddef.h>
 
 

@@ -162,12 +162,14 @@ static void next_variant(struct rdesc *p)
 
 void rdesc_destroy_cst(struct rdesc_cst *sym)
 {
-	if (sym->ty == BNF_NONTERMINAL) {
-		for (size_t i = sym->nt.child_count; i > 0; i--)
-			rdesc_destroy_cst(sym->nt.children[i - 1]);
+	assert_logic(sym->ty == BNF_NONTERMINAL,
+		     "token nodes should not be destroyed, memory leak "
+		     "otherwise");
 
-		free(sym->nt.children);
-	}
+	for (size_t i = sym->nt.child_count; i > 0; i--)
+		rdesc_destroy_cst(sym->nt.children[i - 1]);
+
+	free(sym->nt.children);
 
 	free(sym);
 }
@@ -178,7 +180,8 @@ static void backtrace(struct rdesc *p)
 
 	while (child != p->cur)
 		rdesc_destroy_cst(
-			child = parent->nt.children[--parent->nt.child_count]);
+			child = parent->nt.children[--parent->nt.child_count]
+		);
 	p->cur = parent;
 
 	next_variant(p);
@@ -189,13 +192,13 @@ static void backtrace(struct rdesc *p)
 
 static enum match_result match(struct rdesc *p, struct bnf_token tk)
 {
+	if (p->cur == NULL)
+		return NOMATCH;
+
 	if (is_grammar_complete(p->cur)) {
 		p->cur = p->cur->parent;
 
-		if (p->cur == NULL)
-			return READY;
-		else
-			return RETRY;
+		return RETRY;
 	}
 
 	if (is_construct_end(p->cur)) {
@@ -217,6 +220,13 @@ static enum match_result match(struct rdesc *p, struct bnf_token tk)
 		if (rule.id == tk.id) {
 			new_tk_node(p->cur, rule.id)->tk.seminfo = tk.seminfo;
 
+			while (is_grammar_complete(p->cur)) {
+				p->cur = p->cur->parent;
+
+				if (p->cur == NULL)
+					return READY;
+			}
+
 			return CONTINUE;
 		} else {
 			restore_token(p, tk);
@@ -234,18 +244,17 @@ static enum match_result match(struct rdesc *p, struct bnf_token tk)
 	}
 }
 
-enum rdesc_result rdesc_continue_from_stack(struct rdesc *p,
+enum rdesc_result rdesc_consume_stack(struct rdesc *p,
 					    struct rdesc_cst **out)
 {
 	assert_logic(p->root,
 		     "continuing an incremental parse with no nonterminal");
 
-	struct bnf_token tk;
 
 	while (p->tokens.len) {
-		tk = rdesc_token_stack_pop(&p->tokens);
+		struct bnf_token tk = rdesc_token_stack_pop(&p->tokens);
 
-		enum rdesc_result res = rdesc_continue(p, out, tk);
+		enum rdesc_result res = rdesc_consume(p, out, tk);
 
 		if (res == RDESC_CONTINUE)
 			continue;
@@ -256,7 +265,7 @@ enum rdesc_result rdesc_continue_from_stack(struct rdesc *p,
 	return RDESC_CONTINUE;
 }
 
-enum rdesc_result rdesc_continue(struct rdesc *p,
+enum rdesc_result rdesc_consume(struct rdesc *p,
 				 struct rdesc_cst **out,
 				 struct bnf_token tk)
 {
@@ -271,10 +280,11 @@ enum rdesc_result rdesc_continue(struct rdesc *p,
 
 	switch (res) {
 	case CONTINUE:
-		return RDESC_CONTINUE;
+		return rdesc_consume_stack(p, out);
 
 	case NOMATCH:
-		rdesc_destroy_cst(p->root);
+		// TODO: destroy with seminfo
+		// rdesc_destroy_cst(p->root);
 
 		p->root = p->cur = NULL;
 		return RDESC_NOMATCH;
