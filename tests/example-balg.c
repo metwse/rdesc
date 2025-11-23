@@ -1,8 +1,8 @@
 #include "../rdesc.h"
 #include "../detail.h"
 
-#include "../exmples/grammar/boolean-algebra.h"
-#include "../exmples/exutil.h"
+#include "../examples/grammar/boolean-algebra.h"
+#include "../examples/exutil.h"
 
 
 int main()

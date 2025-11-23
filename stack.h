@@ -1,5 +1,5 @@
 /**
- * @file rdesc_stack.h
+ * @file stack.h
  * @brief Token stack interface contract.
  *
  * This header defines the function signatures required to manipulate the

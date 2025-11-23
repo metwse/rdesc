@@ -22,20 +22,33 @@
 
 #include <stddef.h>
 
-/* These are required by `bnf_dsl.h` to map the concise `TK()` and `NT()`
- * macros to the actual enum values defined below. */
+/** @brief add TK_ prefix in `TK` macro */
 #define PREFIX_TK(tk) TK_ ## tk
+/** @brief add NT_ prefix in `NT` macro */
 #define PREFIX_NT(nt) NT_ ## nt
 
 #include "../../bnf_dsl.h"
 
-
+/** @brief total count of terminal symbols */
 #define BALG_TK_COUNT 14
 
+/**
+ * @brief Total count of non-terminal symbols defined in `enum balg_nt`.
+ * Determines the size of the first dimension of the grammar table.
+ */
 #define BALG_NT_COUNT 17
-#define BALG_NT_VARIANT_COUNT 6
-#define BALG_NT_BODY_LENGTH 5
 
+/**
+ * @brief Maximum number of production variants (alternatives) for a single
+ * non-terminal. Used to dimension the static array (2nd dimension).
+ */
+#define BALG_NT_VARIANT_COUNT 6
+
+/**
+ * @brief Maximum number of symbols in a production body (Right-Hand Side).
+ * Used to dimension the static array (3rd dimension).
+ */
+#define BALG_NT_BODY_LENGTH 5
 
 /** @brief terminal symbols (tokens) */
 enum balg_tk {
@@ -91,7 +104,7 @@ const char *balg_nts[BALG_NT_COUNT] = {
 	"expr_ls", "expr_ls_rest",
 };
 
-
+/** @brief example context-free grammar */
 const struct bnf_symbol
 balg[BALG_NT_COUNT][BALG_NT_VARIANT_COUNT][BALG_NT_BODY_LENGTH] = {
 	/* <bit> ::= */ r(

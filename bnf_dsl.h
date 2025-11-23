@@ -14,14 +14,25 @@
 
 #include <stddef.h>
 
+
 #ifndef PREFIX_TK
+/**
+ * @brief Name mapping for token identifiers.
+ *
+ * This macro determines how a raw token name passed to `TK(...)` is
+ * expanded into a C identifier (typically an enum member).
+ *
+ * - Default: Identity mapping. `TK(IDENT)` expands to `IDENT`.
+ * - Override: Define this macro before including the DSL to add namespaces
+ *   (e.g., `#define PREFIX_TK(x) MY_TK_ ## x`).
+ */
 #define PREFIX_TK(tk) tk
 #endif
 
 #ifndef PREFIX_NT
+/** @see PREFIX_TK */
 #define PREFIX_NT(nt) nt
 #endif
-
 /** integer representing EOB (end of body) */
 #define EOB -1
 /** integer representing EOC (end of construct) */
