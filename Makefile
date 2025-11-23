@@ -38,7 +38,6 @@ clean:
 		$(wildcard *.gcno) $(wildcard */*.gcno) \
 		$(wildcard *.gcda) $(wildcard */*.gcda)
 
-
 .PHONY: all clean
 
 

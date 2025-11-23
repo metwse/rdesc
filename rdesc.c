@@ -242,12 +242,12 @@ static enum match_result match(struct rdesc *p, struct bnf_token tk)
 	}
 }
 
-static enum rdesc_result parser_pump(struct rdesc *p,
-				     struct rdesc_node **out,
-				     struct bnf_token *incoming_tk)
+enum rdesc_result rdesc_pump(struct rdesc *p,
+			     struct rdesc_node **out,
+			     struct bnf_token *incoming_tk)
 {
 	assert_logic(p->root,
-		     "continuing an incremental parse with no nonterminal");
+		     "continuing an incremental parse with no root");
 
 	enum match_result res;
 	struct bnf_token tk = *incoming_tk;
@@ -288,11 +288,4 @@ static enum rdesc_result parser_pump(struct rdesc *p,
 		default: unreachable(); // GCOV_EXCL_LINE
 		}
 	}
-}
-
-enum rdesc_result rdesc_consume(struct rdesc *p,
-				struct rdesc_node **out,
-				struct bnf_token tk)
-{
-	return parser_pump(p, out, &tk);
 }

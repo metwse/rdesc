@@ -4,6 +4,9 @@
  *
  * Provides macros (r, rrr, ropt) to define these production rules in a
  * readable way.
+ *
+ * You may define `PREFIX_TK` and `PREFIX_NT` macros before including this file
+ * to automatically add prefixes in grammar definitions.
  */
 
 #ifndef BNF_DSL_H
@@ -11,6 +14,13 @@
 
 #include <stddef.h>
 
+#ifndef PREFIX_TK
+#define PREFIX_TK(tk) tk
+#endif
+
+#ifndef PREFIX_NT
+#define PREFIX_NT(nt) nt
+#endif
 
 /** integer representing EOB (end of body) */
 #define EOB -1
@@ -23,9 +33,9 @@
 #define SEOC { (const struct bnf_symbol) { .ty = BNF_SENTINEL, .id = EOC } }
 
 /** @brief Macro to create a terminal (Token) production symbol. */
-#define TK(tk) { .ty = BNF_TOKEN, .id = tk }
+#define TK(tk) { .ty = BNF_TOKEN, .id = PREFIX_TK(tk) }
 /** @brief Macro to create a non-terminal production symbol. */
-#define NT(nt) { .ty = BNF_NONTERMINAL, .id = nt }
+#define NT(nt) { .ty = BNF_NONTERMINAL, .id = PREFIX_NT(nt) }
 
 
 /** @brief Macro to define a grammar rule. */

@@ -44,7 +44,6 @@ struct rdesc {
 
 	struct rdesc_node *root /** root of the tree */;
 	struct rdesc_node *cur /** (current) node that parsing continues on */;
-
 };
 
 /** @brief A node in the CST */
@@ -67,6 +66,15 @@ void rdesc_init(struct rdesc *,
 		size_t nonterminal_body_length,
 		const struct bnf_symbol *production_rules);
 
+/**
+ * @brief Frees memory allocated by the parser and destroys the parser instance.
+ *
+ * @warning The token stack must be empty and no parse in progress before
+ *          calling this function to prevent memory leaks. Raises an assertion
+ *          error if the token stack is not empty or the root is not null.
+ */
+void rdesc_destroy(struct rdesc *);
+
 /** @brief Sets start symbol for the next match. */
 void rdesc_start(struct rdesc *, int start_symbol);
 
@@ -76,9 +84,9 @@ void rdesc_clearstack(struct rdesc *,
 		      size_t *out_len);
 
 /** @brief Tries to match the next token */
-enum rdesc_result rdesc_consume(struct rdesc *p,
-				struct rdesc_node **out,
-				struct bnf_token token);
+enum rdesc_result rdesc_pump(struct rdesc *p,
+			     struct rdesc_node **out,
+			     struct bnf_token *incoming_tk);
 
 /**
  * @brief Recursively destroys nodes and its children.
