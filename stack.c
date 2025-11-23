@@ -3,7 +3,10 @@
 #include "detail.h"
 
 #include <stdlib.h>
+#include <stddef.h>
 
+
+#define STACK_INITIAL_CAP 8
 
 #define RESIZE_STACK \
 	assert_mem( \
@@ -12,7 +15,7 @@
 	)
 
 
-void rdesc_token_stack_init(struct rdesc_token_stack *s)
+void rdesc_stack_init(struct rdesc_stack *s)
 {
 	s->len = 0;
 	s->cap = STACK_INITIAL_CAP;
@@ -22,7 +25,7 @@ void rdesc_token_stack_init(struct rdesc_token_stack *s)
 	);
 }
 
-void rdesc_token_stack_push(struct rdesc_token_stack *s, struct bnf_token tk)
+void rdesc_stack_push(struct rdesc_stack *s, struct bnf_token tk)
 {
 	if (s->cap == s->len) {
 		s->cap *= 2;
@@ -32,7 +35,7 @@ void rdesc_token_stack_push(struct rdesc_token_stack *s, struct bnf_token tk)
 	s->tokens[s->len++] = tk;
 }
 
-struct bnf_token rdesc_token_stack_pop(struct rdesc_token_stack *s)
+struct bnf_token rdesc_stack_pop(struct rdesc_stack *s)
 {
 	struct bnf_token top = s->tokens[--s->len];
 
@@ -44,13 +47,12 @@ struct bnf_token rdesc_token_stack_pop(struct rdesc_token_stack *s)
 	return top;
 }
 
-struct bnf_token rdesc_token_stack_top(struct rdesc_token_stack *s)
+void *rdesc_stack_into_inner(struct rdesc_stack *s)
 {
-	return s->tokens[s->len - 1];
+	return s->tokens;
 }
 
-
-void rdesc_token_stack_destroy(struct rdesc_token_stack *s)
+size_t rdesc_stack_len(struct rdesc_stack *s)
 {
-	free(s->tokens);
+	return s->len;
 }

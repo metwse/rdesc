@@ -1,20 +1,9 @@
-/**
- * @file detail.h
- * @brief Private API of rdesc.
- */
-
 #ifndef RDESC_DETAIL_H
 #define RDESC_DETAIL_H
 
-#include "bnf.h"
-
-#include <stddef.h>
 #include <stdio.h> // IWYU pragma: export
-#include <stdlib.h> // IWYU pragma: export
 #include <signal.h> // IWYU pragma: export
 
-
-#define STACK_INITIAL_CAP 8
 
 #define assert_stringify_detail(a) #a
 #define assert_stringify(a) assert_stringify_detail(a)
@@ -30,28 +19,16 @@
 		} \
 	} while(0)
 
-/** @brief macro highlights memory allocation checks */
+/* macro highlights memory allocation checks */
 #define assert_mem(c) assert(c, "out of memory")
 
-/** @brief extra checks for flow of code. */
+/* extra checks for flow of code. */
 #define assert_logic(c, fmt, ...) \
 	assert(c, "logic error: " fmt " is/are not meaningful" \
 	       __VA_OPT__(,)__VA_ARGS__)
 
-/** @brief code reached unreachable branch */
+/* code reached unreachable branch */
 #define unreachable() assert(0, "reached unreachable branch"); exit(2)
 
-struct rdesc_token_stack;
-
-
-void rdesc_token_stack_init(struct rdesc_token_stack *);
-
-void rdesc_token_stack_push(struct rdesc_token_stack *, struct bnf_token);
-
-struct bnf_token rdesc_token_stack_pop(struct rdesc_token_stack *);
-
-struct bnf_token rdesc_token_stack_top(struct rdesc_token_stack *);
-
-void rdesc_token_stack_destroy(struct rdesc_token_stack *);
 
 #endif

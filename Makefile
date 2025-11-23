@@ -38,7 +38,10 @@ clean:
 		$(wildcard *.gcno) $(wildcard */*.gcno) \
 		$(wildcard *.gcda) $(wildcard */*.gcda)
 
-.PHONY: all clean
+docs:
+	doxygen
+
+.PHONY: all clean docs
 
 
 $(BIN_DIR):

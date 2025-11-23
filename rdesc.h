@@ -18,11 +18,27 @@ enum rdesc_result {
 	RDESC_NOMATCH /** provided tokens do not match with any rule */,
 };
 
-struct rdesc_token_stack {
-	struct bnf_token *tokens;
-	size_t len;
-	size_t cap;
+#ifndef RDESC_STACK
+#define RDESC_STACK
+
+/**
+ * @brief Default implementation of the token backtracking stack.
+ *
+ * @note Portability / Custom Implementation:
+ *       This definition is guarded by `#ifndef RDESC_STACK`. If you are
+ *       porting `librdesc` to an environment that already has a preferred
+ *       dynamic array or stack implementation (e.g., a project-specific
+ *       vector type), you can define the `RDESC_STACK` macro externally. This
+ *       allows you to suppress this default struct and provide your own
+ *       definition of `struct rdesc_stack` compatible with your system.
+ */
+struct rdesc_stack {
+    struct bnf_token *tokens /** pointer to the dynamic array buffer */;
+    size_t len /** current number of tokens in the stack */;
+    size_t cap /** allocated capacity of the buffer */;
 };
+
+#endif
 
 /** @brief Right-recursive descent parser */
 struct rdesc {
@@ -40,7 +56,7 @@ struct rdesc {
 
 	/** The token stack for backtracking. When a parsing rule fails,
 	 * consumed tokens are pushedrdesc back onto this stack */
-	struct rdesc_token_stack tokens;
+	struct rdesc_stack tokens;
 
 	struct rdesc_node *root /** root of the tree */;
 	struct rdesc_node *cur /** (current) node that parsing continues on */;

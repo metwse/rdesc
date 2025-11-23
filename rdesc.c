@@ -2,6 +2,7 @@
 #include "bnf.h"
 #include "bnf_dsl.h"
 #include "detail.h"
+#include "stack.h"
 
 #include <stddef.h>
 #include <stdlib.h>
@@ -65,7 +66,7 @@ void rdesc_init(struct rdesc *p,
 		}
 	}
 
-	rdesc_token_stack_init(&p->tokens);
+	rdesc_stack_init(&p->tokens);
 
 	p->root = p->cur = NULL;
 }
@@ -128,7 +129,7 @@ struct rdesc_node *new_tk_node(struct rdesc_node *parent, int id)
 
 static void restore_token(struct rdesc *p, struct bnf_token tk)
 {
-	rdesc_token_stack_push(&p->tokens, tk);
+	rdesc_stack_push(&p->tokens, tk);
 }
 
 static void next_variant(struct rdesc *p)
@@ -255,8 +256,8 @@ enum rdesc_result rdesc_pump(struct rdesc *p,
 	bool has_token = incoming_tk != NULL;
 
 	while (true) {
-		if (!has_token && p->tokens.len) {
-			tk = rdesc_token_stack_pop(&p->tokens);
+		if (!has_token && rdesc_stack_len(&p->tokens)) {
+			tk = rdesc_stack_pop(&p->tokens);
 			has_token = true;
 		}
 
