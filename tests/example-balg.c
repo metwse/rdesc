@@ -20,9 +20,11 @@ int main()
 
 	enum balg_tk id;
 	struct rdesc_node *cst = NULL;
-	while ((id = exblex_next(&lex)) != TK_NOTOKEN) {
+	while ((id = exblex_next(&lex)) != TK_NOTOKEN)
 		rdesc_pump(&p, &cst, &(struct bnf_token) { .id = id });
-	}
 
 	assert(cst, "syntax tree could not be parsed");
+
+	rdesc_destroy(&p);
+	rdesc_node_destroy(cst);
 }

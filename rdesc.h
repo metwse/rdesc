@@ -56,7 +56,7 @@ struct rdesc {
 
 	/** The token stack for backtracking. When a parsing rule fails,
 	 * consumed tokens are pushedrdesc back onto this stack */
-	struct rdesc_stack tokens;
+	struct rdesc_stack stack;
 
 	struct rdesc_node *root /** root of the tree */;
 	struct rdesc_node *cur /** (current) node that parsing continues on */;
@@ -95,11 +95,26 @@ void rdesc_destroy(struct rdesc *);
 void rdesc_start(struct rdesc *, int start_symbol);
 
 /** @brief Clears tokens in the tokenstack and returns them. */
-void rdesc_clearstack(struct rdesc *,
-		      struct bnf_token **out,
-		      size_t *out_len);
+void rdesc_clearstack(struct rdesc *, struct bnf_token **out, size_t *out_len);
 
-/** @brief Tries to match the next token */
+/**
+ * @brief Drives the parsing process, The Pump.
+ *
+ * As the central engine of the parser, it consumes tokens from either the
+ * internal backtracking stack or the provided `incoming_tk`.
+ *
+ * @param p Pointer to the parser instance.
+ * @param out Output pointer for the resulting CST node (if READY).
+ * @param incoming_tk Pointer to the next token to consume.
+ *        - Optional: Pass `NULL` to resume parsing using only the tokens
+ *          currently in the backtracking stack.
+ *        - Storage: The pointer is used solely to make the argument nullable
+ *          (optional). It does not imply that the token must be heap-allocated.
+ *          Passing a pointer to a stack-allocated (automatic) variable is
+ *          valid and expected, as the parser copies the token data internally.
+ *
+ * @return The current status of the parse operation.
+ */
 enum rdesc_result rdesc_pump(struct rdesc *p,
 			     struct rdesc_node **out,
 			     struct bnf_token *incoming_tk);
@@ -107,10 +122,10 @@ enum rdesc_result rdesc_pump(struct rdesc *p,
 /**
  * @brief Recursively destroys nodes and its children.
  *
- * @warning `seminfo` field in `struct bnf_token` is not freed, it is assumed
- * that the tokens used.
+ * @note `seminfo` field in `struct bnf_token` are not freed, it is assumes
+ *        that the tokens owned by another process.
  */
-void rdesc_destroy_node(struct rdesc_node *cst);
+void rdesc_node_destroy(struct rdesc_node *cst);
 
 
 #endif

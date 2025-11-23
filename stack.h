@@ -27,6 +27,9 @@ struct rdesc_stack;
 /** @brief Initializes the token stack. */
 void rdesc_stack_init(struct rdesc_stack *s);
 
+/** @brief Frees memory allocated by the token stack. */
+void rdesc_stack_destroy(struct rdesc_stack *s);
+
 /** @brief Pushes a token onto the stack. */
 void rdesc_stack_push(struct rdesc_stack *s, struct bnf_token tk);
 

@@ -35,6 +35,11 @@ void rdesc_stack_push(struct rdesc_stack *s, struct bnf_token tk)
 	s->tokens[s->len++] = tk;
 }
 
+void rdesc_stack_destroy(struct rdesc_stack *s)
+{
+	free(s->tokens);
+}
+
 struct bnf_token rdesc_stack_pop(struct rdesc_stack *s)
 {
 	struct bnf_token top = s->tokens[--s->len];
