@@ -1,7 +1,7 @@
-#include "../bnf.h"
-#include "../rdesc.h"
-#include "../stack.h"
-#include "../detail.h"
+#include "../include/bnf.h"
+#include "../include/rdesc.h"
+#include "../include/stack.h"
+#include "../src/detail.h"
 
 #include <stdlib.h>
 #include <time.h>

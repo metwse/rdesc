@@ -1,48 +1,68 @@
 CC=gcc
 RM=rm -rf
 
-CFLAGS=-std=c99 -O2 -Wall -Wextra -fPIC
-# test flags
-TFLAGS=-std=c99 -O0 -g3 -Wall -Wextra --coverage
+CFLAGS_COMMON = -std=c99 -Wall -Wextra -fPIC -MMD -MP
 
-BIN_DIR=bin
-OBJS=rdesc.o stack.o
+CFLAGS = $(CFLAGS_COMMON) -O2
+TFLAGS = $(CFLAGS_COMMON) -O0 -g3 --coverage
 
-# no need to change anything below this line
-TEST:=$(filter tests bin/%.test, $(MAKECMDGOALS))
-
-ifdef TEST
-CFLAGS=$(TFLAGS)
-endif
+SRC_DIR=src
+INC_DIR=include
+TEST_DIR=tests
+DIST_DIR=dist
+OBJ_DIR=$(DIST_DIR)/obj
+DEBUG_OBJ_DIR=$(DIST_DIR)/debug_obj
 
 
-librdesc.so: $(OBJS)
-	$(CC) $(CFLAGS)   -shared -o $@ $^
+# no need to change rules below this line
+SRCS = $(wildcard $(SRC_DIR)/*.c)
+OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
+DEBUG_OBJS = $(patsubst $(SRC_DIR)/%.c, $(DEBUG_OBJ_DIR)/%.o, $(SRCS))
+
+TEST_SRCS = $(wildcard $(TEST_DIR)/*.c)
+TEST_OBJS = $(patsubst $(TEST_DIR)/%.c, $(DEBUG_OBJ_DIR)/%.test.o, $(TEST_SRCS))
+TEST_TARGETS = $(patsubst $(TEST_DIR)/%.c, $(DIST_DIR)/%.test, $(TEST_SRCS))
 
 
-$(BIN_DIR)/%.test: $(OBJS) tests/%.o | $(BIN_DIR)
-	$(CC) $(CFLAGS)   -o $@ $^
+all: $(DIST_DIR)/librdesc.so
+tests: $(TEST_TARGETS)
+
+# release library link
+$(DIST_DIR)/librdesc.so: $(OBJS) | $(DIST_DIR)
+	$(CC) $(CFLAGS) -shared -o $@ $^
+
+# test binaries
+$(DIST_DIR)/%.test: $(DEBUG_OBJ_DIR)/%.test.o $(DEBUG_OBJS) | $(DIST_DIR)
+	$(CC) $(TFLAGS) -o $@ $^
 
 
-$(foreach target,$(target),$(shell $(CC) -MM *.c))
+# Object rules
+# release
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
 
-.SECONDARY:
-$(foreach test_target,$(test_target),$(shell $(CC) -MM tests/*.c))
+# debug
+$(DEBUG_OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(DEBUG_OBJ_DIR)
+	$(CC) $(TFLAGS) -c $< -o $@
+
+# test
+$(DEBUG_OBJ_DIR)/%.test.o: $(TEST_DIR)/%.c | $(DEBUG_OBJ_DIR)
+	$(CC) $(TFLAGS) -c $< -o $@
 
 
-all: librdesc.so
+$(DIST_DIR) $(OBJ_DIR) $(DEBUG_OBJ_DIR):
+	mkdir -p $@
 
 clean:
-	$(RM) librdesc.a librdesc.so $(BIN_DIR) \
-		$(wildcard *.o) $(wildcard */*.o) \
-		$(wildcard *.gcno) $(wildcard */*.gcno) \
-		$(wildcard *.gcda) $(wildcard */*.gcda)
+	$(RM) $(DIST_DIR) docs
 
 docs:
 	doxygen
 
-.PHONY: all clean docs
 
+.SECONDARY: $(OBJS) $(DEBUG_OBJS) $(TEST_OBJS)
+-include $(OBJS:.o=.d)
+-include $(DEBUG_OBJS:.o=.d)
+-include $(TEST_OBJS:.o=.d)
 
-$(BIN_DIR):
-	mkdir $@
+.PHONY: all clean docs tests

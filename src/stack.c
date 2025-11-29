@@ -1,5 +1,6 @@
-#include "rdesc.h"
-#include "bnf.h"
+#include "../include/rdesc.h"
+#include "../include/bnf.h"
+#include "../include/stack.h"
 #include "detail.h"
 
 #include <stdlib.h>
@@ -57,7 +58,7 @@ void *rdesc_stack_into_inner(struct rdesc_stack *s)
 	return s->tokens;
 }
 
-size_t rdesc_stack_len(struct rdesc_stack *s)
+size_t rdesc_stack_len(const struct rdesc_stack *s)
 {
 	return s->len;
 }

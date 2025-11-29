@@ -1,8 +1,8 @@
-#include "rdesc.h"
-#include "bnf.h"
-#include "bnf_dsl.h"
+#include "../include/rdesc.h"
+#include "../include/bnf.h"
+#include "../include/bnf_dsl.h"
+#include "../include/stack.h"
 #include "detail.h"
-#include "stack.h"
 
 #include <stddef.h>
 #include <stdlib.h>

@@ -18,7 +18,7 @@
 #ifndef BALG_H
 #define BALG_H
 
-#include "../../bnf.h"
+#include "../../include/bnf.h"
 
 #include <stddef.h>
 
@@ -27,7 +27,7 @@
 /** @brief add NT_ prefix in `NT` macro */
 #define PREFIX_NT(nt) NT_ ## nt
 
-#include "../../bnf_dsl.h"
+#include "../../include/bnf_dsl.h"
 
 /** @brief total count of terminal symbols */
 #define BALG_TK_COUNT 14

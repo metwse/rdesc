@@ -1,5 +1,5 @@
-#include "../rdesc.h"
-#include "../detail.h"
+#include "../include/rdesc.h"
+#include "../src/detail.h"
 
 #include "../examples/grammar/boolean-algebra.h"
 #include "../examples/exutil.h"
