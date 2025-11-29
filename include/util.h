@@ -26,33 +26,37 @@ typedef void (*rdesc_tk_printer_func)(const struct rdesc_cfg_token *, FILE *out)
  *
  * Traverses the CST and generates a `.dot` representation.
  *
+ * @param cst CST node
  * @param nt_names The raw name of the non-terminal (e.g., `expr`). The dumper
  *        handles the surrounding `<` and `>` characters automatically.
- * @param tk_printer Callback to print Token names.
+ * @param tk_printer Callback to print token names.
  *        - DOT Context: This function handle seminfo fields and constructs a
  *          table accordingly.
+ * @param out Output file stream
  */
-void rdesc_dump_dot(const struct rdesc_node *,
+void rdesc_dump_dot(const struct rdesc_node *cst,
 		    rdesc_tk_printer_func tk_printer,
 		    const char *const nt_names[],
-		    FILE *);
+		    FILE *out);
 
 /**
- * @brief Dumps the Static Grammar Configuration in BNF format.
+ * @brief Dumps the Context-Free Grammar in BNF format.
  *
- * Iterates over the production rules defined in the configuration and
- * prints them in a human-readable BNF format. (e.g.`A ::= B | C`)
+ * Iterates over the production rules defined in the configuration and prints
+ * them in a human-readable BNF format. (e.g.`A ::= B | C`)
  *
+ * @param cfg Underlying CFG
  * @param tk_names The token name or literal representation (e.g., `IDENT` or
  *        `+`). If you do not want to put double quotes around token name,
  *        put @ to beginning of the name.
  * @param nt_names The raw name of the non-terminal (e.g., `expr`). The dumper
  *        handles the surrounding `<` and `>` characters automatically.
+ * @param out Output file stream
  */
-void rdesc_dump_bnf(const struct rdesc_cfg *,
+void rdesc_dump_bnf(const struct rdesc_cfg *cfg,
 		    const char *const tk_names[],
 		    const char *const nt_names[],
-		    FILE *);
+		    FILE *out);
 
 
 #endif

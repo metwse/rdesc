@@ -20,6 +20,7 @@
 
 #include "../../include/cfg.h"
 
+#include <stdlib.h>
 #include <stddef.h>
 #include <stdio.h>
 
@@ -84,12 +85,16 @@ enum balg_nt {
 /** @brief token character mapping (for simple lexing) */
 const char balg_tks[BALG_TK_COUNT] = {
 	'\0',
-	'1', '0', 'i',
+	'1', '0', 'w',
 	'|', '&', '!',
 	'(', ')', '{', '}',
 	'=', ',', ';',
 };
 
+/**
+ * @brief names of tokens that can be used in dotlang graph (special chars are
+ * escaped)
+ */
 const char *const balg_tk_names[BALG_TK_COUNT] = {
 	"\0",
 	"1", "0", "@ident",
@@ -98,10 +103,13 @@ const char *const balg_tk_names[BALG_TK_COUNT] = {
 	"=", ",", ";",
 };
 
-void balg_tk_printer(const struct rdesc_cfg_token *tk, FILE *out)
+/** @brief Print token as a dotlang node. */
+void balg_tk_printer_with_free(const struct rdesc_cfg_token *tk, FILE *out)
 {
 	if (tk->id == TK_IDENT) {
-		fprintf(out, "{{ident|name}}");
+		fprintf(out, "{{ident|%s}}", (char *) tk->seminfo);
+
+		free(tk->seminfo);
 	} else {
 		fprintf(out, "%s", balg_tk_names[tk->id]);
 	}

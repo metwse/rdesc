@@ -1,8 +1,10 @@
+// internal macros of rdesc
+
 #ifndef RDESC_DETAIL_H
 #define RDESC_DETAIL_H
 
-#include <stdio.h> // IWYU pragma: export
-#include <signal.h> // IWYU pragma: export
+#include <stdio.h> // IWYU pragma: begin_exports
+#include <signal.h> // IWYU pragma: end_exports
 
 
 #define assert_stringify_detail(a) #a

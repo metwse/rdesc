@@ -1,7 +1,7 @@
 #include "../include/cfg.h"
 #include "../include/rdesc.h"
 #include "../include/stack.h"
-#include "../src/detail.h"
+#include "../src/detail.h" // IWYU pragma: keep
 
 #include <stdlib.h>
 #include <time.h>

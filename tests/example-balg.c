@@ -1,12 +1,10 @@
-#include "../include/cfg.h"
 #include "../include/rdesc.h"
+#include "../include/cfg.h"
 #include "../include/util.h"
-#include "../src/detail.h"
+#include "../src/detail.h" // IWYU pragma: keep
+#include "../src/exblex.h"
 
 #include "../examples/grammar/boolean-algebra.h"
-#include "../examples/exutil.h"
-
-#include <stdio.h>
 
 
 int main()
@@ -16,7 +14,7 @@ int main()
 	struct rdesc p;
 
 	exblex_init(&lex,
-		    "{ i, i = (i = 0) | 1 & !i(1, 0), i(); i(); {;;} }",
+		    "{ a, b = (c = 0) | 1 & !test(1, 0), _123(); X_Y(); {;;} }",
 		    balg_tks, BALG_TK_COUNT);
 
 	rdesc_cfg_init(&cfg, BALG_NT_COUNT, BALG_NT_VARIANT_COUNT,
@@ -24,14 +22,15 @@ int main()
 	rdesc_init(&p, &cfg);
 	rdesc_start(&p, NT_STMT);
 
-	enum balg_tk id;
+	struct rdesc_cfg_token tk;
 	struct rdesc_node *cst = NULL;
-	while ((id = exblex_next(&lex)) != TK_NOTOKEN)
-		rdesc_pump(&p, &cst, &(struct rdesc_cfg_token) { .id = id });
+
+	while ((tk = exblex_next(&lex)).id != 0)
+		rdesc_pump(&p, &cst, &tk);
 
 	assert(cst, "syntax tree could not be parsed");
 
-	rdesc_dump_dot(cst, balg_tk_printer, balg_nt_names, stdout);
+	rdesc_dump_dot(cst, balg_tk_printer_with_free, balg_nt_names, stdout);
 
 	rdesc_destroy(&p);
 	rdesc_cfg_destroy(&cfg);
