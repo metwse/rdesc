@@ -1,5 +1,5 @@
 #include "../include/rdesc.h"
-#include "../include/bnf.h"
+#include "../include/cfg.h"
 #include "../include/bnf_dsl.h"
 #include "../include/stack.h"
 #include "detail.h"
@@ -9,19 +9,16 @@
 #include <stdbool.h>
 
 
-#define PRODUCTIONS \
-	(*(const struct bnf_symbol (*)[p->nt_count][p->nt_variant_count][p->nt_body_length]) p->rules)
-
-#define get_body(node) PRODUCTIONS[node->nt.id][node->nt.variant]
+#define get_body(node) productions(*p->cfg)[node->nt.id][node->nt.variant]
 #define get_current_rule(node) get_body(node)[node->nt.child_count]
 
 #define is_grammar_complete(node) \
 	(get_current_rule(node).id == EOB && \
-	get_current_rule(node).ty == BNF_SENTINEL)
+	get_current_rule(node).ty == CFG_SENTINEL)
 
 #define is_construct_end(node) \
 	(get_body(node)[0].id == EOC && \
-	get_body(node)[0].ty == BNF_SENTINEL)
+	get_body(node)[0].ty == CFG_SENTINEL)
 
 
 enum match_result {
@@ -43,42 +40,14 @@ static void next_variant(struct rdesc *);
 static void backtrace(struct rdesc *);
 
 /* internal token matching mechanism */
-static enum match_result match(struct rdesc *, struct bnf_token);
+static enum match_result match(struct rdesc *, struct rdesc_cfg_token);
+
 
 
 void rdesc_init(struct rdesc *p,
-		size_t nt_count,
-		size_t nt_variant_count,
-		size_t nt_body_length,
-		const struct bnf_symbol *rules)
+		const struct rdesc_cfg *cfg)
 {
-	p->rules = rules;
-
-	p->nt_count = nt_count;
-	p->nt_variant_count = nt_variant_count;
-	p->nt_body_length = nt_body_length;
-
-	assert_mem(p->child_caps = malloc(sizeof(size_t) * nt_count));
-
-	for (size_t nt_id = 0; nt_id < nt_count; nt_id++) {
-		p->child_caps[nt_id] = 0;
-
-		for (size_t variant = 0; variant < nt_variant_count; variant++) {
-			size_t len;
-			struct bnf_symbol sym;
-
-			for (len = 0;
-			     (sym = PRODUCTIONS[nt_id][variant][len]).ty !=
-				BNF_SENTINEL;
-			     len++);
-
-			if (len > p->child_caps[nt_id])
-				p->child_caps[nt_id] = len;
-
-			if (sym.id == EOC)
-				break;
-		}
-	}
+	p->cfg = cfg;
 
 	rdesc_stack_init(&p->stack);
 
@@ -94,7 +63,7 @@ void rdesc_start(struct rdesc *p, int start_symbol)
 
 void rdesc_node_destroy(struct rdesc_node *n)
 {
-	if (n->ty == BNF_NONTERMINAL) {
+	if (n->ty == CFG_NONTERMINAL) {
 		for (size_t i = n->nt.child_count; i > 0; i--)
 			rdesc_node_destroy(n->nt.children[i - 1]);
 
@@ -104,7 +73,7 @@ void rdesc_node_destroy(struct rdesc_node *n)
 	free(n);
 }
 
-void rdesc_clearstack(struct rdesc *p, struct bnf_token **out, size_t *out_len)
+void rdesc_clearstack(struct rdesc *p, struct rdesc_cfg_token **out, size_t *out_len)
 {
 	assert_logic(p->root == NULL, "clearing symbol stack during parsing");
 
@@ -121,19 +90,18 @@ void rdesc_destroy(struct rdesc *p)
 			       "cannot destroy parser if token stack is not "
 			       "empty");
 
-	free(p->child_caps);
 	rdesc_stack_destroy(&p->stack);
 }
 
 enum rdesc_result rdesc_pump(struct rdesc *p,
 			     struct rdesc_node **out,
-			     struct bnf_token *incoming_tk)
+			     struct rdesc_cfg_token *incoming_tk)
 {
 	assert_logic(p->root,
 		     "continuing an incremental parse with no root");
 
 	enum match_result res;
-	struct bnf_token tk = *incoming_tk;
+	struct rdesc_cfg_token tk = *incoming_tk;
 
 	bool has_token = incoming_tk != NULL;
 
@@ -185,9 +153,9 @@ static struct rdesc_node *new_nt_node(struct rdesc *p,
 	if (parent)
 		push_child(parent, n);
 
-	n->ty = BNF_NONTERMINAL;
+	n->ty = CFG_NONTERMINAL;
 
-	size_t child_cap = p->child_caps[id];
+	size_t child_cap = p->cfg->child_caps[id];
 	assert_logic(child_cap, "a nonterminal with no child");
 
 	n->nt.id = id;
@@ -208,7 +176,7 @@ static struct rdesc_node *new_tk_node(struct rdesc_node *parent, int id)
 	if (parent)
 		push_child(parent, n);
 
-	n->ty = BNF_TOKEN;
+	n->ty = CFG_TOKEN;
 
 	n->tk.id = id;
 
@@ -217,7 +185,7 @@ static struct rdesc_node *new_tk_node(struct rdesc_node *parent, int id)
 
 static void push_child(struct rdesc_node *parent, struct rdesc_node *child)
 {
-	assert_logic(parent->ty == BNF_NONTERMINAL,
+	assert_logic(parent->ty == CFG_NONTERMINAL,
 		     "a token node cannot be a parent of another node");
 
 	parent->nt.children[parent->nt.child_count++] = child;
@@ -231,7 +199,7 @@ static void next_variant(struct rdesc *p)
 		for (size_t i = p->cur->nt.child_count; i > 0; i--) {
 			child = p->cur->nt.children[i - 1];
 
-			if (child->ty == BNF_NONTERMINAL) {
+			if (child->ty == CFG_NONTERMINAL) {
 				next_cur = child;
 
 				break;
@@ -269,7 +237,7 @@ static void backtrace(struct rdesc *p)
 		backtrace(p);
 }
 
-static enum match_result match(struct rdesc *p, struct bnf_token tk)
+static enum match_result match(struct rdesc *p, struct rdesc_cfg_token tk)
 {
 	if (is_grammar_complete(p->cur)) {
 		p->cur = p->cur->parent;
@@ -289,10 +257,10 @@ static enum match_result match(struct rdesc *p, struct bnf_token tk)
 		}
 	}
 
-	struct bnf_symbol rule = get_current_rule(p->cur);
+	struct rdesc_cfg_symbol rule = get_current_rule(p->cur);
 
 	switch (rule.ty) {
-	case BNF_TOKEN:
+	case CFG_TOKEN:
 		if (rule.id == tk.id) {
 			new_tk_node(p->cur, rule.id)->tk.seminfo = tk.seminfo;
 
@@ -311,7 +279,7 @@ static enum match_result match(struct rdesc *p, struct bnf_token tk)
 			return CONTINUE;
 		}
 
-	case BNF_NONTERMINAL:
+	case CFG_NONTERMINAL:
 		p->cur = new_nt_node(p, p->cur, rule.id);
 
 		return RETRY;

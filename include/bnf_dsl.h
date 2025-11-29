@@ -1,5 +1,5 @@
 /**
- * @file bnf_dsl.h
+ * @file cfg_dsl.h
  * @brief Macros for context-free grammar definitions
  *
  * Provides macros (r, rrr, ropt) to define these production rules in a
@@ -39,14 +39,14 @@
 #define EOC -2
 
 /** @brief Sentinel struct for the end of a rule's body (EOB) */
-#define SEOB (const struct bnf_symbol) { .ty = BNF_SENTINEL, .id = EOB }
+#define SEOB (const struct rdesc_cfg_symbol) { .ty = CFG_SENTINEL, .id = EOB }
 /** @brief Sentinel struct for the end of a construct's variants (EOC) */
-#define SEOC { (const struct bnf_symbol) { .ty = BNF_SENTINEL, .id = EOC } }
+#define SEOC { (const struct rdesc_cfg_symbol) { .ty = CFG_SENTINEL, .id = EOC } }
 
 /** @brief Macro to create a terminal (Token) production symbol. */
-#define TK(tk) { .ty = BNF_TOKEN, .id = PREFIX_TK(tk) }
+#define TK(tk) { .ty = CFG_TOKEN, .id = PREFIX_TK(tk) }
 /** @brief Macro to create a non-terminal production symbol. */
-#define NT(nt) { .ty = BNF_NONTERMINAL, .id = PREFIX_NT(nt) }
+#define NT(nt) { .ty = CFG_NONTERMINAL, .id = PREFIX_NT(nt) }
 
 
 /** @brief Macro to define a grammar rule. */

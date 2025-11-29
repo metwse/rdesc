@@ -18,7 +18,7 @@
 #ifndef BALG_H
 #define BALG_H
 
-#include "../../include/bnf.h"
+#include "../../include/cfg.h"
 
 #include <stddef.h>
 
@@ -105,7 +105,7 @@ const char *balg_nts[BALG_NT_COUNT] = {
 };
 
 /** @brief example context-free grammar */
-const struct bnf_symbol
+const struct rdesc_cfg_symbol
 balg[BALG_NT_COUNT][BALG_NT_VARIANT_COUNT][BALG_NT_BODY_LENGTH] = {
 	/* <bit> ::= */ r(
 		TK(TRUE),

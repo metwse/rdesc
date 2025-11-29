@@ -30,5 +30,13 @@
 /* code reached unreachable branch */
 #define unreachable() assert(0, "reached unreachable branch"); exit(2)
 
+/* macro highlights type casts */
+#define cast(t, exp) ((t) (exp))
+
+#define productions(cfg) \
+	cast(*(const struct rdesc_cfg_symbol (*) \
+		[(cfg).nt_count][(cfg).nt_variant_count][(cfg).nt_body_length]), \
+	    (cfg).rules)
+
 
 #endif

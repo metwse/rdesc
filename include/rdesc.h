@@ -6,7 +6,7 @@
 #ifndef RDESC_H
 #define RDESC_H
 
-#include "bnf.h"
+#include "cfg.h"
 
 #include <stddef.h>
 
@@ -33,7 +33,7 @@ enum rdesc_result {
  *       definition of `struct rdesc_stack` compatible with your system.
  */
 struct rdesc_stack {
-    struct bnf_token *tokens /** pointer to the dynamic array buffer */;
+    struct rdesc_cfg_token *tokens /** pointer to the dynamic array buffer */;
     size_t len /** current number of tokens in the stack */;
     size_t cap /** allocated capacity of the buffer */;
 };
@@ -43,16 +43,7 @@ struct rdesc_stack {
 /** @brief Right-recursive descent parser */
 struct rdesc {
 	/** context-free grammar production rules */
-	const struct bnf_symbol *rules;
-	/** total number of non-terminals */
-	size_t nt_count;
-	/** maximum number of variants, used for segmenting production rules
-	 * array to an 3D array */
-	size_t nt_variant_count;
-	/** maximum number of symbols in a variant */
-	size_t nt_body_length;
-	/** maximum number of children of non-terminal variants */
-	size_t *child_caps;
+	const struct rdesc_cfg *cfg;
 
 	/** The token stack for backtracking. When a parsing rule fails,
 	 * consumed tokens are pushedrdesc back onto this stack */
@@ -64,11 +55,11 @@ struct rdesc {
 
 /** @brief A node in the CST */
 struct rdesc_node {
-	enum bnf_symbol_type ty /** type of the symbol (token/nonterminal) */;
+	enum rdesc_cfg_symbol_type ty /** type of the symbol (token/nonterminal) */;
 
 	union {
-		struct bnf_token tk /** token */;
-		struct bnf_nonterminal nt /** nonterminal */;
+		struct rdesc_cfg_token tk /** token */;
+		struct rdesc_cfg_nonterminal nt /** nonterminal */;
 	};
 
 	struct rdesc_node *parent /** parent node */;
@@ -77,10 +68,7 @@ struct rdesc_node {
 
 /** @brief Initializes a new parser. */
 void rdesc_init(struct rdesc *,
-		size_t nonterminal_count,
-		size_t nonterminal_variant_count,
-		size_t nonterminal_body_length,
-		const struct bnf_symbol *production_rules);
+		const struct rdesc_cfg *);
 
 /**
  * @brief Frees memory allocated by the parser and destroys the parser instance.
@@ -95,7 +83,7 @@ void rdesc_destroy(struct rdesc *);
 void rdesc_start(struct rdesc *, int start_symbol);
 
 /** @brief Clears tokens in the tokenstack and returns them. */
-void rdesc_clearstack(struct rdesc *, struct bnf_token **out, size_t *out_len);
+void rdesc_clearstack(struct rdesc *, struct rdesc_cfg_token **out, size_t *out_len);
 
 /**
  * @brief Drives the parsing process, The Pump.
@@ -117,12 +105,12 @@ void rdesc_clearstack(struct rdesc *, struct bnf_token **out, size_t *out_len);
  */
 enum rdesc_result rdesc_pump(struct rdesc *p,
 			     struct rdesc_node **out,
-			     struct bnf_token *incoming_tk);
+			     struct rdesc_cfg_token *incoming_tk);
 
 /**
  * @brief Recursively destroys nodes and its children.
  *
- * @note `seminfo` field in `struct bnf_token` are not freed, it is assumes
+ * @note `seminfo` field in `struct rdesc_cfg_token` are not freed, it is assumes
  *        that the tokens owned by another process.
  */
 void rdesc_node_destroy(struct rdesc_node *cst);

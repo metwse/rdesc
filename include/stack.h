@@ -1,6 +1,6 @@
 /**
  * @file stack.h
- * @brief Token stack interface contract.
+ * @brief Token stack interface contract
  *
  * This header defines the function signatures required to manipulate the
  * parser's backtracking stack.
@@ -16,7 +16,7 @@
 #ifndef RDESC_STACK_H
 #define RDESC_STACK_H
 
-#include "bnf.h"
+#include "cfg.h"
 
 #include <stddef.h>
 
@@ -31,10 +31,10 @@ void rdesc_stack_init(struct rdesc_stack *s);
 void rdesc_stack_destroy(struct rdesc_stack *s);
 
 /** @brief Pushes a token onto the stack. */
-void rdesc_stack_push(struct rdesc_stack *s, struct bnf_token tk);
+void rdesc_stack_push(struct rdesc_stack *s, struct rdesc_cfg_token tk);
 
 /** @brief Removes and returns the top token from the stack. */
-struct bnf_token rdesc_stack_pop(struct rdesc_stack *s);
+struct rdesc_cfg_token rdesc_stack_pop(struct rdesc_stack *s);
 
 /** @brief Returns the underlying dynamic buffer. */
 void *rdesc_stack_into_inner(struct rdesc_stack *s);

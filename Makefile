@@ -1,3 +1,5 @@
+LIB=stack rdesc cfg
+
 CC=gcc
 RM=rm -rf
 
@@ -28,7 +30,7 @@ all: $(DIST_DIR)/librdesc.so
 tests: $(TEST_TARGETS)
 
 # release library link
-$(DIST_DIR)/librdesc.so: $(OBJS) | $(DIST_DIR)
+$(DIST_DIR)/librdesc.so: $(foreach o,$(LIB),$(OBJ_DIR)/$o.o) | $(DIST_DIR)
 	$(CC) $(CFLAGS) -shared -o $@ $^
 
 # test binaries
