@@ -90,7 +90,7 @@ const char balg_tks[BALG_TK_COUNT] = {
 };
 
 /** @brief non-terminal names (for debugging/printing CST) */
-const char *balg_nts[BALG_NT_COUNT] = {
+const char *const balg_nts[BALG_NT_COUNT] = {
 	"bit", "ident", "call",
 	"call_optparams",
 

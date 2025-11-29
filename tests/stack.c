@@ -1,6 +1,7 @@
 #include "../include/cfg.h"
 #include "../include/rdesc.h"
 #include "../include/stack.h"
+#include "../src/detail.h"
 
 #include <stdlib.h>
 #include <time.h>

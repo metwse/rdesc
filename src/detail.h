@@ -15,7 +15,7 @@
 				"Assertion failed for: " \
 				   assert_stringify(c) \
 				"\n> " fmt "\n" __VA_OPT__(,)__VA_ARGS__); \
-			raise(2); \
+			raise(SIGINT); \
 		} \
 	} while(0)
 
@@ -34,9 +34,9 @@
 #define cast(t, exp) ((t) (exp))
 
 #define productions(cfg) \
-	cast(*(const struct rdesc_cfg_symbol (*) \
-		[(cfg).nt_count][(cfg).nt_variant_count][(cfg).nt_body_length]), \
-	    (cfg).rules)
+	(*cast(const struct rdesc_cfg_symbol (*) \
+		[(cfg).nt_count][(cfg).nt_variant_count][(cfg).nt_body_length], \
+	    (cfg).rules))
 
 
 #endif
