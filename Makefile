@@ -1,23 +1,25 @@
+FEATURES ?= stack
+
 # List of source files linked to the library. You can use your own stack
 # implementation after removing stack element below.
-LIB=rdesc stack cfg
+LIB = rdesc cfg $(FEATURES)
 
-CC=gcc
-RM=rm -rf
+CC = gcc
+RM = rm -rf
 
 CFLAGS_COMMON = -std=c99 -Wall -Wextra -fPIC -MMD -MP
 
 CFLAGS = $(CFLAGS_COMMON) -O2
 TFLAGS = $(CFLAGS_COMMON) -O0 -g3 --coverage
 
-SRC_DIR=src
-INC_DIR=include
-TEST_DIR=tests
-DIST_DIR=dist
+SRC_DIR = src
+INC_DIR = include
+TEST_DIR = tests
+DIST_DIR = dist
 
-OBJ_DIR=$(DIST_DIR)/obj/release
-DEBUG_OBJ_DIR=$(DIST_DIR)/obj/debug
-TEST_OBJ_DIR=$(DIST_DIR)/obj/test
+OBJ_DIR = $(DIST_DIR)/obj/release
+DEBUG_OBJ_DIR = $(DIST_DIR)/obj/debug
+TEST_OBJ_DIR = $(DIST_DIR)/obj/test
 
 
 # no need to change rules below this line

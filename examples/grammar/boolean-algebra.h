@@ -21,6 +21,7 @@
 #include "../../include/cfg.h"
 
 #include <stddef.h>
+#include <stdio.h>
 
 /** @brief add TK_ prefix in `TK` macro */
 #define PREFIX_TK(tk) TK_ ## tk
@@ -89,8 +90,25 @@ const char balg_tks[BALG_TK_COUNT] = {
 	'=', ',', ';',
 };
 
+const char *const balg_tk_names[BALG_TK_COUNT] = {
+	"\0",
+	"1", "0", "@ident",
+	"\\|", "&", "!",
+	"(", ")", "\\{", "\\}",
+	"=", ",", ";",
+};
+
+void balg_tk_printer(const struct rdesc_cfg_token *tk, FILE *out)
+{
+	if (tk->id == TK_IDENT) {
+		fprintf(out, "{{ident|name}}");
+	} else {
+		fprintf(out, "%s", balg_tk_names[tk->id]);
+	}
+}
+
 /** @brief non-terminal names (for debugging/printing CST) */
-const char *const balg_nts[BALG_NT_COUNT] = {
+const char *const balg_nt_names[BALG_NT_COUNT] = {
 	"bit", "ident", "call",
 	"call_optparams",
 

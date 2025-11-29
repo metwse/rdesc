@@ -1,5 +1,5 @@
 /**
- * @file cfg_dsl.h
+ * @file bnf_dsl.h
  * @brief Macros for context-free grammar definitions
  *
  * Provides macros (r, rrr, ropt) to define these production rules in a

@@ -1,9 +1,12 @@
-#include "../include/rdesc.h"
 #include "../include/cfg.h"
+#include "../include/rdesc.h"
+#include "../include/util.h"
 #include "../src/detail.h"
 
 #include "../examples/grammar/boolean-algebra.h"
 #include "../examples/exutil.h"
+
+#include <stdio.h>
 
 
 int main()
@@ -27,6 +30,8 @@ int main()
 		rdesc_pump(&p, &cst, &(struct rdesc_cfg_token) { .id = id });
 
 	assert(cst, "syntax tree could not be parsed");
+
+	rdesc_dump_dot(cst, balg_tk_printer, balg_nt_names, stdout);
 
 	rdesc_destroy(&p);
 	rdesc_cfg_destroy(&cfg);
