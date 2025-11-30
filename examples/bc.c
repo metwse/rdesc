@@ -1,6 +1,7 @@
 #include "../include/rdesc.h"
 #include "../include/cfg.h"
 #include "../src/exblex.h"
+#include "../src/detail.h"
 
 #include "grammar/bc.h"
 
@@ -10,6 +11,82 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+double pow10(int i)
+{
+	double r = 1;
+
+	while (i--)
+		r *= 10;
+
+	return r;
+}
+
+double interpret(struct rdesc_node *n)
+{
+	size_t v = n->nt.variant; /* variant */
+	struct rdesc_node **c = n->nt.children; /* children */
+
+	switch (n->nt.id) {
+	case NT_UNSIGNED:
+		switch (v) {
+		case 0:
+			return strtod(c[0]->tk.seminfo, NULL);
+		case 1:
+			return strtod(c[1]->tk.seminfo, NULL) /\
+				pow10(strlen(c[1]->tk.seminfo));
+		default:
+			return strtod(c[0]->tk.seminfo, NULL) + \
+				strtod(c[2]->tk.seminfo, NULL) / \
+				pow10(strlen(c[2]->tk.seminfo));
+		}
+
+	case NT_OPTSIGN:
+		return (v == 0) ? -1 : 1;
+
+	case NT_SIGNED:
+		return interpret(c[0]) * interpret(c[1]);
+
+	case NT_EXPR:
+		return interpret(c[0]) + interpret(c[1]);
+
+	case NT_EXPR_REST:
+		switch (v) {
+		case 0:
+			return interpret(c[1]);
+		case 1:
+			return -interpret(c[1]);
+		default:
+			return 0;
+		}
+
+	case NT_TERM:
+		return interpret(c[0]) * interpret(c[1]);
+
+	case NT_TERM_REST:
+		switch (v) {
+		case 0:
+			return interpret(c[1]);
+		case 1:
+			return 1 / interpret(c[1]);
+		default:
+			return 1;
+		}
+
+	case NT_FACTOR:
+		switch (v) {
+		case 0:
+			return interpret(c[0]);
+		default:
+			return interpret(c[1]);
+		}
+
+	case NT_STMT:
+		return interpret(c[0]);
+	}
+
+	unreachable(); // GCOV_EXCL_LINE
+}
 
 void bc_tk_destroyer(struct rdesc_cfg_token *tk)
 {
@@ -52,7 +129,7 @@ void program(struct exblex *lex, struct rdesc *p)
 
 			if (tk.id == 0 && lex->cur <= strlen(buf)) {
 				printf("  %*s", (int) lex->cur, "^\n");
-				printf("Invalid token, ignoring token at "
+				printf("Invalid token, ignoring tokens after "
 				       "index %zu!\n", lex->cur - 1);
 			}
 
@@ -63,14 +140,13 @@ void program(struct exblex *lex, struct rdesc *p)
 				break;
 			}
 
-			if (pump_res == RDESC_CONTINUE)
+			if (pump_res == RDESC_CONTINUE || pump_res == -1)
 				printf("  ");
 		}
 
 		if (pump_res == RDESC_READY) {
-			// TODO: interpret result
+			printf("< (%.2lf)\n", interpret(cst));
 			rdesc_node_destroy(cst, bc_tk_destroyer);
-			printf("< (result)\n");
 		}
 	}
 }
