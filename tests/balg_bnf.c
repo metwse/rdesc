@@ -1,7 +1,7 @@
 #include "../include/cfg.h"
 #include "../include/util.h"
 
-#include "../examples/grammar/boolean-algebra.h"
+#include "../examples/grammar/boolean_algebra.h"
 
 
 int main()

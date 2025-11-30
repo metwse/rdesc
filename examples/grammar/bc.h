@@ -15,7 +15,7 @@
  * - Grouping using parentheses ( ... ) to override standard precedence.
  * - Integer/floating point literals
  *
- * @see This header provides the exact same api with boolean-algebra.h. You may
+ * @see This header provides the exact same api with boolean_algebra.h. You may
  *      inspect source code bc.h.
  */
 

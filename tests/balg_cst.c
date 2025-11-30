@@ -4,7 +4,7 @@
 #include "../src/detail.h" // IWYU pragma: keep
 #include "../src/exblex.h"
 
-#include "../examples/grammar/boolean-algebra.h"
+#include "../examples/grammar/boolean_algebra.h"
 
 #include <stddef.h>
 #include <stdlib.h>

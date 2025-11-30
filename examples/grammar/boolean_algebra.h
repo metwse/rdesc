@@ -1,5 +1,5 @@
 /**
- * @file boolean-algebra.h
+ * @file boolean_algebra.h
  * @brief Boolean algebra grammar example for librdesc
  *
  * This file defines a sample CFG for a simple Boolean Algebra language. It

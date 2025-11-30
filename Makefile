@@ -38,7 +38,8 @@ TEST_TARGETS = $(patsubst $(TEST_DIR)/%.c, $(DIST_DIR)/%.test, $(TEST_SRCS))
 EXAMPLE_TARGETS = $(patsubst $(EXAMPLE_DIR)/%.c, $(DIST_DIR)/%, $(EXAMPLE_SRCS))
 
 
-all: $(DIST_DIR)/librdesc.so
+default: $(DIST_DIR)/librdesc.so
+all: default examples tests
 tests: $(TEST_TARGETS)
 examples: $(EXAMPLE_TARGETS)
 
@@ -89,4 +90,4 @@ docs:
 -include $(TEST_OBJS:.o=.d)
 -include $(EXAMPLE_OBJS:.o=.d)
 
-.PHONY: all clean docs tests examples
+.PHONY: default all clean docs tests examples
