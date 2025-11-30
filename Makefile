@@ -16,25 +16,31 @@ SRC_DIR = src
 INC_DIR = include
 TEST_DIR = tests
 DIST_DIR = dist
+EXAMPLE_DIR = examples
 
 OBJ_DIR = $(DIST_DIR)/obj/release
 DEBUG_OBJ_DIR = $(DIST_DIR)/obj/debug
 TEST_OBJ_DIR = $(DIST_DIR)/obj/test
+EXAMPLE_OBJ_DIR = $(DIST_DIR)/obj/example
 
 
 # no need to change rules below this line
 SRCS = $(wildcard $(SRC_DIR)/*.c)
 TEST_SRCS = $(wildcard $(TEST_DIR)/*.c)
+EXAMPLE_SRCS = $(wildcard $(EXAMPLE_DIR)/*.c)
 
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 DEBUG_OBJS = $(patsubst $(SRC_DIR)/%.c, $(DEBUG_OBJ_DIR)/%.o, $(SRCS))
 TEST_OBJS = $(patsubst $(TEST_DIR)/%.c, $(TEST_OBJ_DIR)/%.o, $(TEST_SRCS))
+EXAMPLE_OBJS = $(patsubst $(EXAMPLE_DIR)/%.c, $(EXAMPLE_OBJ_DIR)/%.o, $(EXAMPLE_SRCS))
 
 TEST_TARGETS = $(patsubst $(TEST_DIR)/%.c, $(DIST_DIR)/%.test, $(TEST_SRCS))
+EXAMPLE_TARGETS = $(patsubst $(EXAMPLE_DIR)/%.c, $(DIST_DIR)/%, $(EXAMPLE_SRCS))
 
 
 all: $(DIST_DIR)/librdesc.so
 tests: $(TEST_TARGETS)
+examples: $(EXAMPLE_TARGETS)
 
 # release library link
 $(DIST_DIR)/librdesc.so: $(foreach o,$(LIB),$(OBJ_DIR)/$o.o) | $(DIST_DIR)
@@ -42,6 +48,10 @@ $(DIST_DIR)/librdesc.so: $(foreach o,$(LIB),$(OBJ_DIR)/$o.o) | $(DIST_DIR)
 
 # test binaries
 $(DIST_DIR)/%.test: $(TEST_OBJ_DIR)/%.o $(DEBUG_OBJS) | $(DIST_DIR)
+	$(CC) $(TFLAGS) -o $@ $^
+
+# example binaries
+$(DIST_DIR)/%: $(EXAMPLE_OBJ_DIR)/%.o $(DEBUG_OBJS) | $(DIST_DIR)
 	$(CC) $(TFLAGS) -o $@ $^
 
 
@@ -58,8 +68,12 @@ $(DEBUG_OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(DEBUG_OBJ_DIR)
 $(TEST_OBJ_DIR)/%.o: $(TEST_DIR)/%.c | $(TEST_OBJ_DIR)
 	$(CC) $(TFLAGS) -c $< -o $@
 
+# example
+$(EXAMPLE_OBJ_DIR)/%.o: $(EXAMPLE_DIR)/%.c | $(EXAMPLE_OBJ_DIR)
+	$(CC) $(TFLAGS) -c $< -o $@
 
-$(DIST_DIR) $(OBJ_DIR) $(DEBUG_OBJ_DIR) $(TEST_OBJ_DIR):
+
+$(DIST_DIR) $(OBJ_DIR) $(DEBUG_OBJ_DIR) $(TEST_OBJ_DIR) $(EXAMPLE_OBJ_DIR):
 	mkdir -p $@
 
 clean:
@@ -73,5 +87,6 @@ docs:
 -include $(OBJS:.o=.d)
 -include $(DEBUG_OBJS:.o=.d)
 -include $(TEST_OBJS:.o=.d)
+-include $(EXAMPLE_OBJS:.o=.d)
 
-.PHONY: all clean docs tests
+.PHONY: all clean docs tests examples

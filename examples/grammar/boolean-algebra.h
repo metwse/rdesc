@@ -1,18 +1,19 @@
 /**
  * @file boolean-algebra.h
- * @brief Boolean Algebra Grammar Example for librdesc.
+ * @brief Boolean algebra grammar example for librdesc
  *
- * This file defines a sample Context-Free Grammar (CFG) for a simple
- * Boolean Algebra language. It serves two main purposes:
+ * This file defines a sample CFG for a simple Boolean Algebra language. It
+ * serves two main purposes:
  * 1. To demonstrate how to use the BNF DSL (`bnf_dsl.h`) to define grammars.
  * 2. To act as a stress-test for the parser's backtracking engine by
  *    introducing intentional ambiguities.
  *
- * Language Features:
- * - Boolean literals (0, 1) and Identifiers.
- * - Operators with precedence: NOT (!), AND (&), OR (|).
- * - Function calls and Assignments.
- * - Right-recursive list structures.
+ * Language features:
+ * - Boolean literals (0, 1) and identifiers
+ * - Operators with precedence: NOT (!), AND (&), OR (|)
+ * - Function calls and assignments
+ * - Right-recursive list structures
+ * - Block statements
  */
 
 #ifndef BALG_H
@@ -20,16 +21,13 @@
 
 #include "../../include/cfg.h"
 
-#include <stdlib.h>
-#include <stddef.h>
-#include <stdio.h>
-
 /** @brief add TK_ prefix in `TK` macro */
 #define PREFIX_TK(tk) TK_ ## tk
 /** @brief add NT_ prefix in `NT` macro */
 #define PREFIX_NT(nt) NT_ ## nt
 
 #include "../../include/bnf_dsl.h"
+
 
 /** @brief total count of terminal symbols */
 #define BALG_TK_COUNT 14
@@ -82,7 +80,7 @@ enum balg_nt {
 	NT_EXPR_LS, NT_EXPR_LS_REST,
 };
 
-/** @brief token character mapping (for simple lexing) */
+/** @brief token character mapping (for `exblex`) */
 const char balg_tks[BALG_TK_COUNT] = {
 	'\0',
 	'1', '0', 'w',
@@ -92,28 +90,27 @@ const char balg_tks[BALG_TK_COUNT] = {
 };
 
 /**
+ * @brief names of tokens that used in BNF
+ */
+const char *const balg_tk_names[BALG_TK_COUNT] = {
+	"\0",
+	"1", "0", "@ident",
+	"|", "&", "!",
+	"(", ")", "{", "}",
+	"=", ",", ";",
+};
+
+/**
  * @brief names of tokens that can be used in dotlang graph (special chars are
  * escaped)
  */
-const char *const balg_tk_names[BALG_TK_COUNT] = {
+const char *const balg_tk_names_escaped[BALG_TK_COUNT] = {
 	"\0",
 	"1", "0", "@ident",
 	"\\|", "&", "!",
 	"(", ")", "\\{", "\\}",
 	"=", ",", ";",
 };
-
-/** @brief Print token as a dotlang node. */
-void balg_tk_printer_with_free(const struct rdesc_cfg_token *tk, FILE *out)
-{
-	if (tk->id == TK_IDENT) {
-		fprintf(out, "{{ident|%s}}", (char *) tk->seminfo);
-
-		free(tk->seminfo);
-	} else {
-		fprintf(out, "%s", balg_tk_names[tk->id]);
-	}
-}
 
 /** @brief non-terminal names (for debugging/printing CST) */
 const char *const balg_nt_names[BALG_NT_COUNT] = {

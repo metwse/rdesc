@@ -7,7 +7,20 @@
 #include "../examples/grammar/boolean-algebra.h"
 
 #include <stddef.h>
+#include <stdlib.h>
 
+
+/* Print token as a dotlang node. */
+void balg_tk_printer_with_free(const struct rdesc_cfg_token *tk, FILE *out)
+{
+	if (tk->id == TK_IDENT) {
+		fprintf(out, "{{ident|%s}}", (char *) tk->seminfo);
+
+		free(tk->seminfo);
+	} else {
+		fprintf(out, "%s", balg_tk_names_escaped[tk->id]);
+	}
+}
 
 int main()
 {
