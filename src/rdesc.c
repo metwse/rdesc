@@ -43,7 +43,6 @@ static void backtrace(struct rdesc *);
 static enum match_result match(struct rdesc *, struct rdesc_cfg_token);
 
 
-
 void rdesc_init(struct rdesc *p,
 		const struct rdesc_cfg *cfg)
 {
@@ -61,26 +60,40 @@ void rdesc_start(struct rdesc *p, int start_symbol)
 	p->cur = p->root = new_nt_node(p, NULL, start_symbol);
 }
 
-void rdesc_node_destroy(struct rdesc_node *n)
+void rdesc_node_destroy(struct rdesc_node *n, rdesc_tk_destroyer_func free_tk)
 {
 	if (n->ty == CFG_NONTERMINAL) {
 		for (size_t i = n->nt.child_count; i > 0; i--)
-			rdesc_node_destroy(n->nt.children[i - 1]);
+			rdesc_node_destroy(n->nt.children[i - 1], free_tk);
 
 		free(n->nt.children);
+	} else if (free_tk) {
+		free_tk(&n->tk);
 	}
 
 	free(n);
 }
 
-void rdesc_clearstack(struct rdesc *p, struct rdesc_cfg_token **out, size_t *out_len)
+void rdesc_reset(struct rdesc *p, rdesc_tk_destroyer_func free_tk)
 {
-	assert_logic(p->root == NULL, "clearing symbol stack during parsing");
+	if (free_tk) {
+		struct rdesc_cfg_token *tks;
 
-	*out = rdesc_stack_into_inner(&p->stack);
-	*out_len = rdesc_stack_len(&p->stack);
+		tks = rdesc_stack_into_inner(&p->stack);
+
+		for (size_t tk_count = rdesc_stack_len(&p->stack);
+		     tk_count > 0; tk_count--)
+			free_tk(&tks[tk_count - 1]);
+
+		free(tks);
+	}
+
+	if (p->root)
+		rdesc_node_destroy(p->root, free_tk);
 
 	rdesc_stack_init(&p->stack);
+
+	p->root = p->cur = NULL;
 }
 
 void rdesc_destroy(struct rdesc *p)
@@ -137,7 +150,7 @@ enum rdesc_result rdesc_pump(struct rdesc *p,
 			return RDESC_READY;
 
 		default: unreachable(); // GCOV_EXCL_LINE
-		}
+		} // GCOV_EXCL_LINE
 	}
 }
 
@@ -227,7 +240,8 @@ static void backtrace(struct rdesc *p)
 
 	while (child != p->cur)
 		rdesc_node_destroy(
-			child = parent->nt.children[--parent->nt.child_count]
+			child = parent->nt.children[--parent->nt.child_count],
+			NULL
 		);
 	p->cur = parent;
 
@@ -285,5 +299,5 @@ static enum match_result match(struct rdesc *p, struct rdesc_cfg_token tk)
 		return RETRY;
 
 	default: unreachable(); // GCOV_EXCL_LINE
-	}
+	} // GCOV_EXCL_LINE
 }

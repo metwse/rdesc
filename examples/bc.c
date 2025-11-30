@@ -11,37 +11,10 @@
 #include <string.h>
 
 
-void destroy_tree(struct rdesc_node *n)
+void bc_tk_destroyer(struct rdesc_cfg_token *tk)
 {
-	if (n->ty == CFG_NONTERMINAL)
-		for (size_t i = 0; i < n->nt.child_count; i++)
-			destroy_tree(n->nt.children[i]);
-	else if (n->tk.seminfo)
-		free(n->tk.seminfo);
-}
-
-void reset_parser(struct rdesc *p)
-{
-	if (p->root) {
-		struct rdesc_node *out = NULL;
-
-		rdesc_pump(p, &out, &(struct rdesc_cfg_token) { .id = TK_ENDSYM });
-
-		if (out) {
-			destroy_tree(out);
-			rdesc_node_destroy(out);
-		}
-	}
-
-	struct rdesc_cfg_token *out;
-	size_t out_len;
-	rdesc_clearstack(p, &out, &out_len);
-
-	for (size_t i = 0; i < out_len; i++)
-		if (out[i].seminfo)
-			free(out[i].seminfo);
-
-	free(out);
+	if (tk->seminfo)
+		free(tk->seminfo);
 }
 
 void program(struct exblex *lex, struct rdesc *p)
@@ -61,7 +34,7 @@ void program(struct exblex *lex, struct rdesc *p)
 		printf("> ");
 		while (pump_res != RDESC_READY) {
 			if (fgets(buf, 4096, stdin) == NULL) {
-				reset_parser(p);
+				rdesc_reset(p, bc_tk_destroyer);
 
 				return;
 			}
@@ -85,7 +58,7 @@ void program(struct exblex *lex, struct rdesc *p)
 
 			if (pump_res == RDESC_NOMATCH) {
 				printf("SYNTAX ERROR!\n");
-				reset_parser(p);
+				rdesc_reset(p, bc_tk_destroyer);
 
 				break;
 			}
@@ -95,8 +68,8 @@ void program(struct exblex *lex, struct rdesc *p)
 		}
 
 		if (pump_res == RDESC_READY) {
-			destroy_tree(cst);
-			rdesc_node_destroy(cst);
+			// TODO: interpret result
+			rdesc_node_destroy(cst, bc_tk_destroyer);
 			printf("< (result)\n");
 		}
 	}

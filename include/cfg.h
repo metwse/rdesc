@@ -70,15 +70,19 @@ struct rdesc_cfg_nonterminal {
 };
 
 
+/** @brief Function pointer type for freeing tokens. */
+typedef void (*rdesc_tk_destroyer_func)(struct rdesc_cfg_token *);
+
+
 /** @brief Initializes a context-free grammar object. */
-void rdesc_cfg_init(struct rdesc_cfg *,
+void rdesc_cfg_init(struct rdesc_cfg *cfg,
 		    size_t nonterminal_count,
 		    size_t nonterminal_variant_count,
 		    size_t nonterminal_body_length,
 		    const struct rdesc_cfg_symbol *production_rules);
 
 /** @brief Frees the context-free grammar struct. */
-void rdesc_cfg_destroy(struct rdesc_cfg *);
+void rdesc_cfg_destroy(struct rdesc_cfg *cfg);
 
 
 #endif

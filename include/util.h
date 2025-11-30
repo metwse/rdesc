@@ -26,7 +26,7 @@ typedef void (*rdesc_tk_printer_func)(const struct rdesc_cfg_token *, FILE *out)
  *
  * Traverses the CST and generates a `.dot` representation.
  *
- * @param cst CST node
+ * @param n CST node
  * @param nt_names The raw name of the non-terminal (e.g., `expr`). The dumper
  *        handles the surrounding `<` and `>` characters automatically.
  * @param tk_printer Callback to print token names.
@@ -34,7 +34,7 @@ typedef void (*rdesc_tk_printer_func)(const struct rdesc_cfg_token *, FILE *out)
  *          table accordingly.
  * @param out Output file stream
  */
-void rdesc_dump_dot(const struct rdesc_node *cst,
+void rdesc_dump_dot(const struct rdesc_node *n,
 		    rdesc_tk_printer_func tk_printer,
 		    const char *const nt_names[],
 		    FILE *out);

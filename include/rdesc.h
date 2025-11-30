@@ -67,8 +67,8 @@ struct rdesc_node {
 
 
 /** @brief Initializes a new parser. */
-void rdesc_init(struct rdesc *,
-		const struct rdesc_cfg *);
+void rdesc_init(struct rdesc *p,
+		const struct rdesc_cfg *cfg);
 
 /**
  * @brief Frees memory allocated by the parser and destroys the parser instance.
@@ -77,13 +77,18 @@ void rdesc_init(struct rdesc *,
  *          calling this function to prevent memory leaks. Raises an assertion
  *          error if the token stack is not empty or the root is not null.
  */
-void rdesc_destroy(struct rdesc *);
+void rdesc_destroy(struct rdesc *p);
 
 /** @brief Sets start symbol for the next match. */
-void rdesc_start(struct rdesc *, int start_symbol);
+void rdesc_start(struct rdesc *p, int start_symbol);
 
-/** @brief Clears tokens in the tokenstack and returns them. */
-void rdesc_clearstack(struct rdesc *, struct rdesc_cfg_token **out, size_t *out_len);
+/**
+ * @brief Resets parser and its state.
+ *
+ * @note `seminfo` field in `struct rdesc_cfg_token` are not freed unless
+ *        `free_tk` is set.
+ */
+void rdesc_reset(struct rdesc *p, rdesc_tk_destroyer_func free_tk);
 
 /**
  * @brief Drives the parsing process, The Pump.
@@ -108,12 +113,13 @@ enum rdesc_result rdesc_pump(struct rdesc *p,
 			     struct rdesc_cfg_token *incoming_tk);
 
 /**
- * @brief Recursively destroys nodes and its children.
+ * @brief Recursively destroys the node and its children.
  *
- * @note `seminfo` field in `struct rdesc_cfg_token` are not freed, it is assumes
- *        that the tokens owned by another process.
+ * @note `seminfo` field in `struct rdesc_cfg_token` are not freed unless
+ *        `free_tk` is set.
  */
-void rdesc_node_destroy(struct rdesc_node *cst);
+void rdesc_node_destroy(struct rdesc_node *n,
+			rdesc_tk_destroyer_func free_tk);
 
 
 #endif

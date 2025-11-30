@@ -22,6 +22,12 @@ void balg_tk_printer_with_free(const struct rdesc_cfg_token *tk, FILE *out)
 	}
 }
 
+void balg_tk_destroyer(struct rdesc_cfg_token *tk)
+{
+	if (tk->id == TK_IDENT)
+		free(tk->seminfo);
+}
+
 int main()
 {
 	struct exblex lex;
@@ -48,27 +54,18 @@ int main()
 	assert(cst, "syntax tree could not be parsed");
 
 	rdesc_dump_dot(cst, balg_tk_printer_with_free, balg_nt_names, stdout);
+	rdesc_node_destroy(cst, NULL);
 
 	exblex_init(&lex,
 		    "a =;",
 		    balg_tks, BALG_TK_COUNT);
 	rdesc_start(&p, NT_STMT);
 	while ((tk = exblex_next(&lex)).id != 0)
-		pump_res = rdesc_pump(&p, &cst, &tk);
+		pump_res = rdesc_pump(&p, NULL, &tk);
 
 	assert(pump_res == RDESC_NOMATCH, "NOMATCH result expected");
-
-	struct rdesc_cfg_token *out;
-	size_t out_len;
-
-	rdesc_clearstack(&p, &out, &out_len);
-
-	for (size_t i = 0; i < out_len; i++)
-		if (out[i].id == TK_IDENT)
-			free(out[i].seminfo);
-	free(out);
+	rdesc_reset(&p, balg_tk_destroyer);
 
 	rdesc_destroy(&p);
 	rdesc_cfg_destroy(&cfg);
-	rdesc_node_destroy(cst);
 }
