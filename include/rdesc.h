@@ -10,6 +10,15 @@
 
 #include <stddef.h>
 
+/** @brief major version */
+#define RDESC_VERSION_MAJOR 0
+/** @brief minor version */
+#define RDESC_VERSION_MINOR 1
+/** @brief patch version */
+#define RDESC_VERSION_PATCH 0
+/** @brief prerelase identifier */
+#define RDESC_VERSION_PRE_RELEASE "rc.1"
+
 
 /** @brief parsing status */
 enum rdesc_result {
@@ -19,6 +28,7 @@ enum rdesc_result {
 };
 
 #ifndef RDESC_STACK
+/** @brief guard macro controlling external token stack implementation */
 #define RDESC_STACK
 
 /**

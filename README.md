@@ -21,9 +21,6 @@ make        # Build the main library
 make tests  # Build all test binaries
 ```
 
-### Documentation
-Documentations can be auto-generated using Doxygen.
-
 ### Feature Flags
 Providing `FEATURES` variable, you can toggle modules linked to the library. By
 default, only `stack` feature is enabled.
@@ -37,3 +34,6 @@ make FEATURES='stack dump_bnf dump_dot'
 | `stack` | Use built-in stack implementation in backtracing, which uses `malloc/free` family functions. |
 | `dump_bnf` | Dump `rdesc_cfg` (Context-Free Grammar) in Backus–Naur form. |
 | `dump_dot` | Dump `rdesc_node` (Concrete Syntax Tree) as dotlang graph. |
+
+## Documentation
+Documentations can be auto-generated using Doxygen.

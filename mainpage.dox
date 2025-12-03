@@ -1,0 +1,67 @@
+/**
+ * @mainpage librdesc
+ *
+ * @section Introduction
+ *
+ * librdesc is a standard C99-based, right-recursive, table-driven parsing
+ * library. Unlike traditional parsing engines usually rely heavily on
+ * the machine's call stack, librdesc implements its own backtracing algorithm
+ * over Concrete Sytax Tree (CST) and token stack.
+ *
+ * @section features Key Features
+ *
+ * - Table-Driven Parsing: Parser logic is generic and can be controlled at
+ *   runtime without recompiling via the `struct rdesc_cfg` table.
+ * - Pump Mechanism: Parsing is driven by `rdesc_pump()`, a state machine that
+ *   allows for token by token feeding.
+ * - Backtracing Without Call-Stack: Since backtracing is performed via CST,
+ *   the call stack does not grow. Tokens are be stored in a heap-allocated
+ *   stack to try non-terminal variants.
+ *
+ * @section api API Overview
+ *
+ * 1. Parser (`rdesc.h`): The engine that consumes the CFG and Input.
+ *    It maintains a cursor (`cur`) and a root node (`root`).
+ * 2. CFG (`cfg.h`): Defines the rules, tokens, and non-terminals. This is
+ *    usually static constant data populated via macros.
+ * 3. Stack (`stack.h`): Stores consumed tokens to facilitate backtracking.
+ *    If a rule fails, the parser pops tokens back to retry an alternative
+ *    variant.
+ *
+ * @section quickstart_sec Quick Start Guide
+ *
+ * To use librdesc, you typically follow these steps:
+ *
+ * 1. Define tokens and non-terminals. Create enums for your language symbols.
+ * 2. Define your grammar. You may use `bnf_dsl.h` macros to create the rules
+ * table.
+ * 3. Initialize:
+ * @code{.c}
+ * struct rdesc_cfg cfg;
+ * rdesc_cfg_init(&cfg, ...); // Load your rules
+ *
+ * struct rdesc parser;
+ * rdesc_init(&parser, &cfg);
+ * @endcode
+ * 4. Pump Tokens: Feed tokens into the loop until a tree is ready.
+ * @code{.c}
+ * struct rdesc_node *cst;
+ * enum rdesc_result res;
+ *
+ * while ((res = rdesc_pump(&parser, &cst, &next_token)) == RDESC_CONTINUE) {
+ *      // acquire next_token from your lexer
+ * }
+ *
+ * if (res == RDESC_READY) {
+ *      // Process the `cst`
+ * }
+ * @endcode
+ *
+ * @section examples_sec Examples
+ *
+ * - @ref boolean_algebra.h : A Boolean Algebra grammar demonstrating backtracking and ambiguity handling.
+ * - @ref bc.h : A Basic Calculator implementation demonstrating operator precedence and expressions.
+ *
+ * @section build_sec Building
+ * See @ref README.md for building instructions.
+ */

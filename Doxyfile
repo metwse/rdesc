@@ -1,4 +1,4 @@
-PROJECT_NAME           = "Boolean Script"
+PROJECT_NAME           = "librdesc"
 OUTPUT_DIRECTORY       = "docs/"
 MARKDOWN_SUPPORT       = YES
 INPUT                  = .
