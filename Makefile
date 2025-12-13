@@ -38,12 +38,29 @@ TEST_TARGETS = $(patsubst $(TEST_DIR)/%.c, $(DIST_DIR)/%.test, $(TEST_SRCS))
 EXAMPLE_TARGETS = $(patsubst $(EXAMPLE_DIR)/%.c, $(DIST_DIR)/%, $(EXAMPLE_SRCS))
 
 
-default: $(DIST_DIR)/librdesc.so
+default: $(DIST_DIR)/librdesc.so $(DIST_DIR)/librdesc.a
 all: default examples tests
 tests: $(TEST_TARGETS)
 examples: $(EXAMPLE_TARGETS)
 
-# release library link
+ifeq ($(PREFIX),)
+	PREFIX := /usr/local
+endif
+
+install: $(DIST_DIR)/librdesc.so $(DIST_DIR)/librdesc.a
+	install -d $(DESTDIR)$(PREFIX)/lib/
+	install -d $(DESTDIR)$(PREFIX)/include/rdesc/
+
+	install -m 755 $(DIST_DIR)/librdesc.so $(DESTDIR)$(PREFIX)/lib/
+	install -m 644 $(DIST_DIR)/librdesc.a $(DESTDIR)$(PREFIX)/lib/
+
+	install -m 644 include/* $(DESTDIR)$(PREFIX)/include/rdesc/
+
+# release static library
+$(DIST_DIR)/librdesc.a: $(foreach o,$(LIB),$(OBJ_DIR)/$o.o) | $(DIST_DIR)
+	ar rcs $@ $^
+
+# release shared library
 $(DIST_DIR)/librdesc.so: $(foreach o,$(LIB),$(OBJ_DIR)/$o.o) | $(DIST_DIR)
 	$(CC) $(CFLAGS) -shared -o $@ $^
 
@@ -90,4 +107,4 @@ docs:
 -include $(TEST_OBJS:.o=.d)
 -include $(EXAMPLE_OBJS:.o=.d)
 
-.PHONY: default all clean docs tests examples
+.PHONY: default all clean docs tests examples install
