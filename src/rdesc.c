@@ -77,20 +77,17 @@ void rdesc_node_destroy(struct rdesc_node *n, rdesc_tk_destroyer_func free_tk)
 void rdesc_reset(struct rdesc *p, rdesc_tk_destroyer_func free_tk)
 {
 	if (free_tk) {
-		struct rdesc_cfg_token *tks;
+		struct rdesc_cfg_token *tks = rdesc_stack_as_ref(p->stack);
 
-		tks = rdesc_stack_into_inner(&p->stack);
-
-		for (size_t tk_count = rdesc_stack_len(&p->stack);
+		for (size_t tk_count = rdesc_stack_len(p->stack);
 		     tk_count > 0; tk_count--)
 			free_tk(&tks[tk_count - 1]);
-
-		free(tks);
 	}
 
 	if (p->root)
 		rdesc_node_destroy(p->root, free_tk);
 
+	rdesc_stack_destroy(p->stack);
 	rdesc_stack_init(&p->stack);
 
 	p->root = p->cur = NULL;
@@ -99,11 +96,11 @@ void rdesc_reset(struct rdesc *p, rdesc_tk_destroyer_func free_tk)
 void rdesc_destroy(struct rdesc *p)
 {
 	assert_logic(p->root == NULL, "destroying parser during parsing");
-	assert(rdesc_stack_len(&p->stack) == 0,
+	assert(rdesc_stack_len(p->stack) == 0,
 			       "cannot destroy parser if token stack is not "
 			       "empty");
 
-	rdesc_stack_destroy(&p->stack);
+	rdesc_stack_destroy(p->stack);
 }
 
 enum rdesc_result rdesc_pump(struct rdesc *p,
@@ -119,7 +116,7 @@ enum rdesc_result rdesc_pump(struct rdesc *p,
 	bool has_token = incoming_tk != NULL;
 
 	while (true) {
-		if (!has_token && rdesc_stack_len(&p->stack)) {
+		if (!has_token && rdesc_stack_len(p->stack)) {
 			tk = rdesc_stack_pop(&p->stack);
 			has_token = true;
 		}

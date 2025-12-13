@@ -11,7 +11,7 @@ int main()
 {
 	srand(time(NULL));
 
-	struct rdesc_stack s;
+	struct rdesc_stack *s;
 	int arr[128];
 
 	rdesc_stack_init(&s);
@@ -25,5 +25,5 @@ int main()
 		assert(rdesc_stack_pop(&s).id == arr[127 - i],
 		       "stack order not reserved");
 
-	free(rdesc_stack_into_inner(&s));
+	rdesc_stack_destroy(s);
 }

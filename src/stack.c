@@ -11,49 +11,66 @@
 
 #define RESIZE_STACK \
 	assert_mem( \
-		s->tokens = \
-		realloc(s->tokens, s->cap * sizeof(struct rdesc_cfg_token)) \
+		*s = \
+		realloc(*s, sizeof(struct rdesc_stack) + \
+			(*s)->cap * sizeof(struct rdesc_cfg_token)) \
 	)
 
 
-void rdesc_stack_init(struct rdesc_stack *s)
+/**
+ * @brief Default implementation of the token backtracking stack.
+ *
+ * @note Portability / Custom Implementation:
+ *       This definition is guarded by `stack` feature flag. If you are porting
+ *       `librdesc` to an environment that already has a preferred dynamic
+ *       array or stack implementation (e.g., a project-specific
+ *       vector type), you can remove the `stack` feature flag. This
+ *       allows you to suppress this default struct and provide your own
+ *       definition of `struct rdesc_stack` compatible with your system.
+ */
+struct rdesc_stack {
+	size_t len /** current number of tokens in the stack */;
+	size_t cap /** allocated capacity of the buffer */;
+	struct rdesc_cfg_token tokens[] /** pointer to the dynamic array buffer */;
+};
+
+void rdesc_stack_init(struct rdesc_stack **s)
 {
-	s->len = 0;
-	s->cap = STACK_INITIAL_CAP;
-	assert_mem(
-		s->tokens =
-		malloc(STACK_INITIAL_CAP * sizeof(struct rdesc_cfg_token))
-	);
+	*s = malloc(sizeof(struct rdesc_stack) +
+		    STACK_INITIAL_CAP * sizeof(struct rdesc_cfg_token));
+
+	(*s)->len = 0;
+	(*s)->cap = STACK_INITIAL_CAP;
 }
 
-void rdesc_stack_push(struct rdesc_stack *s, struct rdesc_cfg_token tk)
+void rdesc_stack_push(struct rdesc_stack **s, struct rdesc_cfg_token tk)
 {
-	if (s->cap == s->len) {
-		s->cap *= 2;
+	if ((*s)->cap == (*s)->len) {
+		(*s)->cap *= 2;
 		RESIZE_STACK;
 	}
 
-	s->tokens[s->len++] = tk;
+	(*s)->tokens[(*s)->len++] = tk;
 }
 
 void rdesc_stack_destroy(struct rdesc_stack *s)
 {
-	free(s->tokens);
+	free(s);
 }
 
-struct rdesc_cfg_token rdesc_stack_pop(struct rdesc_stack *s)
+struct rdesc_cfg_token rdesc_stack_pop(struct rdesc_stack **s)
 {
-	struct rdesc_cfg_token top = s->tokens[--s->len];
+	struct rdesc_cfg_token top = (*s)->tokens[--(*s)->len];
 
-	if (s->len * 2 < s->cap && s->cap >= STACK_INITIAL_CAP * 2) {
-		s->cap /= 2;
+	if ((*s)->len * 2 < (*s)->cap && (*s)->cap >= STACK_INITIAL_CAP * 2) {
+		(*s)->cap /= 2;
 		RESIZE_STACK;
 	}
 
 	return top;
 }
 
-void *rdesc_stack_into_inner(struct rdesc_stack *s)
+struct rdesc_cfg_token *rdesc_stack_as_ref(struct rdesc_stack *s)
 {
 	return s->tokens;
 }

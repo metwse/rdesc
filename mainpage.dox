@@ -27,6 +27,8 @@
  * 3. Stack (`stack.h`): Stores consumed tokens to facilitate backtracking.
  *    If a rule fails, the parser pops tokens back to retry an alternative
  *    variant.
+ * 4. BNF DSL (`bnf_dsl.h`): A set of macros to facilitate definning Context
+ *    free grammars.
  *
  * @section quickstart_sec Quick Start Guide
  *
@@ -59,8 +61,10 @@
  *
  * @section examples_sec Examples
  *
- * - @ref boolean_algebra.h : A Boolean Algebra grammar demonstrating backtracking and ambiguity handling.
- * - @ref bc.h : A Basic Calculator implementation demonstrating operator precedence and expressions.
+ * - @ref boolean_algebra.h : A Boolean Algebra grammar demonstrating
+ *   backtracking and ambiguity handling.
+ * - @ref bc.h : A Basic Calculator implementation demonstrating operator
+ *   precedence and expressions.
  *
  * @section build_sec Building
  * See @ref README.md for building instructions.
