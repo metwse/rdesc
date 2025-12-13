@@ -68,7 +68,7 @@
  */
 #define rrr(head, listelem, delim) \
 	{ { NT(listelem), NT(head ## _REST), SEOB }, SEOC }, \
-	{ { TK(delim), NT(head), NT(head ## _REST), SEOB }, { SEOB }, SEOC }
+	{ { TK(delim), NT(head), SEOB }, { SEOB }, SEOC }
 
 /**
  * @brief Macro to define an optional grammar rule (epsilon production).

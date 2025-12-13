@@ -43,10 +43,7 @@ all: default examples tests
 tests: $(TEST_TARGETS)
 examples: $(EXAMPLE_TARGETS)
 
-ifeq ($(PREFIX),)
-	PREFIX := /usr/local
-endif
-
+PREFIX ?= /usr/local
 install: $(DIST_DIR)/librdesc.so $(DIST_DIR)/librdesc.a
 	install -d $(DESTDIR)$(PREFIX)/lib/
 	install -d $(DESTDIR)$(PREFIX)/include/rdesc/
