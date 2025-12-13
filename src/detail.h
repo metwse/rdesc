@@ -3,9 +3,10 @@
 #ifndef RDESC_DETAIL_H
 #define RDESC_DETAIL_H
 
+
+#ifdef __linux__
 #include <stdio.h> // IWYU pragma: begin_exports
 #include <signal.h> // IWYU pragma: end_exports
-
 
 #define assert_stringify_detail(a) #a
 #define assert_stringify(a) assert_stringify_detail(a)
@@ -20,6 +21,10 @@
 			raise(SIGINT); \
 		} \
 	} while(0)
+#else
+#include <assert.h>
+#endif
+
 
 /* macro highlights memory allocation checks */
 #define assert_mem(c) assert(c, "out of memory")
