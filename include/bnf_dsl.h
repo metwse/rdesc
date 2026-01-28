@@ -33,20 +33,36 @@
 /** @see PREFIX_TK */
 #define PREFIX_NT(nt) nt
 #endif
+
+#ifndef POSTFIX_NT_REST
+/** @brief Name mapping for non-terminal list to rest types. */
+#define POSTFIX_NT_REST(nt) nt ## _REST
+#endif
+
 /** integer representing EOB (end of body) */
 #define EOB -1
 /** integer representing EOC (end of construct) */
 #define EOC -2
 
-/** @brief Sentinel struct for the end of a rule's body (EOB) */
+/**
+ * @brief Sentinel struct for the end of a rule's body (EOB)
+ *
+ * Usage with DSL is not recommended, use `EPSILON` instead.
+ */
 #define SEOB (const struct rdesc_cfg_symbol) { .ty = CFG_SENTINEL, .id = EOB }
-/** @brief Sentinel struct for the end of a construct's variants (EOC) */
+/**
+ * @brief Sentinel struct for the end of a construct's variants (EOC)
+ *
+ * Not recommended, use `r` and `ropt` instead.
+ */
 #define SEOC { (const struct rdesc_cfg_symbol) { .ty = CFG_SENTINEL, .id = EOC } }
 
 /** @brief Macro to create a terminal (Token) production symbol. */
 #define TK(tk) { .ty = CFG_TOKEN, .id = PREFIX_TK(tk) }
 /** @brief Macro to create a non-terminal production symbol. */
 #define NT(nt) { .ty = CFG_NONTERMINAL, .id = PREFIX_NT(nt) }
+/** @brief Macro to create an epsilon production symbol. */
+#define EPSILON SEOB
 
 
 /** @brief Macro to define a grammar rule. */
@@ -58,17 +74,17 @@
  * This is the standard pattern for lists and operator precedence. It
  * automatically defines the rule for 'head' and 'head_REST'.
  *
- * For example, `rrr(EXPR_LS, EXPR, COMMA)` defines:
+ * For example, `rrr(EXPR_LS, NT(EXPR), TK(COMMA))` defines:
  * 1. `<expr_ls> ::= <expr> <expr_ls_rest>`
- * 2. `<expr_ls_rest> ::= "," <expr_ls> <expr_ls_rest> | E`
+ * 2. `<expr_ls_rest> ::= "," <expr_ls> | E`
  *
  * @param head The base non-terminal.
  * @param listelem The non-terminal for the list element.
  * @param delim The token used as a separator.
  */
 #define rrr(head, listelem, delim) \
-	{ { NT(listelem), NT(head ## _REST), SEOB }, SEOC }, \
-	{ { TK(delim), NT(head), SEOB }, { SEOB }, SEOC }
+	{ { listelem, NT(POSTFIX_NT_REST(head)), SEOB }, SEOC }, \
+	{ { delim, NT(head), SEOB }, { SEOB }, SEOC }
 
 /**
  * @brief Macro to define an optional grammar rule (epsilon production).

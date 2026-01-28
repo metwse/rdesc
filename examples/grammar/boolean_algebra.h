@@ -144,10 +144,10 @@ balg[BALG_NT_COUNT][BALG_NT_VARIANT_COUNT][BALG_NT_BODY_LENGTH] = {
 		ropt(NT(EXPR_LS)),
 
 	/* <expr> ::= */
-		rrr(EXPR, TERM, PIPE),
+		rrr(EXPR, NT(TERM), TK(PIPE)),
 
 	/* <term> ::= */
-		rrr(TERM, FACTOR, AMP),
+		rrr(TERM, NT(FACTOR), TK(AMP)),
 	/* <factor> ::= */ r(
 		TK(EXCL), NT(ATOM),
 	alt	NT(ATOM),
@@ -183,10 +183,10 @@ balg[BALG_NT_COUNT][BALG_NT_VARIANT_COUNT][BALG_NT_BODY_LENGTH] = {
 	),
 
 	/* <ident_ls> ::= */
-		rrr(IDENT_LS, IDENT, COMMA),
+		rrr(IDENT_LS, NT(IDENT), TK(COMMA)),
 
 	/* <expr_ls> ::= */
-		rrr(EXPR_LS, EXPR, COMMA),
+		rrr(EXPR_LS, NT(EXPR), TK(COMMA)),
 };
 
 

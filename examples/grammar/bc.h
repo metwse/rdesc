@@ -81,7 +81,7 @@ bc[BC_NT_COUNT][BC_NT_VARIANT_COUNT][BC_NT_BODY_LENGTH] = {
 	/* <optsign> ::= */ r(
 		TK(MINUS),
 	alt	TK(PLUS),
-	alt	SEOB,
+	alt	EPSILON,
 	),
 	/* <signed> ::= */ r(
 		NT(OPTSIGN), NT(UNSIGNED),
@@ -94,7 +94,7 @@ bc[BC_NT_COUNT][BC_NT_VARIANT_COUNT][BC_NT_BODY_LENGTH] = {
 	/* <expr_rest> ::= */ r(
 		TK(PLUS), NT(EXPR),
 	alt	TK(MINUS), NT(EXPR),
-	alt	SEOB,
+	alt	EPSILON,
 	),
 
 	/* <term> ::= */ r(
@@ -103,7 +103,7 @@ bc[BC_NT_COUNT][BC_NT_VARIANT_COUNT][BC_NT_BODY_LENGTH] = {
 	/* <term_rest> ::= */ r(
 		TK(MULT), NT(TERM),
 	alt	TK(DIV), NT(TERM),
-	alt	SEOB,
+	alt	EPSILON,
 	),
 
 	/* <factor> ::= */ r(
