@@ -54,6 +54,10 @@ struct rdesc_node {
 };
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /** @brief Initializes a new parser. */
 void rdesc_init(struct rdesc *p,
 		const struct rdesc_cfg *cfg);
@@ -108,6 +112,10 @@ enum rdesc_result rdesc_pump(struct rdesc *p,
  */
 void rdesc_node_destroy(struct rdesc_node *n,
 			rdesc_tk_destroyer_func free_tk);
+
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif

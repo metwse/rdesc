@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 
+
 struct rdesc_node; /* defined in rdesc.h */
 
 struct rdesc_cfg; /* defined in cfg.h */
@@ -20,6 +21,10 @@ struct rdesc_cfg_nonterminal;
 /** @brief Function pointer type for printing tokens. */
 typedef void (*rdesc_tk_printer_func)(const struct rdesc_cfg_token *, FILE *out);
 
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /**
  * @brief Dumps the Concrete Syntax Tree (CST) as a Graphviz DOT graph.
@@ -57,6 +62,10 @@ void rdesc_dump_bnf(const struct rdesc_cfg *cfg,
 		    const char *const tk_names[],
 		    const char *const nt_names[],
 		    FILE *out);
+
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif

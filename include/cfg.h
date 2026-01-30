@@ -74,6 +74,10 @@ struct rdesc_cfg_nonterminal {
 typedef void (*rdesc_tk_destroyer_func)(struct rdesc_cfg_token *);
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /** @brief Initializes a context-free grammar object. */
 void rdesc_cfg_init(struct rdesc_cfg *cfg,
 		    size_t nonterminal_count,
@@ -83,6 +87,10 @@ void rdesc_cfg_init(struct rdesc_cfg *cfg,
 
 /** @brief Frees the context-free grammar struct. */
 void rdesc_cfg_destroy(struct rdesc_cfg *cfg);
+
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif
