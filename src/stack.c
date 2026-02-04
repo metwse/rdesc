@@ -38,6 +38,7 @@ void rdesc_stack_init(struct rdesc_stack **s)
 {
 	*s = malloc(sizeof(struct rdesc_stack) +
 		    STACK_INITIAL_CAP * sizeof(struct rdesc_cfg_token));
+	assert_mem(s);
 
 	(*s)->len = 0;
 	(*s)->cap = STACK_INITIAL_CAP;
