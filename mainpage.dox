@@ -47,15 +47,18 @@
  * @endcode
  * 4. Pump Tokens: Feed tokens into the loop until a tree is ready.
  * @code{.c}
- * struct rdesc_node *cst;
- * enum rdesc_result res;
+ * rdesc_start(&parser, NT_STMT);  // Set your start symbol.
  *
- * while ((res = rdesc_pump(&parser, &cst, &next_token)) == RDESC_CONTINUE) {
- *      // acquire next_token from your lexer
+ * enum rdesc_result res;
+ * struct rdesc_node *cst;
+ * while ((res = rdesc_pump(&parser, &cst, next_token())) == RDESC_CONTINUE) {
+ *      // Acquire next_token from your lexer
  * }
  *
  * if (res == RDESC_READY) {
  *      // Process the `cst`
+ * } else if (res == RDESC_NOMATCH) {
+ *      // Handle syntax error
  * }
  * @endcode
  *
