@@ -1,10 +1,9 @@
 var searchData=
 [
-  ['balg_0',['balg',['../boolean__algebra_8h.html#a48c8928f7b5b6de26ea3905042381f84',1,'boolean_algebra.h']]],
-  ['balg_5fnt_5fnames_1',['balg_nt_names',['../boolean__algebra_8h.html#af69b0ef00608b4b7e99ad48335650110',1,'boolean_algebra.h']]],
-  ['balg_5ftk_5fnames_2',['balg_tk_names',['../boolean__algebra_8h.html#aca433d4ae632053f010e4fd1d58eb257',1,'boolean_algebra.h']]],
-  ['balg_5ftk_5fnames_5fescaped_3',['balg_tk_names_escaped',['../boolean__algebra_8h.html#a86e2dca21ab0a47b5596cd4b7f90e8e7',1,'boolean_algebra.h']]],
-  ['balg_5ftks_4',['balg_tks',['../boolean__algebra_8h.html#a52abe67416edb5d25d2511bcabc231bb',1,'boolean_algebra.h']]],
-  ['base_5',['base',['../structVehicle.html#ad7970f528d429f6fc1725173e93a77c2',1,'Vehicle::base()'],['../structCar.html#ab8ff28306286da5a8b14fa9bdccaafaa',1,'Car::base()'],['../structTruck.html#ad0ac321609dda1a6c552488b05ec7ac8',1,'Truck::base()']]],
-  ['buf_6',['buf',['../structexblex.html#a4bfa1b98dcef53afeefe4d6983bee062',1,'exblex']]]
+  ['cap_0',['cap',['../structrdesc__stack.html#acfc289d9e211e8557cc297154c944b5d',1,'rdesc_stack']]],
+  ['cfg_1',['cfg',['../structrdesc.html#ab1a8201857ac8d5e46a213a1f89ec497',1,'rdesc']]],
+  ['child_5fcaps_2',['child_caps',['../structrdesc__cfg.html#a40097f265f4f5cdcc80f4c2c08a79723',1,'rdesc_cfg']]],
+  ['child_5fcount_3',['child_count',['../structrdesc__cfg__nonterminal.html#a0f6fcfef6ceaa14593e087e297f1b936',1,'rdesc_cfg_nonterminal']]],
+  ['children_4',['children',['../structrdesc__cfg__nonterminal.html#a5b531f10622c78cee1ce006315e0b8bd',1,'rdesc_cfg_nonterminal']]],
+  ['cur_5',['cur',['../structexblex.html#a7a29636b80ad3395e4aef9613a337035',1,'exblex::cur()'],['../structrdesc.html#a21005db3c4bfe470e2e2019ee49778f2',1,'rdesc::cur()']]]
 ];

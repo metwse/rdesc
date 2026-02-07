@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['balg_5fnt_0',['balg_nt',['../boolean__algebra_8h.html#a824819f5190a8b390da1a30229ec73e9',1,'boolean_algebra.h']]],
-  ['balg_5ftk_1',['balg_tk',['../boolean__algebra_8h.html#aa10441235dd946330f84b6e5dd4b5c42',1,'boolean_algebra.h']]]
+  ['rdesc_5fcfg_5fsymbol_5ftype_0',['rdesc_cfg_symbol_type',['../cfg_8h.html#aa50d0c68b3753cc0c30f8fcda36e3c1d',1,'cfg.h']]],
+  ['rdesc_5fresult_1',['rdesc_result',['../rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983d',1,'rdesc.h']]]
 ];

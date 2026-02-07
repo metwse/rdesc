@@ -107,11 +107,11 @@ Macros</h2></td></tr>
 <tr class="memdesc:af11f8ed19fedc658e74733224839ccff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sentinel struct for the end of a construct's variants (EOC)  <br /></td></tr>
 <tr class="separator:af11f8ed19fedc658e74733224839ccff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6abff88a7191ec249826ecc154edeae"><td class="memItemLeft" align="right" valign="top"><a id="aa6abff88a7191ec249826ecc154edeae" name="aa6abff88a7191ec249826ecc154edeae"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>TK</b>(tk)&#160;&#160;&#160;{ .ty = CFG_TOKEN, .id = <a class="el" href="boolean__algebra_8h.html#a99ea7c8e2a06e9b3daba34a56f10590f">PREFIX_TK</a>(tk) }</td></tr>
-<tr class="memdesc:aa6abff88a7191ec249826ecc154edeae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to create a terminal (Token) production symbol. <br /></td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>TK</b>(tk)&#160;&#160;&#160;{ .ty = CFG_TOKEN, .id = <a class="el" href="bnf__dsl_8h.html#a99ea7c8e2a06e9b3daba34a56f10590f">PREFIX_TK</a>(tk) }</td></tr>
+<tr class="memdesc:aa6abff88a7191ec249826ecc154edeae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to create a terminal (token) production symbol. <br /></td></tr>
 <tr class="separator:aa6abff88a7191ec249826ecc154edeae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f2eaf0cccb54c48b26a1747e777997b"><td class="memItemLeft" align="right" valign="top"><a id="a2f2eaf0cccb54c48b26a1747e777997b" name="a2f2eaf0cccb54c48b26a1747e777997b"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>NT</b>(nt)&#160;&#160;&#160;{ .ty = CFG_NONTERMINAL, .id = <a class="el" href="boolean__algebra_8h.html#a0cbafb1e03a0d5e350b1289a3a93608b">PREFIX_NT</a>(nt) }</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>NT</b>(nt)&#160;&#160;&#160;{ .ty = CFG_NONTERMINAL, .id = <a class="el" href="bnf__dsl_8h.html#a0cbafb1e03a0d5e350b1289a3a93608b">PREFIX_NT</a>(nt) }</td></tr>
 <tr class="memdesc:a2f2eaf0cccb54c48b26a1747e777997b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to create a non-terminal production symbol. <br /></td></tr>
 <tr class="separator:a2f2eaf0cccb54c48b26a1747e777997b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a002b2f4894492820fe708b1b7e7c5e70"><td class="memItemLeft" align="right" valign="top"><a id="a002b2f4894492820fe708b1b7e7c5e70" name="a002b2f4894492820fe708b1b7e7c5e70"></a>
@@ -120,7 +120,7 @@ Macros</h2></td></tr>
 <tr class="separator:a002b2f4894492820fe708b1b7e7c5e70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc088731af07796439675f9d86d9d70e"><td class="memItemLeft" align="right" valign="top"><a id="abc088731af07796439675f9d86d9d70e" name="abc088731af07796439675f9d86d9d70e"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>r</b>(...)&#160;&#160;&#160;{ { __VA_ARGS__ <a class="el" href="bnf__dsl_8h.html#a266e9efb568c84df45ba639fb04f61e8">SEOB</a> }, <a class="el" href="bnf__dsl_8h.html#af11f8ed19fedc658e74733224839ccff">SEOC</a> }</td></tr>
-<tr class="memdesc:abc088731af07796439675f9d86d9d70e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to define a grammar rule. <br /></td></tr>
+<tr class="memdesc:abc088731af07796439675f9d86d9d70e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to define a grammar rule. Adds end-of-body and construct sentinels to grammar rules. <br /></td></tr>
 <tr class="separator:abc088731af07796439675f9d86d9d70e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:addbf6a084daa0e9e2e3134af669e2eb9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bnf__dsl_8h.html#addbf6a084daa0e9e2e3134af669e2eb9">rrr</a>(head,  listelem,  delim)</td></tr>
 <tr class="memdesc:addbf6a084daa0e9e2e3134af669e2eb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to define a pair of rules for a right-recursive list.  <br /></td></tr>
@@ -165,7 +165,7 @@ Macros</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>integer representing EOB (end of body) </p>
+<p>integer representing EOB (end-of-body) </p>
 
 </div>
 </div>
@@ -180,7 +180,7 @@ Macros</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>integer representing EOC (end of construct) </p>
+<p>integer representing EOC (end-of-construct) </p>
 
 </div>
 </div>
@@ -220,9 +220,9 @@ Macros</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Name mapping for token identifiers. </p>
-<p>This macro determines how a raw token name passed to <code><a class="el" href="bnf__dsl_8h.html#aa6abff88a7191ec249826ecc154edeae" title="Macro to create a terminal (Token) production symbol.">TK(...)</a></code> is expanded into a <a class="el" href="classC.html">C</a> identifier (typically an enum member).</p>
+<p>This macro determines how a raw token name passed to <code><a class="el" href="bnf__dsl_8h.html#aa6abff88a7191ec249826ecc154edeae" title="Macro to create a terminal (token) production symbol.">TK(...)</a></code> is expanded into a C identifier (typically an enum member).</p>
 <ul>
-<li>Default: Identity mapping. <code><a class="el" href="bnf__dsl_8h.html#aa6abff88a7191ec249826ecc154edeae" title="Macro to create a terminal (Token) production symbol.">TK(IDENT)</a></code> expands to <code>IDENT</code>.</li>
+<li>Default: Identity mapping. <code><a class="el" href="bnf__dsl_8h.html#aa6abff88a7191ec249826ecc154edeae" title="Macro to create a terminal (token) production symbol.">TK(IDENT)</a></code> expands to <code>IDENT</code>.</li>
 <li>Override: Define this macro before including the DSL to add namespaces (e.g., <code>#define <a class="el" href="bnf__dsl_8h.html#a99ea7c8e2a06e9b3daba34a56f10590f" title="Name mapping for token identifiers.">PREFIX_TK(x)</a> MY_TK_ ## x</code>). </li>
 </ul>
 
@@ -292,9 +292,9 @@ Macros</h2></td></tr>
 </div><!-- fragment -->
 <p>Macro to define a pair of rules for a right-recursive list. </p>
 <p>This is the standard pattern for lists and operator precedence. It automatically defines the rule for 'head' and 'head_REST'.</p>
-<p>For example, <code>rrr(EXPR_LS, <a class="el" href="bnf__dsl_8h.html#a2f2eaf0cccb54c48b26a1747e777997b" title="Macro to create a non-terminal production symbol.">NT(EXPR)</a>, <a class="el" href="bnf__dsl_8h.html#aa6abff88a7191ec249826ecc154edeae" title="Macro to create a terminal (Token) production symbol.">TK(COMMA)</a>)</code> defines:</p><ol type="1">
+<p>For example, <code>rrr(EXPR_LS, <a class="el" href="bnf__dsl_8h.html#a2f2eaf0cccb54c48b26a1747e777997b" title="Macro to create a non-terminal production symbol.">NT(EXPR)</a>, <a class="el" href="bnf__dsl_8h.html#aa6abff88a7191ec249826ecc154edeae" title="Macro to create a terminal (token) production symbol.">TK(COMMA)</a>)</code> defines:</p><ol type="1">
 <li><code>&lt;expr_ls&gt; ::= &lt;expr&gt; &lt;expr_ls_rest&gt;</code></li>
-<li><code>&lt;expr_ls_rest&gt; ::= "," &lt;expr_ls&gt; | <a class="el" href="classE.html">E</a></code></li>
+<li><code>&lt;expr_ls_rest&gt; ::= "," &lt;expr_ls&gt; | E</code></li>
 </ol>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">

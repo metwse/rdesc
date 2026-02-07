@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['handler_0',['handler',['../classJavadoc__Test.html#ace81a523a4eef44501a841a6d338832b',1,'Javadoc_Test::handler()'],['../classQTstyle__Test.html#a79dd4e5498f09057775a819d911349e2',1,'QTstyle_Test::handler()']]]
+  ['root_0',['root',['../structrdesc.html#a6ce08dbf4cf7e7c73d82de598e82f391',1,'rdesc']]],
+  ['rules_1',['rules',['../structrdesc__cfg.html#ac9aa8b0d604b9a9fbb9d7ce2ba6bbef0',1,'rdesc_cfg']]]
 ];

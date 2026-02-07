@@ -79,7 +79,7 @@ Introduction</h1>
 Key Features</h1>
 <ul>
 <li>Table-Driven Parsing: Parser logic is generic and can be controlled at runtime without recompiling via the <code>struct <a class="el" href="structrdesc__cfg.html" title="Context-free grammar definition.">rdesc_cfg</a></code> table.</li>
-<li>Pump Mechanism: Parsing is driven by <code><a class="el" href="rdesc_8h.html#a0ee02a12a5756d220893859decd7b663" title="Drives the parsing process, The Pump.">rdesc_pump()</a></code>, a state machine that allows for token by token feeding.</li>
+<li>Pump Mechanism: Parsing is driven by <code>rdesc_pump()</code>, a state machine that allows for token by token feeding.</li>
 <li>Backtracing Without Call-Stack: Since backtracing is performed via CST, the call stack does not grow. Tokens are be stored in a heap-allocated stack to try non-terminal variants.</li>
 </ul>
 <h1><a class="anchor" id="api"></a>
@@ -88,7 +88,7 @@ API Overview</h1>
 <li>Parser (<code><a class="el" href="rdesc_8h.html" title="The Right-Recursive Descent Parser.">rdesc.h</a></code>): The engine that consumes the CFG and Input. It maintains a cursor (<code>cur</code>) and a root node (<code>root</code>).</li>
 <li>CFG (<code><a class="el" href="cfg_8h.html" title="Context-Free Grammar (CFG) data structures.">cfg.h</a></code>): Defines the rules, tokens, and non-terminals. This is usually static constant data populated via macros.</li>
 <li>Stack (<code><a class="el" href="stack_8h.html" title="Token stack interface contract.">stack.h</a></code>): Stores consumed tokens to facilitate backtracking. If a rule fails, the parser pops tokens back to retry an alternative variant.</li>
-<li>BNF DSL (<code><a class="el" href="bnf__dsl_8h.html" title="Macros for context-free grammar definitions.">bnf_dsl.h</a></code>): <a class="el" href="classA.html">A</a> set of macros to facilitate definning Context free grammars.</li>
+<li>BNF DSL (<code><a class="el" href="bnf__dsl_8h.html" title="Macros for context-free grammar definitions.">bnf_dsl.h</a></code>): A set of macros to facilitate definning Context free grammars.</li>
 </ol>
 <h1><a class="anchor" id="quickstart_sec"></a>
 Quick Start Guide</h1>
@@ -132,8 +132,8 @@ Quick Start Guide</h1>
 <h1><a class="anchor" id="examples_sec"></a>
 Examples</h1>
 <ul>
-<li><a class="el" href="boolean__algebra_8h.html">boolean_algebra.h</a> : <a class="el" href="classA.html">A</a> Boolean Algebra grammar demonstrating backtracking and ambiguity handling.</li>
-<li><a class="el" href="bc_8h.html">bc.h</a> : <a class="el" href="classA.html">A</a> Basic Calculator implementation demonstrating operator precedence and expressions.</li>
+<li><a class="el" href="boolean__algebra_8h.html">boolean_algebra.h</a> : A Boolean Algebra grammar demonstrating backtracking and ambiguity handling.</li>
+<li><a class="el" href="bc_8h.html">bc.h</a> : A Basic Calculator implementation demonstrating operator precedence and expressions.</li>
 </ul>
 <h1><a class="anchor" id="build_sec"></a>
 Building</h1>
