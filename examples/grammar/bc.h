@@ -71,7 +71,7 @@ const char *const bc_nt_names[BC_NT_COUNT] = {
 	"stmt",
 };
 
-const struct rdesc_cfg_symbol
+static const struct rdesc_cfg_symbol
 bc[BC_NT_COUNT][BC_NT_VARIANT_COUNT][BC_NT_BODY_LENGTH] = {
 	/* <unsigned> ::= */ r(
 		TK(NUM),

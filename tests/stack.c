@@ -6,7 +6,7 @@
 #include <time.h>
 
 
-int main()
+int main(void)
 {
 	srand(time(NULL));
 

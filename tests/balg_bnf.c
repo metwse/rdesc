@@ -4,7 +4,7 @@
 #include "../examples/grammar/boolean_algebra.h"
 
 
-int main()
+int main(void)
 {
 	struct rdesc_cfg cfg;
 

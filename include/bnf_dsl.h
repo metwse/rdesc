@@ -49,13 +49,13 @@
  *
  * Usage with DSL is not recommended, use `EPSILON` instead.
  */
-#define SEOB (const struct rdesc_cfg_symbol) { .ty = CFG_SENTINEL, .id = EOB }
+#define SEOB { .ty = CFG_SENTINEL, .id = EOB }
 /**
  * @brief Sentinel struct for the end of a construct's variants (EOC)
  *
  * Not recommended, use `r` and `ropt` instead.
  */
-#define SEOC { (const struct rdesc_cfg_symbol) { .ty = CFG_SENTINEL, .id = EOC } }
+#define SEOC { { .ty = CFG_SENTINEL, .id = EOC } }
 
 /** @brief Macro to create a terminal (token) production symbol. */
 #define TK(tk) { .ty = CFG_TOKEN, .id = PREFIX_TK(tk) }

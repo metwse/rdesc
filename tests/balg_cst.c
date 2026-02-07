@@ -28,7 +28,7 @@ void balg_tk_destroyer(struct rdesc_token *tk)
 		free(tk->seminfo);
 }
 
-int main()
+int main(void)
 {
 	struct exblex lex;
 	struct rdesc_cfg cfg;

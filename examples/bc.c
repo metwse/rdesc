@@ -151,7 +151,7 @@ void program(struct exblex *lex, struct rdesc *p)
 	}
 }
 
-int main()
+int main(void)
 {
 	struct exblex lex;
 	struct rdesc_cfg cfg;

@@ -130,7 +130,7 @@ const char *const balg_nt_names[BALG_NT_COUNT] = {
 };
 
 /** @brief example context-free grammar */
-const struct rdesc_cfg_symbol
+static const struct rdesc_cfg_symbol
 balg[BALG_NT_COUNT][BALG_NT_VARIANT_COUNT][BALG_NT_BODY_LENGTH] = {
 	/* <bit> ::= */ r(
 		TK(TRUE),

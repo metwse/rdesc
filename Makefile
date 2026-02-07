@@ -1,13 +1,13 @@
 FEATURES ?= stack
 
 # List of source files linked to the library. You can use your own stack
-# implementation after removing stack element below.
+# -pedantic implementation after removing stack element below.
 LIB = rdesc cfg $(FEATURES)
 
 CC = gcc
 RM = rm -rf
 
-CFLAGS_COMMON = -std=c99 -Wall -Wextra -fPIC -MMD -MP
+CFLAGS_COMMON = -std=c99 -Wall -Wextra -pedantic -fPIC -MMD -MP
 
 CFLAGS = $(CFLAGS_COMMON) -O2
 TFLAGS = $(CFLAGS_COMMON) -O0 -g3 --coverage
