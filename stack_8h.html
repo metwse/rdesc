@@ -81,7 +81,7 @@ $(function() {
 
 <p>Token stack interface contract.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="cfg_8h_source.html">cfg.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="rdesc_8h_source.html">rdesc.h</a>&quot;</code><br />
 <code>#include &lt;stddef.h&gt;</code><br />
 </div>
 <p><a href="stack_8h_source.html">Go to the source code of this file.</a></p>
@@ -96,18 +96,18 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_stack_init</b> 
 void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_stack_destroy</b> (struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> *s)</td></tr>
 <tr class="memdesc:abd7bf140ebfa1dd518251c8d4ef5d7e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees memory allocated by the token stack. <br /></td></tr>
 <tr class="separator:abd7bf140ebfa1dd518251c8d4ef5d7e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa03ba09ace5e4511f8c705345b2658d8"><td class="memItemLeft" align="right" valign="top"><a id="aa03ba09ace5e4511f8c705345b2658d8" name="aa03ba09ace5e4511f8c705345b2658d8"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_stack_push</b> (struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> **s, struct <a class="el" href="structrdesc__cfg__token.html">rdesc_cfg_token</a> tk)</td></tr>
-<tr class="memdesc:aa03ba09ace5e4511f8c705345b2658d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pushes a token onto the stack. <br /></td></tr>
-<tr class="separator:aa03ba09ace5e4511f8c705345b2658d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ea9ac2cf0cc95e6cf7d74f36c9f7de3"><td class="memItemLeft" align="right" valign="top"><a id="a3ea9ac2cf0cc95e6cf7d74f36c9f7de3" name="a3ea9ac2cf0cc95e6cf7d74f36c9f7de3"></a>
-struct <a class="el" href="structrdesc__cfg__token.html">rdesc_cfg_token</a>&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_stack_pop</b> (struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> **s)</td></tr>
-<tr class="memdesc:a3ea9ac2cf0cc95e6cf7d74f36c9f7de3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes and returns the top token from the stack. <br /></td></tr>
-<tr class="separator:a3ea9ac2cf0cc95e6cf7d74f36c9f7de3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af29c3c0c435b110608c540376087c0cc"><td class="memItemLeft" align="right" valign="top"><a id="af29c3c0c435b110608c540376087c0cc" name="af29c3c0c435b110608c540376087c0cc"></a>
-struct <a class="el" href="structrdesc__cfg__token.html">rdesc_cfg_token</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_stack_as_ref</b> (struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> *s)</td></tr>
-<tr class="memdesc:af29c3c0c435b110608c540376087c0cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <b>reference</b> to underlying dynamic buffer. <br /></td></tr>
-<tr class="separator:af29c3c0c435b110608c540376087c0cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1735b01358a14c46b445ad0668ea0d1d"><td class="memItemLeft" align="right" valign="top"><a id="a1735b01358a14c46b445ad0668ea0d1d" name="a1735b01358a14c46b445ad0668ea0d1d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_stack_push</b> (struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> **s, struct <a class="el" href="structrdesc__token.html">rdesc_token</a> tk)</td></tr>
+<tr class="memdesc:a1735b01358a14c46b445ad0668ea0d1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pushes a token onto the stack. <br /></td></tr>
+<tr class="separator:a1735b01358a14c46b445ad0668ea0d1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa909effca8bce53202e036dc24757f65"><td class="memItemLeft" align="right" valign="top"><a id="aa909effca8bce53202e036dc24757f65" name="aa909effca8bce53202e036dc24757f65"></a>
+struct <a class="el" href="structrdesc__token.html">rdesc_token</a>&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_stack_pop</b> (struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> **s)</td></tr>
+<tr class="memdesc:aa909effca8bce53202e036dc24757f65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes and returns the top token from the stack. <br /></td></tr>
+<tr class="separator:aa909effca8bce53202e036dc24757f65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af16aecff86f78fb4b67191b9f85f8d81"><td class="memItemLeft" align="right" valign="top"><a id="af16aecff86f78fb4b67191b9f85f8d81" name="af16aecff86f78fb4b67191b9f85f8d81"></a>
+struct <a class="el" href="structrdesc__token.html">rdesc_token</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_stack_as_ref</b> (struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> *s)</td></tr>
+<tr class="memdesc:af16aecff86f78fb4b67191b9f85f8d81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <b>reference</b> to underlying dynamic buffer. <br /></td></tr>
+<tr class="separator:af16aecff86f78fb4b67191b9f85f8d81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f1c2e7bc060e6334b535b4dc2527909"><td class="memItemLeft" align="right" valign="top"><a id="a7f1c2e7bc060e6334b535b4dc2527909" name="a7f1c2e7bc060e6334b535b4dc2527909"></a>
 size_t&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_stack_len</b> (const struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> *s)</td></tr>
 <tr class="memdesc:a7f1c2e7bc060e6334b535b4dc2527909"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the underlying dynamic buffer. <br /></td></tr>

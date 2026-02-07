@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['variant_0',['variant',['../structrdesc__cfg__nonterminal.html#ad92a479c4634b423436a61901b60cac1',1,'rdesc_cfg_nonterminal']]]
+  ['variant_0',['variant',['../structrdesc__nonterminal.html#ac50b14f7d699ba42d707da2932a324e3',1,'rdesc_nonterminal']]]
 ];

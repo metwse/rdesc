@@ -88,14 +88,14 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a8269b5f350b6a5c6cc1b27ca4c65aaae"><td class="memItemLeft" align="right" valign="top"><a id="a8269b5f350b6a5c6cc1b27ca4c65aaae" name="a8269b5f350b6a5c6cc1b27ca4c65aaae"></a>
-typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_tk_printer_func</b>) (const struct <a class="el" href="structrdesc__cfg__token.html">rdesc_cfg_token</a> *, FILE *out)</td></tr>
-<tr class="memdesc:a8269b5f350b6a5c6cc1b27ca4c65aaae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function pointer type for printing tokens. <br /></td></tr>
-<tr class="separator:a8269b5f350b6a5c6cc1b27ca4c65aaae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ad7949e67d6cc6ca01da3ae32de02d5"><td class="memItemLeft" align="right" valign="top"><a id="a5ad7949e67d6cc6ca01da3ae32de02d5" name="a5ad7949e67d6cc6ca01da3ae32de02d5"></a>
+typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_tk_printer_func</b>) (const struct <a class="el" href="structrdesc__token.html">rdesc_token</a> *, FILE *out)</td></tr>
+<tr class="memdesc:a5ad7949e67d6cc6ca01da3ae32de02d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function pointer type for printing tokens. <br /></td></tr>
+<tr class="separator:a5ad7949e67d6cc6ca01da3ae32de02d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a0e7a9d7c047942e5336049e788a4c6d8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a0e7a9d7c047942e5336049e788a4c6d8">rdesc_dump_dot</a> (const struct <a class="el" href="structrdesc__node.html">rdesc_node</a> *n, <a class="el" href="util_8h.html#a8269b5f350b6a5c6cc1b27ca4c65aaae">rdesc_tk_printer_func</a> tk_printer, const char *const nt_names[], FILE *out)</td></tr>
+<tr class="memitem:a0e7a9d7c047942e5336049e788a4c6d8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a0e7a9d7c047942e5336049e788a4c6d8">rdesc_dump_dot</a> (const struct <a class="el" href="structrdesc__node.html">rdesc_node</a> *n, <a class="el" href="util_8h.html#a5ad7949e67d6cc6ca01da3ae32de02d5">rdesc_tk_printer_func</a> tk_printer, const char *const nt_names[], FILE *out)</td></tr>
 <tr class="memdesc:a0e7a9d7c047942e5336049e788a4c6d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dumps the Concrete Syntax Tree (CST) as a Graphviz DOT graph.  <br /></td></tr>
 <tr class="separator:a0e7a9d7c047942e5336049e788a4c6d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2be15672f3e75f44a82efca059c59cfb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a2be15672f3e75f44a82efca059c59cfb">rdesc_dump_bnf</a> (const struct <a class="el" href="structrdesc__cfg.html">rdesc_cfg</a> *cfg, const char *const tk_names[], const char *const nt_names[], FILE *out)</td></tr>
@@ -173,7 +173,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="util_8h.html#a8269b5f350b6a5c6cc1b27ca4c65aaae">rdesc_tk_printer_func</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="util_8h.html#a5ad7949e67d6cc6ca01da3ae32de02d5">rdesc_tk_printer_func</a>&#160;</td>
           <td class="paramname"><em>tk_printer</em>, </td>
         </tr>
         <tr>

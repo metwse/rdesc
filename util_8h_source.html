@@ -84,13 +84,13 @@ $(function() {
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">struct </span><a class="code hl_struct" href="structrdesc__node.html">rdesc_node</a>; <span class="comment">/* defined in rdesc.h */</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">struct </span><a class="code hl_struct" href="structrdesc__cfg.html">rdesc_cfg</a>; <span class="comment">/* defined in cfg.h */</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">struct </span><a class="code hl_struct" href="structrdesc__cfg__token.html">rdesc_cfg_token</a>;</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">struct </span><a class="code hl_struct" href="structrdesc__cfg__nonterminal.html">rdesc_cfg_nonterminal</a>;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">struct </span><a class="code hl_struct" href="structrdesc__token.html">rdesc_token</a>;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">struct </span><a class="code hl_struct" href="structrdesc__nonterminal.html">rdesc_nonterminal</a>;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">struct </span><a class="code hl_struct" href="structrdesc__cfg.html">rdesc_cfg</a>; <span class="comment">/* defined in cfg.h */</span></div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="util_8h.html#a8269b5f350b6a5c6cc1b27ca4c65aaae">   22</a></span><span class="keyword">typedef</span> void (*<a class="code hl_typedef" href="util_8h.html#a8269b5f350b6a5c6cc1b27ca4c65aaae">rdesc_tk_printer_func</a>)(<span class="keyword">const</span> <span class="keyword">struct </span><a class="code hl_struct" href="structrdesc__cfg__token.html">rdesc_cfg_token</a> *, FILE *out);</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="util_8h.html#a5ad7949e67d6cc6ca01da3ae32de02d5">   22</a></span><span class="keyword">typedef</span> void (*<a class="code hl_typedef" href="util_8h.html#a5ad7949e67d6cc6ca01da3ae32de02d5">rdesc_tk_printer_func</a>)(<span class="keyword">const</span> <span class="keyword">struct </span><a class="code hl_struct" href="structrdesc__token.html">rdesc_token</a> *, FILE *out);</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#ifdef __cplusplus</span></div>
@@ -98,7 +98,7 @@ $(function() {
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="util_8h.html#a0e7a9d7c047942e5336049e788a4c6d8">   42</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="util_8h.html#a0e7a9d7c047942e5336049e788a4c6d8">rdesc_dump_dot</a>(<span class="keyword">const</span> <span class="keyword">struct</span> <a class="code hl_struct" href="structrdesc__node.html">rdesc_node</a> *n,</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>            <a class="code hl_typedef" href="util_8h.html#a8269b5f350b6a5c6cc1b27ca4c65aaae">rdesc_tk_printer_func</a> tk_printer,</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>            <a class="code hl_typedef" href="util_8h.html#a5ad7949e67d6cc6ca01da3ae32de02d5">rdesc_tk_printer_func</a> tk_printer,</div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            <span class="keyword">const</span> <span class="keywordtype">char</span> *<span class="keyword">const</span> nt_names[],</div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>            FILE *out);</div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
@@ -113,13 +113,13 @@ $(function() {
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="astructrdesc__cfg__nonterminal_html"><div class="ttname"><a href="structrdesc__cfg__nonterminal.html">rdesc_cfg_nonterminal</a></div><div class="ttdoc">nonterminal (syntatic variable) object for context-free grammar</div><div class="ttdef"><b>Definition:</b> cfg.h:57</div></div>
-<div class="ttc" id="astructrdesc__cfg__token_html"><div class="ttname"><a href="structrdesc__cfg__token.html">rdesc_cfg_token</a></div><div class="ttdoc">terminal (token) object for context-free grammar</div><div class="ttdef"><b>Definition:</b> cfg.h:51</div></div>
 <div class="ttc" id="astructrdesc__cfg_html"><div class="ttname"><a href="structrdesc__cfg.html">rdesc_cfg</a></div><div class="ttdoc">Context-free grammar definition.</div><div class="ttdef"><b>Definition:</b> cfg.h:18</div></div>
-<div class="ttc" id="astructrdesc__node_html"><div class="ttname"><a href="structrdesc__node.html">rdesc_node</a></div><div class="ttdoc">A node in the CST.</div><div class="ttdef"><b>Definition:</b> rdesc.h:45</div></div>
+<div class="ttc" id="astructrdesc__node_html"><div class="ttname"><a href="structrdesc__node.html">rdesc_node</a></div><div class="ttdoc">A node in the CST.</div><div class="ttdef"><b>Definition:</b> rdesc.h:68</div></div>
+<div class="ttc" id="astructrdesc__nonterminal_html"><div class="ttname"><a href="structrdesc__nonterminal.html">rdesc_nonterminal</a></div><div class="ttdoc">nonterminal (syntatic variable) object for context-free grammar</div><div class="ttdef"><b>Definition:</b> rdesc.h:51</div></div>
+<div class="ttc" id="astructrdesc__token_html"><div class="ttname"><a href="structrdesc__token.html">rdesc_token</a></div><div class="ttdoc">terminal (token) object for context-free grammar</div><div class="ttdef"><b>Definition:</b> rdesc.h:43</div></div>
 <div class="ttc" id="autil_8h_html_a0e7a9d7c047942e5336049e788a4c6d8"><div class="ttname"><a href="util_8h.html#a0e7a9d7c047942e5336049e788a4c6d8">rdesc_dump_dot</a></div><div class="ttdeci">void rdesc_dump_dot(const struct rdesc_node *n, rdesc_tk_printer_func tk_printer, const char *const nt_names[], FILE *out)</div><div class="ttdoc">Dumps the Concrete Syntax Tree (CST) as a Graphviz DOT graph.</div></div>
 <div class="ttc" id="autil_8h_html_a2be15672f3e75f44a82efca059c59cfb"><div class="ttname"><a href="util_8h.html#a2be15672f3e75f44a82efca059c59cfb">rdesc_dump_bnf</a></div><div class="ttdeci">void rdesc_dump_bnf(const struct rdesc_cfg *cfg, const char *const tk_names[], const char *const nt_names[], FILE *out)</div><div class="ttdoc">Dumps the Context-Free Grammar in BNF format.</div><div class="ttdef"><b>Definition:</b> dump_bnf.c:41</div></div>
-<div class="ttc" id="autil_8h_html_a8269b5f350b6a5c6cc1b27ca4c65aaae"><div class="ttname"><a href="util_8h.html#a8269b5f350b6a5c6cc1b27ca4c65aaae">rdesc_tk_printer_func</a></div><div class="ttdeci">void(* rdesc_tk_printer_func)(const struct rdesc_cfg_token *, FILE *out)</div><div class="ttdoc">Function pointer type for printing tokens.</div><div class="ttdef"><b>Definition:</b> util.h:22</div></div>
+<div class="ttc" id="autil_8h_html_a5ad7949e67d6cc6ca01da3ae32de02d5"><div class="ttname"><a href="util_8h.html#a5ad7949e67d6cc6ca01da3ae32de02d5">rdesc_tk_printer_func</a></div><div class="ttdeci">void(* rdesc_tk_printer_func)(const struct rdesc_token *, FILE *out)</div><div class="ttdoc">Function pointer type for printing tokens.</div><div class="ttdef"><b>Definition:</b> util.h:22</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

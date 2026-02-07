@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.6"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>librdesc: rdesc_cfg_nonterminal Struct Reference</title>
+<title>librdesc: rdesc_nonterminal Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -71,39 +71,43 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="structrdesc__cfg__nonterminal-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">rdesc_cfg_nonterminal Struct Reference</div></div>
+<a href="structrdesc__nonterminal-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">rdesc_nonterminal Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
 <p>nonterminal (syntatic variable) object for context-free grammar  
- <a href="structrdesc__cfg__nonterminal.html#details">More...</a></p>
+ <a href="structrdesc__nonterminal.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="cfg_8h_source.html">cfg.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="rdesc_8h_source.html">rdesc.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ab08c051bf552f12e9f16b1d13c0d3c33"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__cfg__nonterminal.html#ab08c051bf552f12e9f16b1d13c0d3c33">id</a></td></tr>
-<tr class="separator:ab08c051bf552f12e9f16b1d13c0d3c33"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b531f10622c78cee1ce006315e0b8bd"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structrdesc__node.html">rdesc_node</a> **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__cfg__nonterminal.html#a5b531f10622c78cee1ce006315e0b8bd">children</a></td></tr>
-<tr class="separator:a5b531f10622c78cee1ce006315e0b8bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0f6fcfef6ceaa14593e087e297f1b936"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__cfg__nonterminal.html#a0f6fcfef6ceaa14593e087e297f1b936">child_count</a></td></tr>
-<tr class="separator:a0f6fcfef6ceaa14593e087e297f1b936"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad92a479c4634b423436a61901b60cac1"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__cfg__nonterminal.html#ad92a479c4634b423436a61901b60cac1">variant</a></td></tr>
-<tr class="memdesc:ad92a479c4634b423436a61901b60cac1"><td class="mdescLeft">&#160;</td><td class="mdescRight">The production rule variant being parsed.  <br /></td></tr>
-<tr class="separator:ad92a479c4634b423436a61901b60cac1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac37e90bec6d60952c1cb477ce824dd1"><td class="memItemLeft" align="right" valign="top"><a id="aac37e90bec6d60952c1cb477ce824dd1" name="aac37e90bec6d60952c1cb477ce824dd1"></a>
+unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>_pad</b>: 1</td></tr>
+<tr class="separator:aac37e90bec6d60952c1cb477ce824dd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92b8110aeb874245ce59ebdca96a7205"><td class="memItemLeft" align="right" valign="top"><a id="a92b8110aeb874245ce59ebdca96a7205" name="a92b8110aeb874245ce59ebdca96a7205"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>id</b>: 31</td></tr>
+<tr class="separator:a92b8110aeb874245ce59ebdca96a7205"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6905ec2f4f1b06412297bac8feab37d0"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structrdesc__node.html">rdesc_node</a> **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__nonterminal.html#a6905ec2f4f1b06412297bac8feab37d0">children</a></td></tr>
+<tr class="separator:a6905ec2f4f1b06412297bac8feab37d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a190bed76eb72617a6a4846d208402737"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__nonterminal.html#a190bed76eb72617a6a4846d208402737">child_count</a></td></tr>
+<tr class="separator:a190bed76eb72617a6a4846d208402737"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac50b14f7d699ba42d707da2932a324e3"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__nonterminal.html#ac50b14f7d699ba42d707da2932a324e3">variant</a></td></tr>
+<tr class="memdesc:ac50b14f7d699ba42d707da2932a324e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The production rule variant being parsed.  <br /></td></tr>
+<tr class="separator:ac50b14f7d699ba42d707da2932a324e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>nonterminal (syntatic variable) object for context-free grammar </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a0f6fcfef6ceaa14593e087e297f1b936" name="a0f6fcfef6ceaa14593e087e297f1b936"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0f6fcfef6ceaa14593e087e297f1b936">&#9670;&#160;</a></span>child_count</h2>
+<a id="a190bed76eb72617a6a4846d208402737" name="a190bed76eb72617a6a4846d208402737"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a190bed76eb72617a6a4846d208402737">&#9670;&#160;</a></span>child_count</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">size_t rdesc_cfg_nonterminal::child_count</td>
+          <td class="memname">size_t rdesc_nonterminal::child_count</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -111,14 +115,14 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a5b531f10622c78cee1ce006315e0b8bd" name="a5b531f10622c78cee1ce006315e0b8bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5b531f10622c78cee1ce006315e0b8bd">&#9670;&#160;</a></span>children</h2>
+<a id="a6905ec2f4f1b06412297bac8feab37d0" name="a6905ec2f4f1b06412297bac8feab37d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6905ec2f4f1b06412297bac8feab37d0">&#9670;&#160;</a></span>children</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="structrdesc__node.html">rdesc_node</a>** rdesc_cfg_nonterminal::children</td>
+          <td class="memname">struct <a class="el" href="structrdesc__node.html">rdesc_node</a>** rdesc_nonterminal::children</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -126,29 +130,14 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ab08c051bf552f12e9f16b1d13c0d3c33" name="ab08c051bf552f12e9f16b1d13c0d3c33"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab08c051bf552f12e9f16b1d13c0d3c33">&#9670;&#160;</a></span>id</h2>
+<a id="ac50b14f7d699ba42d707da2932a324e3" name="ac50b14f7d699ba42d707da2932a324e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac50b14f7d699ba42d707da2932a324e3">&#9670;&#160;</a></span>variant</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int rdesc_cfg_nonterminal::id</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>nonterminal identifier </p>
-
-</div>
-</div>
-<a id="ad92a479c4634b423436a61901b60cac1" name="ad92a479c4634b423436a61901b60cac1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad92a479c4634b423436a61901b60cac1">&#9670;&#160;</a></span>variant</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t rdesc_cfg_nonterminal::variant</td>
+          <td class="memname">size_t rdesc_nonterminal::variant</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -159,7 +148,7 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>include/<a class="el" href="cfg_8h_source.html">cfg.h</a></li>
+<li>include/<a class="el" href="rdesc_8h_source.html">rdesc.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

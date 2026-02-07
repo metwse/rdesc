@@ -76,6 +76,7 @@ $(function() {
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">rdesc.h File Reference</div></div>
@@ -84,8 +85,7 @@ $(function() {
 
 <p>The Right-Recursive Descent Parser.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="cfg_8h_source.html">cfg.h</a>&quot;</code><br />
-<code>#include &lt;stddef.h&gt;</code><br />
+<div class="textblock"><code>#include &lt;stddef.h&gt;</code><br />
 </div>
 <p><a href="rdesc_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -93,6 +93,12 @@ $(function() {
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc.html">rdesc</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Right-recursive descent parser.  <a href="structrdesc.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__token.html">rdesc_token</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">terminal (token) object for context-free grammar  <a href="structrdesc__token.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__nonterminal.html">rdesc_nonterminal</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">nonterminal (syntatic variable) object for context-free grammar  <a href="structrdesc__nonterminal.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__node.html">rdesc_node</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A node in the CST.  <a href="structrdesc__node.html#details">More...</a><br /></td></tr>
@@ -117,6 +123,13 @@ Macros</h2></td></tr>
 <tr class="memdesc:a09740b75a26b197222bc2b9510707f1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">prerelase identifier <br /></td></tr>
 <tr class="separator:a09740b75a26b197222bc2b9510707f1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:ad3f1f5fe8efcea1c72656b5c131fa67b"><td class="memItemLeft" align="right" valign="top"><a id="ad3f1f5fe8efcea1c72656b5c131fa67b" name="ad3f1f5fe8efcea1c72656b5c131fa67b"></a>
+typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_tk_destroyer_func</b>) (struct <a class="el" href="structrdesc__token.html">rdesc_token</a> *)</td></tr>
+<tr class="memdesc:ad3f1f5fe8efcea1c72656b5c131fa67b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function pointer type for freeing tokens. <br /></td></tr>
+<tr class="separator:ad3f1f5fe8efcea1c72656b5c131fa67b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:ae1c47d0d0fe6789f714eaaab2f24983d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983d">rdesc_result</a> { <a class="el" href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983da3536c3180b6d6af0186a3572137154c3">RDESC_READY</a>
@@ -139,13 +152,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_init</b> (struc
 void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_start</b> (struct <a class="el" href="structrdesc.html">rdesc</a> *p, int start_symbol)</td></tr>
 <tr class="memdesc:ac7a5a9216cec0e28bf322033b4cce868"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets start symbol for the next match. <br /></td></tr>
 <tr class="separator:ac7a5a9216cec0e28bf322033b4cce868"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2bb5513ad0d0731e294d45a258af470c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#a2bb5513ad0d0731e294d45a258af470c">rdesc_reset</a> (struct <a class="el" href="structrdesc.html">rdesc</a> *p, <a class="el" href="cfg_8h.html#a8075bb1c1a1b01db066ab5432a1294d7">rdesc_tk_destroyer_func</a> free_tk)</td></tr>
+<tr class="memitem:a2bb5513ad0d0731e294d45a258af470c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#a2bb5513ad0d0731e294d45a258af470c">rdesc_reset</a> (struct <a class="el" href="structrdesc.html">rdesc</a> *p, <a class="el" href="rdesc_8h.html#ad3f1f5fe8efcea1c72656b5c131fa67b">rdesc_tk_destroyer_func</a> free_tk)</td></tr>
 <tr class="memdesc:a2bb5513ad0d0731e294d45a258af470c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets parser and its state.  <br /></td></tr>
 <tr class="separator:a2bb5513ad0d0731e294d45a258af470c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ee02a12a5756d220893859decd7b663"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983d">rdesc_result</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#a0ee02a12a5756d220893859decd7b663">rdesc_pump</a> (struct <a class="el" href="structrdesc.html">rdesc</a> *p, struct <a class="el" href="structrdesc__node.html">rdesc_node</a> **out, struct <a class="el" href="structrdesc__cfg__token.html">rdesc_cfg_token</a> *incoming_tk)</td></tr>
-<tr class="memdesc:a0ee02a12a5756d220893859decd7b663"><td class="mdescLeft">&#160;</td><td class="mdescRight">Drives the parsing process, The Pump.  <br /></td></tr>
-<tr class="separator:a0ee02a12a5756d220893859decd7b663"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a734ff0849ad6c014d742668c0982c74b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#a734ff0849ad6c014d742668c0982c74b">rdesc_node_destroy</a> (struct <a class="el" href="structrdesc__node.html">rdesc_node</a> *n, <a class="el" href="cfg_8h.html#a8075bb1c1a1b01db066ab5432a1294d7">rdesc_tk_destroyer_func</a> free_tk)</td></tr>
+<tr class="memitem:a7303ae9fe45b6b57260a556572ce0683"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983d">rdesc_result</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#a7303ae9fe45b6b57260a556572ce0683">rdesc_pump</a> (struct <a class="el" href="structrdesc.html">rdesc</a> *p, struct <a class="el" href="structrdesc__node.html">rdesc_node</a> **out, struct <a class="el" href="structrdesc__token.html">rdesc_token</a> *incoming_tk)</td></tr>
+<tr class="memdesc:a7303ae9fe45b6b57260a556572ce0683"><td class="mdescLeft">&#160;</td><td class="mdescRight">Drives the parsing process, The Pump.  <br /></td></tr>
+<tr class="separator:a7303ae9fe45b6b57260a556572ce0683"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a734ff0849ad6c014d742668c0982c74b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#a734ff0849ad6c014d742668c0982c74b">rdesc_node_destroy</a> (struct <a class="el" href="structrdesc__node.html">rdesc_node</a> *n, <a class="el" href="rdesc_8h.html#ad3f1f5fe8efcea1c72656b5c131fa67b">rdesc_tk_destroyer_func</a> free_tk)</td></tr>
 <tr class="memdesc:a734ff0849ad6c014d742668c0982c74b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recursively destroys the node and its children.  <br /></td></tr>
 <tr class="separator:a734ff0849ad6c014d742668c0982c74b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -213,7 +226,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_start</b> (stru
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="cfg_8h.html#a8075bb1c1a1b01db066ab5432a1294d7">rdesc_tk_destroyer_func</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="rdesc_8h.html#ad3f1f5fe8efcea1c72656b5c131fa67b">rdesc_tk_destroyer_func</a>&#160;</td>
           <td class="paramname"><em>free_tk</em>&#160;</td>
         </tr>
         <tr>
@@ -225,12 +238,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_start</b> (stru
 </div><div class="memdoc">
 
 <p>Recursively destroys the node and its children. </p>
-<dl class="section note"><dt>Note</dt><dd><code>seminfo</code> field in <code>struct <a class="el" href="structrdesc__cfg__token.html" title="terminal (token) object for context-free grammar">rdesc_cfg_token</a></code> are not freed unless <code>free_tk</code> is set. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd><code>seminfo</code> field in <code>struct <a class="el" href="structrdesc__token.html" title="terminal (token) object for context-free grammar">rdesc_token</a></code> are not freed unless <code>free_tk</code> is set. </dd></dl>
 
 </div>
 </div>
-<a id="a0ee02a12a5756d220893859decd7b663" name="a0ee02a12a5756d220893859decd7b663"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0ee02a12a5756d220893859decd7b663">&#9670;&#160;</a></span>rdesc_pump()</h2>
+<a id="a7303ae9fe45b6b57260a556572ce0683" name="a7303ae9fe45b6b57260a556572ce0683"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7303ae9fe45b6b57260a556572ce0683">&#9670;&#160;</a></span>rdesc_pump()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -250,7 +263,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_start</b> (stru
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">struct <a class="el" href="structrdesc__cfg__token.html">rdesc_cfg_token</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structrdesc__token.html">rdesc_token</a> *&#160;</td>
           <td class="paramname"><em>incoming_tk</em>&#160;</td>
         </tr>
         <tr>
@@ -294,7 +307,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_start</b> (stru
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="cfg_8h.html#a8075bb1c1a1b01db066ab5432a1294d7">rdesc_tk_destroyer_func</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="rdesc_8h.html#ad3f1f5fe8efcea1c72656b5c131fa67b">rdesc_tk_destroyer_func</a>&#160;</td>
           <td class="paramname"><em>free_tk</em>&#160;</td>
         </tr>
         <tr>
@@ -306,7 +319,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_start</b> (stru
 </div><div class="memdoc">
 
 <p>Resets parser and its state. </p>
-<dl class="section note"><dt>Note</dt><dd><code>seminfo</code> field in <code>struct <a class="el" href="structrdesc__cfg__token.html" title="terminal (token) object for context-free grammar">rdesc_cfg_token</a></code> are not freed unless <code>free_tk</code> is set. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd><code>seminfo</code> field in <code>struct <a class="el" href="structrdesc__token.html" title="terminal (token) object for context-free grammar">rdesc_token</a></code> are not freed unless <code>free_tk</code> is set. </dd></dl>
 
 </div>
 </div>
