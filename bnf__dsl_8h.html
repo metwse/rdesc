@@ -100,10 +100,10 @@ Macros</h2></td></tr>
 <tr class="separator:a82565bae95a7c5c9bd3b1f093c63883e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab6ad368e32c6304728c863dbb1e9d8dd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bnf__dsl_8h.html#ab6ad368e32c6304728c863dbb1e9d8dd">EOC</a>&#160;&#160;&#160;-2</td></tr>
 <tr class="separator:ab6ad368e32c6304728c863dbb1e9d8dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a266e9efb568c84df45ba639fb04f61e8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bnf__dsl_8h.html#a266e9efb568c84df45ba639fb04f61e8">SEOB</a>&#160;&#160;&#160;(const struct <a class="el" href="structrdesc__cfg__symbol.html">rdesc_cfg_symbol</a>) { .ty = <a class="el" href="cfg_8h.html#aa50d0c68b3753cc0c30f8fcda36e3c1dab9bfa5b7d88cdf5a5e093933b60d00d0">CFG_SENTINEL</a>, .id = <a class="el" href="bnf__dsl_8h.html#a82565bae95a7c5c9bd3b1f093c63883e">EOB</a> }</td></tr>
+<tr class="memitem:a266e9efb568c84df45ba639fb04f61e8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bnf__dsl_8h.html#a266e9efb568c84df45ba639fb04f61e8">SEOB</a>&#160;&#160;&#160;{ .ty = <a class="el" href="cfg_8h.html#aa50d0c68b3753cc0c30f8fcda36e3c1dab9bfa5b7d88cdf5a5e093933b60d00d0">CFG_SENTINEL</a>, .id = <a class="el" href="bnf__dsl_8h.html#a82565bae95a7c5c9bd3b1f093c63883e">EOB</a> }</td></tr>
 <tr class="memdesc:a266e9efb568c84df45ba639fb04f61e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sentinel struct for the end of a rule's body (EOB)  <br /></td></tr>
 <tr class="separator:a266e9efb568c84df45ba639fb04f61e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af11f8ed19fedc658e74733224839ccff"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bnf__dsl_8h.html#af11f8ed19fedc658e74733224839ccff">SEOC</a>&#160;&#160;&#160;{ (const struct <a class="el" href="structrdesc__cfg__symbol.html">rdesc_cfg_symbol</a>) { .ty = <a class="el" href="cfg_8h.html#aa50d0c68b3753cc0c30f8fcda36e3c1dab9bfa5b7d88cdf5a5e093933b60d00d0">CFG_SENTINEL</a>, .id = <a class="el" href="bnf__dsl_8h.html#ab6ad368e32c6304728c863dbb1e9d8dd">EOC</a> } }</td></tr>
+<tr class="memitem:af11f8ed19fedc658e74733224839ccff"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bnf__dsl_8h.html#af11f8ed19fedc658e74733224839ccff">SEOC</a>&#160;&#160;&#160;{ { .ty = <a class="el" href="cfg_8h.html#aa50d0c68b3753cc0c30f8fcda36e3c1dab9bfa5b7d88cdf5a5e093933b60d00d0">CFG_SENTINEL</a>, .id = <a class="el" href="bnf__dsl_8h.html#ab6ad368e32c6304728c863dbb1e9d8dd">EOC</a> } }</td></tr>
 <tr class="memdesc:af11f8ed19fedc658e74733224839ccff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sentinel struct for the end of a construct's variants (EOC)  <br /></td></tr>
 <tr class="separator:af11f8ed19fedc658e74733224839ccff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6abff88a7191ec249826ecc154edeae"><td class="memItemLeft" align="right" valign="top"><a id="aa6abff88a7191ec249826ecc154edeae" name="aa6abff88a7191ec249826ecc154edeae"></a>
@@ -314,7 +314,7 @@ Macros</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SEOB&#160;&#160;&#160;(const struct <a class="el" href="structrdesc__cfg__symbol.html">rdesc_cfg_symbol</a>) { .ty = <a class="el" href="cfg_8h.html#aa50d0c68b3753cc0c30f8fcda36e3c1dab9bfa5b7d88cdf5a5e093933b60d00d0">CFG_SENTINEL</a>, .id = <a class="el" href="bnf__dsl_8h.html#a82565bae95a7c5c9bd3b1f093c63883e">EOB</a> }</td>
+          <td class="memname">#define SEOB&#160;&#160;&#160;{ .ty = <a class="el" href="cfg_8h.html#aa50d0c68b3753cc0c30f8fcda36e3c1dab9bfa5b7d88cdf5a5e093933b60d00d0">CFG_SENTINEL</a>, .id = <a class="el" href="bnf__dsl_8h.html#a82565bae95a7c5c9bd3b1f093c63883e">EOB</a> }</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -331,7 +331,7 @@ Macros</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SEOC&#160;&#160;&#160;{ (const struct <a class="el" href="structrdesc__cfg__symbol.html">rdesc_cfg_symbol</a>) { .ty = <a class="el" href="cfg_8h.html#aa50d0c68b3753cc0c30f8fcda36e3c1dab9bfa5b7d88cdf5a5e093933b60d00d0">CFG_SENTINEL</a>, .id = <a class="el" href="bnf__dsl_8h.html#ab6ad368e32c6304728c863dbb1e9d8dd">EOC</a> } }</td>
+          <td class="memname">#define SEOC&#160;&#160;&#160;{ { .ty = <a class="el" href="cfg_8h.html#aa50d0c68b3753cc0c30f8fcda36e3c1dab9bfa5b7d88cdf5a5e093933b60d00d0">CFG_SENTINEL</a>, .id = <a class="el" href="bnf__dsl_8h.html#ab6ad368e32c6304728c863dbb1e9d8dd">EOC</a> } }</td>
         </tr>
       </table>
 </div><div class="memdoc">
