@@ -5,6 +5,7 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -19,11 +20,11 @@ void exblex_init(struct exblex *l,
 	};
 }
 
-static int tokenid(const struct exblex *l, char tk)
+static uint32_t tokenid(const struct exblex *l, char tk)
 {
-	for (size_t i = 1; i < l->token_count; i++)
+	for (uint32_t i = 1; i < l->token_count; i++)
 		if (l->tokens[i] == tk)
-			return cast(int, i);
+			return cast(uint32_t, i);
 
 	return 0;
 }

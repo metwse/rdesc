@@ -9,7 +9,7 @@
 #ifndef RDESC_CFG_H
 #define RDESC_CFG_H
 
-#include <stddef.h>
+#include <stdint.h>
 
 
 /**
@@ -19,14 +19,14 @@ struct rdesc_cfg {
 	/** context-free grammar production rules */
 	const struct rdesc_cfg_symbol *rules;
 	/** total number of non-terminals */
-	size_t nt_count;
+	uint32_t nt_count;
 	/** maximum number of variants, used for segmenting production rules
 	 * array to an 3D array */
-	size_t nt_variant_count;
+	uint16_t nt_variant_count;
 	/** maximum number of symbols in a variant */
-	size_t nt_body_length;
+	uint16_t nt_body_length;
 	/** maximum number of children of non-terminal variants */
-	size_t *child_caps;
+	uint16_t *child_caps;
 };
 
 /** @brief The type of `rdesc_cfg_symbol` (the union's tag) */
@@ -54,9 +54,9 @@ extern "C" {
 
 /** @brief Initializes a context-free grammar object. */
 void rdesc_cfg_init(struct rdesc_cfg *cfg,
-		    size_t nonterminal_count,
-		    size_t nonterminal_variant_count,
-		    size_t nonterminal_body_length,
+		    uint32_t nonterminal_count,
+		    uint16_t nonterminal_variant_count,
+		    uint16_t nonterminal_body_length,
 		    const struct rdesc_cfg_symbol *production_rules);
 
 /** @brief Frees the context-free grammar struct. */

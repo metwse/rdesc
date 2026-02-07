@@ -6,7 +6,7 @@
 #ifndef RDESC_H
 #define RDESC_H
 
-#include <stddef.h>
+#include <stdint.h>
 
 /** @brief major version */
 #define RDESC_VERSION_MAJOR 0
@@ -41,34 +41,34 @@ struct rdesc {
 
 /** @brief terminal (token) object for context-free grammar */
 struct rdesc_token {
-	unsigned int _pad : 1;
-	int id : 31 /** token identifier */;
+	uint32_t _pad /** padding for symbol type in node struct */ : 1;
+	uint32_t id /** token identifier */ : 31 ;
 
 	void *seminfo /** additional semantic information */;
 };
 
 /** @brief nonterminal (syntatic variable) object for context-free grammar */
 struct rdesc_nonterminal {
-	unsigned int _pad : 1;
-	int id : 31 /** nonterminal identifier */;
+	uint32_t _pad /** padding for symbol type in node struct */ : 1;
+	uint32_t id /** nonterminal identifier */ : 31;
 
-	struct rdesc_node **children /** child nodes */;
-	size_t child_count /** number of child ndes */;
-
+	uint16_t child_count /** number of child ndes */;
 	/** @brief The production rule variant being parsed
 	 *
 	 * This field is for the internal use of the `rdesc_parser`. When the
 	 * backtracking parser tries different production rules for a
 	 * non-terminal, it increments this index to track which variant it
 	 * is currently attempting. This is purely parse-time data. */
-	size_t variant;
+	uint16_t variant;
+
+	struct rdesc_node **children /** child nodes */;
 };
 
 /** @brief A node in the CST */
 struct rdesc_node {
 	union {
 		/** type of the symbol (token = 0 / nonterminal = 1) */
-		unsigned int ty : 1;
+		uint32_t ty : 1;
 
 		struct rdesc_token tk /** token */;
 		struct rdesc_nonterminal nt /** nonterminal */;

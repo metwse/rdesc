@@ -2,13 +2,14 @@
 #include "../include/bnf_dsl.h"
 #include "detail.h"
 
+#include <stdint.h>
 #include <stdlib.h>
 
 
 void rdesc_cfg_init(struct rdesc_cfg *cfg,
-		    size_t nt_count,
-		    size_t nt_variant_count,
-		    size_t nt_body_length,
+		    uint32_t nt_count,
+		    uint16_t nt_variant_count,
+		    uint16_t nt_body_length,
 		    const struct rdesc_cfg_symbol *rules)
 {
 	cfg->rules = rules;

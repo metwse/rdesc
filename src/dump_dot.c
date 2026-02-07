@@ -4,6 +4,7 @@
 #include "detail.h"
 
 #include <stddef.h>
+#include <stdint.h>
 #include <stdio.h>
 
 
@@ -30,7 +31,7 @@ static void dump_graph_recursive(const struct rdesc_node *n,
 	} else {
 		fprintf(out, "\t%zu [label=\"<%s>\"];\n", this, nt_names[n->nt_.id]);
 
-		for (size_t i = 0; i < n->nt_.child_count; i++)
+		for (uint16_t i = 0; i < n->nt_.child_count; i++)
 			dump_graph_recursive(n->nt_.children[i], this, id_counter,
 					     tk_printer, nt_names, out);
 

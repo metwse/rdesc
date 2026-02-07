@@ -3,8 +3,9 @@
 #include "../include/util.h"
 #include "detail.h"
 
-#include <string.h>
+#include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 
 
 static void print_rule(const struct rdesc_cfg *cfg,
@@ -13,7 +14,7 @@ static void print_rule(const struct rdesc_cfg *cfg,
 		       const char *const tk_names[],
 		       FILE *out)
 {
-	for (size_t i = 0; i < cfg->nt_body_length; i++) {
+	for (uint16_t i = 0; i < cfg->nt_body_length; i++) {
 		if (rule[i].id == EOB) {
 			if (i == 0)
 				putc('E', out);
@@ -43,7 +44,7 @@ void rdesc_dump_bnf(const struct rdesc_cfg *cfg,
 		    const char *const nt_names[],
 		    FILE *out)
 {
-	for (size_t nt_id = 0 /* head of the rule*/;
+	for (uint32_t nt_id = 0 /* head of the rule*/;
 	     nt_id < cfg->nt_count; nt_id++) {
 		if (nt_id != 0)
 			fputc('\n', out);

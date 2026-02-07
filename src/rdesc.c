@@ -4,9 +4,10 @@
 #include "../include/stack.h"
 #include "detail.h"
 
-#include <stddef.h>
-#include <stdlib.h>
 #include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
+#include <stdlib.h>
 
 
 #define get_body(node) productions(*p->cfg)[node->nt_.id][node->nt_.variant]
@@ -32,8 +33,8 @@ enum match_result {
 static void push_child(struct rdesc_node *parent, struct rdesc_node *child);
 
 /* helpers for allocating symbol types */
-static struct rdesc_node *new_nt_node(struct rdesc *, struct rdesc_node *, int);
-static struct rdesc_node *new_tk_node(struct rdesc_node *, int);
+static struct rdesc_node *new_nt_node(struct rdesc *, struct rdesc_node *, uint32_t);
+static struct rdesc_node *new_tk_node(struct rdesc_node *, uint32_t);
 
 /* increment variant counter, trigger backgtracing if required */
 static void next_variant(struct rdesc *);
@@ -63,7 +64,7 @@ void rdesc_start(struct rdesc *p, int start_symbol)
 void rdesc_node_destroy(struct rdesc_node *n, rdesc_tk_destroyer_func free_tk)
 {
 	if (n->ty_ == CFG_NONTERMINAL) {
-		for (size_t i = n->nt_.child_count; i > 0; i--)
+		for (uint16_t i = n->nt_.child_count; i > 0; i--)
 			rdesc_node_destroy(n->nt_.children[i - 1], free_tk);
 
 		free(n->nt_.children);
@@ -154,7 +155,7 @@ enum rdesc_result rdesc_pump(struct rdesc *p,
 
 static struct rdesc_node *new_nt_node(struct rdesc *p,
 				      struct rdesc_node *parent,
-				      int id)
+				      uint32_t id)
 {
 	struct rdesc_node *n = malloc(sizeof(struct rdesc_node));
 	assert_mem(n);
@@ -165,7 +166,7 @@ static struct rdesc_node *new_nt_node(struct rdesc *p,
 
 	n->ty_ = CFG_NONTERMINAL;
 
-	size_t child_cap = p->cfg->child_caps[id];
+	uint16_t child_cap = p->cfg->child_caps[id];
 	assert_logic(child_cap, "a nonterminal with no child");
 
 	n->nt_.id = id;
@@ -177,7 +178,7 @@ static struct rdesc_node *new_nt_node(struct rdesc *p,
 	return n;
 }
 
-static struct rdesc_node *new_tk_node(struct rdesc_node *parent, int id)
+static struct rdesc_node *new_tk_node(struct rdesc_node *parent, uint32_t id)
 {
 	struct rdesc_node *n = malloc(sizeof(struct rdesc_node));
 	assert_mem(n);
@@ -206,7 +207,7 @@ static void next_variant(struct rdesc *p)
 	while (p->cur->nt_.child_count) {
 		struct rdesc_node *next_cur = NULL, *child;
 
-		for (size_t i = p->cur->nt_.child_count; i > 0; i--) {
+		for (uint16_t i = p->cur->nt_.child_count; i > 0; i--) {
 			child = p->cur->nt_.children[i - 1];
 
 			if (child->ty_ == CFG_NONTERMINAL) {
