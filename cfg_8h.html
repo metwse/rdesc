@@ -83,7 +83,7 @@ $(function() {
 
 <p>Context-Free Grammar (CFG) data structures.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;stddef.h&gt;</code><br />
+<div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
 </div>
 <p><a href="cfg_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -107,10 +107,10 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae2120ddd8659d1e5b0f4f334b6ce97e7"><td class="memItemLeft" align="right" valign="top"><a id="ae2120ddd8659d1e5b0f4f334b6ce97e7" name="ae2120ddd8659d1e5b0f4f334b6ce97e7"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_cfg_init</b> (struct <a class="el" href="structrdesc__cfg.html">rdesc_cfg</a> *cfg, size_t nonterminal_count, size_t nonterminal_variant_count, size_t nonterminal_body_length, const struct <a class="el" href="structrdesc__cfg__symbol.html">rdesc_cfg_symbol</a> *production_rules)</td></tr>
-<tr class="memdesc:ae2120ddd8659d1e5b0f4f334b6ce97e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a context-free grammar object. <br /></td></tr>
-<tr class="separator:ae2120ddd8659d1e5b0f4f334b6ce97e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9255c935a3026877c283c41a78b36cc2"><td class="memItemLeft" align="right" valign="top"><a id="a9255c935a3026877c283c41a78b36cc2" name="a9255c935a3026877c283c41a78b36cc2"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_cfg_init</b> (struct <a class="el" href="structrdesc__cfg.html">rdesc_cfg</a> *cfg, uint32_t nonterminal_count, uint16_t nonterminal_variant_count, uint16_t nonterminal_body_length, const struct <a class="el" href="structrdesc__cfg__symbol.html">rdesc_cfg_symbol</a> *production_rules)</td></tr>
+<tr class="memdesc:a9255c935a3026877c283c41a78b36cc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a context-free grammar object. <br /></td></tr>
+<tr class="separator:a9255c935a3026877c283c41a78b36cc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a075d0f65aafac27c5675d6fe495e6401"><td class="memItemLeft" align="right" valign="top"><a id="a075d0f65aafac27c5675d6fe495e6401" name="a075d0f65aafac27c5675d6fe495e6401"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_cfg_destroy</b> (struct <a class="el" href="structrdesc__cfg.html">rdesc_cfg</a> *cfg)</td></tr>
 <tr class="memdesc:a075d0f65aafac27c5675d6fe495e6401"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees the context-free grammar struct. <br /></td></tr>

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['seminfo_0',['seminfo',['../structrdesc__token.html#a18da56f3220722ba64643bc67f515feb',1,'rdesc_token']]],
-  ['stack_1',['stack',['../structrdesc.html#ae7c0946c56581e4ad98ee3530a54cd33',1,'rdesc']]]
+  ['root_0',['root',['../structrdesc.html#a6ce08dbf4cf7e7c73d82de598e82f391',1,'rdesc']]],
+  ['rules_1',['rules',['../structrdesc__cfg.html#ac9aa8b0d604b9a9fbb9d7ce2ba6bbef0',1,'rdesc_cfg']]]
 ];

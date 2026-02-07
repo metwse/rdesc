@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['tk_0',['tk',['../structrdesc__node.html#ae713858dca30d7af39126e65a442a462',1,'rdesc_node']]],
-  ['tk_1',['TK',['../bnf__dsl_8h.html#aa6abff88a7191ec249826ecc154edeae',1,'bnf_dsl.h']]],
-  ['token_5fcount_2',['token_count',['../structexblex.html#ac9c32459c8daa29aba3a15c7d1568a1b',1,'exblex']]],
-  ['tokens_3',['tokens',['../structexblex.html#a0178e84dd86b49a85dda68978c4d8b2c',1,'exblex::tokens()'],['../structrdesc__stack.html#ab0b40146845ef25dfe8c3d02030a66f7',1,'rdesc_stack::tokens()']]],
-  ['ty_4',['ty',['../structrdesc__cfg__symbol.html#a1bd12df565a2d599561d7b7ecf99cfe2',1,'rdesc_cfg_symbol::ty()'],['../structrdesc__node.html#a504c4a80d9ba74e40b7d54b9f92632f2',1,'rdesc_node::ty()']]]
+  ['seminfo_0',['seminfo',['../structrdesc__token.html#a18da56f3220722ba64643bc67f515feb',1,'rdesc_token']]],
+  ['seob_1',['SEOB',['../bnf__dsl_8h.html#a266e9efb568c84df45ba639fb04f61e8',1,'bnf_dsl.h']]],
+  ['seoc_2',['SEOC',['../bnf__dsl_8h.html#af11f8ed19fedc658e74733224839ccff',1,'bnf_dsl.h']]],
+  ['stack_3',['stack',['../structrdesc.html#ae7c0946c56581e4ad98ee3530a54cd33',1,'rdesc']]],
+  ['stack_2eh_4',['stack.h',['../stack_8h.html',1,'']]]
 ];
