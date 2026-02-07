@@ -1,6 +1,7 @@
 #include "../include/rdesc.h"
 #include "../include/cfg.h"
 #include "../include/util.h"
+#include "detail.h"
 
 #include <stddef.h>
 #include <stdio.h>
@@ -22,18 +23,18 @@ static void dump_graph_recursive(const struct rdesc_node *n,
 		fprintf(out, "\t%zu -> %zu;\n", parent_id, this);
 	}
 
-	if (n->ty == CFG_TOKEN) {
+	if (n->ty_ == CFG_TOKEN) {
 		fprintf(out, "\t%zu [shape=record,label=\"", this);
-		tk_printer(&n->tk, out);
+		tk_printer(&n->tk_, out);
 		fprintf(out, "\"];\n");
 	} else {
-		fprintf(out, "\t%zu [label=\"<%s>\"];\n", this, nt_names[n->nt.id]);
+		fprintf(out, "\t%zu [label=\"<%s>\"];\n", this, nt_names[n->nt_.id]);
 
-		for (size_t i = 0; i < n->nt.child_count; i++)
-			dump_graph_recursive(n->nt.children[i], this, id_counter,
+		for (size_t i = 0; i < n->nt_.child_count; i++)
+			dump_graph_recursive(n->nt_.children[i], this, id_counter,
 					     tk_printer, nt_names, out);
 
-		if (!n->nt.child_count) {
+		if (!n->nt_.child_count) {
 			size_t epsilon_child = ++(*id_counter);
 			printf("\t%zu [shape=record,label=\"E\"];\n"
 			       "\t%zu -> %zu;\n",

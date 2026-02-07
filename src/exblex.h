@@ -6,8 +6,6 @@
 #ifndef EXBLEX_H
 #define EXBLEX_H
 
-#include "../include/cfg.h"
-
 #include <stddef.h>
 
 
@@ -50,7 +48,7 @@ void exblex_init(struct exblex *l,
  *
  * Skips whitespace. 0 is reserved for NO_TOKEN/EOF.
  */
-struct rdesc_cfg_token exblex_next(struct exblex *l);
+struct rdesc_token exblex_next(struct exblex *l);
 
 
 #endif

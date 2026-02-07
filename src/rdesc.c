@@ -9,8 +9,8 @@
 #include <stdbool.h>
 
 
-#define get_body(node) productions(*p->cfg)[node->nt.id][node->nt.variant]
-#define get_current_rule(node) get_body(node)[node->nt.child_count]
+#define get_body(node) productions(*p->cfg)[node->nt_.id][node->nt_.variant]
+#define get_current_rule(node) get_body(node)[node->nt_.child_count]
 
 #define is_grammar_complete(node) \
 	(get_current_rule(node).id == EOB && \
@@ -40,7 +40,7 @@ static void next_variant(struct rdesc *);
 static void backtrace(struct rdesc *);
 
 /* internal token matching mechanism */
-static enum match_result match(struct rdesc *, struct rdesc_cfg_token);
+static enum match_result match(struct rdesc *, struct rdesc_token);
 
 
 void rdesc_init(struct rdesc *p,
@@ -62,13 +62,13 @@ void rdesc_start(struct rdesc *p, int start_symbol)
 
 void rdesc_node_destroy(struct rdesc_node *n, rdesc_tk_destroyer_func free_tk)
 {
-	if (n->ty == CFG_NONTERMINAL) {
-		for (size_t i = n->nt.child_count; i > 0; i--)
-			rdesc_node_destroy(n->nt.children[i - 1], free_tk);
+	if (n->ty_ == CFG_NONTERMINAL) {
+		for (size_t i = n->nt_.child_count; i > 0; i--)
+			rdesc_node_destroy(n->nt_.children[i - 1], free_tk);
 
-		free(n->nt.children);
+		free(n->nt_.children);
 	} else if (free_tk) {
-		free_tk(&n->tk);
+		free_tk(&n->tk_);
 	}
 
 	free(n);
@@ -77,7 +77,7 @@ void rdesc_node_destroy(struct rdesc_node *n, rdesc_tk_destroyer_func free_tk)
 void rdesc_reset(struct rdesc *p, rdesc_tk_destroyer_func free_tk)
 {
 	if (free_tk) {
-		struct rdesc_cfg_token *tks = rdesc_stack_as_ref(p->stack);
+		struct rdesc_token *tks = rdesc_stack_as_ref(p->stack);
 
 		for (size_t tk_count = rdesc_stack_len(p->stack);
 		     tk_count > 0; tk_count--)
@@ -105,13 +105,13 @@ void rdesc_destroy(struct rdesc *p)
 
 enum rdesc_result rdesc_pump(struct rdesc *p,
 			     struct rdesc_node **out,
-			     struct rdesc_cfg_token *incoming_tk)
+			     struct rdesc_token *incoming_tk)
 {
 	assert_logic(p->root,
 		     "continuing an incremental parse with no root");
 
 	enum match_result res;
-	struct rdesc_cfg_token tk = *incoming_tk;
+	struct rdesc_token tk = *incoming_tk;
 
 	bool has_token = incoming_tk != NULL;
 
@@ -134,7 +134,7 @@ enum rdesc_result rdesc_pump(struct rdesc *p,
 			break;
 
 		case NOMATCH:
-			free(p->root->nt.children);
+			free(p->root->nt_.children);
 			free(p->root);
 
 			p->root = p->cur = NULL;
@@ -163,16 +163,16 @@ static struct rdesc_node *new_nt_node(struct rdesc *p,
 	if (parent)
 		push_child(parent, n);
 
-	n->ty = CFG_NONTERMINAL;
+	n->ty_ = CFG_NONTERMINAL;
 
 	size_t child_cap = p->cfg->child_caps[id];
 	assert_logic(child_cap, "a nonterminal with no child");
 
-	n->nt.id = id;
-	n->nt.child_count = 0;
-	n->nt.children = malloc(sizeof(struct rdesc_node *) * child_cap);
-	assert_mem(n->nt.children);
-	n->nt.variant = 0;
+	n->nt_.id = id;
+	n->nt_.child_count = 0;
+	n->nt_.children = malloc(sizeof(struct rdesc_node *) * child_cap);
+	assert_mem(n->nt_.children);
+	n->nt_.variant = 0;
 
 	return n;
 }
@@ -186,37 +186,37 @@ static struct rdesc_node *new_tk_node(struct rdesc_node *parent, int id)
 	if (parent)
 		push_child(parent, n);
 
-	n->ty = CFG_TOKEN;
+	n->ty_ = CFG_TOKEN;
 
-	n->tk.id = id;
+	n->tk_.id = id;
 
 	return n;
 }
 
 static void push_child(struct rdesc_node *parent, struct rdesc_node *child)
 {
-	assert_logic(parent->ty == CFG_NONTERMINAL,
+	assert_logic(parent->ty_ == CFG_NONTERMINAL,
 		     "a token node cannot be a parent of another node");
 
-	parent->nt.children[parent->nt.child_count++] = child;
+	parent->nt_.children[parent->nt_.child_count++] = child;
 }
 
 static void next_variant(struct rdesc *p)
 {
-	while (p->cur->nt.child_count) {
+	while (p->cur->nt_.child_count) {
 		struct rdesc_node *next_cur = NULL, *child;
 
-		for (size_t i = p->cur->nt.child_count; i > 0; i--) {
-			child = p->cur->nt.children[i - 1];
+		for (size_t i = p->cur->nt_.child_count; i > 0; i--) {
+			child = p->cur->nt_.children[i - 1];
 
-			if (child->ty == CFG_NONTERMINAL) {
+			if (child->ty_ == CFG_NONTERMINAL) {
 				next_cur = child;
 
 				break;
 			} else {
-				p->cur->nt.child_count--;
+				p->cur->nt_.child_count--;
 
-				rdesc_stack_push(&p->stack, child->tk);
+				rdesc_stack_push(&p->stack, child->tk_);
 				free(child);
 			}
 		}
@@ -227,8 +227,8 @@ static void next_variant(struct rdesc *p)
 			break;
 	}
 
-	p->cur->nt.variant++;
-	p->cur->nt.child_count = 0;
+	p->cur->nt_.variant++;
+	p->cur->nt_.child_count = 0;
 }
 
 static void backtrace(struct rdesc *p)
@@ -237,7 +237,7 @@ static void backtrace(struct rdesc *p)
 
 	while (child != p->cur)
 		rdesc_node_destroy(
-			child = parent->nt.children[--parent->nt.child_count],
+			child = parent->nt_.children[--parent->nt_.child_count],
 			NULL
 		);
 	p->cur = parent;
@@ -248,7 +248,7 @@ static void backtrace(struct rdesc *p)
 		backtrace(p);
 }
 
-static enum match_result match(struct rdesc *p, struct rdesc_cfg_token tk)
+static enum match_result match(struct rdesc *p, struct rdesc_token tk)
 {
 	if (is_grammar_complete(p->cur)) {
 		p->cur = p->cur->parent;
@@ -273,7 +273,7 @@ static enum match_result match(struct rdesc *p, struct rdesc_cfg_token tk)
 	switch (rule.ty) {
 	case CFG_TOKEN:
 		if (rule.id == tk.id) {
-			new_tk_node(p->cur, rule.id)->tk.seminfo = tk.seminfo;
+			new_tk_node(p->cur, rule.id)->tk_.seminfo = tk.seminfo;
 
 			while (is_grammar_complete(p->cur)) {
 				p->cur = p->cur->parent;

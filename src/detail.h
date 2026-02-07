@@ -54,5 +54,10 @@
 		[(cfg).nt_count][(cfg).nt_variant_count][(cfg).nt_body_length], \
 	    (cfg).rules))
 
+/* helper macros for accessing node fields */
+#define ty_    n.ty
+#define tk_    n.tk
+#define nt_    n.nt
+
 
 #endif

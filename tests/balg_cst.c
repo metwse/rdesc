@@ -11,7 +11,7 @@
 
 
 /* Print token as a dotlang node. */
-void balg_tk_printer_with_free(const struct rdesc_cfg_token *tk, FILE *out)
+void balg_tk_printer_with_free(const struct rdesc_token *tk, FILE *out)
 {
 	if (tk->id == TK_IDENT) {
 		fprintf(out, "{{ident|%s}}", (char *) tk->seminfo);
@@ -22,7 +22,7 @@ void balg_tk_printer_with_free(const struct rdesc_cfg_token *tk, FILE *out)
 	}
 }
 
-void balg_tk_destroyer(struct rdesc_cfg_token *tk)
+void balg_tk_destroyer(struct rdesc_token *tk)
 {
 	if (tk->id == TK_IDENT)
 		free(tk->seminfo);
@@ -34,7 +34,7 @@ int main()
 	struct rdesc_cfg cfg;
 	struct rdesc p;
 
-	struct rdesc_cfg_token tk;
+	struct rdesc_token tk;
 	struct rdesc_node *cst = NULL;
 
 	enum rdesc_result pump_res;

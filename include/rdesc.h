@@ -6,8 +6,6 @@
 #ifndef RDESC_H
 #define RDESC_H
 
-#include "cfg.h"
-
 #include <stddef.h>
 
 /** @brief major version */
@@ -41,17 +39,47 @@ struct rdesc {
 	struct rdesc_node *cur /** (current) node that parsing continues on */;
 };
 
+/** @brief terminal (token) object for context-free grammar */
+struct rdesc_token {
+	unsigned int _pad : 1;
+	int id : 31 /** token identifier */;
+
+	void *seminfo /** additional semantic information */;
+};
+
+/** @brief nonterminal (syntatic variable) object for context-free grammar */
+struct rdesc_nonterminal {
+	unsigned int _pad : 1;
+	int id : 31 /** nonterminal identifier */;
+
+	struct rdesc_node **children /** child nodes */;
+	size_t child_count /** number of child ndes */;
+
+	/** @brief The production rule variant being parsed
+	 *
+	 * This field is for the internal use of the `rdesc_parser`. When the
+	 * backtracking parser tries different production rules for a
+	 * non-terminal, it increments this index to track which variant it
+	 * is currently attempting. This is purely parse-time data. */
+	size_t variant;
+};
+
 /** @brief A node in the CST */
 struct rdesc_node {
-	enum rdesc_cfg_symbol_type ty /** type of the symbol (token/nonterminal) */;
-
 	union {
-		struct rdesc_cfg_token tk /** token */;
-		struct rdesc_cfg_nonterminal nt /** nonterminal */;
-	};
+		/** type of the symbol (token = 0 / nonterminal = 1) */
+		unsigned int ty : 1;
+
+		struct rdesc_token tk /** token */;
+		struct rdesc_nonterminal nt /** nonterminal */;
+	} n /** an union name is required for C99 */;
 
 	struct rdesc_node *parent /** parent node */;
 };
+
+
+/** @brief Function pointer type for freeing tokens. */
+typedef void (*rdesc_tk_destroyer_func)(struct rdesc_token *);
 
 
 #ifdef __cplusplus
@@ -77,7 +105,7 @@ void rdesc_start(struct rdesc *p, int start_symbol);
 /**
  * @brief Resets parser and its state.
  *
- * @note `seminfo` field in `struct rdesc_cfg_token` are not freed unless
+ * @note `seminfo` field in `struct rdesc_token` are not freed unless
  *        `free_tk` is set.
  */
 void rdesc_reset(struct rdesc *p, rdesc_tk_destroyer_func free_tk);
@@ -102,12 +130,12 @@ void rdesc_reset(struct rdesc *p, rdesc_tk_destroyer_func free_tk);
  */
 enum rdesc_result rdesc_pump(struct rdesc *p,
 			     struct rdesc_node **out,
-			     struct rdesc_cfg_token *incoming_tk);
+			     struct rdesc_token *incoming_tk);
 
 /**
  * @brief Recursively destroys the node and its children.
  *
- * @note `seminfo` field in `struct rdesc_cfg_token` are not freed unless
+ * @note `seminfo` field in `struct rdesc_token` are not freed unless
  *        `free_tk` is set.
  */
 void rdesc_node_destroy(struct rdesc_node *n,

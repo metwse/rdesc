@@ -15,7 +15,7 @@
 #ifndef RDESC_STACK_H
 #define RDESC_STACK_H
 
-#include "cfg.h"
+#include "rdesc.h"
 
 #include <stddef.h>
 
@@ -30,13 +30,13 @@ void rdesc_stack_init(struct rdesc_stack **s);
 void rdesc_stack_destroy(struct rdesc_stack *s);
 
 /** @brief Pushes a token onto the stack. */
-void rdesc_stack_push(struct rdesc_stack **s, struct rdesc_cfg_token tk);
+void rdesc_stack_push(struct rdesc_stack **s, struct rdesc_token tk);
 
 /** @brief Removes and returns the top token from the stack. */
-struct rdesc_cfg_token rdesc_stack_pop(struct rdesc_stack **s);
+struct rdesc_token rdesc_stack_pop(struct rdesc_stack **s);
 
 /** @brief Returns a **reference** to underlying dynamic buffer. */
-struct rdesc_cfg_token *rdesc_stack_as_ref(struct rdesc_stack *s);
+struct rdesc_token *rdesc_stack_as_ref(struct rdesc_stack *s);
 
 /** @brief Returns the underlying dynamic buffer. */
 size_t rdesc_stack_len(const struct rdesc_stack *s);

@@ -1,4 +1,3 @@
-#include "../include/cfg.h"
 #include "../include/rdesc.h"
 #include "../include/stack.h"
 #include "../src/detail.h" // IWYU pragma: keep
@@ -18,7 +17,8 @@ int main()
 
 	for (int i = 0; i < 128; i++)
 		rdesc_stack_push(
-			&s, (struct rdesc_cfg_token) { .id = (arr[i] = rand()) }
+			&s,
+			(struct rdesc_token) { .id = (arr[i] = rand() % 1024) }
 		);
 
 	for (int i = 0; i < 128; i++)

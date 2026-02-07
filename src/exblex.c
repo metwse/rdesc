@@ -1,3 +1,4 @@
+#include "../include/rdesc.h"
 #include "exblex.h"
 #include "detail.h"
 
@@ -27,14 +28,14 @@ static int tokenid(const struct exblex *l, char tk)
 	return 0;
 }
 
-struct rdesc_cfg_token exblex_next(struct exblex *l)
+struct rdesc_token exblex_next(struct exblex *l)
 {
 	if (l->peek) {
 		int id = tokenid(l, l->peek);
 		l->peek = '\0';
 
 		if (id)
-			return (struct rdesc_cfg_token) { .id = id };
+			return (struct rdesc_token) { .id = id };
 	}
 
 	while (l->buf[l->cur] && isspace(l->buf[l->cur]))
@@ -74,7 +75,7 @@ struct rdesc_cfg_token exblex_next(struct exblex *l)
 			id = tokenid(l, 'w');
 
 		if (id) {
-			return (struct rdesc_cfg_token) \
+			return (struct rdesc_token) \
 				{ .id = id, .seminfo = seminfo };
 		} else {
 			if (seminfo_len > 1)
@@ -86,5 +87,5 @@ struct rdesc_cfg_token exblex_next(struct exblex *l)
 		}
 	}
 
-	return (struct rdesc_cfg_token) { .id = tokenid(l, c) };
+	return (struct rdesc_token) { .id = tokenid(l, c) };
 }

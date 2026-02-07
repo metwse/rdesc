@@ -24,21 +24,21 @@ double pow10(int i)
 
 double interpret(struct rdesc_node *n)
 {
-	size_t v = n->nt.variant; /* variant */
-	struct rdesc_node **c = n->nt.children; /* children */
+	size_t v = n->n.nt.variant; /* variant */
+	struct rdesc_node **c = n->n.nt.children; /* children */
 
-	switch (n->nt.id) {
+	switch (n->n.nt.id) {
 	case NT_UNSIGNED:
 		switch (v) {
 		case 0:
-			return strtod(c[0]->tk.seminfo, NULL);
+			return strtod(c[0]->n.tk.seminfo, NULL);
 		case 1:
-			return strtod(c[1]->tk.seminfo, NULL) /\
-				pow10(strlen(c[1]->tk.seminfo));
+			return strtod(c[1]->n.tk.seminfo, NULL) /\
+				pow10(strlen(c[1]->n.tk.seminfo));
 		default:
-			return strtod(c[0]->tk.seminfo, NULL) + \
-				strtod(c[2]->tk.seminfo, NULL) / \
-				pow10(strlen(c[2]->tk.seminfo));
+			return strtod(c[0]->n.tk.seminfo, NULL) + \
+				strtod(c[2]->n.tk.seminfo, NULL) / \
+				pow10(strlen(c[2]->n.tk.seminfo));
 		}
 
 	case NT_OPTSIGN:
@@ -88,7 +88,7 @@ double interpret(struct rdesc_node *n)
 	unreachable(); // GCOV_EXCL_LINE
 }
 
-void bc_tk_destroyer(struct rdesc_cfg_token *tk)
+void bc_tk_destroyer(struct rdesc_token *tk)
 {
 	if (tk->seminfo)
 		free(tk->seminfo);
@@ -98,7 +98,7 @@ void program(struct exblex *lex, struct rdesc *p)
 {
 	char buf[4096];
 
-	struct rdesc_cfg_token tk;
+	struct rdesc_token tk;
 	struct rdesc_node *cst;
 
 	int pump_res;

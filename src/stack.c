@@ -1,5 +1,4 @@
 #include "../include/rdesc.h"
-#include "../include/cfg.h"
 #include "../include/stack.h"
 #include "detail.h"
 
@@ -13,7 +12,7 @@
 	assert_mem( \
 		*s = \
 		realloc(*s, sizeof(struct rdesc_stack) + \
-			(*s)->cap * sizeof(struct rdesc_cfg_token)) \
+			(*s)->cap * sizeof(struct rdesc_token)) \
 	)
 
 
@@ -31,20 +30,20 @@
 struct rdesc_stack {
 	size_t len /** current number of tokens in the stack */;
 	size_t cap /** allocated capacity of the buffer */;
-	struct rdesc_cfg_token tokens[] /** pointer to the dynamic array buffer */;
+	struct rdesc_token tokens[] /** pointer to the dynamic array buffer */;
 };
 
 void rdesc_stack_init(struct rdesc_stack **s)
 {
 	*s = malloc(sizeof(struct rdesc_stack) +
-		    STACK_INITIAL_CAP * sizeof(struct rdesc_cfg_token));
+		    STACK_INITIAL_CAP * sizeof(struct rdesc_token));
 	assert_mem(s);
 
 	(*s)->len = 0;
 	(*s)->cap = STACK_INITIAL_CAP;
 }
 
-void rdesc_stack_push(struct rdesc_stack **s, struct rdesc_cfg_token tk)
+void rdesc_stack_push(struct rdesc_stack **s, struct rdesc_token tk)
 {
 	if ((*s)->cap == (*s)->len) {
 		(*s)->cap *= 2;
@@ -59,9 +58,9 @@ void rdesc_stack_destroy(struct rdesc_stack *s)
 	free(s);
 }
 
-struct rdesc_cfg_token rdesc_stack_pop(struct rdesc_stack **s)
+struct rdesc_token rdesc_stack_pop(struct rdesc_stack **s)
 {
-	struct rdesc_cfg_token top = (*s)->tokens[--(*s)->len];
+	struct rdesc_token top = (*s)->tokens[--(*s)->len];
 
 	if ((*s)->len * 2 < (*s)->cap && (*s)->cap >= STACK_INITIAL_CAP * 2) {
 		(*s)->cap /= 2;
@@ -71,7 +70,7 @@ struct rdesc_cfg_token rdesc_stack_pop(struct rdesc_stack **s)
 	return top;
 }
 
-struct rdesc_cfg_token *rdesc_stack_as_ref(struct rdesc_stack *s)
+struct rdesc_token *rdesc_stack_as_ref(struct rdesc_stack *s)
 {
 	return s->tokens;
 }

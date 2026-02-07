@@ -47,32 +47,6 @@ struct rdesc_cfg_symbol {
 	int id /** terminal, non-terminal, or sentinel identifier */;
 };
 
-/** @brief terminal (token) object for context-free grammar */
-struct rdesc_cfg_token {
-	int id /** token identifier */;
-	void *seminfo /** additional semantic information */;
-};
-
-/** @brief nonterminal (syntatic variable) object for context-free grammar */
-struct rdesc_cfg_nonterminal {
-	int id /** nonterminal identifier */;
-
-	struct rdesc_node **children /** child nodes */;
-	size_t child_count /** number of child ndes */;
-
-	/** @brief The production rule variant being parsed
-	 *
-	 * This field is for the internal use of the `rdesc_parser`. When the
-	 * backtracking parser tries different production rules for a
-	 * non-terminal, it increments this index to track which variant it
-	 * is currently attempting. This is purely parse-time data. */
-	size_t variant;
-};
-
-
-/** @brief Function pointer type for freeing tokens. */
-typedef void (*rdesc_tk_destroyer_func)(struct rdesc_cfg_token *);
-
 
 #ifdef __cplusplus
 extern "C" {

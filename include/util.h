@@ -12,14 +12,14 @@
 
 
 struct rdesc_node; /* defined in rdesc.h */
+struct rdesc_token;
+struct rdesc_nonterminal;
 
 struct rdesc_cfg; /* defined in cfg.h */
-struct rdesc_cfg_token;
-struct rdesc_cfg_nonterminal;
 
 
 /** @brief Function pointer type for printing tokens. */
-typedef void (*rdesc_tk_printer_func)(const struct rdesc_cfg_token *, FILE *out);
+typedef void (*rdesc_tk_printer_func)(const struct rdesc_token *, FILE *out);
 
 
 #ifdef __cplusplus
