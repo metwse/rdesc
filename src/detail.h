@@ -4,38 +4,47 @@
 #define RDESC_DETAIL_H
 
 
-#ifdef __linux__
-#include <stdio.h> // IWYU pragma: begin_exports
-#include <signal.h> // IWYU pragma: end_exports
+#if (defined(__unix__) || defined(__APPLE__) || defined(__linux__)) && \
+    (defined(__GNUC__) || defined(__clang__))
+#include <stdio.h>  // IWYU pragma: begin_exports
+#include <signal.h>  // IWYU pragma: end_exports
 
 #define assert_stringify_detail(a) #a
 #define assert_stringify(a) assert_stringify_detail(a)
 
-#define assert(c, fmt, ...) do { \
+#define rdesc_assert(c, fmt, ...) do { \
 		if (!(c)) { \
 			fprintf(stderr, "["__FILE__ ":" \
 				assert_stringify(__LINE__) "] " \
 				"Assertion failed for: " \
 				   assert_stringify(c) \
-				"\n> " fmt "\n" __VA_OPT__(,)__VA_ARGS__); \
+				"\n> " fmt "\n", ##__VA_ARGS__); \
 			raise(SIGINT); \
 		} \
 	} while(0)
 #else
-#include <assert.h>
+#include <assert.h>  // IWYU pragma: export
+
+#define rdecs_assert(c, fmt, ...) assert(c)
 #endif
 
 
 /* macro highlights memory allocation checks */
-#define assert_mem(c) assert(c, "out of memory")
+#define assert_mem(c) rdesc_assert(c, "out of memory")
 
 /* extra checks for flow of code. */
 #define assert_logic(c, fmt, ...) \
-	assert(c, "logic error: " fmt " is/are not meaningful" \
-	       __VA_OPT__(,)__VA_ARGS__)
+	rdesc_assert(c, "logic error: " fmt " is/are not meaningful" \
+		     __VA_OPT__(,)__VA_ARGS__)
 
-/* code reached unreachable branch */
-#define unreachable() assert(0, "reached unreachable branch"); exit(2)
+/* unreachable branch */
+#if defined(__GNUC__) || defined(__clang__)
+#define unreachable() __builtin_unreachable()
+#elif defined(_MSC_VER)
+#define unreachable() __assume(false)
+#else
+#define unreachable()
+#endif
 
 /* macro highlights type casts */
 #define cast(t, exp) ((t) (exp))

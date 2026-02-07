@@ -17,7 +17,7 @@
 /** @brief patch version */
 #define RDESC_VERSION_PATCH 0
 /** @brief prerelase identifier */
-#define RDESC_VERSION_PRE_RELEASE "rc.2"
+#define RDESC_VERSION_PRE_RELEASE ""
 
 
 /** @brief parsing status */

@@ -22,8 +22,8 @@ int main()
 		);
 
 	for (int i = 0; i < 128; i++)
-		assert(rdesc_stack_pop(&s).id == arr[127 - i],
-		       "stack order not reserved");
+		rdesc_assert(rdesc_stack_pop(&s).id == arr[127 - i],
+			     "stack order not reserved");
 
 	rdesc_stack_destroy(s);
 }

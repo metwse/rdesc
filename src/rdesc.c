@@ -96,9 +96,9 @@ void rdesc_reset(struct rdesc *p, rdesc_tk_destroyer_func free_tk)
 void rdesc_destroy(struct rdesc *p)
 {
 	assert_logic(p->root == NULL, "destroying parser during parsing");
-	assert(rdesc_stack_len(p->stack) == 0,
-			       "cannot destroy parser if token stack is not "
-			       "empty");
+	rdesc_assert(rdesc_stack_len(p->stack) == 0,
+		     "cannot destroy parser if token stack is not "
+		     "empty");
 
 	rdesc_stack_destroy(p->stack);
 }

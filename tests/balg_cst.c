@@ -50,8 +50,8 @@ int main()
 	while ((tk = exblex_next(&lex)).id != 0)
 		pump_res = rdesc_pump(&p, &cst, &tk);
 
-	assert(pump_res == RDESC_READY, "READY result expected");
-	assert(cst, "syntax tree could not be parsed");
+	rdesc_assert(pump_res == RDESC_READY, "READY result expected");
+	rdesc_assert(cst, "syntax tree could not be parsed");
 
 	rdesc_dump_dot(cst, balg_tk_printer_with_free, balg_nt_names, stdout);
 	rdesc_node_destroy(cst, NULL);
@@ -63,7 +63,7 @@ int main()
 	while ((tk = exblex_next(&lex)).id != 0)
 		pump_res = rdesc_pump(&p, NULL, &tk);
 
-	assert(pump_res == RDESC_NOMATCH, "NOMATCH result expected");
+	rdesc_assert(pump_res == RDESC_NOMATCH, "NOMATCH result expected");
 	rdesc_reset(&p, balg_tk_destroyer);
 
 	rdesc_destroy(&p);
