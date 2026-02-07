@@ -39,9 +39,9 @@
 #define POSTFIX_NT_REST(nt) nt ## _REST
 #endif
 
-/** integer representing EOB (end of body) */
+/** integer representing EOB (end-of-body) */
 #define EOB -1
-/** integer representing EOC (end of construct) */
+/** integer representing EOC (end-of-construct) */
 #define EOC -2
 
 /**
@@ -57,7 +57,7 @@
  */
 #define SEOC { (const struct rdesc_cfg_symbol) { .ty = CFG_SENTINEL, .id = EOC } }
 
-/** @brief Macro to create a terminal (Token) production symbol. */
+/** @brief Macro to create a terminal (token) production symbol. */
 #define TK(tk) { .ty = CFG_TOKEN, .id = PREFIX_TK(tk) }
 /** @brief Macro to create a non-terminal production symbol. */
 #define NT(nt) { .ty = CFG_NONTERMINAL, .id = PREFIX_NT(nt) }
@@ -65,7 +65,10 @@
 #define EPSILON SEOB
 
 
-/** @brief Macro to define a grammar rule. */
+/**
+ * @brief Macro to define a grammar rule. Adds end-of-body and construct
+ * sentinels to grammar rules.
+ */
 #define r(...) { { __VA_ARGS__ SEOB }, SEOC }
 
 /**

@@ -40,13 +40,15 @@
 
 /**
  * @brief Maximum number of production variants (alternatives) for a single
- * non-terminal. Used to dimension the static array (2nd dimension).
+ * non-terminal and +1 for end-of-construct sentinel. Used to dimension the
+ * static array (2nd dimension).
  */
 #define BALG_NT_VARIANT_COUNT 6
 
 /**
- * @brief Maximum number of symbols in a production body (Right-Hand Side).
- * Used to dimension the static array (3rd dimension).
+ * @brief Maximum number of symbols in a production body (Right-Hand Side) and
+ * +1 for end-of-body sentinel. Used to dimension the static array (3rd
+ * dimension).
  */
 #define BALG_NT_BODY_LENGTH 5
 
