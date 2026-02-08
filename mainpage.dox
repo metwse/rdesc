@@ -43,7 +43,7 @@
  * rdesc_cfg_init(&cfg, ...); // Load your rules
  *
  * struct rdesc parser;
- * rdesc_init(&parser, &cfg);
+ * rdesc_init(&parser, 8 /* TODO: documentate */, &cfg);
  * @endcode
  * 4. Pump Tokens: Feed tokens into the loop until a tree is ready.
  * @code{.c}

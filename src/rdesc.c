@@ -8,6 +8,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <string.h>
 
 
 #define get_body(node) productions(*p->cfg)[node->nt_.id][node->nt_.variant]
@@ -45,9 +46,11 @@ static enum match_result match(struct rdesc *, struct rdesc_token);
 
 
 void rdesc_init(struct rdesc *p,
+		size_t seminfo_size,
 		const struct rdesc_cfg *cfg)
 {
 	p->cfg = cfg;
+	p->seminfo_size = seminfo_size;
 
 	rdesc_stack_init(&p->stack);
 
@@ -63,7 +66,7 @@ void rdesc_start(struct rdesc *p, int start_symbol)
 
 void rdesc_node_destroy(struct rdesc_node *n, rdesc_tk_destroyer_func free_tk)
 {
-	if (n->ty_ == CFG_NONTERMINAL) {
+	if (n->ty == CFG_NONTERMINAL) {
 		for (uint16_t i = n->nt_.child_count; i > 0; i--)
 			rdesc_node_destroy(n->nt_.children[i - 1], free_tk);
 
@@ -166,7 +169,7 @@ static struct rdesc_node *new_nt_node(struct rdesc *p,
 	if (parent)
 		push_child(parent, n);
 
-	n->ty_ = CFG_NONTERMINAL;
+	n->ty = CFG_NONTERMINAL;
 
 	uint16_t child_cap = p->cfg->child_caps[id];
 	assert_logic(child_cap, "a nonterminal with no child");
@@ -189,7 +192,7 @@ static struct rdesc_node *new_tk_node(struct rdesc_node *parent, uint32_t id)
 	if (parent)
 		push_child(parent, n);
 
-	n->ty_ = CFG_TOKEN;
+	n->ty = CFG_TOKEN;
 
 	n->tk_.id = id;
 
@@ -198,7 +201,7 @@ static struct rdesc_node *new_tk_node(struct rdesc_node *parent, uint32_t id)
 
 static void push_child(struct rdesc_node *parent, struct rdesc_node *child)
 {
-	assert_logic(parent->ty_ == CFG_NONTERMINAL,
+	assert_logic(parent->ty == CFG_NONTERMINAL,
 		     "a token node cannot be a parent of another node");
 
 	parent->nt_.children[parent->nt_.child_count++] = child;
@@ -212,7 +215,7 @@ static void next_variant(struct rdesc *p)
 		for (uint16_t i = p->cur->nt_.child_count; i > 0; i--) {
 			child = p->cur->nt_.children[i - 1];
 
-			if (child->ty_ == CFG_NONTERMINAL) {
+			if (child->ty == CFG_NONTERMINAL) {
 				next_cur = child;
 
 				break;
@@ -276,7 +279,8 @@ static enum match_result match(struct rdesc *p, struct rdesc_token tk)
 	switch (rule.ty) {
 	case CFG_TOKEN:
 		if (rule.id == tk.id) {
-			new_tk_node(p->cur, rule.id)->tk_.seminfo = tk.seminfo;
+			struct rdesc_node *n = new_tk_node(p->cur, rule.id);
+			memcpy(&n->tk_, &tk, tk_size(*p));
 
 			while (is_grammar_complete(p->cur)) {
 				p->cur = p->cur->parent;

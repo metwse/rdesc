@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 
 void exblex_init(struct exblex *l,
@@ -76,8 +77,10 @@ struct rdesc_token exblex_next(struct exblex *l)
 			id = tokenid(l, 'w');
 
 		if (id) {
-			return (struct rdesc_token) \
-				{ .id = id, .seminfo = seminfo };
+			struct rdesc_token tk = { .id = id };
+			memcpy(tk.seminfo, &seminfo, sizeof(char *));
+
+			return tk;
 		} else {
 			if (seminfo_len > 1)
 				c = '\0';

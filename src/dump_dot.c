@@ -24,7 +24,7 @@ static void dump_graph_recursive(const struct rdesc_node *n,
 		fprintf(out, "\t%zu -> %zu;\n", parent_id, this);
 	}
 
-	if (n->ty_ == CFG_TOKEN) {
+	if (n->ty == CFG_TOKEN) {
 		fprintf(out, "\t%zu [shape=record,label=\"", this);
 		tk_printer(&n->tk_, out);
 		fprintf(out, "\"];\n");

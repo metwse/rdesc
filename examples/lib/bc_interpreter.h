@@ -37,13 +37,13 @@ static inline double bc_interpreter(struct rdesc_node *n)
 	case NT_UNSIGNED:
 		switch (v) {
 		case 0:
-			return strtod(c[0]->n.tk.seminfo, NULL);
+			return strtod(*cast(char **, c[0]->n.tk.seminfo), NULL);
 		case 1:
-			return strtod(c[1]->n.tk.seminfo, NULL) /\
+			return strtod(*cast(char **, c[1]->n.tk.seminfo), NULL) /\
 				bc_pow10(strlen(c[1]->n.tk.seminfo));
 		default:
-			return strtod(c[0]->n.tk.seminfo, NULL) + \
-				strtod(c[2]->n.tk.seminfo, NULL) / \
+			return strtod(*cast(char **, c[0]->n.tk.seminfo), NULL) + \
+				strtod(*cast(char **, c[2]->n.tk.seminfo), NULL) / \
 				bc_pow10(strlen(c[2]->n.tk.seminfo));
 		}
 
@@ -97,8 +97,11 @@ static inline double bc_interpreter(struct rdesc_node *n)
 /** @brief Frees seminfo of a bc token */
 static inline void bc_tk_destroyer(struct rdesc_token *tk)
 {
-	if (tk->seminfo)
-		free(tk->seminfo);
+	void *seminfo;
+	memcpy(&seminfo, tk->seminfo, sizeof(void *));
+
+	if (seminfo)
+		free(seminfo);
 }
 
 

@@ -131,7 +131,7 @@ int main(void)
 
 	rdesc_cfg_init(&cfg, BC_NT_COUNT, BC_NT_VARIANT_COUNT,
 		       BC_NT_BODY_LENGTH, (struct rdesc_cfg_symbol *) bc);
-	rdesc_init(&p, &cfg);
+	rdesc_init(&p, 0 /* TODO: why 0? */, &cfg);
 
 	srand(time(NULL));
 

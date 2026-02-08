@@ -75,7 +75,7 @@ int main(void)
 
 	rdesc_cfg_init(&cfg, BC_NT_COUNT, BC_NT_VARIANT_COUNT,
 		       BC_NT_BODY_LENGTH, (struct rdesc_cfg_symbol *) bc);
-	rdesc_init(&p, &cfg);
+	rdesc_init(&p, 8 /* TODO: why 8? */, &cfg);
 
 	printf("Basic Calculator, librdesc sample program\n");
 	program(&lex, &p);

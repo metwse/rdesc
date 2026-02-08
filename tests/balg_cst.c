@@ -8,25 +8,30 @@
 
 #include <stddef.h>
 #include <stdlib.h>
+#include <string.h>
 
+
+void balg_tk_destroyer(struct rdesc_token *tk)
+{
+	char *seminfo;
+	memcpy(&seminfo, tk->seminfo, sizeof(void *));
+
+	if (seminfo)
+		free(seminfo);
+}
 
 /* Print token as a dotlang node. */
 void balg_tk_printer_with_free(const struct rdesc_token *tk, FILE *out)
 {
 	if (tk->id == TK_IDENT) {
-		fprintf(out, "{{ident|%s}}", (char *) tk->seminfo);
+		fprintf(out, "{{ident|%s}}", *cast(char **, tk->seminfo));
 
-		free(tk->seminfo);
+		balg_tk_destroyer(cast(struct rdesc_token *, tk));
 	} else {
 		fprintf(out, "%s", balg_tk_names_escaped[tk->id]);
 	}
 }
 
-void balg_tk_destroyer(struct rdesc_token *tk)
-{
-	if (tk->id == TK_IDENT)
-		free(tk->seminfo);
-}
 
 int main(void)
 {
@@ -41,7 +46,7 @@ int main(void)
 
 	rdesc_cfg_init(&cfg, BALG_NT_COUNT, BALG_NT_VARIANT_COUNT,
 		       BALG_NT_BODY_LENGTH, (struct rdesc_cfg_symbol *) balg);
-	rdesc_init(&p, &cfg);
+	rdesc_init(&p, 8 /* TODO: why 8? */, &cfg);
 
 	rdesc_start(&p, NT_STMT);
 	exblex_init(&lex,

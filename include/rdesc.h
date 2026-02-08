@@ -7,6 +7,7 @@
 #define RDESC_H
 
 #include <stdint.h>
+#include <stddef.h>
 
 /** @brief major version */
 #define RDESC_VERSION_MAJOR 0
@@ -30,6 +31,9 @@ struct rdesc {
 	/** context-free grammar production rules */
 	const struct rdesc_cfg *cfg;
 
+	/** the size of token's seminfo field in chars */
+	size_t seminfo_size;
+
 	/** Opaque pointer to the backtracking stack. The implementation
 	 * details of the stack are hidden. The parser uses the interface
 	 * defined in `stack.h` to manipulate this. */
@@ -37,14 +41,6 @@ struct rdesc {
 
 	struct rdesc_node *root /** root of the tree */;
 	struct rdesc_node *cur /** (current) node that parsing continues on */;
-};
-
-/** @brief terminal (token) object for context-free grammar */
-struct rdesc_token {
-	uint32_t _pad /** padding for symbol type in node struct */ : 1;
-	uint32_t id /** token identifier */ : 31 ;
-
-	void *seminfo /** additional semantic information */;
 };
 
 /** @brief nonterminal (syntatic variable) object for context-free grammar */
@@ -64,18 +60,35 @@ struct rdesc_nonterminal {
 	struct rdesc_node **children /** child nodes */;
 };
 
-/** @brief A node in the CST */
-struct rdesc_node {
-	union {
-		/** type of the symbol (token = 0 / nonterminal = 1) */
-		uint32_t ty : 1;
+/** @brief minimum size of a token  */
+#define RDESC_MIN_SEMINFO_SIZE \
+	(sizeof(struct rdesc_nonterminal) - sizeof(uint32_t))
 
+/** @brief terminal (token) object for context-free grammar */
+struct rdesc_token {
+	uint32_t _pad /** padding for symbol type in node struct */ : 1;
+	uint32_t id /** token identifier */ : 31 ;
+
+	/** additional semantic information, as flexible array member */
+	char seminfo[RDESC_MIN_SEMINFO_SIZE];
+};
+
+/** @brief A node in the CST */
+#pragma pack(push, 1)
+struct rdesc_node {
+	struct rdesc_node *parent /** parent node */;
+
+	/** type of the symbol (token = 0 / nonterminal = 1) */
+	uint32_t ty : 1;
+
+	union {
 		struct rdesc_token tk /** token */;
 		struct rdesc_nonterminal nt /** nonterminal */;
-	} n /** an union name is required for C99 */;
+	} n /** dummy union name, as anonymous unions are not supported in C99 */;
 
-	struct rdesc_node *parent /** parent node */;
+	char _[] /** continuation of additional semantic info */;
 };
+#pragma pack(pop)
 
 
 /** @brief Function pointer type for freeing tokens. */
@@ -88,6 +101,7 @@ extern "C" {
 
 /** @brief Initializes a new parser. */
 void rdesc_init(struct rdesc *p,
+		size_t seminfo_size,
 		const struct rdesc_cfg *cfg);
 
 /**
@@ -105,8 +119,8 @@ void rdesc_start(struct rdesc *p, int start_symbol);
 /**
  * @brief Resets parser and its state.
  *
- * @note `seminfo` field in `struct rdesc_token` are not freed unless
- *        `free_tk` is set.
+ * @note `seminfo` field in `struct rdesc_token` is ignored, e.g. not freed,
+ *        unless `free_tk` is set.
  */
 void rdesc_reset(struct rdesc *p, rdesc_tk_destroyer_func free_tk);
 
