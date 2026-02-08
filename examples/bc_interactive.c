@@ -1,98 +1,14 @@
 #include "../include/rdesc.h"
 #include "../include/cfg.h"
 #include "../src/exblex.h"
-#include "../src/detail.h"
 
 #include "grammar/bc.h"
+#include "lib/bc_interpreter.h"
 
 #include <stdio.h>
-#include <stddef.h>
 #include <stdbool.h>
-#include <stdlib.h>
 #include <string.h>
 
-
-double pow10(int i)
-{
-	double r = 1;
-
-	while (i--)
-		r *= 10;
-
-	return r;
-}
-
-double interpret(struct rdesc_node *n)
-{
-	size_t v = n->n.nt.variant; /* variant */
-	struct rdesc_node **c = n->n.nt.children; /* children */
-
-	switch (n->n.nt.id) {
-	case NT_UNSIGNED:
-		switch (v) {
-		case 0:
-			return strtod(c[0]->n.tk.seminfo, NULL);
-		case 1:
-			return strtod(c[1]->n.tk.seminfo, NULL) /\
-				pow10(strlen(c[1]->n.tk.seminfo));
-		default:
-			return strtod(c[0]->n.tk.seminfo, NULL) + \
-				strtod(c[2]->n.tk.seminfo, NULL) / \
-				pow10(strlen(c[2]->n.tk.seminfo));
-		}
-
-	case NT_OPTSIGN:
-		return (v == 0) ? -1 : 1;
-
-	case NT_SIGNED:
-		return interpret(c[0]) * interpret(c[1]);
-
-	case NT_EXPR:
-		return interpret(c[0]) + interpret(c[1]);
-
-	case NT_EXPR_REST:
-		switch (v) {
-		case 0:
-			return interpret(c[1]);
-		case 1:
-			return -interpret(c[1]);
-		default:
-			return 0;
-		}
-
-	case NT_TERM:
-		return interpret(c[0]) * interpret(c[1]);
-
-	case NT_TERM_REST:
-		switch (v) {
-		case 0:
-			return interpret(c[1]);
-		case 1:
-			return 1 / interpret(c[1]);
-		default:
-			return 1;
-		}
-
-	case NT_FACTOR:
-		switch (v) {
-		case 0:
-			return interpret(c[0]);
-		default:
-			return interpret(c[1]);
-		}
-
-	case NT_STMT:
-		return interpret(c[0]);
-	}
-
-	unreachable(); // GCOV_EXCL_LINE
-}
-
-void bc_tk_destroyer(struct rdesc_token *tk)
-{
-	if (tk->seminfo)
-		free(tk->seminfo);
-}
 
 void program(struct exblex *lex, struct rdesc *p)
 {
@@ -145,7 +61,7 @@ void program(struct exblex *lex, struct rdesc *p)
 		}
 
 		if (pump_res == RDESC_READY) {
-			printf("< (%.2lf)\n", interpret(cst));
+			printf("< (%.2lf)\n", bc_interpreter(cst));
 			rdesc_node_destroy(cst, bc_tk_destroyer);
 		}
 	}

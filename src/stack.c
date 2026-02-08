@@ -47,7 +47,7 @@ void rdesc_stack_init(struct rdesc_stack **s)
 void rdesc_stack_push(struct rdesc_stack **s, struct rdesc_token tk)
 {
 	if ((*s)->cap == (*s)->len) {
-		assert_mem((*s)->cap * 2 <= SIZE_MAX);
+		assert_mem((*s)->cap < SIZE_MAX / 2);
 		(*s)->cap *= 2;
 		RESIZE_STACK;
 	}

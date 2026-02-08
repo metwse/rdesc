@@ -16,7 +16,7 @@
  * - Integer/floating point literals
  *
  * @see This header provides the exact same api with boolean_algebra.h. You may
- *      inspect source code bc.h.
+ *      inspect source code of bc.h.
  */
 
 /** @cond */
@@ -31,17 +31,19 @@
 #include "../../include/bnf_dsl.h"
 
 
-#define BC_TK_COUNT 10
+#define BC_TK_COUNT 11
 
 #define BC_NT_COUNT 9
 #define BC_NT_VARIANT_COUNT 4
-#define BC_NT_BODY_LENGTH 4
+#define BC_NT_BODY_LENGTH 5
 
 enum bc_tk {
 	TK_NOTOKEN,
 	TK_NUM, TK_DOT,
 	TK_MINUS, TK_PLUS, TK_MULT, TK_DIV,
-	TK_LPAREN, TK_RPAREN, TK_ENDSYM
+	TK_LPAREN, TK_RPAREN, TK_ENDSYM,
+
+	TK_DUMMY_AMBIGUITY_TRIGGER,
 };
 
 enum bc_nt {
@@ -59,6 +61,7 @@ const char bc_tks[BC_TK_COUNT] = {
 	'd', '.',
 	'-', '+', '*', '/',
 	'(', ')', ';',
+	'?',
 };
 
 const char *const bc_nt_names[BC_NT_COUNT] = {
@@ -109,6 +112,7 @@ bc[BC_NT_COUNT][BC_NT_VARIANT_COUNT][BC_NT_BODY_LENGTH] = {
 	/* <factor> ::= */ r(
 		NT(SIGNED),
 	alt	TK(LPAREN), NT(EXPR), TK(RPAREN),
+	alt	TK(LPAREN), NT(EXPR), TK(RPAREN), TK(DUMMY_AMBIGUITY_TRIGGER),
 	),
 
 
