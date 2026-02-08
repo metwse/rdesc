@@ -112,9 +112,11 @@ enum rdesc_result rdesc_pump(struct rdesc *p,
 		     "continuing an incremental parse with no root");
 
 	enum match_result res;
-	struct rdesc_token tk = *incoming_tk;
+	struct rdesc_token tk;
 
 	bool has_token = incoming_tk != NULL;
+	if (has_token)
+		tk = *incoming_tk;
 
 	while (true) {
 		if (!has_token && rdesc_stack_len(p->stack)) {

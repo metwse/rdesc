@@ -27,7 +27,7 @@
 #else
 #include <assert.h>  // IWYU pragma: export
 
-#define rdecs_assert(c, ...) assert(c)
+#define rdesc_assert(c, ...) assert(c)
 #endif
 
 /* extra checks for flow of code. */

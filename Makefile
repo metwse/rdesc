@@ -1,7 +1,7 @@
 FEATURES ?= stack
 
 # List of source files linked to the library. You can use your own stack
-# -pedantic implementation after removing stack element below.
+# implementation after removing stack element below.
 LIB = rdesc cfg $(FEATURES)
 
 CC = gcc

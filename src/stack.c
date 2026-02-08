@@ -2,6 +2,7 @@
 #include "../include/stack.h"
 #include "detail.h"
 
+#include <stdint.h>
 #include <stdlib.h>
 #include <stddef.h>
 
@@ -46,6 +47,7 @@ void rdesc_stack_init(struct rdesc_stack **s)
 void rdesc_stack_push(struct rdesc_stack **s, struct rdesc_token tk)
 {
 	if ((*s)->cap == (*s)->len) {
+		assert_mem((*s)->cap * 2 <= SIZE_MAX);
 		(*s)->cap *= 2;
 		RESIZE_STACK;
 	}
@@ -62,7 +64,7 @@ struct rdesc_token rdesc_stack_pop(struct rdesc_stack **s)
 {
 	struct rdesc_token top = (*s)->tokens[--(*s)->len];
 
-	if ((*s)->len * 2 < (*s)->cap && (*s)->cap >= STACK_INITIAL_CAP * 2) {
+	if ((*s)->len * 4 < (*s)->cap && (*s)->cap >= STACK_INITIAL_CAP * 2) {
 		(*s)->cap /= 2;
 		RESIZE_STACK;
 	}
