@@ -86,6 +86,7 @@ $(function() {
 <p>The Right-Recursive Descent Parser.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
+<code>#include &lt;stddef.h&gt;</code><br />
 </div>
 <p><a href="rdesc_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -94,11 +95,11 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc.html">rdesc</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Right-recursive descent parser.  <a href="structrdesc.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__token.html">rdesc_token</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">terminal (token) object for context-free grammar  <a href="structrdesc__token.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__nonterminal.html">rdesc_nonterminal</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">nonterminal (syntatic variable) object for context-free grammar  <a href="structrdesc__nonterminal.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__token.html">rdesc_token</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">terminal (token) object for context-free grammar  <a href="structrdesc__token.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__node.html">rdesc_node</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A node in the CST.  <a href="structrdesc__node.html#details">More...</a><br /></td></tr>
@@ -122,6 +123,11 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>RDESC_VERSION_PRE_RELEASE</b>&#160;&#160;&#160;&quot;&quot;</td></tr>
 <tr class="memdesc:a09740b75a26b197222bc2b9510707f1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">prerelase identifier <br /></td></tr>
 <tr class="separator:a09740b75a26b197222bc2b9510707f1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac29e47101b06f90776d9bbfdc17b9686"><td class="memItemLeft" align="right" valign="top"><a id="ac29e47101b06f90776d9bbfdc17b9686" name="ac29e47101b06f90776d9bbfdc17b9686"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>RDESC_MIN_SEMINFO_SIZE</b>&#160;&#160;&#160;	(sizeof(struct <a class="el" href="structrdesc__nonterminal.html">rdesc_nonterminal</a>) - sizeof(uint32_t))</td></tr>
+<tr class="memdesc:ac29e47101b06f90776d9bbfdc17b9686"><td class="mdescLeft">&#160;</td><td class="mdescRight">minimum size of a token <br  />
+ <br /></td></tr>
+<tr class="separator:ac29e47101b06f90776d9bbfdc17b9686"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -141,10 +147,10 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a3e8cb1fd995aee3b74a33c307a1314c0"><td class="memItemLeft" align="right" valign="top"><a id="a3e8cb1fd995aee3b74a33c307a1314c0" name="a3e8cb1fd995aee3b74a33c307a1314c0"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_init</b> (struct <a class="el" href="structrdesc.html">rdesc</a> *p, const struct <a class="el" href="structrdesc__cfg.html">rdesc_cfg</a> *cfg)</td></tr>
-<tr class="memdesc:a3e8cb1fd995aee3b74a33c307a1314c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new parser. <br /></td></tr>
-<tr class="separator:a3e8cb1fd995aee3b74a33c307a1314c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3e159c3d2d10ee5714e3b7b161e013b"><td class="memItemLeft" align="right" valign="top"><a id="ab3e159c3d2d10ee5714e3b7b161e013b" name="ab3e159c3d2d10ee5714e3b7b161e013b"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_init</b> (struct <a class="el" href="structrdesc.html">rdesc</a> *p, size_t seminfo_size, const struct <a class="el" href="structrdesc__cfg.html">rdesc_cfg</a> *cfg)</td></tr>
+<tr class="memdesc:ab3e159c3d2d10ee5714e3b7b161e013b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new parser. <br /></td></tr>
+<tr class="separator:ab3e159c3d2d10ee5714e3b7b161e013b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5a7af3cfaf7cee725ea16e381b8b802"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#af5a7af3cfaf7cee725ea16e381b8b802">rdesc_destroy</a> (struct <a class="el" href="structrdesc.html">rdesc</a> *p)</td></tr>
 <tr class="memdesc:af5a7af3cfaf7cee725ea16e381b8b802"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees memory allocated by the parser and destroys the parser instance.  <br /></td></tr>
 <tr class="separator:af5a7af3cfaf7cee725ea16e381b8b802"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -319,7 +325,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_start</b> (stru
 </div><div class="memdoc">
 
 <p>Resets parser and its state. </p>
-<dl class="section note"><dt>Note</dt><dd><code>seminfo</code> field in <code>struct <a class="el" href="structrdesc__token.html" title="terminal (token) object for context-free grammar">rdesc_token</a></code> are not freed unless <code>free_tk</code> is set. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd><code>seminfo</code> field in <code>struct <a class="el" href="structrdesc__token.html" title="terminal (token) object for context-free grammar">rdesc_token</a></code> is ignored, e.g. not freed, unless <code>free_tk</code> is set. </dd></dl>
 
 </div>
 </div>
