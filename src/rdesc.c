@@ -27,6 +27,10 @@
 		sizeof(struct rdesc_token) + (p).seminfo_size - RDESC_BASE_SEMINFO_SIZE : \
 		sizeof(struct rdesc_token))
 
+#define node_size(p) \
+	(tk_size(p) > sizeof(struct rdesc_node) ? \
+		tk_size(p) : sizeof(struct rdesc_node))
+
 #define tk_node_size(p) \
 	(sizeof(struct rdesc_node) + tk_size(p) - sizeof(struct rdesc_token))
 
@@ -93,7 +97,8 @@ void rdesc_reset(struct rdesc *p, rdesc_token_destroyer_func tk_destroyer)
 	if (p->root)
 		rdesc_node_destroy(p->root, tk_destroyer);
 
-	rdesc_stack_reset(&p->stack, tk_destroyer);
+	rdesc_stack_foreach(p->stack, (void (*)(void *)) tk_destroyer);
+	rdesc_stack_reset(&p->stack);
 
 	p->root = p->cur = NULL;
 }
@@ -103,7 +108,8 @@ void rdesc_destroy(struct rdesc *p, rdesc_token_destroyer_func tk_destroyer)
 	if (p->root)
 		rdesc_node_destroy(p->root, tk_destroyer);
 
-	rdesc_stack_destroy(p->stack, tk_destroyer);
+	rdesc_stack_foreach(p->stack, (void (*)(void *)) tk_destroyer);
+	rdesc_stack_destroy(p->stack);
 
 	p->root = p->cur = NULL;
 }

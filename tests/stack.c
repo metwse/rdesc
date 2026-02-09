@@ -43,8 +43,8 @@ int main(void)
 				     "seminfo corrupted");
 		}
 
-		rdesc_stack_reset(&s, NULL);
+		rdesc_stack_reset(&s);
 	}
 
-	rdesc_stack_destroy(s, NULL);
+	rdesc_stack_destroy(s);
 }

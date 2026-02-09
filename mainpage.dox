@@ -23,7 +23,7 @@
  *    with static constant data via macros.
  * 3. Rule macros (`bnf_macros.h`): A set of macros to facilitate definning
  *    context free grammars. See examples below for usage.
- * 4. Optional features (`utility.h`): Development and debugging utilities.
+ * 4. Optional features (`util.h`): Development and debugging utilities.
  *
  * @section quickstart_sec Quick Start Guide
  *
