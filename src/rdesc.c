@@ -23,8 +23,8 @@
 	get_body(node)[0].ty == CFG_SENTINEL)
 
 #define tk_size(p) \
-	(RDESC_MIN_SEMINFO_SIZE < (p).seminfo_size ? \
-		sizeof(struct rdesc_token) + (p).seminfo_size - RDESC_MIN_SEMINFO_SIZE : \
+	(RDESC_BASE_SEMINFO_SIZE < (p).seminfo_size ? \
+		sizeof(struct rdesc_token) + (p).seminfo_size - RDESC_BASE_SEMINFO_SIZE : \
 		sizeof(struct rdesc_token))
 
 #define tk_node_size(p) \

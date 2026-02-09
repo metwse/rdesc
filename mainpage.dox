@@ -4,7 +4,7 @@
  * @section Introduction
  *
  * librdesc is a right-recursive, table-driven parsing library written in C99.
- * librdesc implements its own backtracing algorithm over Concrete Sytax Tree
+ * librdesc implements its own backtracing algorithm over Concrete Syntax Tree
  * (CST) and token stack.
  *
  * @section features Key Features
@@ -23,6 +23,7 @@
  *    with static constant data via macros.
  * 3. Rule macros (`bnf_macros.h`): A set of macros to facilitate definning
  *    context free grammars. See examples below for usage.
+ * 4. Optional features (`utility.h`): Development and debugging utilities.
  *
  * @section quickstart_sec Quick Start Guide
  *

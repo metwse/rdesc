@@ -1,6 +1,6 @@
 /**
  * @file bc.h
- * @brief Basic Calculator
+ * @brief Basic calculator.
  *
  * A lightweight arithmetic expression evaluator designed to demonstrate
  * the capabilities of librdesc in handling standard algebraic grammars.

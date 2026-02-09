@@ -58,7 +58,7 @@ int main(void)
 	rdesc_assert(pump_res == RDESC_READY, "READY result expected");
 	rdesc_assert(cst, "syntax tree could not be parsed");
 
-	rdesc_dump_dot(cst, balg_tk_printer_with_free, balg_nt_names, stdout);
+	rdesc_dump_cst(cst, balg_tk_printer_with_free, balg_nt_names, stdout);
 	rdesc_node_destroy(cst, NULL);
 
 	exblex_init(&lex,

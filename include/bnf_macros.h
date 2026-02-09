@@ -22,12 +22,12 @@
 
 
 #ifndef PREFIX_TK
-/** @brief see @ref prefix_sec  */
+/** @brief See @ref prefix_sec  */
 #define PREFIX_TK(tk) tk
 #endif
 
 #ifndef PREFIX_NT
-/** @brief see @ref prefix_sec  */
+/** @brief See @ref prefix_sec  */
 #define PREFIX_NT(nt) nt
 #endif
 
@@ -36,19 +36,19 @@
 #define POSTFIX_NT_REST(nt) nt ## _REST
 #endif
 
-/** integer representing EOB (end-of-body) */
+/** Integer representing EOB (end-of-body). */
 #define EOB -1
-/** integer representing EOC (end-of-construct) */
+/** Integer representing EOC (end-of-construct). */
 #define EOC -2
 
 /**
- * @brief Sentinel struct for the end of a rule's body (EOB)
+ * @brief Sentinel struct for the end of a rule's body (EOB).
  *
  * Not recommended, use `EPSILON` instead.
  */
 #define SEOB { .ty = CFG_SENTINEL, .id = EOB }
 /**
- * @brief Sentinel struct for the end of a construct's variants (EOC)
+ * @brief Sentinel struct for the end of a construct's variants (EOC).
  *
  * Not recommended, use `r` and `ropt` instead.
  */

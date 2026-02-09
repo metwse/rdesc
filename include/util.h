@@ -1,6 +1,6 @@
 /**
  * @file util.h
- * @brief Development and Debugging Utilities.
+ * @brief Development and debugging utilities.
  *
  * This header provides tools for visualizing data structures in `librdesc`.
  */
@@ -31,7 +31,7 @@ extern "C" {
  *
  * Traverses the CST and generates a `.dot` representation.
  *
- * @param n CST node
+ * @param node CST node
  * @param nt_names The raw name of the non-terminal (e.g., `expr`). The dumper
  *        handles the surrounding `<` and `>` characters automatically.
  * @param tk_printer Callback to print token names.
@@ -39,7 +39,7 @@ extern "C" {
  *          table accordingly.
  * @param out Output file stream
  */
-void rdesc_dump_dot(const struct rdesc_node *n,
+void rdesc_dump_cst(const struct rdesc_node *node,
 		    rdesc_tk_printer_func tk_printer,
 		    const char *const nt_names[],
 		    FILE *out);

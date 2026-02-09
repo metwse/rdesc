@@ -44,7 +44,7 @@ static void dump_graph_recursive(const struct rdesc_node *n,
 	}
 }
 
-void rdesc_dump_dot(const struct rdesc_node *n,
+void rdesc_dump_cst(const struct rdesc_node *n,
 		    rdesc_tk_printer_func tk_printer,
 		    const char *const *nt_names,
 		    FILE *out)
