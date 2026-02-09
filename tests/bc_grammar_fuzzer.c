@@ -26,6 +26,14 @@ struct grammar_generator {
 	} state;
 };
 
+#define DEFAULT_GENERATOR (struct grammar_generator) { \
+		.group_start_p = 1, \
+		.group_end_p = 0.5, \
+		.group_depth = 0, \
+		.state = GENERATE_LPAREN, \
+	}
+
+
 enum bc_tk next_tk(struct grammar_generator *g) {
 	int r = rand();
 	int r_ambiguity = rand();
@@ -94,14 +102,8 @@ enum bc_tk next_tk(struct grammar_generator *g) {
 	return out;
 }
 
-
-void tests_parser(struct rdesc *p) {
-	struct grammar_generator g = {
-		.group_start_p = 1,
-		.group_end_p = 0.5,
-		.group_depth = 0,
-		.state = GENERATE_LPAREN,
-	};
+void test_complete_parse(struct rdesc *p) {
+	struct grammar_generator g = DEFAULT_GENERATOR;
 
 	enum bc_tk tk;
 	struct rdesc_node *cst;
@@ -110,17 +112,29 @@ void tests_parser(struct rdesc *p) {
 	while ((tk = next_tk(&g)) != TK_ENDSYM) {
 		g.group_start_p *= 0.99;
 
-		rdesc_assert(rdesc_pump(p, &cst,
-					&(struct rdesc_token) { .id = tk })
-			      == RDESC_CONTINUE,
-			     "could not match grammar");
+		rdesc_pump(p, &cst, &(struct rdesc_token) { .id = tk });
 	};
-	rdesc_assert(rdesc_pump(p, &cst,
-				&(struct rdesc_token) { .id = TK_ENDSYM })
-		      == RDESC_READY,
+
+	rdesc_assert(rdesc_pump(p, &cst, &(struct rdesc_token) { .id = TK_ENDSYM }) == RDESC_READY,
 		     "could not match grammar");
 
 	rdesc_node_destroy(cst, NULL);
+}
+
+void test_interruption(struct rdesc *p) {
+	struct grammar_generator g = DEFAULT_GENERATOR;
+
+	enum bc_tk tk;
+	struct rdesc_node *cst;
+
+	rdesc_start(p, NT_STMT);
+	while ((tk = next_tk(&g)) != TK_ENDSYM) {
+		g.group_start_p *= 0.9;
+
+		rdesc_pump(p, &cst, &(struct rdesc_token) { .id = tk });
+	};
+
+	rdesc_reset(p, NULL);
 }
 
 
@@ -135,9 +149,16 @@ int main(void)
 
 	srand(time(NULL));
 
-	for (int _fuzz = 0; _fuzz < 16; _fuzz++)
-		tests_parser(&p);
+	/* test interruption & complete parse in the same parser */
+	for (int _fuzz = 0; _fuzz < 16; _fuzz++) {
+		test_interruption(&p);
+		test_complete_parse(&p);
+	}
 
-	rdesc_destroy(&p);
+	/* test destroying the parser during a parse */
+	rdesc_start(&p, NT_STMT);
+	rdesc_pump(&p, NULL, &(struct rdesc_token) { .id = TK_NUM });
+	rdesc_destroy(&p, NULL);
+
 	rdesc_cfg_destroy(&cfg);
 }

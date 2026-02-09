@@ -61,8 +61,10 @@ struct rdesc_nonterminal {
 };
 
 /** @brief minimum size of a token  */
-#define RDESC_MIN_SEMINFO_SIZE \
-	(sizeof(struct rdesc_nonterminal) - sizeof(uint32_t))
+#define RDESC_MIN_SEMINFO_SIZE ( \
+		(sizeof(struct rdesc_nonterminal) - sizeof(uint32_t)) \
+		+ sizeof(char) - 1 \
+	) / sizeof(char)
 
 /** @brief terminal (token) object for context-free grammar */
 struct rdesc_token {
@@ -78,13 +80,14 @@ struct rdesc_token {
 struct rdesc_node {
 	struct rdesc_node *parent /** parent node */;
 
-	/** type of the symbol (token = 0 / nonterminal = 1) */
-	uint32_t ty : 1;
-
 	union {
+		/** type of the symbol (token = 0 / nonterminal = 1) */
+		uint32_t ty : 1;
+
 		struct rdesc_token tk /** token */;
 		struct rdesc_nonterminal nt /** nonterminal */;
-	} n /** dummy union name, as anonymous unions are not supported in C99 */;
+	} n /** n is a dummy union name, as anonymous unions are not supported
+		in C99 */;
 
 	char _[] /** continuation of additional semantic info */;
 };
@@ -92,7 +95,7 @@ struct rdesc_node {
 
 
 /** @brief Function pointer type for freeing tokens. */
-typedef void (*rdesc_tk_destroyer_func)(struct rdesc_token *);
+typedef void (*rdesc_token_destroyer_func)(struct rdesc_token *);
 
 
 #ifdef __cplusplus
@@ -100,29 +103,30 @@ extern "C" {
 #endif
 
 /** @brief Initializes a new parser. */
-void rdesc_init(struct rdesc *p,
+void rdesc_init(struct rdesc *parser,
 		size_t seminfo_size,
 		const struct rdesc_cfg *cfg);
 
 /**
  * @brief Frees memory allocated by the parser and destroys the parser instance.
  *
- * @warning The token stack must be empty and no parse in progress before
- *          calling this function to prevent memory leaks. Raises an assertion
- *          error if the token stack is not empty or the root is not null.
+ * @note `seminfo` field in `struct rdesc_token` is ignored, e.g. not freed,
+ *        unless `token_destroyer` is set.
  */
-void rdesc_destroy(struct rdesc *p);
+void rdesc_destroy(struct rdesc *parser,
+		   rdesc_token_destroyer_func token_destroyer);
 
 /** @brief Sets start symbol for the next match. */
-void rdesc_start(struct rdesc *p, int start_symbol);
+void rdesc_start(struct rdesc *parser, int start_symbol);
 
 /**
  * @brief Resets parser and its state.
  *
  * @note `seminfo` field in `struct rdesc_token` is ignored, e.g. not freed,
- *        unless `free_tk` is set.
+ *        unless `token_destroyer` is set.
  */
-void rdesc_reset(struct rdesc *p, rdesc_tk_destroyer_func free_tk);
+void rdesc_reset(struct rdesc *parser,
+		 rdesc_token_destroyer_func token_destroyer);
 
 /**
  * @brief Drives the parsing process, The Pump.
@@ -130,8 +134,8 @@ void rdesc_reset(struct rdesc *p, rdesc_tk_destroyer_func free_tk);
  * As the central engine of the parser, it consumes tokens from either the
  * internal backtracking stack or the provided `incoming_tk`.
  *
- * @param p Pointer to the parser instance.
- * @param out Output pointer for the resulting CST node (if READY).
+ * @param parser Pointer to the parser instance.
+ * @param out Output pointer for the resulting CST node (IF READY).
  * @param incoming_tk Pointer to the next token to consume.
  *        - Optional: Pass `NULL` to resume parsing using only the tokens
  *          currently in the backtracking stack.
@@ -142,7 +146,7 @@ void rdesc_reset(struct rdesc *p, rdesc_tk_destroyer_func free_tk);
  *
  * @return The current status of the parse operation.
  */
-enum rdesc_result rdesc_pump(struct rdesc *p,
+enum rdesc_result rdesc_pump(struct rdesc *parser,
 			     struct rdesc_node **out,
 			     struct rdesc_token *incoming_tk);
 
@@ -150,10 +154,10 @@ enum rdesc_result rdesc_pump(struct rdesc *p,
  * @brief Recursively destroys the node and its children.
  *
  * @note `seminfo` field in `struct rdesc_token` are not freed unless
- *        `free_tk` is set.
+ *        `token_destroyer` is set.
  */
-void rdesc_node_destroy(struct rdesc_node *n,
-			rdesc_tk_destroyer_func free_tk);
+void rdesc_node_destroy(struct rdesc_node *node,
+			rdesc_token_destroyer_func token_destroyer);
 
 #ifdef __cplusplus
 }

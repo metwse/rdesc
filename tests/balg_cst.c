@@ -69,8 +69,7 @@ int main(void)
 		pump_res = rdesc_pump(&p, NULL, &tk);
 
 	rdesc_assert(pump_res == RDESC_NOMATCH, "NOMATCH result expected");
-	rdesc_reset(&p, balg_tk_destroyer);
 
-	rdesc_destroy(&p);
+	rdesc_destroy(&p, balg_tk_destroyer);
 	rdesc_cfg_destroy(&cfg);
 }

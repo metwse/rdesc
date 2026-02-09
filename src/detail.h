@@ -55,13 +55,9 @@
 	    (cfg).rules))
 
 /* helper macros for accessing node fields */
+#define ty_ n.ty
 #define tk_ n.tk
 #define nt_ n.nt
-
-#define tk_size(p) \
-	RDESC_MIN_SEMINFO_SIZE < (p).seminfo_size ? \
-		sizeof(struct rdesc_token) + (p).seminfo_size - RDESC_MIN_SEMINFO_SIZE : \
-		sizeof(struct rdesc_token)
 
 
 #endif

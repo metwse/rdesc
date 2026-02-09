@@ -80,6 +80,6 @@ int main(void)
 	printf("Basic Calculator, librdesc sample program\n");
 	program(&lex, &p);
 
-	rdesc_destroy(&p);
+	rdesc_destroy(&p, NULL);
 	rdesc_cfg_destroy(&cfg);
 }
