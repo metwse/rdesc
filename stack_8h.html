@@ -88,36 +88,117 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a4b14c8e267d5990714085f97957be9b3"><td class="memItemLeft" align="right" valign="top"><a id="a4b14c8e267d5990714085f97957be9b3" name="a4b14c8e267d5990714085f97957be9b3"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_stack_init</b> (struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> **s)</td></tr>
-<tr class="memdesc:a4b14c8e267d5990714085f97957be9b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the token stack. <br /></td></tr>
-<tr class="separator:a4b14c8e267d5990714085f97957be9b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd7bf140ebfa1dd518251c8d4ef5d7e7"><td class="memItemLeft" align="right" valign="top"><a id="abd7bf140ebfa1dd518251c8d4ef5d7e7" name="abd7bf140ebfa1dd518251c8d4ef5d7e7"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_stack_destroy</b> (struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> *s)</td></tr>
-<tr class="memdesc:abd7bf140ebfa1dd518251c8d4ef5d7e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees memory allocated by the token stack. <br /></td></tr>
-<tr class="separator:abd7bf140ebfa1dd518251c8d4ef5d7e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1735b01358a14c46b445ad0668ea0d1d"><td class="memItemLeft" align="right" valign="top"><a id="a1735b01358a14c46b445ad0668ea0d1d" name="a1735b01358a14c46b445ad0668ea0d1d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_stack_push</b> (struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> **s, struct <a class="el" href="structrdesc__token.html">rdesc_token</a> tk)</td></tr>
-<tr class="memdesc:a1735b01358a14c46b445ad0668ea0d1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pushes a token onto the stack. <br /></td></tr>
-<tr class="separator:a1735b01358a14c46b445ad0668ea0d1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa909effca8bce53202e036dc24757f65"><td class="memItemLeft" align="right" valign="top"><a id="aa909effca8bce53202e036dc24757f65" name="aa909effca8bce53202e036dc24757f65"></a>
-struct <a class="el" href="structrdesc__token.html">rdesc_token</a>&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_stack_pop</b> (struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> **s)</td></tr>
-<tr class="memdesc:aa909effca8bce53202e036dc24757f65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes and returns the top token from the stack. <br /></td></tr>
-<tr class="separator:aa909effca8bce53202e036dc24757f65"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af16aecff86f78fb4b67191b9f85f8d81"><td class="memItemLeft" align="right" valign="top"><a id="af16aecff86f78fb4b67191b9f85f8d81" name="af16aecff86f78fb4b67191b9f85f8d81"></a>
-struct <a class="el" href="structrdesc__token.html">rdesc_token</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_stack_as_ref</b> (struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> *s)</td></tr>
-<tr class="memdesc:af16aecff86f78fb4b67191b9f85f8d81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <b>reference</b> to underlying dynamic buffer. <br /></td></tr>
-<tr class="separator:af16aecff86f78fb4b67191b9f85f8d81"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f1c2e7bc060e6334b535b4dc2527909"><td class="memItemLeft" align="right" valign="top"><a id="a7f1c2e7bc060e6334b535b4dc2527909" name="a7f1c2e7bc060e6334b535b4dc2527909"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_stack_len</b> (const struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> *s)</td></tr>
-<tr class="memdesc:a7f1c2e7bc060e6334b535b4dc2527909"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the underlying dynamic buffer. <br /></td></tr>
-<tr class="separator:a7f1c2e7bc060e6334b535b4dc2527909"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4292fd681afdb2b0a3f5c89ecc5e42b4"><td class="memItemLeft" align="right" valign="top"><a id="a4292fd681afdb2b0a3f5c89ecc5e42b4" name="a4292fd681afdb2b0a3f5c89ecc5e42b4"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_stack_init</b> (struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> **stack, size_t token_size)</td></tr>
+<tr class="memdesc:a4292fd681afdb2b0a3f5c89ecc5e42b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the token stack. <br /></td></tr>
+<tr class="separator:a4292fd681afdb2b0a3f5c89ecc5e42b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95bf616dacd42746f5843b8ca85e3cec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stack_8h.html#a95bf616dacd42746f5843b8ca85e3cec">rdesc_stack_destroy</a> (struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> *stack, <a class="el" href="rdesc_8h.html#a5fa070c0c999e4c999de685375c29230">rdesc_token_destroyer_func</a> token_destroyer)</td></tr>
+<tr class="memdesc:a95bf616dacd42746f5843b8ca85e3cec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees memory allocated by the token stack.  <br /></td></tr>
+<tr class="separator:a95bf616dacd42746f5843b8ca85e3cec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9039139d0138f0a8bb6bd647e826f795"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stack_8h.html#a9039139d0138f0a8bb6bd647e826f795">rdesc_stack_reset</a> (struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> **stack, <a class="el" href="rdesc_8h.html#a5fa070c0c999e4c999de685375c29230">rdesc_token_destroyer_func</a> token_destroyer)</td></tr>
+<tr class="memdesc:a9039139d0138f0a8bb6bd647e826f795"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clean ups elements in the stack.  <br /></td></tr>
+<tr class="separator:a9039139d0138f0a8bb6bd647e826f795"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abcbd5ad6fe960b7612f348081219f439"><td class="memItemLeft" align="right" valign="top"><a id="abcbd5ad6fe960b7612f348081219f439" name="abcbd5ad6fe960b7612f348081219f439"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_stack_push</b> (struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> **stack, struct <a class="el" href="structrdesc__token.html">rdesc_token</a> *token)</td></tr>
+<tr class="memdesc:abcbd5ad6fe960b7612f348081219f439"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pushes a token onto the stack. <br /></td></tr>
+<tr class="separator:abcbd5ad6fe960b7612f348081219f439"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acad4eafffe26806bbc3d1626a1ab42ce"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structrdesc__token.html">rdesc_token</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stack_8h.html#acad4eafffe26806bbc3d1626a1ab42ce">rdesc_stack_pop</a> (struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> **stack)</td></tr>
+<tr class="memdesc:acad4eafffe26806bbc3d1626a1ab42ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes and returns the top token from the stack.  <br /></td></tr>
+<tr class="separator:acad4eafffe26806bbc3d1626a1ab42ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a3c5ce807ab64b9425608ce789d135b"><td class="memItemLeft" align="right" valign="top"><a id="a5a3c5ce807ab64b9425608ce789d135b" name="a5a3c5ce807ab64b9425608ce789d135b"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_stack_len</b> (const struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> *stack)</td></tr>
+<tr class="memdesc:a5a3c5ce807ab64b9425608ce789d135b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns total number of elements of the stack. <br /></td></tr>
+<tr class="separator:a5a3c5ce807ab64b9425608ce789d135b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Token stack interface contract. </p>
 <p>This header defines the function signatures required to manipulate the parser's backtracking stack.</p>
 <dl class="section note"><dt>Note</dt><dd>For custom implementations: If you have defined a custom <code>struct <a class="el" href="structrdesc__stack.html" title="Default implementation of the token backtracking stack.">rdesc_stack</a></code>, you <b>must</b> provide implementations for all the functions declared in this file. The parser engine (<code>librdesc</code>) relies on these exact signatures to perform backtracking. </dd></dl>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="a95bf616dacd42746f5843b8ca85e3cec" name="a95bf616dacd42746f5843b8ca85e3cec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95bf616dacd42746f5843b8ca85e3cec">&#9670;&#160;</a></span>rdesc_stack_destroy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rdesc_stack_destroy </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> *&#160;</td>
+          <td class="paramname"><em>stack</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="rdesc_8h.html#a5fa070c0c999e4c999de685375c29230">rdesc_token_destroyer_func</a>&#160;</td>
+          <td class="paramname"><em>token_destroyer</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Frees memory allocated by the token stack. </p>
+<dl class="section note"><dt>Note</dt><dd>Calls token destroyer method for each token IF set. </dd></dl>
+
+</div>
+</div>
+<a id="acad4eafffe26806bbc3d1626a1ab42ce" name="acad4eafffe26806bbc3d1626a1ab42ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acad4eafffe26806bbc3d1626a1ab42ce">&#9670;&#160;</a></span>rdesc_stack_pop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structrdesc__token.html">rdesc_token</a> * rdesc_stack_pop </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> **&#160;</td>
+          <td class="paramname"><em>stack</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Removes and returns the top token from the stack. </p>
+<dl class="section note"><dt>Note</dt><dd>Return value is a pointer managed by the <code>stack</code>. Stack implementation shall guarantee life time of returned token: the pointer must live until any other push/pop/reset operation. </dd></dl>
+
+</div>
+</div>
+<a id="a9039139d0138f0a8bb6bd647e826f795" name="a9039139d0138f0a8bb6bd647e826f795"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9039139d0138f0a8bb6bd647e826f795">&#9670;&#160;</a></span>rdesc_stack_reset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rdesc_stack_reset </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> **&#160;</td>
+          <td class="paramname"><em>stack</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="rdesc_8h.html#a5fa070c0c999e4c999de685375c29230">rdesc_token_destroyer_func</a>&#160;</td>
+          <td class="paramname"><em>token_destroyer</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Clean ups elements in the stack. </p>
+<dl class="section note"><dt>Note</dt><dd>Calls token destroyer method for each token IF set. </dd></dl>
+
+</div>
+</div>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6

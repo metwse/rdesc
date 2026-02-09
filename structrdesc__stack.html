@@ -85,8 +85,10 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a35a5bbb16a683bce1559ae77fa886820"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acfc289d9e211e8557cc297154c944b5d"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__stack.html#acfc289d9e211e8557cc297154c944b5d">cap</a></td></tr>
 <tr class="separator:acfc289d9e211e8557cc297154c944b5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0b40146845ef25dfe8c3d02030a66f7"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structrdesc__token.html">rdesc_token</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__stack.html#ab0b40146845ef25dfe8c3d02030a66f7">tokens</a> []</td></tr>
-<tr class="separator:ab0b40146845ef25dfe8c3d02030a66f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c85d77e42f80dcef2b48a5020bd17f3"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__stack.html#a2c85d77e42f80dcef2b48a5020bd17f3">tk_size</a></td></tr>
+<tr class="separator:a2c85d77e42f80dcef2b48a5020bd17f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9575afc6b6209269a549a2c3936dea5f"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__stack.html#a9575afc6b6209269a549a2c3936dea5f">tokens</a> []</td></tr>
+<tr class="separator:a9575afc6b6209269a549a2c3936dea5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Default implementation of the token backtracking stack. </p>
@@ -122,14 +124,29 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ab0b40146845ef25dfe8c3d02030a66f7" name="ab0b40146845ef25dfe8c3d02030a66f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab0b40146845ef25dfe8c3d02030a66f7">&#9670;&#160;</a></span>tokens</h2>
+<a id="a2c85d77e42f80dcef2b48a5020bd17f3" name="a2c85d77e42f80dcef2b48a5020bd17f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c85d77e42f80dcef2b48a5020bd17f3">&#9670;&#160;</a></span>tk_size</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="structrdesc__token.html">rdesc_token</a> rdesc_stack::tokens[]</td>
+          <td class="memname">size_t rdesc_stack::tk_size</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>size of a token in chars </p>
+
+</div>
+</div>
+<a id="a9575afc6b6209269a549a2c3936dea5f" name="a9575afc6b6209269a549a2c3936dea5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9575afc6b6209269a549a2c3936dea5f">&#9670;&#160;</a></span>tokens</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char rdesc_stack::tokens[]</td>
         </tr>
       </table>
 </div><div class="memdoc">
