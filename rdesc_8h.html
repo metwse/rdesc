@@ -83,7 +83,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>The Right-Recursive Descent Parser.  
+<p>The right-recursive descent parser.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
 <code>#include &lt;stddef.h&gt;</code><br />
@@ -93,10 +93,10 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc.html">rdesc</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Right-recursive descent parser.  <a href="structrdesc.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The right-recursive descent parser.  <a href="structrdesc.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__nonterminal.html">rdesc_nonterminal</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">nonterminal (syntatic variable) object for context-free grammar  <a href="structrdesc__nonterminal.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nonterminal (syntatic variable) object for context-free grammar.  <a href="structrdesc__nonterminal.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__token.html">rdesc_token</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">terminal (token) object for context-free grammar  <a href="structrdesc__token.html#details">More...</a><br /></td></tr>
@@ -112,7 +112,7 @@ Macros</h2></td></tr>
 <tr class="memdesc:a444e26b41f93ae91fc18de2f6990704c"><td class="mdescLeft">&#160;</td><td class="mdescRight">major version <br /></td></tr>
 <tr class="separator:a444e26b41f93ae91fc18de2f6990704c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac26ce46ec1c0fcefbf059b54ae345508"><td class="memItemLeft" align="right" valign="top"><a id="ac26ce46ec1c0fcefbf059b54ae345508" name="ac26ce46ec1c0fcefbf059b54ae345508"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>RDESC_VERSION_MINOR</b>&#160;&#160;&#160;1</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>RDESC_VERSION_MINOR</b>&#160;&#160;&#160;2</td></tr>
 <tr class="memdesc:ac26ce46ec1c0fcefbf059b54ae345508"><td class="mdescLeft">&#160;</td><td class="mdescRight">minor version <br /></td></tr>
 <tr class="separator:ac26ce46ec1c0fcefbf059b54ae345508"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2d00951dda9061078ef18db1b6163568"><td class="memItemLeft" align="right" valign="top"><a id="a2d00951dda9061078ef18db1b6163568" name="a2d00951dda9061078ef18db1b6163568"></a>
@@ -120,13 +120,12 @@ Macros</h2></td></tr>
 <tr class="memdesc:a2d00951dda9061078ef18db1b6163568"><td class="mdescLeft">&#160;</td><td class="mdescRight">patch version <br /></td></tr>
 <tr class="separator:a2d00951dda9061078ef18db1b6163568"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09740b75a26b197222bc2b9510707f1a"><td class="memItemLeft" align="right" valign="top"><a id="a09740b75a26b197222bc2b9510707f1a" name="a09740b75a26b197222bc2b9510707f1a"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>RDESC_VERSION_PRE_RELEASE</b>&#160;&#160;&#160;&quot;&quot;</td></tr>
-<tr class="memdesc:a09740b75a26b197222bc2b9510707f1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">prerelase identifier <br /></td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>RDESC_VERSION_PRE_RELEASE</b>&#160;&#160;&#160;&quot;alpha.0&quot;</td></tr>
+<tr class="memdesc:a09740b75a26b197222bc2b9510707f1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">prerelease identifier <br /></td></tr>
 <tr class="separator:a09740b75a26b197222bc2b9510707f1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac29e47101b06f90776d9bbfdc17b9686"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#ac29e47101b06f90776d9bbfdc17b9686">RDESC_MIN_SEMINFO_SIZE</a></td></tr>
-<tr class="memdesc:ac29e47101b06f90776d9bbfdc17b9686"><td class="mdescLeft">&#160;</td><td class="mdescRight">minimum size of a token <br  />
-  <br /></td></tr>
-<tr class="separator:ac29e47101b06f90776d9bbfdc17b9686"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a739275f3ca38278b6ad36032ee6eee10"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#a739275f3ca38278b6ad36032ee6eee10">RDESC_BASE_SEMINFO_SIZE</a></td></tr>
+<tr class="memdesc:a739275f3ca38278b6ad36032ee6eee10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minimum seminfo array size for union compatibility in <a class="el" href="structrdesc__node.html" title="A node in the CST.">rdesc_node</a>.  <br /></td></tr>
+<tr class="separator:a739275f3ca38278b6ad36032ee6eee10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -141,7 +140,7 @@ Enumerations</h2></td></tr>
 , <a class="el" href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983daa5713dde97680749b32c95d7173ab2e0">RDESC_CONTINUE</a>
 , <a class="el" href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983da49ef64d4013eddadfd25db97f7e448bc">RDESC_NOMATCH</a>
  }</td></tr>
-<tr class="memdesc:ae1c47d0d0fe6789f714eaaab2f24983d"><td class="mdescLeft">&#160;</td><td class="mdescRight">parsing status  <a href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983d">More...</a><br /></td></tr>
+<tr class="memdesc:ae1c47d0d0fe6789f714eaaab2f24983d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parsing status.  <a href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983d">More...</a><br /></td></tr>
 <tr class="separator:ae1c47d0d0fe6789f714eaaab2f24983d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
@@ -168,16 +167,16 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_start</b> (stru
 <tr class="separator:a2c58d508c52a7d605bd3f413736e51d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The Right-Recursive Descent Parser. </p>
+<div class="textblock"><p>The right-recursive descent parser. </p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="ac29e47101b06f90776d9bbfdc17b9686" name="ac29e47101b06f90776d9bbfdc17b9686"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac29e47101b06f90776d9bbfdc17b9686">&#9670;&#160;</a></span>RDESC_MIN_SEMINFO_SIZE</h2>
+<a id="a739275f3ca38278b6ad36032ee6eee10" name="a739275f3ca38278b6ad36032ee6eee10"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a739275f3ca38278b6ad36032ee6eee10">&#9670;&#160;</a></span>RDESC_BASE_SEMINFO_SIZE</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define RDESC_MIN_SEMINFO_SIZE</td>
+          <td class="memname">#define RDESC_BASE_SEMINFO_SIZE</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -185,10 +184,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_start</b> (stru
 <div class="line">        (<span class="keyword">sizeof</span>(<span class="keyword">struct </span><a class="code hl_struct" href="structrdesc__nonterminal.html">rdesc_nonterminal</a>) - sizeof(uint32_t)) \</div>
 <div class="line">        + sizeof(char) - 1 \</div>
 <div class="line">    ) / sizeof(char)</div>
-<div class="ttc" id="astructrdesc__nonterminal_html"><div class="ttname"><a href="structrdesc__nonterminal.html">rdesc_nonterminal</a></div><div class="ttdoc">nonterminal (syntatic variable) object for context-free grammar</div><div class="ttdef"><b>Definition:</b> rdesc.h:47</div></div>
+<div class="ttc" id="astructrdesc__nonterminal_html"><div class="ttname"><a href="structrdesc__nonterminal.html">rdesc_nonterminal</a></div><div class="ttdoc">Nonterminal (syntatic variable) object for context-free grammar.</div><div class="ttdef"><b>Definition:</b> rdesc.h:51</div></div>
 </div><!-- fragment -->
-<p>minimum size of a token <br  />
- </p>
+<p>Minimum seminfo array size for union compatibility in <a class="el" href="structrdesc__node.html" title="A node in the CST.">rdesc_node</a>. </p>
+<p>This value ensures that <code>struct <a class="el" href="structrdesc__token.html" title="terminal (token) object for context-free grammar">rdesc_token</a></code> is large enough to be used interchangeably with <code>struct <a class="el" href="structrdesc__nonterminal.html" title="Nonterminal (syntatic variable) object for context-free grammar.">rdesc_nonterminal</a></code> in the union within <code>struct <a class="el" href="structrdesc__node.html" title="A node in the CST.">rdesc_node</a></code>.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="rdesc_8h.html#a358593fd267a2a0673e2476a55390016" title="Initializes a new parser.">rdesc_init</a> </dd>
+<dd>
+struct <a class="el" href="structrdesc__node.html" title="A node in the CST.">rdesc_node</a> </dd></dl>
 
 </div>
 </div>
@@ -205,13 +207,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_start</b> (stru
       </table>
 </div><div class="memdoc">
 
-<p>parsing status </p>
+<p>Parsing status. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ae1c47d0d0fe6789f714eaaab2f24983da3536c3180b6d6af0186a3572137154c3" name="ae1c47d0d0fe6789f714eaaab2f24983da3536c3180b6d6af0186a3572137154c3"></a>RDESC_READY&#160;</td><td class="fielddoc"><p>a tree is ready for consumption </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ae1c47d0d0fe6789f714eaaab2f24983da3536c3180b6d6af0186a3572137154c3" name="ae1c47d0d0fe6789f714eaaab2f24983da3536c3180b6d6af0186a3572137154c3"></a>RDESC_READY&#160;</td><td class="fielddoc"><p>A tree is ready for consumption. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ae1c47d0d0fe6789f714eaaab2f24983daa5713dde97680749b32c95d7173ab2e0" name="ae1c47d0d0fe6789f714eaaab2f24983daa5713dde97680749b32c95d7173ab2e0"></a>RDESC_CONTINUE&#160;</td><td class="fielddoc"><p>new tokens should be provided </p>
+<tr><td class="fieldname"><a id="ae1c47d0d0fe6789f714eaaab2f24983daa5713dde97680749b32c95d7173ab2e0" name="ae1c47d0d0fe6789f714eaaab2f24983daa5713dde97680749b32c95d7173ab2e0"></a>RDESC_CONTINUE&#160;</td><td class="fielddoc"><p>New tokens should be provided. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ae1c47d0d0fe6789f714eaaab2f24983da49ef64d4013eddadfd25db97f7e448bc" name="ae1c47d0d0fe6789f714eaaab2f24983da49ef64d4013eddadfd25db97f7e448bc"></a>RDESC_NOMATCH&#160;</td><td class="fielddoc"><p>provided tokens do not match with any rule </p>
+<tr><td class="fieldname"><a id="ae1c47d0d0fe6789f714eaaab2f24983da49ef64d4013eddadfd25db97f7e448bc" name="ae1c47d0d0fe6789f714eaaab2f24983da49ef64d4013eddadfd25db97f7e448bc"></a>RDESC_NOMATCH&#160;</td><td class="fielddoc"><p>Provided tokens do not match with any rule. </p>
 </td></tr>
 </table>
 

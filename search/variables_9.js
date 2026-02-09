@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['tk_0',['tk',['../structrdesc__node.html#ae713858dca30d7af39126e65a442a462',1,'rdesc_node']]],
-  ['tk_5fsize_1',['tk_size',['../structrdesc__stack.html#a2c85d77e42f80dcef2b48a5020bd17f3',1,'rdesc_stack']]],
-  ['token_5fcount_2',['token_count',['../structexblex.html#ac9c32459c8daa29aba3a15c7d1568a1b',1,'exblex']]],
-  ['tokens_3',['tokens',['../structexblex.html#a0178e84dd86b49a85dda68978c4d8b2c',1,'exblex::tokens()'],['../structrdesc__stack.html#a9575afc6b6209269a549a2c3936dea5f',1,'rdesc_stack::tokens()']]],
-  ['ty_4',['ty',['../structrdesc__cfg__symbol.html#a1bd12df565a2d599561d7b7ecf99cfe2',1,'rdesc_cfg_symbol::ty()'],['../structrdesc__node.html#adbac020e84364daa76e635992d801b2e',1,'rdesc_node::ty()']]]
+  ['seminfo_0',['seminfo',['../structrdesc__token.html#a1c0c94f8a5768a08fff12bf047844584',1,'rdesc_token']]],
+  ['seminfo_5fsize_1',['seminfo_size',['../structrdesc.html#a08dce855cec2271e3aef1ebafd88524d',1,'rdesc']]],
+  ['stack_2',['stack',['../structrdesc.html#ae7c0946c56581e4ad98ee3530a54cd33',1,'rdesc']]]
 ];

@@ -76,7 +76,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Default implementation of the token backtracking stack.  
+<p>Default implementation of the stack.  
  <a href="structrdesc__stack.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
@@ -85,14 +85,14 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a35a5bbb16a683bce1559ae77fa886820"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acfc289d9e211e8557cc297154c944b5d"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__stack.html#acfc289d9e211e8557cc297154c944b5d">cap</a></td></tr>
 <tr class="separator:acfc289d9e211e8557cc297154c944b5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c85d77e42f80dcef2b48a5020bd17f3"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__stack.html#a2c85d77e42f80dcef2b48a5020bd17f3">tk_size</a></td></tr>
-<tr class="separator:a2c85d77e42f80dcef2b48a5020bd17f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9575afc6b6209269a549a2c3936dea5f"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__stack.html#a9575afc6b6209269a549a2c3936dea5f">tokens</a> []</td></tr>
-<tr class="separator:a9575afc6b6209269a549a2c3936dea5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a486afd15e33cf52d0543b4409e2f544e"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__stack.html#a486afd15e33cf52d0543b4409e2f544e">element_size</a></td></tr>
+<tr class="separator:a486afd15e33cf52d0543b4409e2f544e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94a5811d87258873e66b3c259e3a17b5"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__stack.html#a94a5811d87258873e66b3c259e3a17b5">elements</a> []</td></tr>
+<tr class="separator:a94a5811d87258873e66b3c259e3a17b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Default implementation of the token backtracking stack. </p>
-<dl class="section note"><dt>Note</dt><dd>Portability / Custom Implementation: This definition is guarded by <code>stack</code> feature flag. If you are porting <code>librdesc</code> to an environment that already has a preferred dynamic array or stack implementation (e.g., a project-specific vector type), you can remove the <code>stack</code> feature flag. This allows you to suppress this default struct and provide your own definition of <code>struct <a class="el" href="structrdesc__stack.html" title="Default implementation of the token backtracking stack.">rdesc_stack</a></code> compatible with your system. </dd></dl>
+<div class="textblock"><p>Default implementation of the stack. </p>
+<dl class="section note"><dt>Note</dt><dd>Portability / Custom Implementation: This definition is guarded by <code>stack</code> feature flag. If you are porting <code>librdesc</code> to an environment that already has a preferred dynamic array or stack implementation (e.g., a project-specific vector type), you can remove the <code>stack</code> feature flag. This allows you to suppress this default struct and provide your own definition of <code>struct <a class="el" href="structrdesc__stack.html" title="Default implementation of the stack.">rdesc_stack</a></code> compatible with your system. </dd></dl>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="acfc289d9e211e8557cc297154c944b5d" name="acfc289d9e211e8557cc297154c944b5d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acfc289d9e211e8557cc297154c944b5d">&#9670;&#160;</a></span>cap</h2>
@@ -109,6 +109,36 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a486afd15e33cf52d0543b4409e2f544e" name="a486afd15e33cf52d0543b4409e2f544e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a486afd15e33cf52d0543b4409e2f544e">&#9670;&#160;</a></span>element_size</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t rdesc_stack::element_size</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>size of a element in chars </p>
+
+</div>
+</div>
+<a id="a94a5811d87258873e66b3c259e3a17b5" name="a94a5811d87258873e66b3c259e3a17b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94a5811d87258873e66b3c259e3a17b5">&#9670;&#160;</a></span>elements</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char rdesc_stack::elements[]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>pointer to the dynamic array buffer </p>
+
+</div>
+</div>
 <a id="a35a5bbb16a683bce1559ae77fa886820" name="a35a5bbb16a683bce1559ae77fa886820"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a35a5bbb16a683bce1559ae77fa886820">&#9670;&#160;</a></span>len</h2>
 
@@ -120,37 +150,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>current number of tokens in the stack </p>
-
-</div>
-</div>
-<a id="a2c85d77e42f80dcef2b48a5020bd17f3" name="a2c85d77e42f80dcef2b48a5020bd17f3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2c85d77e42f80dcef2b48a5020bd17f3">&#9670;&#160;</a></span>tk_size</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t rdesc_stack::tk_size</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>size of a token in chars </p>
-
-</div>
-</div>
-<a id="a9575afc6b6209269a549a2c3936dea5f" name="a9575afc6b6209269a549a2c3936dea5f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9575afc6b6209269a549a2c3936dea5f">&#9670;&#160;</a></span>tokens</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">char rdesc_stack::tokens[]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>pointer to the dynamic array buffer </p>
+<p>current number of elements in the stack </p>
 
 </div>
 </div>

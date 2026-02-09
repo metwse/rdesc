@@ -80,7 +80,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Development and Debugging Utilities.  
+<p>Development and debugging utilities.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdio.h&gt;</code><br />
 </div>
@@ -95,15 +95,15 @@ typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_tk_pr
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a0e7a9d7c047942e5336049e788a4c6d8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a0e7a9d7c047942e5336049e788a4c6d8">rdesc_dump_dot</a> (const struct <a class="el" href="structrdesc__node.html">rdesc_node</a> *n, <a class="el" href="util_8h.html#a5ad7949e67d6cc6ca01da3ae32de02d5">rdesc_tk_printer_func</a> tk_printer, const char *const nt_names[], FILE *out)</td></tr>
-<tr class="memdesc:a0e7a9d7c047942e5336049e788a4c6d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dumps the Concrete Syntax Tree (CST) as a Graphviz DOT graph.  <br /></td></tr>
-<tr class="separator:a0e7a9d7c047942e5336049e788a4c6d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73e90843dc65c9c10f33c2d6a38d059c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a73e90843dc65c9c10f33c2d6a38d059c">rdesc_dump_cst</a> (const struct <a class="el" href="structrdesc__node.html">rdesc_node</a> *node, <a class="el" href="util_8h.html#a5ad7949e67d6cc6ca01da3ae32de02d5">rdesc_tk_printer_func</a> tk_printer, const char *const nt_names[], FILE *out)</td></tr>
+<tr class="memdesc:a73e90843dc65c9c10f33c2d6a38d059c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dumps the Concrete Syntax Tree (CST) as a Graphviz DOT graph.  <br /></td></tr>
+<tr class="separator:a73e90843dc65c9c10f33c2d6a38d059c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2be15672f3e75f44a82efca059c59cfb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a2be15672f3e75f44a82efca059c59cfb">rdesc_dump_bnf</a> (const struct <a class="el" href="structrdesc__cfg.html">rdesc_cfg</a> *cfg, const char *const tk_names[], const char *const nt_names[], FILE *out)</td></tr>
 <tr class="memdesc:a2be15672f3e75f44a82efca059c59cfb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dumps the Context-Free Grammar in BNF format.  <br /></td></tr>
 <tr class="separator:a2be15672f3e75f44a82efca059c59cfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Development and Debugging Utilities. </p>
+<div class="textblock"><p>Development and debugging utilities. </p>
 <p>This header provides tools for visualizing data structures in <code>librdesc</code>. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="a2be15672f3e75f44a82efca059c59cfb" name="a2be15672f3e75f44a82efca059c59cfb"></a>
@@ -158,17 +158,17 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a0e7a9d7c047942e5336049e788a4c6d8" name="a0e7a9d7c047942e5336049e788a4c6d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0e7a9d7c047942e5336049e788a4c6d8">&#9670;&#160;</a></span>rdesc_dump_dot()</h2>
+<a id="a73e90843dc65c9c10f33c2d6a38d059c" name="a73e90843dc65c9c10f33c2d6a38d059c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73e90843dc65c9c10f33c2d6a38d059c">&#9670;&#160;</a></span>rdesc_dump_cst()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void rdesc_dump_dot </td>
+          <td class="memname">void rdesc_dump_cst </td>
           <td>(</td>
           <td class="paramtype">const struct <a class="el" href="structrdesc__node.html">rdesc_node</a> *&#160;</td>
-          <td class="paramname"><em>n</em>, </td>
+          <td class="paramname"><em>node</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -200,7 +200,7 @@ Functions</h2></td></tr>
 <p>Traverses the CST and generates a <code>.dot</code> representation.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">n</td><td>CST node </td></tr>
+    <tr><td class="paramname">node</td><td>CST node </td></tr>
     <tr><td class="paramname">nt_names</td><td>The raw name of the non-terminal (e.g., <code>expr</code>). The dumper handles the surrounding <code>&lt;</code> and <code>&gt;</code> characters automatically. </td></tr>
     <tr><td class="paramname">tk_printer</td><td>Callback to print token names.<ul>
 <li>DOT Context: This function handle seminfo fields and constructs a table accordingly. </li>
