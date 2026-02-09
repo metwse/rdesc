@@ -37,9 +37,9 @@ static void dump_graph_recursive(const struct rdesc_node *n,
 
 		if (!n->nt_.child_count) {
 			size_t epsilon_child = ++(*id_counter);
-			printf("\t%zu [shape=record,label=\"E\"];\n"
-			       "\t%zu -> %zu;\n",
-			       epsilon_child, this, epsilon_child);
+			fprintf(out, "\t%zu [shape=record,label=\"ε\"];\n"
+			        "\t%zu -> %zu;\n",
+			        epsilon_child, this, epsilon_child);
 		}
 	}
 }
