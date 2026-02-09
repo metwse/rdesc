@@ -5,16 +5,14 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <stddef.h>
+#include <string.h>
 
 
 #define STACK_INITIAL_CAP 8
 
 #define RESIZE_STACK \
-	assert_mem( \
-		*s = \
-		realloc(*s, sizeof(struct rdesc_stack) + \
-			(*s)->cap * sizeof(struct rdesc_token)) \
-	)
+	assert_mem(*s = realloc(*s, sizeof(struct rdesc_stack) + \
+			(*s)->cap * tk_size))
 
 
 /**
@@ -31,20 +29,22 @@
 struct rdesc_stack {
 	size_t len /** current number of tokens in the stack */;
 	size_t cap /** allocated capacity of the buffer */;
-	struct rdesc_token tokens[] /** pointer to the dynamic array buffer */;
+	char tokens[] /** pointer to the dynamic array buffer */;
 };
 
-void rdesc_stack_init(struct rdesc_stack **s)
+void rdesc_stack_init(struct rdesc_stack **s, size_t tk_size)
 {
 	*s = malloc(sizeof(struct rdesc_stack) +
-		    STACK_INITIAL_CAP * sizeof(struct rdesc_token));
+		    STACK_INITIAL_CAP * tk_size);
 	assert_mem(s);
 
 	(*s)->len = 0;
 	(*s)->cap = STACK_INITIAL_CAP;
 }
 
-void rdesc_stack_push(struct rdesc_stack **s, struct rdesc_token tk)
+void rdesc_stack_push(struct rdesc_stack **s,
+		      struct rdesc_token *tk,
+		      size_t tk_size)
 {
 	if ((*s)->cap == (*s)->len) {
 		assert_mem((*s)->cap < SIZE_MAX / 2);
@@ -52,7 +52,8 @@ void rdesc_stack_push(struct rdesc_stack **s, struct rdesc_token tk)
 		RESIZE_STACK;
 	}
 
-	(*s)->tokens[(*s)->len++] = tk;
+	memcpy(&(*s)->tokens[(*s)->len * tk_size], tk, tk_size);
+	(*s)->len++;
 }
 
 void rdesc_stack_destroy(struct rdesc_stack *s)
@@ -60,21 +61,37 @@ void rdesc_stack_destroy(struct rdesc_stack *s)
 	free(s);
 }
 
-struct rdesc_token rdesc_stack_pop(struct rdesc_stack **s)
+void rdesc_stack_reset(struct rdesc_stack **s,
+		       rdesc_tk_destroyer_func tk_destroyer,
+		       size_t tk_size)
 {
-	struct rdesc_token top = (*s)->tokens[--(*s)->len];
+	for (size_t i = 0; i < (*s)->len; i++) {
+		void *top = &(*s)->tokens[i * tk_size];
 
-	if ((*s)->len * 4 < (*s)->cap && (*s)->cap >= STACK_INITIAL_CAP * 2) {
+		if (tk_destroyer)
+			tk_destroyer(top);
+	}
+
+	if ((*s)->cap > STACK_INITIAL_CAP) {
+		(*s)->cap = STACK_INITIAL_CAP;
+		RESIZE_STACK;
+	}
+
+	(*s)->len = 0;
+	(*s)->cap = STACK_INITIAL_CAP;
+}
+
+struct rdesc_token *rdesc_stack_pop(struct rdesc_stack **s, size_t tk_size)
+{
+	if ((*s)->len * 4 <= (*s)->cap && (*s)->cap >= STACK_INITIAL_CAP * 2) {
 		(*s)->cap /= 2;
 		RESIZE_STACK;
 	}
 
-	return top;
-}
+	void *top = &(*s)->tokens[((*s)->len - 1) * tk_size];
+	(*s)->len--;
 
-struct rdesc_token *rdesc_stack_as_ref(struct rdesc_stack *s)
-{
-	return s->tokens;
+	return top;
 }
 
 size_t rdesc_stack_len(const struct rdesc_stack *s)

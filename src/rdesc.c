@@ -42,7 +42,7 @@ static void next_variant(struct rdesc *);
 static void backtrace(struct rdesc *);
 
 /* internal token matching mechanism */
-static enum match_result match(struct rdesc *, struct rdesc_token);
+static enum match_result match(struct rdesc *, struct rdesc_token *);
 
 
 void rdesc_init(struct rdesc *p,
@@ -52,7 +52,7 @@ void rdesc_init(struct rdesc *p,
 	p->cfg = cfg;
 	p->seminfo_size = seminfo_size;
 
-	rdesc_stack_init(&p->stack);
+	rdesc_stack_init(&p->stack, tk_size(*p));
 
 	p->root = p->cur = NULL;
 }
@@ -80,19 +80,10 @@ void rdesc_node_destroy(struct rdesc_node *n, rdesc_tk_destroyer_func free_tk)
 
 void rdesc_reset(struct rdesc *p, rdesc_tk_destroyer_func free_tk)
 {
-	if (free_tk) {
-		struct rdesc_token *tks = rdesc_stack_as_ref(p->stack);
-
-		for (size_t tk_count = rdesc_stack_len(p->stack);
-		     tk_count > 0; tk_count--)
-			free_tk(&tks[tk_count - 1]);
-	}
-
 	if (p->root)
 		rdesc_node_destroy(p->root, free_tk);
 
-	rdesc_stack_destroy(p->stack);
-	rdesc_stack_init(&p->stack);
+	rdesc_stack_reset(&p->stack, free_tk, tk_size(*p));
 
 	p->root = p->cur = NULL;
 }
@@ -101,8 +92,7 @@ void rdesc_destroy(struct rdesc *p)
 {
 	assert_logic(p->root == NULL, "destroying parser during parsing");
 	rdesc_assert(rdesc_stack_len(p->stack) == 0,
-		     "cannot destroy parser if token stack is not "
-		     "empty");
+		     "cannot destroy parser if token stack is not empty");
 
 	rdesc_stack_destroy(p->stack);
 }
@@ -115,15 +105,15 @@ enum rdesc_result rdesc_pump(struct rdesc *p,
 		     "continuing an incremental parse with no root");
 
 	enum match_result res;
-	struct rdesc_token tk;
+	struct rdesc_token *tk;
 
 	bool has_token = incoming_tk != NULL;
 	if (has_token)
-		tk = *incoming_tk;
+		tk = incoming_tk;
 
 	while (true) {
 		if (!has_token && rdesc_stack_len(p->stack)) {
-			tk = rdesc_stack_pop(&p->stack);
+			tk = rdesc_stack_pop(&p->stack, tk_size(*p));
 			has_token = true;
 		}
 
@@ -222,7 +212,7 @@ static void next_variant(struct rdesc *p)
 			} else {
 				p->cur->nt_.child_count--;
 
-				rdesc_stack_push(&p->stack, child->tk_);
+				rdesc_stack_push(&p->stack, &child->tk_, tk_size(*p));
 				free(child);
 			}
 		}
@@ -254,7 +244,7 @@ static void backtrace(struct rdesc *p)
 		backtrace(p);
 }
 
-static enum match_result match(struct rdesc *p, struct rdesc_token tk)
+static enum match_result match(struct rdesc *p, struct rdesc_token *tk)
 {
 	if (is_grammar_complete(p->cur)) {
 		p->cur = p->cur->parent;
@@ -263,7 +253,7 @@ static enum match_result match(struct rdesc *p, struct rdesc_token tk)
 	}
 
 	if (is_construct_end(p->cur)) {
-		rdesc_stack_push(&p->stack, tk);
+		rdesc_stack_push(&p->stack, tk, tk_size(*p));
 
 		if (p->cur->parent) {
 			backtrace(p);
@@ -278,9 +268,9 @@ static enum match_result match(struct rdesc *p, struct rdesc_token tk)
 
 	switch (rule.ty) {
 	case CFG_TOKEN:
-		if (rule.id == tk.id) {
+		if (rule.id == tk->id) {
 			struct rdesc_node *n = new_tk_node(p->cur, rule.id);
-			memcpy(&n->tk_, &tk, tk_size(*p));
+			memcpy(&n->tk_, tk, tk_size(*p));
 
 			while (is_grammar_complete(p->cur)) {
 				p->cur = p->cur->parent;
@@ -291,7 +281,7 @@ static enum match_result match(struct rdesc *p, struct rdesc_token tk)
 
 			return CONTINUE;
 		} else {
-			rdesc_stack_push(&p->stack, tk);
+			rdesc_stack_push(&p->stack, tk, tk_size(*p));
 			next_variant(p);
 
 			return CONTINUE;
