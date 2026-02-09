@@ -3,10 +3,9 @@
  *
  * @section Introduction
  *
- * librdesc is a standard C99-based, right-recursive, table-driven parsing
- * library. Unlike traditional parsing engines usually rely heavily on
- * the machine's call stack, librdesc implements its own backtracing algorithm
- * over Concrete Sytax Tree (CST) and token stack.
+ * librdesc is a right-recursive, table-driven parsing library written in C99.
+ * librdesc implements its own backtracing algorithm over Concrete Sytax Tree
+ * (CST) and token stack.
  *
  * @section features Key Features
  *
@@ -14,36 +13,35 @@
  *   runtime without recompiling via the `struct rdesc_cfg` table.
  * - Pump Mechanism: Parsing is driven by `rdesc_pump()`, a state machine that
  *   allows for token by token feeding.
- * - Backtracing Without Call-Stack: Since backtracing is performed via CST,
- *   the call stack does not grow. Tokens are be stored in a heap-allocated
- *   stack to try non-terminal variants.
  *
  * @section api API Overview
  *
- * 1. Parser (`rdesc.h`): The engine that consumes the CFG and Input.
- *    It maintains a cursor (`cur`) and a root node (`root`).
- * 2. CFG (`cfg.h`): Defines the rules, tokens, and non-terminals. This is
- *    usually static constant data populated via macros.
- * 3. Stack (`stack.h`): Stores consumed tokens to facilitate backtracking.
- *    If a rule fails, the parser pops tokens back to retry an alternative
- *    variant.
- * 4. BNF DSL (`bnf_dsl.h`): A set of macros to facilitate definning Context
- *    free grammars.
+ * 1. Parser (`rdesc.h`): The engine that consumes the CFG and Input. It
+ *    defines token and non-terminal structs and functions for bootstrapping
+ *    the parser.
+ * 2. CFG (`cfg.h`): Defines the CFG struct for rules. This usually populated
+ *    with static constant data via macros.
+ * 3. Rule macros (`bnf_macros.h`): A set of macros to facilitate definning
+ *    context free grammars. See examples below for usage.
  *
  * @section quickstart_sec Quick Start Guide
  *
  * To use librdesc, you typically follow these steps:
  *
- * 1. Define tokens and non-terminals. Create enums for your language symbols.
- * 2. Define your grammar. You may use `bnf_dsl.h` macros to create the rules
- * table.
+ * 1. Define the identifiers of tokens and non-terminals (e.g. create enums for
+ *    your language symbols)
+ * 2. Define your grammar, and its symbol table. You may use `bnf_macros.h` to
+ *    create the rules table.
  * 3. Initialize:
  * @code{.c}
  * struct rdesc_cfg cfg;
- * rdesc_cfg_init(&cfg, ...); // Load your rules
+ * rdesc_cfg_init(&cfg, ...);  // Load your rules
  *
  * struct rdesc parser;
- * rdesc_init(&parser, 8 /* TODO: documentate */, &cfg);
+ *
+ *                 /* vvv 8 is the size your grammar's semantic information */
+ * rdesc_init(&parser, 8, &cfg);
+ * // Extra 8 chars allocated for every token.
  * @endcode
  * 4. Pump Tokens: Feed tokens into the loop until a tree is ready.
  * @code{.c}
@@ -52,13 +50,13 @@
  * enum rdesc_result res;
  * struct rdesc_node *cst;
  * while ((res = rdesc_pump(&parser, &cst, next_token())) == RDESC_CONTINUE) {
- *      // Acquire next_token from your lexer
+ *      // Acquire next_token from your lexer.
  * }
  *
  * if (res == RDESC_READY) {
- *      // Process the `cst`
+ *      // Process the `cst`.
  * } else if (res == RDESC_NOMATCH) {
- *      // Handle syntax error
+ *      // Handle syntax errors.
  * }
  * @endcode
  *

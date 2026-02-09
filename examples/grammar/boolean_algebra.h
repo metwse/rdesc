@@ -4,7 +4,8 @@
  *
  * This file defines a sample CFG for a simple Boolean Algebra language. It
  * serves two main purposes:
- * 1. To demonstrate how to use the BNF DSL (`bnf_dsl.h`) to define grammars.
+ * 1. To demonstrate how to use the BNF macros (`bnf_macros.h`) to define
+ *    grammars.
  * 2. To act as a stress-test for the parser's backtracking engine by
  *    introducing intentional ambiguities.
  *
@@ -26,7 +27,7 @@
 /** @brief add NT_ prefix in `NT` macro */
 #define PREFIX_NT(nt) NT_ ## nt
 
-#include "../../include/bnf_dsl.h"
+#include "../../include/bnf_macros.h"
 
 
 /** @brief total count of terminal symbols */

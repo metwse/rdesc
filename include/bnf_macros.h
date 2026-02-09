@@ -1,36 +1,33 @@
 /**
- * @file bnf_dsl.h
- * @brief Macros for context-free grammar definitions
+ * @file bnf_macros.h
+ * @brief Macros to facilitate defining context-free grammar in Backus-Naur
+ *        form (BNF).
  *
  * Provides macros (r, rrr, ropt) to define these production rules in a
  * readable way.
  *
- * You may define `PREFIX_TK` and `PREFIX_NT` macros before including this file
- * to automatically add prefixes in grammar definitions.
+ * @section prefix_sec Name Mapping for Identifiers
+ *
+ * `PREFIX_TK` and `PREFIX_NT` macros determine how a raw token name passed to
+ * `TK(...)`/`NT(...)` is expanded into a C identifier (typically an enum
+ * member).
+ *
+ * - Default: Identity mapping. `TK(ID)`/`NT(ID)` expands to `ID`.
+ * - Override: Define this macro before including the `bnf_macros.h` to add
+ *   namespaces (e.g., `#define PREFIX_TK(x) MY_TK_ ## x`).
  */
 
-#ifndef BNF_DSL_H
-#define BNF_DSL_H
-
-#include <stddef.h>
+#ifndef BNF_MACROS_H
+#define BNF_MACROS_H
 
 
 #ifndef PREFIX_TK
-/**
- * @brief Name mapping for token identifiers.
- *
- * This macro determines how a raw token name passed to `TK(...)` is
- * expanded into a C identifier (typically an enum member).
- *
- * - Default: Identity mapping. `TK(IDENT)` expands to `IDENT`.
- * - Override: Define this macro before including the DSL to add namespaces
- *   (e.g., `#define PREFIX_TK(x) MY_TK_ ## x`).
- */
+/** @brief see @ref prefix_sec  */
 #define PREFIX_TK(tk) tk
 #endif
 
 #ifndef PREFIX_NT
-/** @see PREFIX_TK */
+/** @brief see @ref prefix_sec  */
 #define PREFIX_NT(nt) nt
 #endif
 
@@ -47,7 +44,7 @@
 /**
  * @brief Sentinel struct for the end of a rule's body (EOB)
  *
- * Usage with DSL is not recommended, use `EPSILON` instead.
+ * Not recommended, use `EPSILON` instead.
  */
 #define SEOB { .ty = CFG_SENTINEL, .id = EOB }
 /**

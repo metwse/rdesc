@@ -28,7 +28,7 @@
 #define PREFIX_TK(tk) TK_ ## tk
 #define PREFIX_NT(nt) NT_ ## nt
 
-#include "../../include/bnf_dsl.h"
+#include "../../include/bnf_macros.h"
 
 
 #define BC_TK_COUNT 11

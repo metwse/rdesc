@@ -1,5 +1,5 @@
 #include "../include/cfg.h"
-#include "../include/bnf_dsl.h"
+#include "../include/bnf_macros.h"
 #include "../include/util.h"
 #include "detail.h"
 
