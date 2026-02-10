@@ -29,6 +29,9 @@ void rdesc_stack_destroy(struct rdesc_stack *stack);
 /** @brief Cleans and reinitializes the stack. */
 void rdesc_stack_reset(struct rdesc_stack **stack);
 
+/** @brief Returns the element at index i. */
+void *rdesc_stack_at(struct rdesc_stack *s, size_t i);
+
 /** @brief Applies given function for every element of the stack. */
 void rdesc_stack_foreach(struct rdesc_stack *stack, void fn(void *));
 
@@ -38,7 +41,18 @@ void rdesc_stack_foreach(struct rdesc_stack *stack, void fn(void *));
  */
 void rdesc_stack_reserve(struct rdesc_stack **stack, size_t reserved_space);
 
-/** @brief Pushes an element onto the stack. */
+/**
+ * @brief Pushes a sequence of elements onto the stack.
+ *
+ * @note If `elements` is NULL, stack will be extended without initialization.
+ */
+void *rdesc_stack_multipush(struct rdesc_stack **stack, void *element, size_t count);
+
+/**
+ * @brief Pushes an element onto the stack.
+ *
+ * @note If `element` is NULL, stack will be extended without initialization.
+ */
 void *rdesc_stack_push(struct rdesc_stack **stack, void *element);
 
 /**

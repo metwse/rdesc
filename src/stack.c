@@ -1,4 +1,3 @@
-#include "../include/rdesc.h"
 #include "../include/stack.h"
 #include "detail.h"
 
@@ -26,7 +25,7 @@ struct rdesc_stack {
 	size_t len /** current number of elements in the stack */;
 	size_t cap /** allocated capacity of the buffer */;
 	size_t element_size /** size of a element in chars */;
-	char elements[] /** pointer to the dynamic array buffer */;
+	char elements[] /** the dynamic array buffer */;
 };
 
 
@@ -45,7 +44,7 @@ static inline void resize_stack(struct rdesc_stack **s, size_t cap)
 void rdesc_stack_init(struct rdesc_stack **s, size_t element_size)
 {
 	*s = malloc(sizeof(struct rdesc_stack) + STACK_INITIAL_CAP * element_size);
-	assert_mem(s);
+	assert_mem(*s);
 
 	(*s)->element_size = element_size;
 	(*s)->len = 0;
@@ -63,7 +62,11 @@ void rdesc_stack_reset(struct rdesc_stack **s)
 		resize_stack(s, STACK_INITIAL_CAP);
 
 	(*s)->len = 0;
-	(*s)->cap = STACK_INITIAL_CAP;
+}
+
+void *rdesc_stack_at(struct rdesc_stack *s, size_t i)
+{
+	return elem_at(s, i);
 }
 
 void rdesc_stack_foreach(struct rdesc_stack *stack, void fn(void *))
@@ -76,27 +79,32 @@ void rdesc_stack_reserve(struct rdesc_stack **s, size_t reserved_space)
 {
 	size_t increased_cap = (*s)->cap;
 
-	while (increased_cap <= (*s)->len - 1 + reserved_space) {
+	while (increased_cap < (*s)->len + reserved_space) {
 		rdesc_assert(increased_cap < SIZE_MAX / 2,
-			     "go fix your grammar!");
+			     "go fix your program!");
 		increased_cap *= 2;
 	}
 
 	if (increased_cap != (*s)->cap)
 		resize_stack(s, increased_cap);
+}
 
-	(*s)->cap = increased_cap;
+void *rdesc_stack_multipush(struct rdesc_stack **s, void *element, size_t count)
+{
+	rdesc_stack_reserve(s, count);
+
+	void *top = elem_at(*s, (*s)->len);
+
+	if (element)
+		memcpy(top, element, (*s)->element_size * count);
+	(*s)->len += count;
+
+	return top;
 }
 
 void *rdesc_stack_push(struct rdesc_stack **s, void *element)
 {
-	rdesc_stack_reserve(s, 1);
-
-	void *top = elem_at(*s, (*s)->len);
-	memcpy(top, element, (*s)->element_size);
-	(*s)->len++;
-
-	return top;
+	return rdesc_stack_multipush(s, element, 1);
 }
 
 void *rdesc_stack_multipop(struct rdesc_stack **s, size_t count)
@@ -112,12 +120,12 @@ void *rdesc_stack_multipop(struct rdesc_stack **s, size_t count)
 
 	(*s)->len -= count;
 
-	return rdesc_stack_top(*s);
+	return elem_at(*s, (*s)->len);
 }
 
 void *rdesc_stack_top(struct rdesc_stack *s)
 {
-	return elem_at(s, s->len);
+	return elem_at(s, s->len - 1);
 }
 
 void *rdesc_stack_pop(struct rdesc_stack **s)

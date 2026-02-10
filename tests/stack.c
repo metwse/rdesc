@@ -1,50 +1,96 @@
-#include "../include/rdesc.h"
 #include "../include/stack.h"
 #include "../src/detail.h" // IWYU pragma: keep
 
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 
 
-int main(void)
+void test_fuzz(void)
 {
-	srand(time(NULL));
+	size_t element_count = 1 << (6 + rand() % 4);
+	size_t element_size = 8 + rand() % 16;
+	size_t multipush_count = 1 << (rand() % 4);
 
-	size_t seminfo_size = 8 + rand() % 16;
+	char elements[element_count][element_size];
 
-	int arr[128];
-	int seminfo[128][seminfo_size];
-
-	char incoming_tk_buf[sizeof(struct rdesc_token) + seminfo_size];
-	struct rdesc_token *incoming_tk = cast(void *, &incoming_tk_buf);
+	char buf[element_size * multipush_count];
 
 	struct rdesc_stack *s;
-	rdesc_stack_init(&s, seminfo_size);
+	rdesc_stack_init(&s, element_size);
 
 	for (int _fuzz = 0; _fuzz < 16; _fuzz++) {
-		for (int i = 0; i < 128; i++) {
-			for (size_t j = 0; j < seminfo_size; j++)
-				incoming_tk->seminfo[j] = seminfo[i][j] = rand() % 256;
+		rdesc_stack_reserve(&s, 64);
 
-			incoming_tk->id = arr[i] = rand() % 1024;
+		for (size_t i = 0; i < element_count; i += multipush_count) {
+			for (size_t j = 0; j < element_size * multipush_count; j++)
+				buf[j] = elements[i][j] = rand() % 256;
 
-			rdesc_stack_push(&s, incoming_tk);
+			rdesc_assert(rdesc_stack_len(s) == i,);
+
+			rdesc_stack_multipush(&s, buf, multipush_count);
 		}
 
-		struct rdesc_token *top;
-
-		for (int i = 0; i < 64; i++) {
+		char *top;
+		for (size_t i = 0; i < (multipush_count << 2); i++) {
 			top = rdesc_stack_pop(&s);
 
-			rdesc_assert(top->id == arr[127 - i],
-				     "stack order not reserved");
-			rdesc_assert(memcmp(&s, seminfo[127 - i], seminfo_size) != 0,
-				     "seminfo corrupted");
+			rdesc_assert(memcmp(top, elements[element_count - 1 - i],
+					    element_size) == 0,
+				     "element corrupted");
+		}
+
+		for (size_t i = (multipush_count << 2); i < element_count; i += multipush_count) {
+			top = rdesc_stack_multipop(&s, multipush_count);
+
+			rdesc_assert(memcmp(top,
+					    elements[element_count - multipush_count - i],
+					    element_size * multipush_count) == 0,
+				     "element corrupted");
 		}
 
 		rdesc_stack_reset(&s);
 	}
 
 	rdesc_stack_destroy(s);
+}
+
+
+uint64_t i = 0;
+void test_foreach(void *element_) {
+	uint64_t element = *cast(uint64_t *, element_);
+
+	rdesc_assert(i == element, "foreach should start from first element");;
+	i++;
+}
+
+void test_basic(void)
+{
+	struct rdesc_stack *s;
+	rdesc_stack_init(&s, 8);
+
+	for (uint64_t i = 0; i < 2048; i++) {
+		rdesc_stack_push(&s, &i);
+		uint64_t top = *cast(uint64_t *, rdesc_stack_top(s));
+		rdesc_assert(top == i,);
+	}
+
+	for (uint64_t i = 0; i < 2048; i++) {
+		uint64_t elem = *cast(uint64_t *, rdesc_stack_at(s, i));
+		rdesc_assert(elem == i,);
+	}
+
+	rdesc_stack_foreach(s, test_foreach);
+
+	rdesc_stack_destroy(s);
+}
+
+
+int main(void)
+{
+	srand(time(NULL));
+
+	test_basic();
+	test_fuzz();
 }
