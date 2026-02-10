@@ -99,10 +99,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_stack_destroy</
 void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_stack_reset</b> (struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> **stack)</td></tr>
 <tr class="memdesc:a45215066c03201a0af698c9e081d7394"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cleans and reinitializes the stack. <br /></td></tr>
 <tr class="separator:a45215066c03201a0af698c9e081d7394"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aceaea1ef9cfdb6849c47466a93287dcd"><td class="memItemLeft" align="right" valign="top"><a id="aceaea1ef9cfdb6849c47466a93287dcd" name="aceaea1ef9cfdb6849c47466a93287dcd"></a>
-void *&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_stack_at</b> (struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> *s, size_t i)</td></tr>
-<tr class="memdesc:aceaea1ef9cfdb6849c47466a93287dcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the element at index i. <br /></td></tr>
-<tr class="separator:aceaea1ef9cfdb6849c47466a93287dcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab4ef2a2a0aa68dcc708b276680c6d456"><td class="memItemLeft" align="right" valign="top"><a id="ab4ef2a2a0aa68dcc708b276680c6d456" name="ab4ef2a2a0aa68dcc708b276680c6d456"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_stack_foreach</b> (struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> *stack, void fn(void *))</td></tr>
 <tr class="memdesc:ab4ef2a2a0aa68dcc708b276680c6d456"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applies given function for every element of the stack. <br /></td></tr>
@@ -111,11 +107,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_stack_foreach</
 void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_stack_reserve</b> (struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> **stack, size_t reserved_space)</td></tr>
 <tr class="memdesc:a2d5e538fc9574ffe685c62a0dc85b187"><td class="mdescLeft">&#160;</td><td class="mdescRight">Increases the stack space, so that reserved space number of elements can fit without reallocations. <br /></td></tr>
 <tr class="separator:a2d5e538fc9574ffe685c62a0dc85b187"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7648f01fc88ccec46dc56fa813e6f13a"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stack_8h.html#a7648f01fc88ccec46dc56fa813e6f13a">rdesc_stack_multipush</a> (struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> **stack, void *element, size_t count)</td></tr>
-<tr class="memdesc:a7648f01fc88ccec46dc56fa813e6f13a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pushes a sequence of elements onto the stack.  <br /></td></tr>
-<tr class="separator:a7648f01fc88ccec46dc56fa813e6f13a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a916f965d7bfcc7d1f810e8f81504ea13"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stack_8h.html#a916f965d7bfcc7d1f810e8f81504ea13">rdesc_stack_push</a> (struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> **stack, void *element)</td></tr>
-<tr class="memdesc:a916f965d7bfcc7d1f810e8f81504ea13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pushes an element onto the stack.  <br /></td></tr>
+<tr class="memitem:a916f965d7bfcc7d1f810e8f81504ea13"><td class="memItemLeft" align="right" valign="top"><a id="a916f965d7bfcc7d1f810e8f81504ea13" name="a916f965d7bfcc7d1f810e8f81504ea13"></a>
+void *&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_stack_push</b> (struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> **stack, void *element)</td></tr>
+<tr class="memdesc:a916f965d7bfcc7d1f810e8f81504ea13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pushes an element onto the stack. <br /></td></tr>
 <tr class="separator:a916f965d7bfcc7d1f810e8f81504ea13"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6affc4eac8b51485dceb6239f2e58ef4"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stack_8h.html#a6affc4eac8b51485dceb6239f2e58ef4">rdesc_stack_multipop</a> (struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> **stack, size_t count)</td></tr>
 <tr class="memdesc:a6affc4eac8b51485dceb6239f2e58ef4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pops count of elements and returns first element popped.  <br /></td></tr>
@@ -168,43 +162,6 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_stack_len</b>
 
 </div>
 </div>
-<a id="a7648f01fc88ccec46dc56fa813e6f13a" name="a7648f01fc88ccec46dc56fa813e6f13a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7648f01fc88ccec46dc56fa813e6f13a">&#9670;&#160;</a></span>rdesc_stack_multipush()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void * rdesc_stack_multipush </td>
-          <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> **&#160;</td>
-          <td class="paramname"><em>stack</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>element</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>count</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Pushes a sequence of elements onto the stack. </p>
-<dl class="section note"><dt>Note</dt><dd>If <code>elements</code> is NULL, stack will be extended without initialization. </dd></dl>
-
-</div>
-</div>
 <a id="a9d1bf621abd9314d7d89fcda9afc8925" name="a9d1bf621abd9314d7d89fcda9afc8925"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9d1bf621abd9314d7d89fcda9afc8925">&#9670;&#160;</a></span>rdesc_stack_pop()</h2>
 
@@ -223,37 +180,6 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_stack_len</b>
 
 <p>Removes and returns the top element from the stack. </p>
 <dl class="section return"><dt>Returns</dt><dd>Return value is a pointer managed by the <code>stack</code>. Stack implementation shall guarantee life time of returned element: the pointer must live until any other push/pop/reset operation. </dd></dl>
-
-</div>
-</div>
-<a id="a916f965d7bfcc7d1f810e8f81504ea13" name="a916f965d7bfcc7d1f810e8f81504ea13"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a916f965d7bfcc7d1f810e8f81504ea13">&#9670;&#160;</a></span>rdesc_stack_push()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void * rdesc_stack_push </td>
-          <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> **&#160;</td>
-          <td class="paramname"><em>stack</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>element</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Pushes an element onto the stack. </p>
-<dl class="section note"><dt>Note</dt><dd>If <code>element</code> is NULL, stack will be extended without initialization. </dd></dl>
 
 </div>
 </div>
