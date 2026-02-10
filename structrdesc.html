@@ -91,39 +91,22 @@ const struct <a class="el" href="structrdesc__cfg.html">rdesc_cfg</a> *&#160;</t
 size_t&#160;</td><td class="memItemRight" valign="bottom"><b>seminfo_size</b></td></tr>
 <tr class="memdesc:a08dce855cec2271e3aef1ebafd88524d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size in bytes allocated for each token's semantic information. <br /></td></tr>
 <tr class="separator:a08dce855cec2271e3aef1ebafd88524d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7c0946c56581e4ad98ee3530a54cd33"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc.html#ae7c0946c56581e4ad98ee3530a54cd33">stack</a></td></tr>
-<tr class="memdesc:ae7c0946c56581e4ad98ee3530a54cd33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opaque pointer to the backtracking stack.  <br /></td></tr>
-<tr class="separator:ae7c0946c56581e4ad98ee3530a54cd33"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ce08dbf4cf7e7c73d82de598e82f391"><td class="memItemLeft" align="right" valign="top"><a id="a6ce08dbf4cf7e7c73d82de598e82f391" name="a6ce08dbf4cf7e7c73d82de598e82f391"></a>
-struct <a class="el" href="structrdesc__node.html">rdesc_node</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>root</b></td></tr>
-<tr class="memdesc:a6ce08dbf4cf7e7c73d82de598e82f391"><td class="mdescLeft">&#160;</td><td class="mdescRight">Root of the tree. <br /></td></tr>
-<tr class="separator:a6ce08dbf4cf7e7c73d82de598e82f391"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21005db3c4bfe470e2e2019ee49778f2"><td class="memItemLeft" align="right" valign="top"><a id="a21005db3c4bfe470e2e2019ee49778f2" name="a21005db3c4bfe470e2e2019ee49778f2"></a>
-struct <a class="el" href="structrdesc__node.html">rdesc_node</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>cur</b></td></tr>
-<tr class="memdesc:a21005db3c4bfe470e2e2019ee49778f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">(current) node that parsing continues on. <br /></td></tr>
-<tr class="separator:a21005db3c4bfe470e2e2019ee49778f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d3a4c23d7293d0d80c9bfc24aca2877"><td class="memItemLeft" align="right" valign="top"><a id="a5d3a4c23d7293d0d80c9bfc24aca2877" name="a5d3a4c23d7293d0d80c9bfc24aca2877"></a>
+struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>token_stack</b></td></tr>
+<tr class="memdesc:a5d3a4c23d7293d0d80c9bfc24aca2877"><td class="mdescLeft">&#160;</td><td class="mdescRight">Token stack used for backtracing and trying another start symbol. <br /></td></tr>
+<tr class="separator:a5d3a4c23d7293d0d80c9bfc24aca2877"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16c5cc12baeec0819b2be67e4bc713b6"><td class="memItemLeft" align="right" valign="top"><a id="a16c5cc12baeec0819b2be67e4bc713b6" name="a16c5cc12baeec0819b2be67e4bc713b6"></a>
+struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>cst_stack</b></td></tr>
+<tr class="memdesc:a16c5cc12baeec0819b2be67e4bc713b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Underlying concrete syntax tree, stored in a stack. <br /></td></tr>
+<tr class="separator:a16c5cc12baeec0819b2be67e4bc713b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a822e58bac28957cd30e9c7e16588ea2a"><td class="memItemLeft" align="right" valign="top"><a id="a822e58bac28957cd30e9c7e16588ea2a" name="a822e58bac28957cd30e9c7e16588ea2a"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cur</b></td></tr>
+<tr class="memdesc:a822e58bac28957cd30e9c7e16588ea2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">(current) Index in CST that parsing continues on. <br /></td></tr>
+<tr class="separator:a822e58bac28957cd30e9c7e16588ea2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The right-recursive descent parser. </p>
-</div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="ae7c0946c56581e4ad98ee3530a54cd33" name="ae7c0946c56581e4ad98ee3530a54cd33"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae7c0946c56581e4ad98ee3530a54cd33">&#9670;&#160;</a></span>stack</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a>* rdesc::stack</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Opaque pointer to the backtracking stack. </p>
-<p>The implementation details of the stack are hidden. The parser uses the interface defined in <code><a class="el" href="stack_8h.html" title="Stack interface contract.">stack.h</a></code> to manipulate this. </p>
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/<a class="el" href="rdesc_8h_source.html">rdesc.h</a></li>
 </ul>
 </div><!-- contents -->

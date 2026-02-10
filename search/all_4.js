@@ -1,12 +1,4 @@
 var searchData=
 [
-  ['element_5fsize_0',['element_size',['../structrdesc__stack.html#a486afd15e33cf52d0543b4409e2f544e',1,'rdesc_stack']]],
-  ['elements_1',['elements',['../structrdesc__stack.html#a94a5811d87258873e66b3c259e3a17b5',1,'rdesc_stack']]],
-  ['eob_2',['EOB',['../bnf__macros_8h.html#a82565bae95a7c5c9bd3b1f093c63883e',1,'bnf_macros.h']]],
-  ['eoc_3',['EOC',['../bnf__macros_8h.html#ab6ad368e32c6304728c863dbb1e9d8dd',1,'bnf_macros.h']]],
-  ['epsilon_4',['EPSILON',['../bnf__macros_8h.html#a002b2f4894492820fe708b1b7e7c5e70',1,'bnf_macros.h']]],
-  ['exblex_5',['exblex',['../structexblex.html',1,'']]],
-  ['exblex_2eh_6',['exblex.h',['../exblex_8h.html',1,'']]],
-  ['exblex_5finit_7',['exblex_init',['../exblex_8h.html#ac6e733c25e150dab3e32b4c677345784',1,'exblex.c']]],
-  ['exblex_5fnext_8',['exblex_next',['../exblex_8h.html#abbe8702a4f9b94dbff710d463b38c1a5',1,'exblex.c']]]
+  ['id_0',['id',['../structrdesc__cfg__symbol.html#a32cce9fb0a4fb022341b316a9999f5e8',1,'rdesc_cfg_symbol']]]
 ];

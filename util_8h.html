@@ -89,13 +89,13 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
 <tr class="memitem:a5ad7949e67d6cc6ca01da3ae32de02d5"><td class="memItemLeft" align="right" valign="top"><a id="a5ad7949e67d6cc6ca01da3ae32de02d5" name="a5ad7949e67d6cc6ca01da3ae32de02d5"></a>
-typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_tk_printer_func</b>) (const struct <a class="el" href="structrdesc__token.html">rdesc_token</a> *, FILE *out)</td></tr>
+typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_tk_printer_func</b>) (const struct rdesc_token *, FILE *out)</td></tr>
 <tr class="memdesc:a5ad7949e67d6cc6ca01da3ae32de02d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function pointer type for printing tokens. <br /></td></tr>
 <tr class="separator:a5ad7949e67d6cc6ca01da3ae32de02d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a73e90843dc65c9c10f33c2d6a38d059c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a73e90843dc65c9c10f33c2d6a38d059c">rdesc_dump_cst</a> (const struct <a class="el" href="structrdesc__node.html">rdesc_node</a> *node, <a class="el" href="util_8h.html#a5ad7949e67d6cc6ca01da3ae32de02d5">rdesc_tk_printer_func</a> tk_printer, const char *const nt_names[], FILE *out)</td></tr>
+<tr class="memitem:a73e90843dc65c9c10f33c2d6a38d059c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a73e90843dc65c9c10f33c2d6a38d059c">rdesc_dump_cst</a> (const struct rdesc_node *node, <a class="el" href="util_8h.html#a5ad7949e67d6cc6ca01da3ae32de02d5">rdesc_tk_printer_func</a> tk_printer, const char *const nt_names[], FILE *out)</td></tr>
 <tr class="memdesc:a73e90843dc65c9c10f33c2d6a38d059c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dumps the Concrete Syntax Tree (CST) as a Graphviz DOT graph.  <br /></td></tr>
 <tr class="separator:a73e90843dc65c9c10f33c2d6a38d059c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2be15672f3e75f44a82efca059c59cfb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a2be15672f3e75f44a82efca059c59cfb">rdesc_dump_bnf</a> (const struct <a class="el" href="structrdesc__cfg.html">rdesc_cfg</a> *cfg, const char *const tk_names[], const char *const nt_names[], FILE *out)</td></tr>
@@ -167,7 +167,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void rdesc_dump_cst </td>
           <td>(</td>
-          <td class="paramtype">const struct <a class="el" href="structrdesc__node.html">rdesc_node</a> *&#160;</td>
+          <td class="paramtype">const struct rdesc_node *&#160;</td>
           <td class="paramname"><em>node</em>, </td>
         </tr>
         <tr>
