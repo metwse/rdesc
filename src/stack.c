@@ -31,6 +31,8 @@ struct rdesc_stack {
 
 static inline void *elem_at(struct rdesc_stack *s, size_t i)
 {
+	rdesc_assert(s->len >= i, "range overflow");
+
 	return cast(void *, &s->elements[i * s->element_size]);
 }
 
@@ -109,6 +111,8 @@ void *rdesc_stack_push(struct rdesc_stack **s, void *element)
 
 void *rdesc_stack_multipop(struct rdesc_stack **s, size_t count)
 {
+	rdesc_assert((*s)->len >= count, "stack underflow");
+
 	size_t decreased_cap = (*s)->cap;
 
 	while ((*s)->len * 4 <= decreased_cap &&

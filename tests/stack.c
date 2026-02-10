@@ -29,7 +29,14 @@ void test_fuzz(void)
 
 			rdesc_assert(rdesc_stack_len(s) == i,);
 
-			rdesc_stack_multipush(&s, buf, multipush_count);
+			if (i < element_count / 2) {
+				rdesc_stack_multipush(&s, buf, multipush_count);
+			} else {
+				void *top = rdesc_stack_multipush(&s, NULL, multipush_count);
+				memcpy(top, buf, element_size * multipush_count);
+			}
+
+			rdesc_stack_multipush(&s, NULL, 0);
 		}
 
 		char *top;
@@ -39,6 +46,8 @@ void test_fuzz(void)
 			rdesc_assert(memcmp(top, elements[element_count - 1 - i],
 					    element_size) == 0,
 				     "element corrupted");
+
+			rdesc_stack_multipop(&s, 0);
 		}
 
 		for (size_t i = (multipush_count << 2); i < element_count; i += multipush_count) {
@@ -79,6 +88,7 @@ void test_basic(void)
 	for (uint64_t i = 0; i < 2048; i++) {
 		uint64_t elem = *cast(uint64_t *, rdesc_stack_at(s, i));
 		rdesc_assert(elem == i,);
+		rdesc_stack_multipop(&s, 0);
 	}
 
 	rdesc_stack_foreach(s, test_foreach);
