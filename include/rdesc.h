@@ -69,8 +69,8 @@ void rdesc_init(struct rdesc *parser,
  * @note `seminfo` field in `struct rdesc_token` is ignored, e.g. not freed,
  *        unless `token_destroyer` is set.
  */
-void rdesc_destroy(struct rdesc *parser,
-		   rdesc_token_destroyer_func token_destroyer);
+void rdesc_destroy(struct rdesc *parser /*,
+		   rdesc_token_destroyer_func token_destroyer*/);
 
 /** @brief Sets start symbol for the next match. */
 void rdesc_start(struct rdesc *parser, int start_symbol);
@@ -81,8 +81,8 @@ void rdesc_start(struct rdesc *parser, int start_symbol);
  * @note `seminfo` field in `struct rdesc_token` is ignored, e.g. not freed,
  *        unless `token_destroyer` is set.
  */
-void rdesc_reset(struct rdesc *parser,
-		 rdesc_token_destroyer_func token_destroyer);
+void rdesc_reset(struct rdesc *parser /*,
+		 rdesc_token_destroyer_func token_destroyer*/);
 
 /**
  * @brief Drives the parsing process, the pump.

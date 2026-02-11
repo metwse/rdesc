@@ -10,7 +10,7 @@ RM = rm -rf
 CFLAGS_COMMON = -std=c99 -Wall -Wextra -pedantic -fPIC -MMD -MP
 
 CFLAGS = $(CFLAGS_COMMON) -O2
-TFLAGS = $(CFLAGS_COMMON) -O0 -g3 --coverage
+TFLAGS = $(CFLAGS_COMMON) -O0 -g3 --coverage -DDEBUG
 
 SRC_DIR = src
 INC_DIR = include

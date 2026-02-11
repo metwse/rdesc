@@ -30,14 +30,10 @@
 #define rdesc_assert(c, ...) assert(c)
 #endif
 
-/* extra checks for flow of code. */
-#define assert_logic(c, msg) \
-	rdesc_assert(c, "logic error: " msg " is/are not meaningful")
-
-/* macro highlights memory allocation checks */
+/** @brief macro highlights memory allocation checks */
 #define assert_mem(c) rdesc_assert(c, "out of memory")
 
-/* unreachable branch */
+/** @brief unreachable branch */
 #if defined(__GNUC__) || defined(__clang__)
 #define unreachable() __builtin_unreachable()
 #elif defined(_MSC_VER)
@@ -46,7 +42,7 @@
 #define unreachable()
 #endif
 
-/* macro highlights type casts */
+/** @brief macro highlights type casts */
 #define cast(t, exp) ((t) (exp))
 
 #define productions(cfg) \
@@ -54,10 +50,12 @@
 		[(cfg).nt_count][(cfg).nt_variant_count][(cfg).nt_body_length], \
 	    (cfg).rules))
 
-/* helper macros for accessing node fields */
-#define ty_ n.ty
-#define tk_ n.tk
-#define nt_ n.nt
+/** @brief RDI (rdesc internal) expose private functions to test translation unit */
+#ifdef DEBUG
+#define RDI
+#else
+#define RDI static
+#endif
 
 
 #endif

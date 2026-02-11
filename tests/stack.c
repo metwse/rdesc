@@ -20,47 +20,45 @@ void test_fuzz(void)
 	struct rdesc_stack *s;
 	rdesc_stack_init(&s, element_size);
 
-	for (int _fuzz = 0; _fuzz < 16; _fuzz++) {
-		rdesc_stack_reserve(&s, 64);
+	rdesc_stack_reserve(&s, 64);
 
-		for (size_t i = 0; i < element_count; i += multipush_count) {
-			for (size_t j = 0; j < element_size * multipush_count; j++)
-				buf[j] = elements[i][j] = rand() % 256;
+	for (size_t i = 0; i < element_count; i += multipush_count) {
+		for (size_t j = 0; j < element_size * multipush_count; j++)
+			buf[j] = elements[i][j] = rand() % 256;
 
-			rdesc_assert(rdesc_stack_len(s) == i,);
+		rdesc_assert(rdesc_stack_len(s) == i,);
 
-			if (i < element_count / 2) {
-				rdesc_stack_multipush(&s, buf, multipush_count);
-			} else {
-				void *top = rdesc_stack_multipush(&s, NULL, multipush_count);
-				memcpy(top, buf, element_size * multipush_count);
-			}
-
-			rdesc_stack_multipush(&s, NULL, 0);
+		if (i < element_count / 2) {
+			rdesc_stack_multipush(&s, buf, multipush_count);
+		} else {
+			void *top = rdesc_stack_multipush(&s, NULL, multipush_count);
+			memcpy(top, buf, element_size * multipush_count);
 		}
 
-		char *top;
-		for (size_t i = 0; i < (multipush_count << 2); i++) {
-			top = rdesc_stack_pop(&s);
-
-			rdesc_assert(memcmp(top, elements[element_count - 1 - i],
-					    element_size) == 0,
-				     "element corrupted");
-
-			rdesc_stack_multipop(&s, 0);
-		}
-
-		for (size_t i = (multipush_count << 2); i < element_count; i += multipush_count) {
-			top = rdesc_stack_multipop(&s, multipush_count);
-
-			rdesc_assert(memcmp(top,
-					    elements[element_count - multipush_count - i],
-					    element_size * multipush_count) == 0,
-				     "element corrupted");
-		}
-
-		rdesc_stack_reset(&s);
+		rdesc_stack_multipush(&s, NULL, 0);
 	}
+
+	char *top;
+	for (size_t i = 0; i < (multipush_count << 2); i++) {
+		top = rdesc_stack_pop(&s);
+
+		rdesc_assert(memcmp(top, elements[element_count - 1 - i],
+				    element_size) == 0,
+			     "element corrupted");
+
+		rdesc_stack_multipop(&s, 0);
+	}
+
+	for (size_t i = (multipush_count << 2); i < element_count; i += multipush_count) {
+		top = rdesc_stack_multipop(&s, multipush_count);
+
+		rdesc_assert(memcmp(top,
+				    elements[element_count - multipush_count - i],
+				    element_size * multipush_count) == 0,
+			     "element corrupted");
+	}
+
+	rdesc_stack_reset(&s);
 
 	rdesc_stack_destroy(s);
 }
@@ -102,5 +100,7 @@ int main(void)
 	srand(time(NULL));
 
 	test_basic();
-	test_fuzz();
+
+	for (int _fuzz = 0; _fuzz < 16; _fuzz++)
+		test_fuzz();
 }
