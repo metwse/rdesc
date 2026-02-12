@@ -7,7 +7,7 @@
 #include "detail.h"
 
 
-/* Pushes a new non terminal to parser's CST stack and reserves space for its
+/* Pushes a new nonterminal to parser's CST stack and reserves space for its
  * children. */
 RDI size_t new_nt_node(struct rdesc *p,
 		     size_t parent,

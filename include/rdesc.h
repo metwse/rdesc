@@ -107,14 +107,9 @@ enum rdesc_result rdesc_pump(struct rdesc *parser,
 			     size_t id,
 			     const void *seminfo);
 
-/**
- * @brief Recursively destroys the node and its children.
- *
- * @note `seminfo` field in `struct rdesc_token` is not freed unless
- *        `token_destroyer` is set.
- */
-void rdesc_node_destroy(struct rdesc_node *node,
-			rdesc_token_destroyer_func token_destroyer);
+/** @cond */
+struct rdesc_node *_rdesc_priv_cst_illegal_access(struct rdesc *p, size_t index);
+/** @endcond */
 
 #ifdef __cplusplus
 }

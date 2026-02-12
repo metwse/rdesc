@@ -44,13 +44,18 @@ void rdesc_reset(struct rdesc *p /*,
 	rdesc_stack_reset(&p->cst_stack);
 }
 
+struct rdesc_node *_rdesc_priv_cst_illegal_access(struct rdesc *p, size_t index)
+{
+	return rdesc_stack_at(p->cst_stack, index);
+}
+
 RDI void push_child(struct rdesc *p,
 		    size_t parent_idx,
 		    size_t child_idx)
 {
 	node_t *parent = rdesc_stack_at(p->cst_stack, parent_idx);
 
-	rchild(parent, rchild_count(parent)) = child_idx;
+	_rdesc_priv_child_idx(parent, rchild_count(parent)) = child_idx;
 
 	rchild_count(parent)++;
 }
@@ -65,7 +70,9 @@ RDI size_t new_nt_node(struct rdesc *p,
 	if (parent_idx != SIZE_MAX)
 		push_child(p, parent_idx, node_idx);
 
-	rparent(n) = parent_idx;
+	rtype(n) = CFG_NONTERMINAL;
+
+	_rdesc_priv_parent_idx(n) = parent_idx;
 	rid(n) = nt_id;
 	rvariant(n) = 0;
 	rchild_count(n) = 0;
@@ -88,7 +95,9 @@ RDI void new_tk_node(struct rdesc *p,
 
 	push_child(p, parent_idx, node_id);
 
-	rparent(n) = parent_idx;
+	rtype(n) = CFG_TOKEN;
+
+	_rdesc_priv_parent_idx(n) = parent_idx;
 	rid(n) = tk_id;
 
 	if (seminfo)

@@ -1,4 +1,6 @@
 #include "../include/cfg.h"
+#include "../include/cst_macros.h"
+#include "../include/util.h"
 #include "../include/rdesc.h"
 
 #include "../src/detail.h"
@@ -8,6 +10,14 @@
 
 #include <stddef.h>
 
+
+void balg_node_printer(const struct rdesc_node *node, FILE *out)
+{
+	if (rtype(node) == CFG_TOKEN)
+		fprintf(out, "%s", balg_tk_names[rid(node)]);
+	else
+		fprintf(out, "<%s>", balg_nt_names[rid(node)]);
+}
 
 int main(void)
 {
@@ -39,14 +49,16 @@ int main(void)
 
 	       size_t nt_bit_idx = new_nt_node(&p, nt_atom_idx, NT_BIT);
 
-	         new_nt_node(&p, nt_bit_idx, TK_TRUE);
+	         new_tk_node(&p, nt_bit_idx, TK_TRUE, NULL);
 
 	     new_nt_node(&p, nt_term_idx, NT_TERM_REST);
 	    new_nt_node(&p, nt_expr_idx, NT_EXPR_REST);
-	   new_nt_node(&p, nt_expr_idx, NT_EXPR_LS_REST);
+	   new_nt_node(&p, nt_expr_ls_idx, NT_EXPR_LS_REST);
 
 	 new_tk_node(&p, nt_call_idx, TK_RPAREN, NULL);
 	new_tk_node(&p, 0, TK_SEMI, NULL);
+
+	rdesc_dump_cst(stdout, &p, balg_node_printer);
 
 	rdesc_destroy(&p);
 	rdesc_cfg_destroy(&cfg);

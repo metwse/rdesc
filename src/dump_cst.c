@@ -1,0 +1,55 @@
+#include "../include/rdesc.h"
+#include "../include/cfg.h"
+#include "../include/cst_macros.h"
+#include "../include/util.h"
+#include "detail.h"
+
+#include <stddef.h>
+#include <stdio.h>
+
+
+static void dump_graph_recursive(const struct rdesc *p,
+				 struct rdesc_node *n,
+				 size_t parent_id,
+				 size_t *id_counter,
+				 rdesc_node_printer_func node_printer,
+				 FILE *out)
+{
+	size_t this;
+
+	if (!parent_id) {
+		this = 1;
+	} else {
+		this = ++(*id_counter);
+		fprintf(out, "\t%zu -> %zu;\n", parent_id, this);
+	}
+
+	fprintf(out, "\t%zu [shape=record,label=\"", this);
+	node_printer(n, out);
+	fprintf(out, "\"];\n");
+
+	if (rtype(n) == CFG_NONTERMINAL) {
+		for (uint16_t i = 0; i < rchild_count(n); i++)
+			dump_graph_recursive(p, rchild(p, n, i), this,
+					     id_counter, node_printer, out);
+
+		if (!rchild_count(n)) {
+			size_t epsilon_child = ++(*id_counter);
+			fprintf(out, "\t%zu [shape=record,label=\"ε\"];\n"
+			        "\t%zu -> %zu;\n",
+			        epsilon_child, this, epsilon_child);
+		}
+	}
+}
+
+void rdesc_dump_cst(FILE *out,
+		    const struct rdesc *p,
+		    rdesc_node_printer_func node_printer)
+{
+	size_t id_counter = 1;
+	fprintf(out, "digraph G {\n");
+	dump_graph_recursive(
+		p, _rdesc_priv_cst_illegal_access(cast(struct rdesc *, p), 0),
+		0, &id_counter, node_printer, out);
+	fprintf(out, "}\n");
+}

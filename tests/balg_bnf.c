@@ -11,7 +11,7 @@ int main(void)
 	rdesc_cfg_init(&cfg, BALG_NT_COUNT, BALG_NT_VARIANT_COUNT,
 		       BALG_NT_BODY_LENGTH, (struct rdesc_cfg_symbol *) balg);
 
-	rdesc_dump_bnf(&cfg, balg_tk_names, balg_nt_names, stdout);
+	rdesc_dump_bnf(stdout, &cfg, balg_tk_names, balg_nt_names);
 
 	rdesc_cfg_destroy(&cfg);
 }

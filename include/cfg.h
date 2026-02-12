@@ -1,6 +1,6 @@
 /**
  * @file cfg.h
- * @brief Context-Free Grammar (CFG) data structures
+ * @brief Context-free grammar (CFG) data structures
  *
  * This header defines the core data structures used to represent a CFG in
  * `librdesc`.
