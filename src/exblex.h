@@ -31,8 +31,8 @@ struct exblex {
 	size_t cur /** current position in the buffer */;
 	const char *tokens /** array of valid token characters */;
 	size_t token_count /** number of tokens in the array */;
-	/** A character that was part of the input stream but not
-	consumed by the previous token. (e.g., the `+` in `abc+def`). */
+	/** @brief A character that was part of the input stream but not
+	 * consumed by the previous token (e.g., the `+` in `abc+def`). */
 	char peek;
 };
 

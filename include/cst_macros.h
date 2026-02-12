@@ -30,7 +30,7 @@
 #define rparent(node) rdesc_node_d(node).parent
 
 /**
- * @brief Returns kind of the node.
+ * @brief Returns type of the node.
  *
  * @see enum rdesc_cfg_symbol_type
  */
@@ -45,7 +45,7 @@
 
 /** @brief Returns id of nonterminal variant that is matched. */
 #define rvariant(nonterminal_node) \
-	rdesc_node_d(nonterminal_node).n.nt.id
+	rdesc_node_d(nonterminal_node).n.nt.variant
 
 /** @brief Returns number of child nodes. */
 #define rchild_count(nonterminal_node) \

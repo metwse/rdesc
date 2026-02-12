@@ -1,6 +1,6 @@
 /**
  * @file types.h
- * @brief
+ * @brief Type definitions for internal use.
  */
 
 #ifndef TYPES_H

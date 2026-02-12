@@ -13,27 +13,30 @@
 
 /**
  * @brief Context-free grammar definition.
+ *
+ * The production rules are dimensioned as a 3D array:
+ * - [nt_count][nt_variant_count][nt_body_length]
  */
 struct rdesc_cfg {
-  /** context-free grammar production rules */
+  /** @brief Context-free grammar production rules. */
   const struct rdesc_cfg_symbol *rules;
-  /** total number of nonterminals */
+  /** @brief Total number of nonterminals. */
   uint32_t nt_count;
-  /** maximum number of variants, used for segmenting production rules
-   * array to a 3D array */
+  /** @brief Maximum number of variants, used for segmenting production rules
+   * array to a 3D array. */
   uint16_t nt_variant_count;
-  /** maximum number of symbols in a variant */
+  /** @brief Maximum number of symbols in a variant. */
   uint16_t nt_body_length;
-  /** maximum number of children of nonterminal variants */
+  /** @brief Maximum number of children of nonterminal variants. */
   uint16_t *child_caps;
 };
 
-/** @brief The type of `rdesc_cfg_symbol` (the union's tag) */
+/** @brief The type of `rdesc_cfg_symbol` (the union's tag). */
 enum rdesc_cfg_symbol_type {
   CFG_TOKEN,
   CFG_NONTERMINAL,
   /** @brief sentinel for terminating production body or variants of
-   * a nonterminal */
+   * a nonterminal. */
   CFG_SENTINEL,
 };
 
@@ -42,8 +45,8 @@ enum rdesc_cfg_symbol_type {
  * rule.
  */
 struct rdesc_cfg_symbol {
-  enum rdesc_cfg_symbol_type ty /** type of the symbol */;
-  int id /** terminal, nonterminal, or sentinel identifier */;
+  enum rdesc_cfg_symbol_type ty /** Type of the symbol. */;
+  int id /** Terminal, nonterminal, or sentinel identifier. */;
 };
 
 #ifdef __cplusplus

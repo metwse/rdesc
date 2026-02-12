@@ -36,29 +36,24 @@
 #define POSTFIX_NT_REST(nt) nt ## _REST
 #endif
 
-/** Integer representing EOB (end-of-body). */
+/** @brief Integer representing EOB (end-of-body). */
 #define EOB -1
-/** Integer representing EOC (end-of-construct). */
+/** @brief Integer representing EOC (end-of-construct). */
 #define EOC -2
 
-/**
- * @brief Sentinel struct for the end of a rule's body (EOB).
- *
- * Not recommended, use `EPSILON` instead.
- */
+/** @cond */
+/** sentinel struct for the end of a rule's body */
 #define SEOB { .ty = CFG_SENTINEL, .id = EOB }
-/**
- * @brief Sentinel struct for the end of a construct's variants (EOC).
- *
- * Not recommended, use `r` and `ropt` instead.
- */
+/** sentinel struct for the end of a construct's variants */
 #define SEOC { { .ty = CFG_SENTINEL, .id = EOC } }
+/** @endcond */
 
 /** @brief Macro to create a terminal (token) production symbol. */
 #define TK(tk) { .ty = CFG_TOKEN, .id = PREFIX_TK(tk) }
 /** @brief Macro to create a nonterminal production symbol. */
 #define NT(nt) { .ty = CFG_NONTERMINAL, .id = PREFIX_NT(nt) }
-/** @brief Macro to create an epsilon production symbol. */
+/** @brief Macro to create an epsilon production symbol. Use this to represent
+ * an empty production (ε). */
 #define EPSILON SEOB
 
 

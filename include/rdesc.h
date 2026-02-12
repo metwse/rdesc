@@ -66,7 +66,7 @@ void rdesc_init(struct rdesc *parser,
 /**
  * @brief Frees memory allocated by the parser and destroys the parser instance.
  *
- * @note `seminfo` field in `struct rdesc_token` is ignored, e.g. not freed,
+ * @note `seminfo` field in `struct rdesc_token` is ignored, i.e., not freed,
  *        unless `token_destroyer` is set.
  */
 void rdesc_destroy(struct rdesc *parser /*,
@@ -78,7 +78,7 @@ void rdesc_start(struct rdesc *parser, int start_symbol);
 /**
  * @brief Resets parser and its state.
  *
- * @note `seminfo` field in `struct rdesc_token` is ignored, e.g. not freed,
+ * @note `seminfo` field in `struct rdesc_token` is ignored, i.e., not freed,
  *        unless `token_destroyer` is set.
  */
 void rdesc_reset(struct rdesc *parser /*,
@@ -93,14 +93,12 @@ void rdesc_reset(struct rdesc *parser /*,
  * @param parser Pointer to the parser instance.
  * @param out Output pointer for the resulting CST node (IF READY).
  * @param id Identifier of the next token to consume.
- *        - **Zero is reserved** and used for resuming parsing using only the
- *          tokens currently in the backtracking stack. **Do not use zero as a
- *          token identifier in your grammar.**
+ *        - **ID 0 is reserved** for internal use (resuming from backtrack
+ *          stack). Do not use 0 as a token ID in your grammar.
  * @param seminfo Extra semantic information for the token.
- *        - The pointer is used solely to make the argument nullable
- *          (optional). It does not imply that the token must be heap-allocated.
- *          Passing a pointer to a stack-allocated (automatic) variable is
- *          valid and expected, as the parser copies the token data internally.
+ *        - Semantic information pointer. The parser copies this data
+ *          internally, so passing a pointer to stack-allocated data is valid.
+ *          NULL is acceptable.
  *
  * @return The current status of the parse operation.
  */
@@ -112,7 +110,7 @@ enum rdesc_result rdesc_pump(struct rdesc *parser,
 /**
  * @brief Recursively destroys the node and its children.
  *
- * @note `seminfo` field in `struct rdesc_token` are not freed unless
+ * @note `seminfo` field in `struct rdesc_token` is not freed unless
  *        `token_destroyer` is set.
  */
 void rdesc_node_destroy(struct rdesc_node *node,

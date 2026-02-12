@@ -1,16 +1,19 @@
-// internal macros of rdesc
+/* Basic internal macros of rdesc. */
 
 #ifndef RDESC_DETAIL_H
 #define RDESC_DETAIL_H
 
 
+/* Assertion macro that prints formatted error message if failed. */
 #if (defined(__unix__) || defined(__APPLE__) || defined(__linux__)) && \
     (defined(__GNUC__) || defined(__clang__))
 #include <stdio.h>  // IWYU pragma: begin_exports
 #include <signal.h>  // IWYU pragma: end_exports
 
+/** @cond */
 #define assert_stringify_detail(a) #a
 #define assert_stringify(a) assert_stringify_detail(a)
+/** @endcond */
 
 #define rdesc_assert(c, ...) do { \
 		if (!(c)) { \
@@ -30,10 +33,10 @@
 #define rdesc_assert(c, ...) assert(c)
 #endif
 
-/** @brief macro highlights memory allocation checks */
+/* Macro highlights memory allocation checks. */
 #define assert_mem(c) rdesc_assert(c, "out of memory")
 
-/** @brief unreachable branch */
+/* Unreachable branch. */
 #if defined(__GNUC__) || defined(__clang__)
 #define unreachable() __builtin_unreachable()
 #elif defined(_MSC_VER)
@@ -42,15 +45,16 @@
 #define unreachable()
 #endif
 
-/** @brief macro highlights type casts */
+/* Macro highlights type casts. */
 #define cast(t, exp) ((t) (exp))
 
+/* Internal macro for casting symbol table pointer to 3D array type. */
 #define productions(cfg) \
 	(*cast(const struct rdesc_cfg_symbol (*) \
 		[(cfg).nt_count][(cfg).nt_variant_count][(cfg).nt_body_length], \
 	    (cfg).rules))
 
-/** @brief RDI (rdesc internal) expose private functions to test translation unit */
+/* RDI (rdesc internal) expose private functions to test translation unit */
 #ifdef DEBUG
 #define RDI
 #else

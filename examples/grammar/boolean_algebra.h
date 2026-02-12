@@ -22,15 +22,15 @@
 
 #include "../../include/cfg.h"
 
-/** @brief add TK_ prefix in `TK` macro */
+/** @brief Add TK_ prefix in `TK` macro. */
 #define PREFIX_TK(tk) TK_ ## tk
-/** @brief add NT_ prefix in `NT` macro */
+/** @brief Add NT_ prefix in `NT` macro. */
 #define PREFIX_NT(nt) NT_ ## nt
 
 #include "../../include/bnf_macros.h"
 
 
-/** @brief total count of terminal symbols */
+/** @brief Total count of terminal symbols. */
 #define BALG_TK_COUNT 14
 
 /**
@@ -53,7 +53,7 @@
  */
 #define BALG_NT_BODY_LENGTH 5
 
-/** @brief terminal symbols (tokens) */
+/** @brief Terminal symbols (tokens). */
 enum balg_tk {
 	TK_NOTOKEN,
 	/* Literals */
@@ -65,25 +65,25 @@ enum balg_tk {
 	TK_EQ, TK_COMMA, TK_SEMI,
 };
 
-/** @brief nonterminal Symbols */
+/** @brief Nonterminal symbols. */
 enum balg_nt {
 	NT_BIT, NT_IDENT, NT_CALL,
 	NT_CALL_OPTPARAMS,
 
-	/* Expression Hierarchy (Precedence) */
+	/* Expression hierarchy (precedence) */
 	NT_EXPR, NT_EXPR_REST,	// level 1: OR
 	NT_TERM, NT_TERM_REST,	// level 2: AND
 	NT_FACTOR, NT_ATOM,	// level 3: NOT and Atoms
 
-	/* statements */
+	/* Statements */
 	NT_STMT, NT_STMTS, NT_ASGN,
 
-	/* list helpers */
+	/* List helpers */
 	NT_IDENT_LS, NT_IDENT_LS_REST,
 	NT_EXPR_LS, NT_EXPR_LS_REST,
 };
 
-/** @brief token character mapping (for `exblex`) */
+/** @brief Token character mapping (for `exblex`). */
 const char balg_tks[BALG_TK_COUNT] = {
 	'\0',
 	'1', '0', 'w',
@@ -92,9 +92,7 @@ const char balg_tks[BALG_TK_COUNT] = {
 	'=', ',', ';',
 };
 
-/**
- * @brief names of tokens that used in BNF
- */
+/** @brief Names of tokens that are used in BNF. */
 const char *const balg_tk_names[BALG_TK_COUNT] = {
 	"\0",
 	"1", "0", "@ident",
@@ -104,8 +102,8 @@ const char *const balg_tk_names[BALG_TK_COUNT] = {
 };
 
 /**
- * @brief names of tokens that can be used in dotlang graph (special chars are
- * escaped)
+ * @brief Names of tokens that can be used in dotlang graph (special chars are
+ * escaped).
  */
 const char *const balg_tk_names_escaped[BALG_TK_COUNT] = {
 	"\0",
@@ -115,7 +113,7 @@ const char *const balg_tk_names_escaped[BALG_TK_COUNT] = {
 	"=", ",", ";",
 };
 
-/** @brief nonterminal names (for debugging/printing CST) */
+/** @brief Nonterminal names (for debugging/printing CST). */
 const char *const balg_nt_names[BALG_NT_COUNT] = {
 	"bit", "ident", "call",
 	"call_optparams",
@@ -130,7 +128,7 @@ const char *const balg_nt_names[BALG_NT_COUNT] = {
 	"expr_ls", "expr_ls_rest",
 };
 
-/** @brief example context-free grammar */
+/** @brief Example context-free grammar. */
 static const struct rdesc_cfg_symbol
 balg[BALG_NT_COUNT][BALG_NT_VARIANT_COUNT][BALG_NT_BODY_LENGTH] = {
 	/* <bit> ::= */ r(

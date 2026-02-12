@@ -1,3 +1,5 @@
+/* This header expose internal functions to test suites. */
+
 #include "../include/rdesc.h"
 #include "detail.h"
 

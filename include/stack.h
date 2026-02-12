@@ -82,13 +82,11 @@ void rdesc_stack_reserve(struct rdesc_stack **stack, size_t reserved_space);
 /**
  * @brief Pushes multiple elements onto the stack.
  *
- * Elements can be source array of elements to copy, or NULL.
+ * `elements` is array of elements to copy, or NULL to allocate uninitialized
+ * space.
  *
- * Implementation should handle elements to be NULL. Stack is extended by count
- * elements without initialization in that case, and the returned pointer can
- * be used to initialize the allocated space manually.
- *
- * @return Pointer to the first pushed element in the stack
+ * @return Pointer to the first pushed element in the stack, i.e., pointer
+ *         to allocated space for manual initialization.
  *
  * @note If count is 0, this is a no-op and returns a pointer at current top.
  */
@@ -105,17 +103,18 @@ void *rdesc_stack_multipush(struct rdesc_stack **stack, void *elements, size_t c
 void *rdesc_stack_push(struct rdesc_stack **stack, void *element);
 
 /**
- * @brief Pops multiple elements from the stack, and returns a pointer to the
- *        first popped element ((new top + 1) after pop)
+ * @brief Pops multiple elements from the stack, and returns pointer to the
+ *        element that was at the bottom of the popped range.
  *
  * @note If count is 0, this is a no-op and returns current top.
+ *
  */
 void *rdesc_stack_multipop(struct rdesc_stack **stack, size_t count);
 
 /**
  * @brief Removes and returns the top element from the stack.
  *
- * This function has the exact behaivor with `rdesc_stack_multipop(stack, 1)`.
+ * This function has the exact behavior with `rdesc_stack_multipop(stack, 1)`.
  *
  * @see rdesc_stack_multipop
  */
