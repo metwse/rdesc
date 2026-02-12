@@ -18,7 +18,9 @@ void rdesc_cfg_init(struct rdesc_cfg *cfg,
 	cfg->nt_variant_count = nt_variant_count;
 	cfg->nt_body_length = nt_body_length;
 
-	assert_mem(cfg->child_caps = malloc(sizeof(size_t) * nt_count));
+	cfg->child_caps = malloc(sizeof(size_t) * nt_count);
+	rdesc_assert(cfg->child_caps,
+	      "pre-computed child capacity array could not be allocated");
 
 	for (size_t nt_id = 0; nt_id < nt_count; nt_id++) {
 		cfg->child_caps[nt_id] = 0;

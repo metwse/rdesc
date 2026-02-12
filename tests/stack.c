@@ -49,16 +49,18 @@ void test_fuzz(void)
 		rdesc_stack_multipop(&s, 0);
 	}
 
-	for (size_t i = (multipush_count << 2); i < element_count; i += multipush_count) {
-		top = rdesc_stack_multipop(&s, multipush_count);
+	if (rand() % 2) {
+		for (size_t i = (multipush_count << 2); i < element_count; i += multipush_count) {
+			top = rdesc_stack_multipop(&s, multipush_count);
 
-		rdesc_assert(memcmp(top,
-				    elements[element_count - multipush_count - i],
-				    element_size * multipush_count) == 0,
-			     "element corrupted");
+			rdesc_assert(memcmp(top,
+					    elements[element_count - multipush_count - i],
+					    element_size * multipush_count) == 0,
+				     "element corrupted");
+		}
+	} else {
+		rdesc_stack_reset(&s);
 	}
-
-	rdesc_stack_reset(&s);
 
 	rdesc_stack_destroy(s);
 }

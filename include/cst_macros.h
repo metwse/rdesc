@@ -15,9 +15,9 @@
 /** @cond */
 /* rdesc node dereference */
 #ifndef RDESC_ILLEGAL_ACCESS
-#define rdesc_node_d(node) (*(struct _rdesc_priv_node *) (node));
+#define rdesc_node_d(node) (*(struct _rdesc_priv_node *) (node))
 #else
-#define rdesc_node_d(node) (*(struct rdesc_node *) (node));
+#define rdesc_node_d(node) (*(struct rdesc_node *) (node))
 #endif
 /** @endcond */
 
@@ -40,23 +40,20 @@
 #define rid(node) rdesc_node_d(node).n.nt.id
 
 /** @brief Returns a reference to token's seminfo field */
-#define rseminfo(token_node) \
-	((void *) &rdesc_node_d(token_node).n.tk.seminfo)
+#define rseminfo(tk_node) \
+	((void *) &rdesc_node_d(tk_node).n.tk.seminfo)
 
 /** @brief Returns id of nonterminal variant that is matched. */
-#define rvariant(nonterminal_node) \
-	rdesc_node_d(nonterminal_node).n.nt.variant
+#define rvariant(nt_node) \
+	rdesc_node_d(nt_node).n.nt.variant
 
 /** @brief Returns number of child nodes. */
-#define rchild_count(nonterminal_node) \
-	rdesc_node_d(nonterminal_node).n.nt.child_count
+#define rchild_count(nt_node) \
+	rdesc_node_d(nt_node).n.nt.child_count
 
 /** @brief Returns the index of child in stack. */
-#define rchildren(nonterminal_node, child_index) \
-	(*(size_t *) (&rdesc_node_d(nonterminal_node)._[child_index * sizeof(size_t)]))
-
-
-#undef rdesc_node_d
+#define rchild(nt_node, child_index) \
+	(*(size_t *) (&rdesc_node_d(nt_node)._[child_index * sizeof(size_t)]))
 
 
 #endif

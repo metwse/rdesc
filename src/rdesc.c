@@ -1,19 +1,13 @@
 #include "../include/cfg.h"
+#include "../include/cst_macros.h"
 #include "../include/rdesc.h"
 #include "../include/stack.h"
-
 #include "detail.h"
-#include "internal.h"
-#include "types.h"
+#include "rdi.h"
 
 #include <stddef.h>
 #include <stdint.h>
 #include <string.h>
-
-
-#define ty_ n.ty
-#define nt_ n.nt
-#define tk_ n.tk
 
 
 void rdesc_init(struct rdesc *p,
@@ -51,43 +45,52 @@ void rdesc_reset(struct rdesc *p /*,
 }
 
 RDI void push_child(struct rdesc *p,
-		    size_t parent_index,
-		    size_t child_index)
+		    size_t parent_idx,
+		    size_t child_idx)
 {
-	node_t *parent = rdesc_stack_at(p->cst_stack, parent_index);
+	node_t *parent = rdesc_stack_at(p->cst_stack, parent_idx);
 
-	memcpy(&parent->_[parent->nt_.child_count * sizeof(size_t)],
-	       &child_index, sizeof(size_t));
+	rchild(parent, rchild_count(parent)) = child_idx;
 
-	parent->nt_.child_count++;
+	rchild_count(parent)++;
 }
 
-RDI void new_nt_node(struct rdesc *p,
-		     size_t parent,
-		     uint32_t id)
+RDI size_t new_nt_node(struct rdesc *p,
+		       size_t parent_idx,
+		       uint32_t nt_id)
 {
 	node_t *n = rdesc_stack_push(&p->cst_stack, NULL);
+	size_t node_idx = rdesc_stack_len(p->cst_stack) - 1;
 
-	if (parent != SIZE_MAX)
-		push_child(p, parent, rdesc_stack_len(p->cst_stack));
-	n->parent = SIZE_MAX;
-	n->nt_.id = id;
-	n->nt_.child_count = 0;
+	if (parent_idx != SIZE_MAX)
+		push_child(p, parent_idx, node_idx);
 
-	size_t child_cap = p->cfg->child_caps[id];
-	rdesc_stack_multipush(&p->cst_stack, NULL,
-		(child_cap * sizeof(size_t) + sizeof_node(*p) - 1) / sizeof_node(*p));
+	rparent(n) = parent_idx;
+	rid(n) = nt_id;
+	rvariant(n) = 0;
+	rchild_count(n) = 0;
+
+	size_t child_cap = p->cfg->child_caps[nt_id];
+	size_t children_list_cap =
+		(child_cap * sizeof(size_t) + sizeof_node(*p) - 1) / sizeof_node(*p);
+	rdesc_stack_multipush(&p->cst_stack, NULL, children_list_cap);
+
+	return node_idx;
 }
 
 RDI void new_tk_node(struct rdesc *p,
-		     size_t parent,
-		     uint32_t id,
+		     size_t parent_idx,
+		     uint32_t tk_id,
 		     const void *seminfo)
 {
 	node_t *n = rdesc_stack_push(&p->cst_stack, NULL);
+	size_t node_id = rdesc_stack_len(p->cst_stack) - 1;
 
-	push_child(p, parent, rdesc_stack_len(p->cst_stack));
-	n->parent = parent;
-	n->tk_.id = id;
-	memcpy(&n->tk_.seminfo, seminfo, p->seminfo_size);
+	push_child(p, parent_idx, node_id);
+
+	rparent(n) = parent_idx;
+	rid(n) = tk_id;
+
+	if (seminfo)
+		memcpy(rseminfo(n), seminfo, p->seminfo_size);
 }

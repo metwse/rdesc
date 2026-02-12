@@ -7,7 +7,10 @@
 #include <string.h>
 
 
-#define STACK_INITIAL_CAP 8
+#define STACK_INITIAL_CAP 32
+
+#define rdesc_stack_assert(c) \
+	rdesc_assert(c, "failed to allocate memory for stack")
 
 
 /**
@@ -39,14 +42,14 @@ static inline void *elem_at(struct rdesc_stack *s, size_t i)
 static inline void resize_stack(struct rdesc_stack **s, size_t cap)
 {
 	*s = realloc(*s, sizeof(struct rdesc_stack) + cap * (*s)->element_size);
-	assert_mem(*s);
+	rdesc_stack_assert(*s);
 	(*s)->cap = cap;
 }
 
 void rdesc_stack_init(struct rdesc_stack **s, size_t element_size)
 {
 	*s = malloc(sizeof(struct rdesc_stack) + STACK_INITIAL_CAP * element_size);
-	assert_mem(*s);
+	rdesc_stack_assert(*s);
 
 	(*s)->element_size = element_size;
 	(*s)->len = 0;
