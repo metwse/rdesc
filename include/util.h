@@ -10,16 +10,12 @@
 
 #include <stdio.h>
 
-
 struct rdesc_node; /* defined in rdesc.h */
-struct rdesc_token;
-struct rdesc_nonterminal;
-
-struct rdesc_cfg; /* defined in cfg.h */
+struct rdesc_cfg;  /* defined in cfg.h */
 
 
 /** @brief Function pointer type for printing tokens. */
-typedef void (*rdesc_tk_printer_func)(const struct rdesc_token *, FILE *out);
+typedef void (*rdesc_tk_printer_func)(const struct rdesc_node *, FILE *out);
 
 
 #ifdef __cplusplus
@@ -32,17 +28,16 @@ extern "C" {
  * Traverses the CST and generates a `.dot` representation.
  *
  * @param node CST node
- * @param nt_names The raw name of the non-terminal (e.g., `expr`). The dumper
+ * @param nt_names The raw name of the nonterminal (e.g., `expr`). The dumper
  *        handles the surrounding `<` and `>` characters automatically.
  * @param tk_printer Callback to print token names.
- *        - DOT Context: This function handle seminfo fields and constructs a
+ *        - DOT Context: This function handles seminfo fields and constructs a
  *          table accordingly.
  * @param out Output file stream
  */
 void rdesc_dump_cst(const struct rdesc_node *node,
-		    rdesc_tk_printer_func tk_printer,
-		    const char *const nt_names[],
-		    FILE *out);
+                    rdesc_tk_printer_func tk_printer,
+                    const char *const nt_names[], FILE *out);
 
 /**
  * @brief Dumps the Context-Free Grammar in BNF format.
@@ -53,19 +48,16 @@ void rdesc_dump_cst(const struct rdesc_node *node,
  * @param cfg Underlying CFG
  * @param tk_names The token name or literal representation (e.g., `IDENT` or
  *        `+`). If you do not want to put double quotes around token name,
- *        put @ to beginning of the name.
- * @param nt_names The raw name of the non-terminal (e.g., `expr`). The dumper
+ *        put @ at the beginning of the name.
+ * @param nt_names The raw name of the nonterminal (e.g., `expr`). The dumper
  *        handles the surrounding `<` and `>` characters automatically.
  * @param out Output file stream
  */
-void rdesc_dump_bnf(const struct rdesc_cfg *cfg,
-		    const char *const tk_names[],
-		    const char *const nt_names[],
-		    FILE *out);
+void rdesc_dump_bnf(const struct rdesc_cfg *cfg, const char *const tk_names[],
+                    const char *const nt_names[], FILE *out);
 
 #ifdef __cplusplus
 }
 #endif
-
 
 #endif

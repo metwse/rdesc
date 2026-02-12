@@ -97,7 +97,7 @@ void *rdesc_stack_multipush(struct rdesc_stack **stack, void *elements, size_t c
 /**
  * @brief Pushes a single element onto the stack.
  *
- * This function has the exact behaivor with
+ * This function has the exact behavior with
  * `rdesc_stack_multipush(stack, element, 1)`.
  *
  * @see rdesc_stack_multipush

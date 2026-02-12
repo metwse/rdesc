@@ -122,5 +122,43 @@ void rdesc_node_destroy(struct rdesc_node *node,
 }
 #endif
 
+/** @cond */
+
+/* These structs are private structs that should only be used with the provided
+ * CST macros. */
+struct _rdesc_priv_tk {
+	uint32_t _pad : 1;
+	uint32_t id : 31;
+
+	uint32_t seminfo;
+};
+
+struct _rdesc_priv_nt {
+	uint32_t _pad : 1;
+	uint32_t id : 31;
+
+	uint16_t variant;
+	uint16_t child_count;
+};
+
+struct
+#ifndef RDESC_ILLEGAL_ACCESS
+_rdesc_priv_node
+#else
+rdesc_node
+#endif
+{
+	size_t parent;
+
+	union {
+		uint32_t ty : 1;
+
+		struct _rdesc_priv_tk tk;
+		struct _rdesc_priv_nt nt;
+	} n;
+
+	uint8_t _[];
+};
+/** @endcond */
 
 #endif

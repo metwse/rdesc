@@ -34,14 +34,14 @@
 #define BALG_TK_COUNT 14
 
 /**
- * @brief Total count of non-terminal symbols defined in `enum balg_nt`.
+ * @brief Total count of nonterminal symbols defined in `enum balg_nt`.
  * Determines the size of the first dimension of the grammar table.
  */
 #define BALG_NT_COUNT 17
 
 /**
  * @brief Maximum number of production variants (alternatives) for a single
- * non-terminal and +1 for end-of-construct sentinel. Used to dimension the
+ * nonterminal and +1 for end-of-construct sentinel. Used to dimension the
  * static array (2nd dimension).
  */
 #define BALG_NT_VARIANT_COUNT 6
@@ -65,7 +65,7 @@ enum balg_tk {
 	TK_EQ, TK_COMMA, TK_SEMI,
 };
 
-/** @brief non-terminal Symbols */
+/** @brief nonterminal Symbols */
 enum balg_nt {
 	NT_BIT, NT_IDENT, NT_CALL,
 	NT_CALL_OPTPARAMS,
@@ -115,7 +115,7 @@ const char *const balg_tk_names_escaped[BALG_TK_COUNT] = {
 	"=", ",", ";",
 };
 
-/** @brief non-terminal names (for debugging/printing CST) */
+/** @brief nonterminal names (for debugging/printing CST) */
 const char *const balg_nt_names[BALG_NT_COUNT] = {
 	"bit", "ident", "call",
 	"call_optparams",

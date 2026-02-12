@@ -17,7 +17,7 @@
  * @section api API Overview
  *
  * 1. Parser (`rdesc.h`): The engine that consumes the CFG and Input. It
- *    defines token and non-terminal structs and functions for bootstrapping
+ *    defines token and nonterminal structs and functions for bootstrapping
  *    the parser.
  * 2. CFG (`cfg.h`): Defines the CFG struct for rules. This usually populated
  *    with static constant data via macros.
@@ -29,7 +29,7 @@
  *
  * To use librdesc, you typically follow these steps:
  *
- * 1. Define the identifiers of tokens and non-terminals (e.g. create enums for
+ * 1. Define the identifiers of tokens and nonterminals (e.g. create enums for
  *    your language symbols)
  * 2. Define your grammar, and its symbol table. You may use `bnf_macros.h` to
  *    create the rules table.

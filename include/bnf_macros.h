@@ -32,7 +32,7 @@
 #endif
 
 #ifndef POSTFIX_NT_REST
-/** @brief Name mapping for non-terminal list to rest types. */
+/** @brief Name mapping for nonterminal list to rest types. */
 #define POSTFIX_NT_REST(nt) nt ## _REST
 #endif
 
@@ -56,7 +56,7 @@
 
 /** @brief Macro to create a terminal (token) production symbol. */
 #define TK(tk) { .ty = CFG_TOKEN, .id = PREFIX_TK(tk) }
-/** @brief Macro to create a non-terminal production symbol. */
+/** @brief Macro to create a nonterminal production symbol. */
 #define NT(nt) { .ty = CFG_NONTERMINAL, .id = PREFIX_NT(nt) }
 /** @brief Macro to create an epsilon production symbol. */
 #define EPSILON SEOB
@@ -78,8 +78,8 @@
  * 1. `<expr_ls> ::= <expr> <expr_ls_rest>`
  * 2. `<expr_ls_rest> ::= "," <expr_ls> | E`
  *
- * @param head The base non-terminal.
- * @param listelem The non-terminal for the list element.
+ * @param head The base nonterminal.
+ * @param listelem The nonterminal for the list element.
  * @param delim The token used as a separator.
  */
 #define rrr(head, listelem, delim) \
@@ -96,7 +96,7 @@
 #define ropt(...) { { __VA_ARGS__, SEOB }, { SEOB }, SEOC }
 
 /**
- * @brief Macro for syntactic sugar to separate non-terminal alternatives.
+ * @brief Macro for syntactic sugar to separate nonterminal alternatives.
  *
  * Expands to the end-of-body sentinel and new variant syntax.
  */

@@ -1,7 +1,7 @@
 #include "../include/cfg.h"
 #include "../include/rdesc.h"
 
-#include "../src/helper.h"
+#include "../src/internal.h"
 
 #include "../examples/grammar/bc.h"
 

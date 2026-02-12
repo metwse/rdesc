@@ -6,43 +6,31 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+#include "../include/rdesc.h"
+
 #include <stddef.h>
 #include <stdint.h>
 
 
-#define tk_size(p) (sizeof(struct rdesc_tk) - sizeof(uint32_t) + (p).seminfo_size)
-#define nt_size(child_cap) (sizeof(struct rdesc_nt) + sizeof(size_t) * child_cap)
+/** @brief size of a token node (including its seminfo field) */
+#define sizeof_tk(p) (sizeof(tk_t) - sizeof(uint32_t) + (p).seminfo_size)
+/** @brief size of a nonterminal node (including size of its child pointer list) */
+#define sizeof_nt(child_cap) (sizeof(nt_t) + sizeof(size_t) * child_cap)
 
-#define node_size(p) (tk_size(p) > nt_size(0) ? tk_size(p) : nt_size(0))
+/** @brief minimum size of a node that can be used interchangeably as either a
+ * token (with seminfo) or a nonterminal (without child list) */
+#define sizeof_node(p) (sizeof_tk(p) > sizeof_nt(0) ? sizeof_tk(p) : sizeof_nt(0))
 
-
-struct rdesc_tk {
-	uint32_t _pad : 1;
-	uint32_t id : 31;
-
-	uint32_t seminfo;
-};
-
-struct rdesc_nt {
-	uint32_t _pad : 1;
-	uint32_t id : 31;
-
-	uint16_t variant;
-	uint16_t child_count;
-};
-
-struct rdesc_node {
-	size_t parent;
-
-	union {
-		uint32_t ty : 1;
-
-		struct rdesc_tk tk;
-		struct rdesc_nt nt;
-	} n;
-
-	uint8_t _[];
-};
+/** @brief token type */
+typedef struct _rdesc_priv_tk tk_t;
+/** @brief nonterminal type */
+typedef struct _rdesc_priv_nt nt_t;
+/** @brief node (token or nonterminal union) type */
+#ifndef RDESC_ILLEGAL_ACCESS
+typedef struct _rdesc_priv_node node_t;
+#else
+typedef struct rdesc_node rdesc_node_t;
+#endif
 
 
 #endif

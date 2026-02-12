@@ -24,8 +24,8 @@ void rdesc_init(struct rdesc *p,
 	p->seminfo_size = seminfo_size;
 	p->cur = 0;
 
-	rdesc_stack_init(&p->token_stack, tk_size(*p));
-	rdesc_stack_init(&p->cst_stack, node_size(*p));
+	rdesc_stack_init(&p->token_stack, sizeof_tk(*p));
+	rdesc_stack_init(&p->cst_stack, sizeof_node(*p));
 }
 
 void rdesc_destroy(struct rdesc *p /*,
@@ -54,7 +54,7 @@ RDI void push_child(struct rdesc *p,
 		    size_t parent_index,
 		    size_t child_index)
 {
-	struct rdesc_node *parent = rdesc_stack_at(p->cst_stack, parent_index);
+	node_t *parent = rdesc_stack_at(p->cst_stack, parent_index);
 
 	memcpy(&parent->_[parent->nt_.child_count * sizeof(size_t)],
 	       &child_index, sizeof(size_t));
@@ -66,7 +66,7 @@ RDI void new_nt_node(struct rdesc *p,
 		     size_t parent,
 		     uint32_t id)
 {
-	struct rdesc_node *n = rdesc_stack_push(&p->cst_stack, NULL);
+	node_t *n = rdesc_stack_push(&p->cst_stack, NULL);
 
 	if (parent != SIZE_MAX)
 		push_child(p, parent, rdesc_stack_len(p->cst_stack));
@@ -76,7 +76,7 @@ RDI void new_nt_node(struct rdesc *p,
 
 	size_t child_cap = p->cfg->child_caps[id];
 	rdesc_stack_multipush(&p->cst_stack, NULL,
-		(child_cap * sizeof(size_t) + node_size(*p) - 1) / node_size(*p));
+		(child_cap * sizeof(size_t) + sizeof_node(*p) - 1) / sizeof_node(*p));
 }
 
 RDI void new_tk_node(struct rdesc *p,
@@ -84,7 +84,7 @@ RDI void new_tk_node(struct rdesc *p,
 		     uint32_t id,
 		     const void *seminfo)
 {
-	struct rdesc_node *n = rdesc_stack_push(&p->cst_stack, NULL);
+	node_t *n = rdesc_stack_push(&p->cst_stack, NULL);
 
 	push_child(p, parent, rdesc_stack_len(p->cst_stack));
 	n->parent = parent;
