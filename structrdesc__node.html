@@ -75,76 +75,31 @@ $(function() {
   <div class="headertitle"><div class="title">rdesc_node Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>A node in the CST.  
- <a href="structrdesc__node.html#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="rdesc_8h_source.html">rdesc.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a192301972531309ab8c40b46a264b6dd"><td class="memItemLeft" align="right" valign="top"><a id="a192301972531309ab8c40b46a264b6dd" name="a192301972531309ab8c40b46a264b6dd"></a>
-struct <a class="el" href="structrdesc__node.html">rdesc_node</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>parent</b></td></tr>
-<tr class="memdesc:a192301972531309ab8c40b46a264b6dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">parent node <br /></td></tr>
-<tr class="separator:a192301972531309ab8c40b46a264b6dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8dc66b987fc453c74acd8ca8dfbd0c9"><td class="memItemLeft" >union {</td></tr>
+<tr class="memitem:ae4edbf5695225e362e948a50854f267f"><td class="memItemLeft" align="right" valign="top"><a id="ae4edbf5695225e362e948a50854f267f" name="ae4edbf5695225e362e948a50854f267f"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><b>parent</b></td></tr>
+<tr class="separator:ae4edbf5695225e362e948a50854f267f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8dc66b987fc453c74acd8ca8dfbd0c9"><td class="memItemLeft" ><a id="aa8dc66b987fc453c74acd8ca8dfbd0c9" name="aa8dc66b987fc453c74acd8ca8dfbd0c9"></a>
+union {</td></tr>
 <tr class="memitem:a02eb0d3df8610c2ee334f0aad8b32e4e"><td class="memItemLeft" >
 &#160;&#160;&#160;uint32_t&#160;&#160;&#160;<b>ty</b>: 1</td></tr>
-<tr class="memdesc:a02eb0d3df8610c2ee334f0aad8b32e4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">type of the symbol (token = 0 / nonterminal = 1) <br /></td></tr>
 <tr class="separator:a02eb0d3df8610c2ee334f0aad8b32e4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab437288699b77cbb78c75f08cfe50f6a"><td class="memItemLeft" >
-&#160;&#160;&#160;struct <a class="el" href="structrdesc__token.html">rdesc_token</a>&#160;&#160;&#160;<b>tk</b></td></tr>
-<tr class="memdesc:ab437288699b77cbb78c75f08cfe50f6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">token <br /></td></tr>
-<tr class="separator:ab437288699b77cbb78c75f08cfe50f6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4f02f8a37a19c3271094b053fd8cbd2"><td class="memItemLeft" >
-&#160;&#160;&#160;struct <a class="el" href="structrdesc__nonterminal.html">rdesc_nonterminal</a>&#160;&#160;&#160;<b>nt</b></td></tr>
-<tr class="memdesc:ae4f02f8a37a19c3271094b053fd8cbd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">nonterminal <br /></td></tr>
-<tr class="separator:ae4f02f8a37a19c3271094b053fd8cbd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8dc66b987fc453c74acd8ca8dfbd0c9"><td class="memItemLeft" valign="top">}&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__node.html#aa8dc66b987fc453c74acd8ca8dfbd0c9">n</a></td></tr>
+<tr class="memitem:a571c5e4cf5594650ba0a21f092b86053"><td class="memItemLeft" >
+&#160;&#160;&#160;struct <a class="el" href="structrdesc__tk.html">rdesc_tk</a>&#160;&#160;&#160;<b>tk</b></td></tr>
+<tr class="separator:a571c5e4cf5594650ba0a21f092b86053"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8dd3517b2a867c999e317cbbc2f7c31a"><td class="memItemLeft" >
+&#160;&#160;&#160;struct <a class="el" href="structrdesc__nt.html">rdesc_nt</a>&#160;&#160;&#160;<b>nt</b></td></tr>
+<tr class="separator:a8dd3517b2a867c999e317cbbc2f7c31a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8dc66b987fc453c74acd8ca8dfbd0c9"><td class="memItemLeft" valign="top">}&#160;</td><td class="memItemRight" valign="bottom"><b>n</b></td></tr>
 <tr class="separator:aa8dc66b987fc453c74acd8ca8dfbd0c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f8f057f260732b3781db2fc180d0798"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__node.html#a2f8f057f260732b3781db2fc180d0798">_unsized_marker</a> []</td></tr>
-<tr class="separator:a2f8f057f260732b3781db2fc180d0798"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e21f8672850fded50fe36c7dec70d4f"><td class="memItemLeft" align="right" valign="top"><a id="a1e21f8672850fded50fe36c7dec70d4f" name="a1e21f8672850fded50fe36c7dec70d4f"></a>
+uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>_</b> []</td></tr>
+<tr class="separator:a1e21f8672850fded50fe36c7dec70d4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A node in the CST. </p>
-<p>Uses a union to allow a single node type to represent both (tokens and non-terminals. The <code>ty</code> field in the union determines which interpretation to use (0 = token, 1 = nonterminal).</p>
-<p>The flexible array member <code>_[]</code> allows extending seminfo storage beyond the base token size when seminfo_size &gt; RDESC_BASE_SEMINFO_SIZE.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="structrdesc__token.html" title="terminal (token) object for context-free grammar">rdesc_token</a> </dd>
-<dd>
-<a class="el" href="structrdesc__nonterminal.html" title="Nonterminal (syntatic variable) object for context-free grammar.">rdesc_nonterminal</a> </dd></dl>
-</div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a2f8f057f260732b3781db2fc180d0798" name="a2f8f057f260732b3781db2fc180d0798"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2f8f057f260732b3781db2fc180d0798">&#9670;&#160;</a></span>_unsized_marker</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">char rdesc_node::_unsized_marker[]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Continuation of token seminfo when seminfo_size &gt; RDESC_MIN_SEMINFO_SIZE </p>
-
-</div>
-</div>
-<a id="aa8dc66b987fc453c74acd8ca8dfbd0c9" name="aa8dc66b987fc453c74acd8ca8dfbd0c9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa8dc66b987fc453c74acd8ca8dfbd0c9">&#9670;&#160;</a></span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">union  { ... }  rdesc_node::n</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>'n' is a dummy union name, as anonymous unions are not supported in C99 </p>
-
-</div>
-</div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>include/<a class="el" href="rdesc_8h_source.html">rdesc.h</a></li>
+<li>src/<a class="el" href="types_8h_source.html">types.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

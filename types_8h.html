@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.6"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>librdesc: src/exblex.h File Reference</title>
+<title>librdesc: src/types.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -75,57 +75,36 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">exblex.h File Reference</div></div>
+<a href="#define-members">Macros</a>  </div>
+  <div class="headertitle"><div class="title">types.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Basic lexer, used for testing.  
-<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stddef.h&gt;</code><br />
+<code>#include &lt;stdint.h&gt;</code><br />
 </div>
-<p><a href="exblex_8h_source.html">Go to the source code of this file.</a></p>
+<p><a href="types_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structexblex.html">exblex</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">EXtremely Basic LEXer.  <a href="structexblex.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__tk.html">rdesc_tk</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__nt.html">rdesc_nt</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__node.html">rdesc_node</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:ac6e733c25e150dab3e32b4c677345784"><td class="memItemLeft" align="right" valign="top"><a id="ac6e733c25e150dab3e32b4c677345784" name="ac6e733c25e150dab3e32b4c677345784"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>exblex_init</b> (struct <a class="el" href="structexblex.html">exblex</a> *l, const char *buf, const char *tokens, size_t token_count)</td></tr>
-<tr class="memdesc:ac6e733c25e150dab3e32b4c677345784"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the basic lexer. <br /></td></tr>
-<tr class="separator:ac6e733c25e150dab3e32b4c677345784"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abbe8702a4f9b94dbff710d463b38c1a5"><td class="memItemLeft" align="right" valign="top">struct rdesc_token&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="exblex_8h.html#abbe8702a4f9b94dbff710d463b38c1a5">exblex_next</a> (struct <a class="el" href="structexblex.html">exblex</a> *l)</td></tr>
-<tr class="memdesc:abbe8702a4f9b94dbff710d463b38c1a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fetches the next token.  <br /></td></tr>
-<tr class="separator:abbe8702a4f9b94dbff710d463b38c1a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ad92283c9c2420031a914a2d6167d6212"><td class="memItemLeft" align="right" valign="top"><a id="ad92283c9c2420031a914a2d6167d6212" name="ad92283c9c2420031a914a2d6167d6212"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>tk_size</b>(p)&#160;&#160;&#160;(sizeof(struct <a class="el" href="structrdesc__tk.html">rdesc_tk</a>) - sizeof(uint32_t) + (p).seminfo_size)</td></tr>
+<tr class="separator:ad92283c9c2420031a914a2d6167d6212"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cd716536c72865a29873124e07021a9"><td class="memItemLeft" align="right" valign="top"><a id="a1cd716536c72865a29873124e07021a9" name="a1cd716536c72865a29873124e07021a9"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>nt_size</b>(child_cap)&#160;&#160;&#160;(sizeof(struct <a class="el" href="structrdesc__nt.html">rdesc_nt</a>) + sizeof(size_t) * child_cap)</td></tr>
+<tr class="separator:a1cd716536c72865a29873124e07021a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27d04705f8f975ab6ba980aaa3e95f65"><td class="memItemLeft" align="right" valign="top"><a id="a27d04705f8f975ab6ba980aaa3e95f65" name="a27d04705f8f975ab6ba980aaa3e95f65"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>node_size</b>(p)&#160;&#160;&#160;(tk_size(p) &gt; nt_size(0) ? tk_size(p) : nt_size(0))</td></tr>
+<tr class="separator:a27d04705f8f975ab6ba980aaa3e95f65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Basic lexer, used for testing. </p>
-</div><h2 class="groupheader">Function Documentation</h2>
-<a id="abbe8702a4f9b94dbff710d463b38c1a5" name="abbe8702a4f9b94dbff710d463b38c1a5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abbe8702a4f9b94dbff710d463b38c1a5">&#9670;&#160;</a></span>exblex_next()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">struct rdesc_token exblex_next </td>
-          <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structexblex.html">exblex</a> *&#160;</td>
-          <td class="paramname"><em>l</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Fetches the next token. </p>
-<p>Skips whitespace. 0 is reserved for NO_TOKEN/EOF. </p>
-
-</div>
-</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

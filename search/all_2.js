@@ -1,18 +1,10 @@
 var searchData=
 [
-  ['balg_5fnt_0',['balg_nt',['../boolean__algebra_8h.html#a824819f5190a8b390da1a30229ec73e9',1,'boolean_algebra.h']]],
-  ['balg_5fnt_5fbody_5flength_1',['BALG_NT_BODY_LENGTH',['../boolean__algebra_8h.html#a0eaae58589ac62e6b6e37e59a1be405f',1,'boolean_algebra.h']]],
-  ['balg_5fnt_5fcount_2',['BALG_NT_COUNT',['../boolean__algebra_8h.html#ae22dc60420bad18229307a7d3f5ecf46',1,'boolean_algebra.h']]],
-  ['balg_5fnt_5fnames_3',['balg_nt_names',['../boolean__algebra_8h.html#af69b0ef00608b4b7e99ad48335650110',1,'boolean_algebra.h']]],
-  ['balg_5fnt_5fvariant_5fcount_4',['BALG_NT_VARIANT_COUNT',['../boolean__algebra_8h.html#a59b5b3ecee08187bc53a3be8faa2911a',1,'boolean_algebra.h']]],
-  ['balg_5ftk_5',['balg_tk',['../boolean__algebra_8h.html#aa10441235dd946330f84b6e5dd4b5c42',1,'boolean_algebra.h']]],
-  ['balg_5ftk_5fcount_6',['BALG_TK_COUNT',['../boolean__algebra_8h.html#a7cbf9a1edb791896af995c324c0bfec3',1,'boolean_algebra.h']]],
-  ['balg_5ftk_5fnames_7',['balg_tk_names',['../boolean__algebra_8h.html#aca433d4ae632053f010e4fd1d58eb257',1,'boolean_algebra.h']]],
-  ['balg_5ftk_5fnames_5fescaped_8',['balg_tk_names_escaped',['../boolean__algebra_8h.html#a86e2dca21ab0a47b5596cd4b7f90e8e7',1,'boolean_algebra.h']]],
-  ['balg_5ftks_9',['balg_tks',['../boolean__algebra_8h.html#a52abe67416edb5d25d2511bcabc231bb',1,'boolean_algebra.h']]],
-  ['bc_2eh_10',['bc.h',['../bc_8h.html',1,'']]],
-  ['bc_5finterpreter_2eh_11',['bc_interpreter.h',['../bc__interpreter_8h.html',1,'']]],
-  ['bnf_5fmacros_2eh_12',['bnf_macros.h',['../bnf__macros_8h.html',1,'']]],
-  ['boolean_5falgebra_2eh_13',['boolean_algebra.h',['../boolean__algebra_8h.html',1,'']]],
-  ['buf_14',['buf',['../structexblex.html#a4bfa1b98dcef53afeefe4d6983bee062',1,'exblex']]]
+  ['cap_0',['cap',['../structrdesc__stack.html#acfc289d9e211e8557cc297154c944b5d',1,'rdesc_stack']]],
+  ['cfg_1',['cfg',['../structrdesc.html#ab1a8201857ac8d5e46a213a1f89ec497',1,'rdesc']]],
+  ['cfg_2eh_2',['cfg.h',['../cfg_8h.html',1,'']]],
+  ['cfg_5fsentinel_3',['CFG_SENTINEL',['../cfg_8h.html#aa50d0c68b3753cc0c30f8fcda36e3c1dab9bfa5b7d88cdf5a5e093933b60d00d0',1,'cfg.h']]],
+  ['child_5fcaps_4',['child_caps',['../structrdesc__cfg.html#a247a627c42fefc604e0947e427f80537',1,'rdesc_cfg']]],
+  ['cst_5fstack_5',['cst_stack',['../structrdesc.html#a16c5cc12baeec0819b2be67e4bc713b6',1,'rdesc']]],
+  ['cur_6',['cur',['../structexblex.html#a7a29636b80ad3395e4aef9613a337035',1,'exblex::cur()'],['../structrdesc.html#a822e58bac28957cd30e9c7e16588ea2a',1,'rdesc::cur()']]]
 ];
