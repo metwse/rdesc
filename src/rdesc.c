@@ -80,14 +80,15 @@ static void nonterminal_failed(struct rdesc *p)
 
 			rdesc_stack_push(&p->token_stack, &top->n.tk);
 		} else {
-			if (is_construct_end(top)) {
-				p->top_size = _rdesc_priv_prev_size(top);
-			} else {
-				p->top_size = 1 + child_list_size(*p, rid(top));
-
+			p->top_size = _rdesc_priv_prev_size(top);
+			if (!is_construct_end(top)) {
 				rvariant(top)++;
 				rchild_count(top) = 0;
-				return;
+
+				if (!is_construct_end(top)) {
+					p->top_size = 1 + child_list_size(*p, rid(top));
+					return;
+				}
 			}
 		}
 
@@ -98,7 +99,7 @@ static void nonterminal_failed(struct rdesc *p)
 	}
 }
 
-static enum internal_pump_state {
+static inline enum internal_pump_state {
 	READY,
 	CONTINUE,
 	RETRY,

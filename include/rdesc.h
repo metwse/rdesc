@@ -123,33 +123,29 @@ struct rdesc_node *_rdesc_priv_cst_illegal_access(struct rdesc *parser,
 
 /* These structs are private structs that should only be used with the provided
  * CST macros. */
+#pragma pack(push, 1)
 struct _rdesc_priv_tk {
-	uint32_t _pad : 1;
-	uint32_t id : 31;
+	uint16_t _pad : 1;
+	uint16_t id : 15;
 
 	uint32_t seminfo;
 };
 
 struct _rdesc_priv_nt {
-	uint32_t _pad : 1;
-	uint32_t id : 31;
+	uint16_t _pad : 1;
+	uint16_t id : 15;
 
 	uint16_t variant;
 	uint16_t child_count;
 };
 
-struct
-#ifndef RDESC_ILLEGAL_ACCESS
-_rdesc_priv_node
-#else
-rdesc_node
-#endif
-{
+struct _rdesc_priv_node {
+	/* ALSO CHANGE sizeof_node macro for any change in this struct */
 	size_t parent;
-	uint32_t prev_size;
+	uint16_t prev_size;
 
 	union {
-		uint32_t ty : 1;
+		uint16_t ty : 1;
 
 		struct _rdesc_priv_tk tk;
 		struct _rdesc_priv_nt nt;
@@ -157,6 +153,8 @@ rdesc_node
 
 	uint8_t _[];
 };
+#pragma pack(pop)
 /** @endcond */
+
 
 #endif

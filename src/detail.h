@@ -60,21 +60,27 @@
 
 /** @brief Size of a token node for parser (including its seminfo field). */
 #define sizeof_tk(p) \
-	(sizeof(struct _rdesc_priv_tk) - sizeof(uint32_t) + (p).seminfo_size)
+	(sizeof(struct _rdesc_priv_tk) /* token struct size */ \
+	 - sizeof(uint32_t) /* minus dummy seminfo field size */ \
+	 + (p).seminfo_size /* plus parser's seminfo size */)
 
 /**
  * @brief Size of a nonterminal node (including size of its child pointer
  * list).
  */
 #define sizeof_nt(child_cap) \
-	(sizeof(struct _rdesc_priv_nt) + sizeof(size_t) * child_cap)
+	(sizeof(struct _rdesc_priv_nt) /* nonterminal struct size */ \
+	 + sizeof(size_t) * child_cap /* plus the space required for child
+				       * pointer list */)
 
 /**
  * @brief Minimum size of a node that can be used interchangeably as either a
  * token (with seminfo) or a nonterminal (without child list).
  */
 #define sizeof_node(p) \
-	((sizeof(size_t) + sizeof(uint32_t)) + (sizeof_tk(p) > sizeof_nt(0) ? \
+	((sizeof(size_t) + sizeof(uint16_t)) /* sizeof parent poiner +
+					      * sizeof element's offset */ \
+	 + (sizeof_tk(p) > sizeof_nt(0) ? /* plus the bigger node variant */ \
 		sizeof_tk(p) : \
 		sizeof_nt(0)))
 
