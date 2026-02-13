@@ -47,12 +47,15 @@
 #define _rdesc_priv_node_deref(node) (*(struct rdesc_node *) (node))
 #endif
 
+/* Returns the preceding node's size on stack. */
+#define _rdesc_priv_prev_size(node) _rdesc_priv_node_deref(node).prev_size
+
 /* Returns index of parent of the node, or `SIZE_MAX` if the node is root. */
 #define _rdesc_priv_parent_idx(node) _rdesc_priv_node_deref(node).parent
 
 /* Returns index of the child in stack. */
 #define _rdesc_priv_child_idx(nt_node, child_index) \
-	(*(size_t *) (&_rdesc_priv_node_deref(nt_node)._[child_index * sizeof(size_t)]))
+	(*(size_t *) (&_rdesc_priv_node_deref(nt_node)._[(child_index) * sizeof(size_t)]))
 /** @endcond */
 
 

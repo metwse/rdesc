@@ -10,14 +10,6 @@
 #define RDESC_DETAIL_H
 
 
-/** @brief RDI (rdesc internal) expose private functions to test
- * ranslation unit */
-#ifdef DEBUG
-#define RDI
-#else
-#define RDI static
-#endif
-
 /** @brief Assertion macro that prints formatted error message if failed. */
 #if (defined(__unix__) || defined(__APPLE__) || defined(__linux__)) && \
     (defined(__GNUC__) || defined(__clang__))
