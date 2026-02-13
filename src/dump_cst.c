@@ -24,9 +24,9 @@ static void dump_graph_recursive(const struct rdesc *p,
 		fprintf(out, "\t%zu -> %zu;\n", parent_id, this);
 	}
 
-	fprintf(out, "\t%zu [shape=record,label=\"", this);
+	fprintf(out, "\t%zu ", this);
 	node_printer(n, out);
-	fprintf(out, "\"];\n");
+	fprintf(out, ";\n");
 
 	if (rtype(n) == CFG_NONTERMINAL) {
 		for (uint16_t i = 0; i < rchild_count(n); i++)

@@ -74,7 +74,7 @@
  * token (with seminfo) or a nonterminal (without child list).
  */
 #define sizeof_node(p) \
-	(sizeof(size_t) + (sizeof_tk(p) > sizeof_nt(0) ? \
+	((sizeof(size_t) + sizeof(uint32_t)) + (sizeof_tk(p) > sizeof_nt(0) ? \
 		sizeof_tk(p) : \
 		sizeof_nt(0)))
 

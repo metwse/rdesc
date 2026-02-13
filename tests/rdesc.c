@@ -13,15 +13,15 @@
 void balg_node_printer(const struct rdesc_node *node, FILE *out)
 {
 	if (rtype(node) == CFG_TOKEN)
-		fprintf(out, "%s", balg_tk_names[rid(node)]);
+		fprintf(out, "[shape=record,label=\"%s\"]", balg_tk_names[rid(node)]);
 	else
-		fprintf(out, "\\<%s\\>", balg_nt_names[rid(node)]);
+		fprintf(out, "[label=\"%s\"]", balg_nt_names[rid(node)]);
 }
 
 int main(void)
 {
-	struct rdesc p;
 	struct rdesc_cfg cfg;
+	struct rdesc p;
 
 	rdesc_cfg_init(&cfg,
 		BALG_NT_COUNT, BALG_NT_VARIANT_COUNT, BALG_NT_BODY_LENGTH,
@@ -33,11 +33,15 @@ int main(void)
 	struct rdesc_node *out = NULL;
 	rdesc_pump(&p, NULL, TK_IDENT, NULL);
 	rdesc_pump(&p, NULL, TK_LPAREN, NULL);
-	rdesc_pump(&p, NULL, TK_TRUE, NULL);
+	rdesc_pump(&p, NULL, TK_LPAREN, NULL);
+	rdesc_pump(&p, NULL, TK_IDENT, NULL);
+	rdesc_pump(&p, NULL, TK_EQ, NULL);
+	rdesc_pump(&p, NULL, TK_IDENT, NULL);
+	rdesc_pump(&p, NULL, TK_RPAREN, NULL);
 	rdesc_pump(&p, NULL, TK_RPAREN, NULL);
 	rdesc_pump(&p, &out, TK_SEMI, NULL);
 
-	rdesc_assert(out, "could not parse");
+	rdesc_assert(out, "coud not parse");
 	rdesc_dump_cst(stdout, &p, balg_node_printer);
 
 	rdesc_destroy(&p);

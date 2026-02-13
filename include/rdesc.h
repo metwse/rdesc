@@ -45,8 +45,8 @@ struct rdesc {
 	/** @brief (current) Index in CST that parsing continues on. */
 	size_t cur;
 
-	/** @brief Size of the previous node. */
-	uint16_t prev_size;
+	/** @brief Size of the top node. */
+	uint16_t top_size;
 };
 
 /** @brief A node in the CST */
@@ -124,15 +124,15 @@ struct rdesc_node *_rdesc_priv_cst_illegal_access(struct rdesc *parser,
 /* These structs are private structs that should only be used with the provided
  * CST macros. */
 struct _rdesc_priv_tk {
-	uint16_t _pad : 1;
-	uint16_t id : 15;
+	uint32_t _pad : 1;
+	uint32_t id : 31;
 
 	uint32_t seminfo;
 };
 
 struct _rdesc_priv_nt {
-	uint16_t _pad : 1;
-	uint16_t id : 15;
+	uint32_t _pad : 1;
+	uint32_t id : 31;
 
 	uint16_t variant;
 	uint16_t child_count;
@@ -146,10 +146,10 @@ rdesc_node
 #endif
 {
 	size_t parent;
-	uint16_t prev_size;
+	uint32_t prev_size;
 
 	union {
-		uint16_t ty : 1;
+		uint32_t ty : 1;
 
 		struct _rdesc_priv_tk tk;
 		struct _rdesc_priv_nt nt;

@@ -15,6 +15,7 @@
 	((p).cfg->child_caps[nt_id] * sizeof(size_t) + sizeof_node(p) - 1) \
 		/ sizeof_node(p)
 
+
 static void push_child(struct rdesc *p, size_t parent_idx, size_t child_idx);
 static void new_nt_node(struct rdesc *p, uint32_t nt_id);
 static void new_tk_node(struct rdesc *p, uint32_t tk_id, const void *seminfo);
@@ -43,7 +44,7 @@ void rdesc_start(struct rdesc *p,
 {
 	rdesc_assert(p->cur == SIZE_MAX, "cannot start during parse");
 
-	p->prev_size = 0;
+	p->top_size = 0;
 	new_nt_node(p, start_symbol);
 }
 
@@ -69,29 +70,31 @@ void rdesc_reset(struct rdesc *p /*,
 
 static void nonterminal_failed(struct rdesc *p)
 {
-	size_t first = p->cur;
 	while (true) {
-		p->cur = rdesc_stack_len(p->cst_stack) - p->prev_size;
-		uint16_t hold_prev_size = p->prev_size;
-		node_t *n = rdesc_stack_at(p->cst_stack, p->cur);
+		p->cur = rdesc_stack_len(p->cst_stack) - p->top_size;
+		uint16_t hold_top_size = p->top_size;
+		node_t *top = rdesc_stack_at(p->cst_stack, p->cur);
 
-		if (rtype(n) == CFG_TOKEN) {
-			p->prev_size = 1;
+		if (rtype(top) == CFG_TOKEN) {
+			p->top_size = _rdesc_priv_prev_size(top);
 
-			rdesc_stack_push(&p->token_stack, &n->n.tk);
+			rdesc_stack_push(&p->token_stack, &top->n.tk);
 		} else {
-			if (!is_construct_end(n) && p->cur <= first) {
-				p->prev_size = 1 + child_list_size(*p, rid(n));
+			if (is_construct_end(top)) {
+				p->top_size = _rdesc_priv_prev_size(top);
+			} else {
+				p->top_size = 1 + child_list_size(*p, rid(top));
 
-				rvariant(n)++;
-				rchild_count(n) = 0;
-				break;
+				rvariant(top)++;
+				rchild_count(top) = 0;
+				return;
 			}
-
-			p->prev_size = _rdesc_priv_prev_size(n);
 		}
 
-		rdesc_stack_multipop(&p->cst_stack, hold_prev_size);
+		node_t *parent = cast(node_t *, rparent(p, top));
+		if (parent)
+			rchild_count(parent)--;
+		rdesc_stack_multipop(&p->cst_stack, hold_top_size);
 	}
 }
 
@@ -242,14 +245,14 @@ static void new_nt_node(struct rdesc *p, uint32_t nt_id)
 	rtype(n) = CFG_NONTERMINAL;
 
 	_rdesc_priv_parent_idx(n) = parent_idx;
-	_rdesc_priv_prev_size(n) = p->prev_size;
+	_rdesc_priv_prev_size(n) = p->top_size;
 	rid(n) = nt_id;
 	rvariant(n) = 0;
 	rchild_count(n) = 0;
 
 	rdesc_stack_multipush(&p->cst_stack, NULL, child_list_size(*p, nt_id));
 
-	p->prev_size = 1 + child_list_size(*p, nt_id);
+	p->top_size = 1 + child_list_size(*p, nt_id);
 }
 
 /* Creates a new node in parser's CST stack and copies `seminfo` into it. */
@@ -263,11 +266,11 @@ static void new_tk_node(struct rdesc *p, uint32_t tk_id, const void *seminfo)
 	rtype(n) = CFG_TOKEN;
 
 	_rdesc_priv_parent_idx(n) = p->cur;
-	_rdesc_priv_prev_size(n) = p->prev_size;
+	_rdesc_priv_prev_size(n) = p->top_size;
 	rid(n) = tk_id;
 
 	if (seminfo)
 		memcpy(rseminfo(n), seminfo, p->seminfo_size);
 
-	p->prev_size = 1;
+	p->top_size = 1;
 }
