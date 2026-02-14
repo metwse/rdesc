@@ -109,7 +109,7 @@ void test_complete_parse(struct rdesc *p) {
 
 	rdesc_start(p, NT_STMT);
 	while ((tk = next_tk(&g)) != TK_ENDSYM) {
-		g.group_start_p *= 0.99;
+		g.group_start_p *= 0.9;
 
 		rdesc_pump(p, &cst, tk, NULL);
 	};

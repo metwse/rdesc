@@ -2,9 +2,11 @@
 #include "../include/cfg.h"
 #include "../include/cst_macros.h"
 #include "../include/util.h"
+#include "../include/stack.h"
 #include "detail.h"
 
 #include <stddef.h>
+#include <stdint.h>
 #include <stdio.h>
 
 
@@ -48,8 +50,9 @@ void rdesc_dump_cst(FILE *out,
 {
 	size_t id_counter = 1;
 	fprintf(out, "digraph G {\n");
-	dump_graph_recursive(
-		p, _rdesc_priv_cst_illegal_access(cast(struct rdesc *, p), 0),
-		0, &id_counter, node_printer, out);
+	if (rdesc_stack_len(p->cst_stack) != 0)
+		dump_graph_recursive(
+			p, rdesc_stack_at(p->cst_stack, 0), 0,
+			&id_counter, node_printer, out);
 	fprintf(out, "}\n");
 }

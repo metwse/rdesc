@@ -19,7 +19,7 @@
 /** @brief Returns type of the node. @see enum rdesc_cfg_symbol_type */
 #define rtype(node) _rdesc_priv_node_deref(node).n.ty
 
-/** @brief Returns the 31-bit identifier for underlying token/nonterminal. */
+/** @brief Returns the 15-bit identifier for underlying token/nonterminal. */
 #define rid(node) _rdesc_priv_node_deref(node).n.nt.id
 
 /** @brief Returns a reference to token's seminfo field */
@@ -41,14 +41,7 @@
 
 
 /** @cond */
-#ifndef RDESC_ILLEGAL_ACCESS
 #define _rdesc_priv_node_deref(node) (*(struct _rdesc_priv_node *) (node))
-#else
-#define _rdesc_priv_node_deref(node) (*(struct rdesc_node *) (node))
-#endif
-
-/* Returns the preceding node's size on stack. */
-#define _rdesc_priv_prev_size(node) _rdesc_priv_node_deref(node).prev_size
 
 /* Returns index of parent of the node, or `SIZE_MAX` if the node is root. */
 #define _rdesc_priv_parent_idx(node) _rdesc_priv_node_deref(node).parent

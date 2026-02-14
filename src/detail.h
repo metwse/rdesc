@@ -60,7 +60,7 @@
 
 /** @brief Size of a token node for parser (including its seminfo field). */
 #define sizeof_tk(p) \
-	(sizeof(struct _rdesc_priv_tk) /* token struct size */ \
+	(sizeof(tk_t) /* token struct size */ \
 	 - sizeof(uint32_t) /* minus dummy seminfo field size */ \
 	 + (p).seminfo_size /* plus parser's seminfo size */)
 
@@ -69,7 +69,7 @@
  * list).
  */
 #define sizeof_nt(child_cap) \
-	(sizeof(struct _rdesc_priv_nt) /* nonterminal struct size */ \
+	(sizeof(nt_t) /* nonterminal struct size */ \
 	 + sizeof(size_t) * child_cap /* plus the space required for child
 				       * pointer list */)
 
@@ -84,13 +84,10 @@
 		sizeof_tk(p) : \
 		sizeof_nt(0)))
 
-/** @cond */
-#ifndef RDESC_ILLEGAL_ACCESS
+
 typedef struct _rdesc_priv_node node_t;
-#else
-typedef struct rdesc_node rdesc_node_t;
-#endif
-/** @endcond */
+typedef struct _rdesc_priv_tk tk_t;
+typedef struct _rdesc_priv_nt nt_t;
 
 
 #endif

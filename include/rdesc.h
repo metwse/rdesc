@@ -35,18 +35,18 @@ struct rdesc {
 	 * information. */
 	size_t seminfo_size;
 
-	/** @brief Token stack used for backtracing and trying another start
-	 * symbol. */
-	struct rdesc_stack *token_stack;
+	/** @cond */
+	struct rdesc_stack *token_stack  /* Token stack used to store tokens
+					  * temporarily during nonterminal
+					  * backtracing. */;
 
-	/** @brief Underlying concrete syntax tree, stored in a stack. */
-	struct rdesc_stack *cst_stack;
+	struct rdesc_stack *cst_stack /* Underlying concrete syntax tree. */;
 
-	/** @brief (current) Index in CST that parsing continues on. */
-	size_t cur;
+	size_t cur  /* (current) Index in CST that parsing continues on. */;
 
-	/** @brief Size of the top node. */
-	uint16_t top_size;
+	uint16_t top_size  /* Current top node's unwind size. Used to compute
+			    * its position: stack_len - top_size */;
+	/** @endcond */
 };
 
 /** @brief A node in the CST */
@@ -95,9 +95,8 @@ void rdesc_reset(struct rdesc *parser /*,
  *
  * @param parser Pointer to the parser instance.
  * @param out Output pointer for the resulting CST node (IF READY).
- * @param id Identifier of the next token to consume.
- *        - **ID 0 is reserved** for internal use (resuming from backtrack
- *          stack). Do not use 0 as a token ID in your grammar.
+ * @param id Identifier of the next token to consume (15-bit, in 1-32767 range).
+ *        - **ID 0 is reserved** for resuming from backtrack stack.
  * @param seminfo Extra semantic information for the token.
  *        - Semantic information pointer. The parser copies this data
  *          internally, so passing a pointer to stack-allocated data is valid.
@@ -107,7 +106,7 @@ void rdesc_reset(struct rdesc *parser /*,
  */
 enum rdesc_result rdesc_pump(struct rdesc *parser,
 			     struct rdesc_node **out,
-			     uint32_t id,
+			     uint16_t id,
 			     const void *seminfo);
 
 /** @cond */
@@ -120,32 +119,35 @@ struct rdesc_node *_rdesc_priv_cst_illegal_access(struct rdesc *parser,
 #endif
 
 /** @cond */
+/* These structs are private that should only be used with the provided CST
+ * macros. */
 
-/* These structs are private structs that should only be used with the provided
- * CST macros. */
 #pragma pack(push, 1)
+
 struct _rdesc_priv_tk {
 	uint16_t _pad : 1;
-	uint16_t id : 15;
+	uint16_t id : 15  /* Token identifier (0 reserved, 1-32767 valid). */;
 
-	uint32_t seminfo;
+	uint32_t seminfo  /* Semantic info starts here and extends into
+			   * the flexible array member in _rdesc_priv_node. */;
 };
 
 struct _rdesc_priv_nt {
 	uint16_t _pad : 1;
-	uint16_t id : 15;
+	uint16_t id : 15  /* 0 is NOT reserved unlike token ids. */;
 
 	uint16_t variant;
 	uint16_t child_count;
 };
 
 struct _rdesc_priv_node {
-	/* ALSO CHANGE sizeof_node macro for any change in this struct */
-	size_t parent;
-	uint16_t prev_size;
+	/* ALSO CHANGE sizeof_node macro for any change in this struct. */
+	size_t parent  /* Index of parent. */;
+	uint16_t unwind_size  /* Previous node's unwind size (for stack
+			       * backwards navigation). */;
 
 	union {
-		uint16_t ty : 1;
+		uint16_t ty : 1  /* 0 for token and 1 for nonterminal. */;
 
 		struct _rdesc_priv_tk tk;
 		struct _rdesc_priv_nt nt;
@@ -153,6 +155,7 @@ struct _rdesc_priv_node {
 
 	uint8_t _[];
 };
+
 #pragma pack(pop)
 /** @endcond */
 

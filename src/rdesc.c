@@ -11,14 +11,16 @@
 #include <string.h>
 
 
-#define child_list_size(p, nt_id) \
+#define rchild_list_cap(p, nt_id) \
 	((p).cfg->child_caps[nt_id] * sizeof(size_t) + sizeof_node(p) - 1) \
 		/ sizeof_node(p)
 
+/* Returns the previous node's unwind size (used to navigate backwards). */
+#define runwind_size(node) _rdesc_priv_node_deref(node).unwind_size
 
-static void push_child(struct rdesc *p, size_t parent_idx, size_t child_idx);
-static void new_nt_node(struct rdesc *p, uint32_t nt_id);
-static void new_tk_node(struct rdesc *p, uint32_t tk_id, const void *seminfo);
+
+static void new_nt_node(struct rdesc *p, uint16_t nt_id);
+static void new_tk_node(struct rdesc *p, uint16_t tk_id, const void *seminfo);
 
 
 void rdesc_init(struct rdesc *p,
@@ -57,8 +59,10 @@ void rdesc_reset(struct rdesc *p /*,
 }
 
 /* - THE PUMP -------------------------------------------------------------- */
-#define current_variant_body(node) productions(*p->cfg)[rid(node)][rvariant(node)]
-#define next_symbol(node) current_variant_body(node)[rchild_count(node)]
+#define current_variant_body(node) \
+	productions(*p->cfg)[rid(node)][rvariant(node)]
+#define next_symbol(node) \
+	current_variant_body(node)[rchild_count(node)]
 
 #define is_body_complete(node) \
 	(next_symbol(node).id == EOB && \
@@ -68,63 +72,73 @@ void rdesc_reset(struct rdesc *p /*,
 	(current_variant_body(node)[0].id == EOC && \
 	 current_variant_body(node)[0].ty == CFG_SENTINEL)
 
+/* Backtraces to the last nonterminal that is not completed, or teardowns the
+ * entire CST. */
 static void nonterminal_failed(struct rdesc *p)
 {
+	/* Initialization: Start from the top. */
 	while (true) {
 		p->cur = rdesc_stack_len(p->cst_stack) - p->top_size;
 		uint16_t hold_top_size = p->top_size;
 		node_t *top = rdesc_stack_at(p->cst_stack, p->cur);
 
+		/* Maintenance: Set the top size to previous element's size,
+		 * to get it on the next iteration. */
+		p->top_size = runwind_size(top);
 		if (rtype(top) == CFG_TOKEN) {
-			p->top_size = _rdesc_priv_prev_size(top);
-
 			rdesc_stack_push(&p->token_stack, &top->n.tk);
 		} else {
-			p->top_size = _rdesc_priv_prev_size(top);
 			if (!is_construct_end(top)) {
 				rvariant(top)++;
 				rchild_count(top) = 0;
 
+				/* Termination: Found a nonterminal with
+				 * remaining variants. Set top_size to this
+				 * nonterminal's unwind size and return.
+				 *
+				 * p->cur was set at loop start, so parsing
+				 * resumes on its next variant. */
 				if (!is_construct_end(top)) {
-					p->top_size = 1 + child_list_size(*p, rid(top));
+					p->top_size =
+						1 + rchild_list_cap(*p, rid(top));
+
 					return;
 				}
 			}
 		}
 
+		/* Remove element from parent's child pointer list. */
 		node_t *parent = cast(node_t *, rparent(p, top));
 		if (parent)
 			rchild_count(parent)--;
 		rdesc_stack_multipop(&p->cst_stack, hold_top_size);
+
+		/* Parse operation fails if removed element does not belong to
+		 * any node, that is removing the node. */
+		if (!parent)
+			return;
 	}
 }
 
+/* Internal pump state machine. Returns next action for outer pump loop.
+ *
+ * READY: Parse complete,
+ * CONTINUE: consume next token,
+ * NOMATCH: parse failed,
+ * RETRY: descend into nonterminal */
 static inline enum internal_pump_state {
 	READY,
 	CONTINUE,
-	RETRY,
 	NOMATCH,
-} rdesc_pump_internal(struct rdesc *p,
-		      struct _rdesc_priv_tk *tk)
+	RETRY,
+} rdesc_pump_internal(struct rdesc *p, tk_t *tk)
 {
 	node_t *n = rdesc_stack_at(p->cst_stack, p->cur);
 
-	if (is_body_complete(n)) {
-		p->cur = _rdesc_priv_parent_idx(n);
-
-		return RETRY;
-	}
-
-	if (is_construct_end(n)) {
+	if (rdesc_stack_len(p->cst_stack) == 0) {
 		rdesc_stack_push(&p->token_stack, tk);
 
-		if (p->cur == 0) {
-			return NOMATCH;
-		} else {
-			nonterminal_failed(p);
-
-			return CONTINUE;
-		}
+		return NOMATCH;
 	}
 
 	struct rdesc_cfg_symbol rule = next_symbol(n);
@@ -132,26 +146,30 @@ static inline enum internal_pump_state {
 	switch (rule.ty) {
 	case CFG_TOKEN:
 		if (rule.id == tk->id) {
+			/* Match! Add token to nonterminal's children. */
 			new_tk_node(p, tk->id, &tk->seminfo);
-
-			while (true) {
-				n = rdesc_stack_at(p->cst_stack, p->cur);
-				if (!is_body_complete(n))
-					break;
-
-				p->cur = _rdesc_priv_parent_idx(n);
-
-				if (p->cur == SIZE_MAX)
-					return READY;
-			}
-
-			return CONTINUE;
 		} else {
+			/* Push the token back to the token stack and continue
+			 * on next variant. */
 			rdesc_stack_push(&p->token_stack, tk);
-			nonterminal_failed(p);
 
-			return CONTINUE;
+			nonterminal_failed(p);
 		}
+
+		/* Climb the tree if to find incomplete nonterminal to
+		 * continue parsing on. */
+		while (true) {
+			n = rdesc_stack_at(p->cst_stack, p->cur);
+			if (!is_body_complete(n))
+				break;
+
+			p->cur = _rdesc_priv_parent_idx(n);
+
+			if (p->cur == SIZE_MAX)
+				return READY;
+		}
+
+		return CONTINUE;
 
 	case CFG_NONTERMINAL:
 		new_nt_node(p, rule.id);
@@ -164,13 +182,13 @@ static inline enum internal_pump_state {
 
 enum rdesc_result rdesc_pump(struct rdesc *p,
 			     struct rdesc_node **out,
-			     uint32_t id_,
+			     uint16_t id_,
 			     const void *seminfo_)
 {
 	rdesc_assert(p->cur != SIZE_MAX, "parser is not started");
 
 	uint8_t tk_[sizeof_tk(*p)];
-	struct _rdesc_priv_tk *tk = cast(struct _rdesc_priv_tk *, &tk_);
+	tk_t *tk = cast(tk_t *, &tk_);
 
 	bool has_token = id_ != 0;
 	if (has_token) {
@@ -196,10 +214,11 @@ enum rdesc_result rdesc_pump(struct rdesc *p,
 		switch (state) {
 		case CONTINUE:
 			has_token = false;
+
 			break;
 
 		case NOMATCH:
-			// TODO: NOMATCH
+			p->cur = SIZE_MAX;
 
 			return RDESC_NOMATCH;
 
@@ -234,40 +253,44 @@ static void push_child(struct rdesc *p, size_t parent_idx, size_t child_idx)
 
 /* Pushes a new nonterminal to parser's CST stack and reserves space for its
  * children. */
-static void new_nt_node(struct rdesc *p, uint32_t nt_id)
+static void new_nt_node(struct rdesc *p, uint16_t nt_id)
 {
+	/* allocate node pointer */
 	node_t *n = rdesc_stack_push(&p->cst_stack, NULL);
+	/* the new node will be the p->cur, so that we need to hold parent_idx
+	 * in order to add it to its parent */
 	size_t parent_idx = p->cur;
-	p->cur = rdesc_stack_len(p->cst_stack) - 1;
+	p->cur = rdesc_stack_len(p->cst_stack) - 1;  /* index of new node */
 
 	if (parent_idx != SIZE_MAX)
 		push_child(p, parent_idx, p->cur);
 
+	_rdesc_priv_parent_idx(n) = parent_idx;
+	runwind_size(n) = p->top_size;
 	rtype(n) = CFG_NONTERMINAL;
 
-	_rdesc_priv_parent_idx(n) = parent_idx;
-	_rdesc_priv_prev_size(n) = p->top_size;
 	rid(n) = nt_id;
 	rvariant(n) = 0;
 	rchild_count(n) = 0;
 
-	rdesc_stack_multipush(&p->cst_stack, NULL, child_list_size(*p, nt_id));
+	uint16_t child_list_cap = rchild_list_cap(*p, nt_id);
+	rdesc_stack_multipush(&p->cst_stack, NULL, child_list_cap);
 
-	p->top_size = 1 + child_list_size(*p, nt_id);
+	p->top_size = 1 + child_list_cap;
 }
 
 /* Creates a new node in parser's CST stack and copies `seminfo` into it. */
-static void new_tk_node(struct rdesc *p, uint32_t tk_id, const void *seminfo)
+static void new_tk_node(struct rdesc *p, uint16_t tk_id, const void *seminfo)
 {
 	node_t *n = rdesc_stack_push(&p->cst_stack, NULL);
 	size_t node_id = rdesc_stack_len(p->cst_stack) - 1;
 
 	push_child(p, p->cur, node_id);
 
+	_rdesc_priv_parent_idx(n) = p->cur;
+	runwind_size(n) = p->top_size;
 	rtype(n) = CFG_TOKEN;
 
-	_rdesc_priv_parent_idx(n) = p->cur;
-	_rdesc_priv_prev_size(n) = p->top_size;
 	rid(n) = tk_id;
 
 	if (seminfo)

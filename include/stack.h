@@ -62,14 +62,6 @@ void rdesc_stack_reset(struct rdesc_stack **stack);
 void *rdesc_stack_at(struct rdesc_stack *stack, size_t index);
 
 /**
- * @brief Applies a function to each element in the stack from bottom to top.
- *
- * @note Elements are visited in order from index 0 to len-1.
- * @note Do not modify the stack within the callback function.
- */
-void rdesc_stack_foreach(struct rdesc_stack *stack, void fn(void *));
-
-/**
  * @brief Ensures capacity for at least reserved_space additional elements.
  *
  * Reserved space is minimum number of additional elements to accommodate. The

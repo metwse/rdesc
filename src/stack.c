@@ -74,12 +74,6 @@ void *rdesc_stack_at(struct rdesc_stack *s, size_t i)
 	return elem_at(s, i);
 }
 
-void rdesc_stack_foreach(struct rdesc_stack *stack, void fn(void *))
-{
-	for (size_t i = 0; i < stack->len; i++)
-		fn(elem_at(stack, i));
-}
-
 void rdesc_stack_reserve(struct rdesc_stack **s, size_t reserved_space)
 {
 	size_t increased_cap = (*s)->cap;

@@ -65,15 +65,6 @@ void test_fuzz(void)
 	rdesc_stack_destroy(s);
 }
 
-
-uint64_t i = 0;
-void test_foreach(void *element_) {
-	uint64_t element = *cast(uint64_t *, element_);
-
-	rdesc_assert(i == element, "foreach should start from first element");;
-	i++;
-}
-
 void test_basic(void)
 {
 	struct rdesc_stack *s;
@@ -90,8 +81,6 @@ void test_basic(void)
 		rdesc_assert(elem == i,);
 		rdesc_stack_multipop(&s, 0);
 	}
-
-	rdesc_stack_foreach(s, test_foreach);
 
 	rdesc_stack_destroy(s);
 }
