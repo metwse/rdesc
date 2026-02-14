@@ -74,18 +74,16 @@ $(function() {
 <div class="contents">
 <div class="textblock"><h1><a class="anchor" id="Introduction"></a>
 Introduction</h1>
-<p>librdesc is a right-recursive, table-driven parsing library written in C99. librdesc implements its own backtracing algorithm over Concrete Syntax Tree (CST) and token stack.</p>
-<h1><a class="anchor" id="features"></a>
-Key Features</h1>
-<ul>
+<p>librdesc is a table-driven recursive descent parsing library written in C99. librdesc features:</p><ul>
 <li>Table-Driven Parsing: Parser logic is generic and can be controlled at runtime without recompiling via the <code>struct <a class="el" href="structrdesc__cfg.html" title="Context-free grammar definition.">rdesc_cfg</a></code> table.</li>
 <li>Pump Mechanism: Parsing is driven by <code>rdesc_pump()</code>, a state machine that allows for token by token feeding.</li>
 </ul>
 <h1><a class="anchor" id="api"></a>
 API Overview</h1>
 <ol type="1">
-<li>Parser (<code><a class="el" href="rdesc_8h.html" title="The right-recursive descent parser.">rdesc.h</a></code>): The engine that consumes the CFG and Input. It defines token and non-terminal structs and functions for bootstrapping the parser.</li>
-<li>CFG (<code><a class="el" href="cfg_8h.html" title="Context-Free Grammar (CFG) data structures.">cfg.h</a></code>): Defines the CFG struct for rules. This usually populated with static constant data via macros.</li>
+<li>Parser (<code><a class="el" href="rdesc_8h.html" title="The right-recursive descent parser.">rdesc.h</a></code>): The engine that consumes the CFG and Input. It defines token and nonterminal structs and functions for bootstrapping the parser.</li>
+<li>Tree macros (<code><a class="el" href="cst__macros_8h.html" title="Macros for accessing fields of node structs.">cst_macros.h</a></code>): Macros enabling access to fields of parsed CST.</li>
+<li>CFG (<code><a class="el" href="cfg_8h.html" title="Context-free grammar (CFG) data structures.">cfg.h</a></code>): Defines the CFG struct for rules. This usually populated with static constant data via macros.</li>
 <li>Rule macros (<code><a class="el" href="bnf__macros_8h.html" title="Macros to facilitate defining context-free grammar in Backus-Naur form (BNF).">bnf_macros.h</a></code>): A set of macros to facilitate definning context free grammars. See examples below for usage.</li>
 <li>Optional features (<code><a class="el" href="util_8h.html" title="Development and debugging utilities.">util.h</a></code>): Development and debugging utilities.</li>
 </ol>
@@ -93,42 +91,42 @@ API Overview</h1>
 Quick Start Guide</h1>
 <p>To use librdesc, you typically follow these steps:</p>
 <ol type="1">
-<li>Define the identifiers of tokens and non-terminals (e.g. create enums for your language symbols)</li>
+<li>Define the identifiers of tokens and nonterminals (e.g. create enums for your language symbols)</li>
 <li>Define your grammar, and its symbol table. You may use <code><a class="el" href="bnf__macros_8h.html" title="Macros to facilitate defining context-free grammar in Backus-Naur form (BNF).">bnf_macros.h</a></code> to create the rules table.</li>
 <li>Initialize: <div class="fragment"><div class="line"><span class="keyword">struct </span><a class="code hl_struct" href="structrdesc__cfg.html">rdesc_cfg</a> cfg;</div>
 <div class="line"><a class="code hl_function" href="cfg_8h.html#a9255c935a3026877c283c41a78b36cc2">rdesc_cfg_init</a>(&amp;cfg, ...);  <span class="comment">// Load your rules</span></div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">struct </span><a class="code hl_struct" href="structrdesc.html">rdesc</a> parser;</div>
 <div class="line"> </div>
-<div class="line">                <span class="comment">/* vvv 8 is the size your grammar&#39;s semantic information */</span></div>
-<div class="line"><a class="code hl_function" href="rdesc_8h.html#a358593fd267a2a0673e2476a55390016">rdesc_init</a>(&amp;parser, 8, &amp;<a class="code hl_variable" href="structrdesc.html#ab1a8201857ac8d5e46a213a1f89ec497">cfg</a>);</div>
-<div class="line"><span class="comment">// Extra 8 chars allocated for every token.</span></div>
+<div class="line"><a class="code hl_function" href="rdesc_8h.html#a2d01968c2899db9122e8044a1402b65e">rdesc_init</a>(&amp;parser, &amp;<a class="code hl_variable" href="structrdesc.html#ab1a8201857ac8d5e46a213a1f89ec497">cfg</a>, 8);</div>
+<div class="line">                      <span class="comment">// ^^^ 8 is the size your grammar&#39;s semantic information</span></div>
 <div class="ttc" id="acfg_8h_html_a9255c935a3026877c283c41a78b36cc2"><div class="ttname"><a href="cfg_8h.html#a9255c935a3026877c283c41a78b36cc2">rdesc_cfg_init</a></div><div class="ttdeci">void rdesc_cfg_init(struct rdesc_cfg *cfg, uint32_t nonterminal_count, uint16_t nonterminal_variant_count, uint16_t nonterminal_body_length, const struct rdesc_cfg_symbol *production_rules)</div><div class="ttdoc">Initializes a context-free grammar object.</div><div class="ttdef"><b>Definition:</b> cfg.c:9</div></div>
-<div class="ttc" id="ardesc_8h_html_a358593fd267a2a0673e2476a55390016"><div class="ttname"><a href="rdesc_8h.html#a358593fd267a2a0673e2476a55390016">rdesc_init</a></div><div class="ttdeci">void rdesc_init(struct rdesc *parser, size_t seminfo_size, const struct rdesc_cfg *cfg)</div><div class="ttdoc">Initializes a new parser.</div><div class="ttdef"><b>Definition:</b> rdesc.c:60</div></div>
-<div class="ttc" id="astructrdesc__cfg_html"><div class="ttname"><a href="structrdesc__cfg.html">rdesc_cfg</a></div><div class="ttdoc">Context-free grammar definition.</div><div class="ttdef"><b>Definition:</b> cfg.h:18</div></div>
+<div class="ttc" id="ardesc_8h_html_a2d01968c2899db9122e8044a1402b65e"><div class="ttname"><a href="rdesc_8h.html#a2d01968c2899db9122e8044a1402b65e">rdesc_init</a></div><div class="ttdeci">void rdesc_init(struct rdesc *parser, const struct rdesc_cfg *cfg, size_t seminfo_size)</div><div class="ttdoc">Initializes a new parser.</div><div class="ttdef"><b>Definition:</b> rdesc.c:29</div></div>
+<div class="ttc" id="astructrdesc__cfg_html"><div class="ttname"><a href="structrdesc__cfg.html">rdesc_cfg</a></div><div class="ttdoc">Context-free grammar definition.</div><div class="ttdef"><b>Definition:</b> cfg.h:20</div></div>
 <div class="ttc" id="astructrdesc_html"><div class="ttname"><a href="structrdesc.html">rdesc</a></div><div class="ttdoc">The right-recursive descent parser.</div><div class="ttdef"><b>Definition:</b> rdesc.h:30</div></div>
 <div class="ttc" id="astructrdesc_html_ab1a8201857ac8d5e46a213a1f89ec497"><div class="ttname"><a href="structrdesc.html#ab1a8201857ac8d5e46a213a1f89ec497">rdesc::cfg</a></div><div class="ttdeci">const struct rdesc_cfg * cfg</div><div class="ttdoc">Context-free grammar production rules.</div><div class="ttdef"><b>Definition:</b> rdesc.h:32</div></div>
 </div><!-- fragment --></li>
 <li>Pump Tokens: Feed tokens into the loop until a tree is ready. <div class="fragment"><div class="line"><a class="code hl_function" href="rdesc_8h.html#a7f34440d9a612153517d8931d80085d9">rdesc_start</a>(&amp;parser, NT_STMT);  <span class="comment">// Set your start symbol.</span></div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">enum</span> <a class="code hl_enumeration" href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983d">rdesc_result</a> res;</div>
-<div class="line"><span class="keyword">struct </span><a class="code hl_struct" href="structrdesc__node.html">rdesc_node</a> *cst;</div>
-<div class="line"><span class="keywordflow">while</span> ((res = <a class="code hl_function" href="rdesc_8h.html#a322242536df15af8b9c454d396fa268a">rdesc_pump</a>(&amp;parser, &amp;cst, next_token())) == <a class="code hl_enumvalue" href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983daa5713dde97680749b32c95d7173ab2e0">RDESC_CONTINUE</a>) {</div>
+<div class="line"><span class="keyword">struct </span>rdesc_node *cst;</div>
+<div class="line"><span class="keywordflow">while</span> ((res = rdesc_pump(&amp;parser,</div>
+<div class="line">                         &amp;cst,</div>
+<div class="line">                         next_token_id(),</div>
+<div class="line">                         next_token_seminfo())) == <a class="code hl_enumvalue" href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983daa5713dde97680749b32c95d7173ab2e0">RDESC_CONTINUE</a>) {</div>
 <div class="line">     <span class="comment">// Acquire next_token from your lexer.</span></div>
 <div class="line">}</div>
 <div class="line"> </div>
 <div class="line"><span class="keywordflow">if</span> (res == <a class="code hl_enumvalue" href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983da3536c3180b6d6af0186a3572137154c3">RDESC_READY</a>) {</div>
-<div class="line">     <span class="comment">// Process the `cst`.</span></div>
+<div class="line">     <span class="comment">// Process the `cst` via `cst_macros.h`.</span></div>
 <div class="line">} <span class="keywordflow">else</span> <span class="keywordflow">if</span> (res == <a class="code hl_enumvalue" href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983da49ef64d4013eddadfd25db97f7e448bc">RDESC_NOMATCH</a>) {</div>
 <div class="line">     <span class="comment">// Handle syntax errors.</span></div>
 <div class="line">}</div>
-<div class="ttc" id="ardesc_8h_html_a322242536df15af8b9c454d396fa268a"><div class="ttname"><a href="rdesc_8h.html#a322242536df15af8b9c454d396fa268a">rdesc_pump</a></div><div class="ttdeci">enum rdesc_result rdesc_pump(struct rdesc *parser, struct rdesc_node **out, struct rdesc_token *incoming_tk)</div><div class="ttdoc">Drives the parsing process, The Pump.</div><div class="ttdef"><b>Definition:</b> rdesc.c:117</div></div>
-<div class="ttc" id="ardesc_8h_html_a7f34440d9a612153517d8931d80085d9"><div class="ttname"><a href="rdesc_8h.html#a7f34440d9a612153517d8931d80085d9">rdesc_start</a></div><div class="ttdeci">void rdesc_start(struct rdesc *parser, int start_symbol)</div><div class="ttdoc">Sets start symbol for the next match.</div><div class="ttdef"><b>Definition:</b> rdesc.c:72</div></div>
+<div class="ttc" id="ardesc_8h_html_a7f34440d9a612153517d8931d80085d9"><div class="ttname"><a href="rdesc_8h.html#a7f34440d9a612153517d8931d80085d9">rdesc_start</a></div><div class="ttdeci">void rdesc_start(struct rdesc *parser, int start_symbol)</div><div class="ttdoc">Sets start symbol for the next match.</div><div class="ttdef"><b>Definition:</b> rdesc.c:49</div></div>
 <div class="ttc" id="ardesc_8h_html_ae1c47d0d0fe6789f714eaaab2f24983d"><div class="ttname"><a href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983d">rdesc_result</a></div><div class="ttdeci">rdesc_result</div><div class="ttdoc">Parsing status.</div><div class="ttdef"><b>Definition:</b> rdesc.h:23</div></div>
 <div class="ttc" id="ardesc_8h_html_ae1c47d0d0fe6789f714eaaab2f24983da3536c3180b6d6af0186a3572137154c3"><div class="ttname"><a href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983da3536c3180b6d6af0186a3572137154c3">RDESC_READY</a></div><div class="ttdeci">@ RDESC_READY</div><div class="ttdef"><b>Definition:</b> rdesc.h:24</div></div>
 <div class="ttc" id="ardesc_8h_html_ae1c47d0d0fe6789f714eaaab2f24983da49ef64d4013eddadfd25db97f7e448bc"><div class="ttname"><a href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983da49ef64d4013eddadfd25db97f7e448bc">RDESC_NOMATCH</a></div><div class="ttdeci">@ RDESC_NOMATCH</div><div class="ttdef"><b>Definition:</b> rdesc.h:26</div></div>
 <div class="ttc" id="ardesc_8h_html_ae1c47d0d0fe6789f714eaaab2f24983daa5713dde97680749b32c95d7173ab2e0"><div class="ttname"><a href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983daa5713dde97680749b32c95d7173ab2e0">RDESC_CONTINUE</a></div><div class="ttdeci">@ RDESC_CONTINUE</div><div class="ttdef"><b>Definition:</b> rdesc.h:25</div></div>
-<div class="ttc" id="astructrdesc__node_html"><div class="ttname"><a href="structrdesc__node.html">rdesc_node</a></div><div class="ttdoc">A node in the CST.</div><div class="ttdef"><b>Definition:</b> rdesc.h:103</div></div>
 </div><!-- fragment --></li>
 </ol>
 <h1><a class="anchor" id="examples_sec"></a>

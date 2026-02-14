@@ -76,69 +76,74 @@ $(function() {
   <div class="headertitle"><div class="title">detail.h</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// internal macros of rdesc</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#ifndef RDESC_DETAIL_H</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#define RDESC_DETAIL_H</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#if (defined(__unix__) || defined(__APPLE__) || defined(__linux__)) &amp;&amp; \</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">    (defined(__GNUC__) || defined(__clang__))</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;stdio.h&gt;</span>  <span class="comment">// IWYU pragma: begin_exports</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;signal.h&gt;</span>  <span class="comment">// IWYU pragma: end_exports</span></div>
+<a href="detail_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#ifndef RDESC_DETAIL_H</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#define RDESC_DETAIL_H</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#define assert_stringify_detail(a) #a</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#define assert_stringify(a) assert_stringify_detail(a)</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#define rdesc_assert(c, ...) do { \</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">        if (!(c)) { \</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">            fprintf(stderr, &quot;[&quot;</span>  __FILE__ &quot;:&quot; \</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>                assert_stringify(__LINE__) &quot;] &quot; \</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>                &quot;Assertion failed for: &quot; \</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>                assert_stringify(c) \</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>                &quot;\n&gt; &quot; __VA_ARGS__); \</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>            fputc(&#39;\n&#39;, stderr); \</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>            raise(SIGINT); \</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        } \</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    } while(0)</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">#else</span></div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">#include &lt;assert.h&gt;</span>  <span class="comment">// IWYU pragma: export</span></div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">#define rdesc_assert(c, ...) assert(c)</span></div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="comment">/* extra checks for flow of code. */</span></div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">#define assert_logic(c, msg) \</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">    rdesc_assert(c, &quot;logic error: &quot;</span> msg &quot; is/are not meaningful&quot;)</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment">/* macro highlights memory allocation checks */</span></div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#define assert_mem(c) rdesc_assert(c, &quot;out of memory&quot;</span>)</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="comment">/* unreachable branch */</span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#if defined(__GNUC__) || defined(__clang__)</span></div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#define unreachable() __builtin_unreachable()</span></div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#elif defined(_MSC_VER)</span></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#define unreachable() __assume(false)</span></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#else</span></div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#define unreachable()</span></div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="comment">/* macro highlights type casts */</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#define cast(t, exp) ((t) (exp))</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#define productions(cfg) \</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">    (*cast(const struct rdesc_cfg_symbol (*) \</span></div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">        [(cfg).nt_count][(cfg).nt_variant_count][(cfg).nt_body_length], \</span></div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">        (cfg).rules))</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="comment">/* helper macros for accessing node fields */</span></div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">#define ty_ n.ty</span></div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#define tk_ n.tk</span></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="preprocessor">#define nt_ n.nt</span></div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#if (defined(__unix__) || defined(__APPLE__) || defined(__linux__)) &amp;&amp; \</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">    (defined(__GNUC__) || defined(__clang__))</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &lt;stdio.h&gt;</span>  <span class="comment">// IWYU pragma: begin_exports</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &lt;signal.h&gt;</span>  <span class="comment">// IWYU pragma: end_exports</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#define assert_stringify_detail(a) #a</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#define assert_stringify(a) assert_stringify_detail(a)</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#define rdesc_assert(c, ...) do { \</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">        if (!(c)) { \</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">            fprintf(stderr, &quot;[&quot;</span>  __FILE__ &quot;:&quot; \</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>                assert_stringify(__LINE__) &quot;] &quot; \</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>                &quot;Assertion failed for: &quot; \</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>                assert_stringify(c) \</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>                &quot;\n&gt; &quot; __VA_ARGS__); \</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>            fputc(&#39;\n&#39;, stderr); \</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>            raise(SIGINT); \</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        } \</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    } while(0)</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">#include &lt;assert.h&gt;</span>  <span class="comment">// IWYU pragma: export</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="detail_8h.html#a6ffda80486631d456d4f9211dd5d70db">   39</a></span><span class="preprocessor">#define rdesc_assert(c, ...) assert(c)</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#if defined(__GNUC__) || defined(__clang__)</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#define unreachable() __builtin_unreachable()</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#elif defined(_MSC_VER)</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#define unreachable() __assume(false)</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="detail_8h.html#a86d08c1b23d67eca942da0ac012d89f3">   48</a></span><span class="preprocessor">#define unreachable()</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="detail_8h.html#af17d62ec9e237a7644de6b9b34a48a34">   52</a></span><span class="preprocessor">#define cast(t, exp) ((t) (exp))</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="detail_8h.html#a1bade34597788d63467633b17ac44d62">   55</a></span><span class="preprocessor">#define productions(cfg) \</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">    (*cast(const struct rdesc_cfg_symbol (*) \</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">        [(cfg).nt_count][(cfg).nt_variant_count][(cfg).nt_body_length], \</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">          (cfg).rules))</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="detail_8h.html#a8b3e78f96c3612df489f1af2e80fe34b">   62</a></span><span class="preprocessor">#define sizeof_tk(p) \</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="preprocessor">    (sizeof(tk_t) </span><span class="comment">/* token struct size */</span><span class="preprocessor"> \</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="preprocessor">     - sizeof(uint32_t) </span><span class="comment">/* minus dummy seminfo field size */</span><span class="preprocessor"> \</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="preprocessor">     + (p).seminfo_size </span><span class="comment">/* plus parser&#39;s seminfo size */</span><span class="preprocessor">)</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="detail_8h.html#a4710c6749806de5262b7192dd80e4c48">   71</a></span><span class="preprocessor">#define sizeof_nt(child_cap) \</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="preprocessor">    (sizeof(nt_t) </span><span class="comment">/* nonterminal struct size */</span><span class="preprocessor"> \</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="preprocessor">     + sizeof(size_t) * child_cap </span><span class="comment">/* plus the space required for child</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="comment">                       * pointer list */</span><span class="preprocessor">)</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="preprocessor">#define sizeof_node(p) \</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="preprocessor">    ((sizeof(size_t) + sizeof(uint16_t)) </span><span class="comment">/* sizeof parent poiner +</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="comment">                          * sizeof element&#39;s offset */</span><span class="preprocessor"> \</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="preprocessor">     + (sizeof_tk(p) &gt; sizeof_nt(0) ? </span><span class="comment">/* plus the bigger node variant */</span><span class="preprocessor"> \</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="preprocessor">        sizeof_tk(p) : \</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="preprocessor">        sizeof_nt(0)))</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="keyword">typedef</span> <span class="keyword">struct </span>_rdesc_priv_node node_t;</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="keyword">typedef</span> <span class="keyword">struct </span>_rdesc_priv_tk tk_t;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="keyword">typedef</span> <span class="keyword">struct </span>_rdesc_priv_nt nt_t;</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

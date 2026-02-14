@@ -1,9 +1,8 @@
 var searchData=
 [
-  ['seminfo_0',['seminfo',['../structrdesc__token.html#a1c0c94f8a5768a08fff12bf047844584',1,'rdesc_token']]],
-  ['seminfo_5fsize_1',['seminfo_size',['../structrdesc.html#a08dce855cec2271e3aef1ebafd88524d',1,'rdesc']]],
-  ['seob_2',['SEOB',['../bnf__macros_8h.html#a266e9efb568c84df45ba639fb04f61e8',1,'bnf_macros.h']]],
-  ['seoc_3',['SEOC',['../bnf__macros_8h.html#af11f8ed19fedc658e74733224839ccff',1,'bnf_macros.h']]],
-  ['stack_4',['stack',['../structrdesc.html#ae7c0946c56581e4ad98ee3530a54cd33',1,'rdesc']]],
-  ['stack_2eh_5',['stack.h',['../stack_8h.html',1,'']]]
+  ['seminfo_5fsize_0',['seminfo_size',['../structrdesc.html#a08dce855cec2271e3aef1ebafd88524d',1,'rdesc']]],
+  ['sizeof_5fnode_1',['sizeof_node',['../detail_8h.html#af47634ff2a848fd89af71aa014c3dbdb',1,'detail.h']]],
+  ['sizeof_5fnt_2',['sizeof_nt',['../detail_8h.html#a4710c6749806de5262b7192dd80e4c48',1,'detail.h']]],
+  ['sizeof_5ftk_3',['sizeof_tk',['../detail_8h.html#a8b3e78f96c3612df489f1af2e80fe34b',1,'detail.h']]],
+  ['stack_2eh_4',['stack.h',['../stack_8h.html',1,'']]]
 ];

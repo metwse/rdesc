@@ -81,7 +81,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Context-Free Grammar (CFG) data structures.  
+<p>Context-free grammar (CFG) data structures.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
 </div>
@@ -93,7 +93,7 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Context-free grammar definition.  <a href="structrdesc__cfg.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__cfg__symbol.html">rdesc_cfg_symbol</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A terminal/non-terminal to describe body (right side) of a production rule.  <a href="structrdesc__cfg__symbol.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A terminal/nonterminal to describe body (right side) of a production rule.  <a href="structrdesc__cfg__symbol.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
@@ -102,7 +102,7 @@ Enumerations</h2></td></tr>
 , <b>CFG_NONTERMINAL</b>
 , <a class="el" href="cfg_8h.html#aa50d0c68b3753cc0c30f8fcda36e3c1dab9bfa5b7d88cdf5a5e093933b60d00d0">CFG_SENTINEL</a>
  }</td></tr>
-<tr class="memdesc:aa50d0c68b3753cc0c30f8fcda36e3c1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of <code><a class="el" href="structrdesc__cfg__symbol.html" title="A terminal/non-terminal to describe body (right side) of a production rule.">rdesc_cfg_symbol</a></code> (the union's tag)  <a href="cfg_8h.html#aa50d0c68b3753cc0c30f8fcda36e3c1d">More...</a><br /></td></tr>
+<tr class="memdesc:aa50d0c68b3753cc0c30f8fcda36e3c1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of <code><a class="el" href="structrdesc__cfg__symbol.html" title="A terminal/nonterminal to describe body (right side) of a production rule.">rdesc_cfg_symbol</a></code> (the union's tag).  <a href="cfg_8h.html#aa50d0c68b3753cc0c30f8fcda36e3c1d">More...</a><br /></td></tr>
 <tr class="separator:aa50d0c68b3753cc0c30f8fcda36e3c1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
@@ -117,7 +117,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_cfg_destroy</b>
 <tr class="separator:a075d0f65aafac27c5675d6fe495e6401"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Context-Free Grammar (CFG) data structures. </p>
+<div class="textblock"><p>Context-free grammar (CFG) data structures. </p>
 <p>This header defines the core data structures used to represent a CFG in <code>librdesc</code>. </p>
 </div><h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="aa50d0c68b3753cc0c30f8fcda36e3c1d" name="aa50d0c68b3753cc0c30f8fcda36e3c1d"></a>
@@ -132,9 +132,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_cfg_destroy</b>
       </table>
 </div><div class="memdoc">
 
-<p>The type of <code><a class="el" href="structrdesc__cfg__symbol.html" title="A terminal/non-terminal to describe body (right side) of a production rule.">rdesc_cfg_symbol</a></code> (the union's tag) </p>
+<p>The type of <code><a class="el" href="structrdesc__cfg__symbol.html" title="A terminal/nonterminal to describe body (right side) of a production rule.">rdesc_cfg_symbol</a></code> (the union's tag). </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aa50d0c68b3753cc0c30f8fcda36e3c1dab9bfa5b7d88cdf5a5e093933b60d00d0" name="aa50d0c68b3753cc0c30f8fcda36e3c1dab9bfa5b7d88cdf5a5e093933b60d00d0"></a>CFG_SENTINEL&#160;</td><td class="fielddoc"><p>sentinel for terminating production body or variants of a non-terminal </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aa50d0c68b3753cc0c30f8fcda36e3c1dab9bfa5b7d88cdf5a5e093933b60d00d0" name="aa50d0c68b3753cc0c30f8fcda36e3c1dab9bfa5b7d88cdf5a5e093933b60d00d0"></a>CFG_SENTINEL&#160;</td><td class="fielddoc"><p>sentinel for terminating production body or variants of a nonterminal. </p>
 </td></tr>
 </table>
 

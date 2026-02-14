@@ -83,96 +83,33 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ac9aa8b0d604b9a9fbb9d7ce2ba6bbef0"><td class="memItemLeft" align="right" valign="top">const struct <a class="el" href="structrdesc__cfg__symbol.html">rdesc_cfg_symbol</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__cfg.html#ac9aa8b0d604b9a9fbb9d7ce2ba6bbef0">rules</a></td></tr>
+<tr class="memitem:ac9aa8b0d604b9a9fbb9d7ce2ba6bbef0"><td class="memItemLeft" align="right" valign="top"><a id="ac9aa8b0d604b9a9fbb9d7ce2ba6bbef0" name="ac9aa8b0d604b9a9fbb9d7ce2ba6bbef0"></a>
+const struct <a class="el" href="structrdesc__cfg__symbol.html">rdesc_cfg_symbol</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>rules</b></td></tr>
+<tr class="memdesc:ac9aa8b0d604b9a9fbb9d7ce2ba6bbef0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Context-free grammar production rules. <br /></td></tr>
 <tr class="separator:ac9aa8b0d604b9a9fbb9d7ce2ba6bbef0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad48bfb03ced2eca676f5692e631c22bf"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__cfg.html#ad48bfb03ced2eca676f5692e631c22bf">nt_count</a></td></tr>
+<tr class="memitem:ad48bfb03ced2eca676f5692e631c22bf"><td class="memItemLeft" align="right" valign="top"><a id="ad48bfb03ced2eca676f5692e631c22bf" name="ad48bfb03ced2eca676f5692e631c22bf"></a>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>nt_count</b></td></tr>
+<tr class="memdesc:ad48bfb03ced2eca676f5692e631c22bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total number of nonterminals. <br /></td></tr>
 <tr class="separator:ad48bfb03ced2eca676f5692e631c22bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8722915a9e3ed9a14f6eaf8458512178"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__cfg.html#a8722915a9e3ed9a14f6eaf8458512178">nt_variant_count</a></td></tr>
+<tr class="memitem:a8722915a9e3ed9a14f6eaf8458512178"><td class="memItemLeft" align="right" valign="top"><a id="a8722915a9e3ed9a14f6eaf8458512178" name="a8722915a9e3ed9a14f6eaf8458512178"></a>
+uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>nt_variant_count</b></td></tr>
+<tr class="memdesc:a8722915a9e3ed9a14f6eaf8458512178"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum number of variants, used for segmenting production rules array to a 3D array. <br /></td></tr>
 <tr class="separator:a8722915a9e3ed9a14f6eaf8458512178"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab76907507e5b97b22baa0d3f6c47d1ba"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__cfg.html#ab76907507e5b97b22baa0d3f6c47d1ba">nt_body_length</a></td></tr>
+<tr class="memitem:ab76907507e5b97b22baa0d3f6c47d1ba"><td class="memItemLeft" align="right" valign="top"><a id="ab76907507e5b97b22baa0d3f6c47d1ba" name="ab76907507e5b97b22baa0d3f6c47d1ba"></a>
+uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>nt_body_length</b></td></tr>
+<tr class="memdesc:ab76907507e5b97b22baa0d3f6c47d1ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum number of symbols in a variant. <br /></td></tr>
 <tr class="separator:ab76907507e5b97b22baa0d3f6c47d1ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a247a627c42fefc604e0947e427f80537"><td class="memItemLeft" align="right" valign="top">uint16_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrdesc__cfg.html#a247a627c42fefc604e0947e427f80537">child_caps</a></td></tr>
+<tr class="memitem:a247a627c42fefc604e0947e427f80537"><td class="memItemLeft" align="right" valign="top"><a id="a247a627c42fefc604e0947e427f80537" name="a247a627c42fefc604e0947e427f80537"></a>
+uint16_t *&#160;</td><td class="memItemRight" valign="bottom"><b>child_caps</b></td></tr>
+<tr class="memdesc:a247a627c42fefc604e0947e427f80537"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum number of children of nonterminal variants. <br /></td></tr>
 <tr class="separator:a247a627c42fefc604e0947e427f80537"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Context-free grammar definition. </p>
-</div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a247a627c42fefc604e0947e427f80537" name="a247a627c42fefc604e0947e427f80537"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a247a627c42fefc604e0947e427f80537">&#9670;&#160;</a></span>child_caps</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint16_t* rdesc_cfg::child_caps</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>maximum number of children of non-terminal variants </p>
-
-</div>
-</div>
-<a id="ab76907507e5b97b22baa0d3f6c47d1ba" name="ab76907507e5b97b22baa0d3f6c47d1ba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab76907507e5b97b22baa0d3f6c47d1ba">&#9670;&#160;</a></span>nt_body_length</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint16_t rdesc_cfg::nt_body_length</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>maximum number of symbols in a variant </p>
-
-</div>
-</div>
-<a id="ad48bfb03ced2eca676f5692e631c22bf" name="ad48bfb03ced2eca676f5692e631c22bf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad48bfb03ced2eca676f5692e631c22bf">&#9670;&#160;</a></span>nt_count</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t rdesc_cfg::nt_count</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>total number of non-terminals </p>
-
-</div>
-</div>
-<a id="a8722915a9e3ed9a14f6eaf8458512178" name="a8722915a9e3ed9a14f6eaf8458512178"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8722915a9e3ed9a14f6eaf8458512178">&#9670;&#160;</a></span>nt_variant_count</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint16_t rdesc_cfg::nt_variant_count</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>maximum number of variants, used for segmenting production rules array to an 3D array </p>
-
-</div>
-</div>
-<a id="ac9aa8b0d604b9a9fbb9d7ce2ba6bbef0" name="ac9aa8b0d604b9a9fbb9d7ce2ba6bbef0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac9aa8b0d604b9a9fbb9d7ce2ba6bbef0">&#9670;&#160;</a></span>rules</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const struct <a class="el" href="structrdesc__cfg__symbol.html">rdesc_cfg_symbol</a>* rdesc_cfg::rules</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>context-free grammar production rules </p>
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<p>The production rules are dimensioned as a 3D array:</p><ul>
+<li>[nt_count][nt_variant_count][nt_body_length] </li>
+</ul>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/<a class="el" href="cfg_8h_source.html">cfg.h</a></li>
 </ul>
 </div><!-- contents -->

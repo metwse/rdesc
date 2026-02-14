@@ -92,23 +92,23 @@ $(function() {
 Macros</h2></td></tr>
 <tr class="memitem:a99ea7c8e2a06e9b3daba34a56f10590f"><td class="memItemLeft" align="right" valign="top"><a id="a99ea7c8e2a06e9b3daba34a56f10590f" name="a99ea7c8e2a06e9b3daba34a56f10590f"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PREFIX_TK</b>(tk)&#160;&#160;&#160;TK_ ## tk</td></tr>
-<tr class="memdesc:a99ea7c8e2a06e9b3daba34a56f10590f"><td class="mdescLeft">&#160;</td><td class="mdescRight">add TK_ prefix in <code>TK</code> macro <br /></td></tr>
+<tr class="memdesc:a99ea7c8e2a06e9b3daba34a56f10590f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add TK_ prefix in <code>TK</code> macro. <br /></td></tr>
 <tr class="separator:a99ea7c8e2a06e9b3daba34a56f10590f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0cbafb1e03a0d5e350b1289a3a93608b"><td class="memItemLeft" align="right" valign="top"><a id="a0cbafb1e03a0d5e350b1289a3a93608b" name="a0cbafb1e03a0d5e350b1289a3a93608b"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PREFIX_NT</b>(nt)&#160;&#160;&#160;NT_ ## nt</td></tr>
-<tr class="memdesc:a0cbafb1e03a0d5e350b1289a3a93608b"><td class="mdescLeft">&#160;</td><td class="mdescRight">add NT_ prefix in <code>NT</code> macro <br /></td></tr>
+<tr class="memdesc:a0cbafb1e03a0d5e350b1289a3a93608b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add NT_ prefix in <code>NT</code> macro. <br /></td></tr>
 <tr class="separator:a0cbafb1e03a0d5e350b1289a3a93608b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7cbf9a1edb791896af995c324c0bfec3"><td class="memItemLeft" align="right" valign="top"><a id="a7cbf9a1edb791896af995c324c0bfec3" name="a7cbf9a1edb791896af995c324c0bfec3"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>BALG_TK_COUNT</b>&#160;&#160;&#160;14</td></tr>
-<tr class="memdesc:a7cbf9a1edb791896af995c324c0bfec3"><td class="mdescLeft">&#160;</td><td class="mdescRight">total count of terminal symbols <br /></td></tr>
+<tr class="memdesc:a7cbf9a1edb791896af995c324c0bfec3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total count of terminal symbols. <br /></td></tr>
 <tr class="separator:a7cbf9a1edb791896af995c324c0bfec3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae22dc60420bad18229307a7d3f5ecf46"><td class="memItemLeft" align="right" valign="top"><a id="ae22dc60420bad18229307a7d3f5ecf46" name="ae22dc60420bad18229307a7d3f5ecf46"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>BALG_NT_COUNT</b>&#160;&#160;&#160;17</td></tr>
-<tr class="memdesc:ae22dc60420bad18229307a7d3f5ecf46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total count of non-terminal symbols defined in <code>enum balg_nt</code>. Determines the size of the first dimension of the grammar table. <br /></td></tr>
+<tr class="memdesc:ae22dc60420bad18229307a7d3f5ecf46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total count of nonterminal symbols defined in <code>enum balg_nt</code>. Determines the size of the first dimension of the grammar table. <br /></td></tr>
 <tr class="separator:ae22dc60420bad18229307a7d3f5ecf46"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a59b5b3ecee08187bc53a3be8faa2911a"><td class="memItemLeft" align="right" valign="top"><a id="a59b5b3ecee08187bc53a3be8faa2911a" name="a59b5b3ecee08187bc53a3be8faa2911a"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>BALG_NT_VARIANT_COUNT</b>&#160;&#160;&#160;6</td></tr>
-<tr class="memdesc:a59b5b3ecee08187bc53a3be8faa2911a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum number of production variants (alternatives) for a single non-terminal and +1 for end-of-construct sentinel. Used to dimension the static array (2nd dimension). <br /></td></tr>
+<tr class="memdesc:a59b5b3ecee08187bc53a3be8faa2911a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum number of production variants (alternatives) for a single nonterminal and +1 for end-of-construct sentinel. Used to dimension the static array (2nd dimension). <br /></td></tr>
 <tr class="separator:a59b5b3ecee08187bc53a3be8faa2911a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0eaae58589ac62e6b6e37e59a1be405f"><td class="memItemLeft" align="right" valign="top"><a id="a0eaae58589ac62e6b6e37e59a1be405f" name="a0eaae58589ac62e6b6e37e59a1be405f"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>BALG_NT_BODY_LENGTH</b>&#160;&#160;&#160;5</td></tr>
@@ -137,7 +137,7 @@ Enumerations</h2></td></tr>
 , <b>TK_SEMI</b>
 <br />
  }</td></tr>
-<tr class="memdesc:aa10441235dd946330f84b6e5dd4b5c42"><td class="mdescLeft">&#160;</td><td class="mdescRight">terminal symbols (tokens) <br /></td></tr>
+<tr class="memdesc:aa10441235dd946330f84b6e5dd4b5c42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Terminal symbols (tokens). <br /></td></tr>
 <tr class="separator:aa10441235dd946330f84b6e5dd4b5c42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a824819f5190a8b390da1a30229ec73e9"><td class="memItemLeft" align="right" valign="top"><a id="a824819f5190a8b390da1a30229ec73e9" name="a824819f5190a8b390da1a30229ec73e9"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="boolean__algebra_8h.html#a824819f5190a8b390da1a30229ec73e9">balg_nt</a> { <br />
 &#160;&#160;<b>NT_BIT</b>
@@ -163,22 +163,22 @@ Enumerations</h2></td></tr>
 &#160;&#160;<b>NT_EXPR_LS_REST</b>
 <br />
  }</td></tr>
-<tr class="memdesc:a824819f5190a8b390da1a30229ec73e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">non-terminal Symbols <br /></td></tr>
+<tr class="memdesc:a824819f5190a8b390da1a30229ec73e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nonterminal symbols. <br /></td></tr>
 <tr class="separator:a824819f5190a8b390da1a30229ec73e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a52abe67416edb5d25d2511bcabc231bb"><td class="memItemLeft" align="right" valign="top">const char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="boolean__algebra_8h.html#a52abe67416edb5d25d2511bcabc231bb">balg_tks</a> [<a class="el" href="boolean__algebra_8h.html#a7cbf9a1edb791896af995c324c0bfec3">BALG_TK_COUNT</a>]</td></tr>
-<tr class="memdesc:a52abe67416edb5d25d2511bcabc231bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">token character mapping (for <code>exblex</code>)  <br /></td></tr>
+<tr class="memdesc:a52abe67416edb5d25d2511bcabc231bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Token character mapping (for <code>exblex</code>).  <br /></td></tr>
 <tr class="separator:a52abe67416edb5d25d2511bcabc231bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca433d4ae632053f010e4fd1d58eb257"><td class="memItemLeft" align="right" valign="top">const char *const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="boolean__algebra_8h.html#aca433d4ae632053f010e4fd1d58eb257">balg_tk_names</a> [<a class="el" href="boolean__algebra_8h.html#a7cbf9a1edb791896af995c324c0bfec3">BALG_TK_COUNT</a>]</td></tr>
-<tr class="memdesc:aca433d4ae632053f010e4fd1d58eb257"><td class="mdescLeft">&#160;</td><td class="mdescRight">names of tokens that used in BNF  <br /></td></tr>
+<tr class="memdesc:aca433d4ae632053f010e4fd1d58eb257"><td class="mdescLeft">&#160;</td><td class="mdescRight">Names of tokens that are used in BNF.  <br /></td></tr>
 <tr class="separator:aca433d4ae632053f010e4fd1d58eb257"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86e2dca21ab0a47b5596cd4b7f90e8e7"><td class="memItemLeft" align="right" valign="top">const char *const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="boolean__algebra_8h.html#a86e2dca21ab0a47b5596cd4b7f90e8e7">balg_tk_names_escaped</a> [<a class="el" href="boolean__algebra_8h.html#a7cbf9a1edb791896af995c324c0bfec3">BALG_TK_COUNT</a>]</td></tr>
-<tr class="memdesc:a86e2dca21ab0a47b5596cd4b7f90e8e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">names of tokens that can be used in dotlang graph (special chars are escaped)  <br /></td></tr>
+<tr class="memdesc:a86e2dca21ab0a47b5596cd4b7f90e8e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Names of tokens that can be used in dotlang graph (special chars are escaped).  <br /></td></tr>
 <tr class="separator:a86e2dca21ab0a47b5596cd4b7f90e8e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af69b0ef00608b4b7e99ad48335650110"><td class="memItemLeft" align="right" valign="top">const char *const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="boolean__algebra_8h.html#af69b0ef00608b4b7e99ad48335650110">balg_nt_names</a> [<a class="el" href="boolean__algebra_8h.html#ae22dc60420bad18229307a7d3f5ecf46">BALG_NT_COUNT</a>]</td></tr>
-<tr class="memdesc:af69b0ef00608b4b7e99ad48335650110"><td class="mdescLeft">&#160;</td><td class="mdescRight">non-terminal names (for debugging/printing CST)  <br /></td></tr>
+<tr class="memdesc:af69b0ef00608b4b7e99ad48335650110"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nonterminal names (for debugging/printing CST).  <br /></td></tr>
 <tr class="separator:af69b0ef00608b4b7e99ad48335650110"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -220,7 +220,7 @@ Variables</h2></td></tr>
 <div class="line">    <span class="stringliteral">&quot;expr_ls&quot;</span>, <span class="stringliteral">&quot;expr_ls_rest&quot;</span>,</div>
 <div class="line">}</div>
 </div><!-- fragment -->
-<p>non-terminal names (for debugging/printing CST) </p>
+<p>Nonterminal names (for debugging/printing CST). </p>
 
 </div>
 </div>
@@ -243,7 +243,7 @@ Variables</h2></td></tr>
 <div class="line">    <span class="stringliteral">&quot;=&quot;</span>, <span class="stringliteral">&quot;,&quot;</span>, <span class="stringliteral">&quot;;&quot;</span>,</div>
 <div class="line">}</div>
 </div><!-- fragment -->
-<p>names of tokens that used in BNF </p>
+<p>Names of tokens that are used in BNF. </p>
 
 </div>
 </div>
@@ -266,7 +266,7 @@ Variables</h2></td></tr>
 <div class="line">    <span class="stringliteral">&quot;=&quot;</span>, <span class="stringliteral">&quot;,&quot;</span>, <span class="stringliteral">&quot;;&quot;</span>,</div>
 <div class="line">}</div>
 </div><!-- fragment -->
-<p>names of tokens that can be used in dotlang graph (special chars are escaped) </p>
+<p>Names of tokens that can be used in dotlang graph (special chars are escaped). </p>
 
 </div>
 </div>
@@ -289,7 +289,7 @@ Variables</h2></td></tr>
 <div class="line">    <span class="charliteral">&#39;=&#39;</span>, <span class="charliteral">&#39;,&#39;</span>, <span class="charliteral">&#39;;&#39;</span>,</div>
 <div class="line">}</div>
 </div><!-- fragment -->
-<p>token character mapping (for <code>exblex</code>) </p>
+<p>Token character mapping (for <code>exblex</code>). </p>
 
 </div>
 </div>

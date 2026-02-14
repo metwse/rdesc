@@ -96,26 +96,25 @@ $(function() {
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="bnf__macros_8h.html#a82565bae95a7c5c9bd3b1f093c63883e">   40</a></span><span class="preprocessor">#define EOB -1</span></div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="bnf__macros_8h.html#ab6ad368e32c6304728c863dbb1e9d8dd">   42</a></span><span class="preprocessor">#define EOC -2</span></div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="bnf__macros_8h.html#a266e9efb568c84df45ba639fb04f61e8">   49</a></span><span class="preprocessor">#define SEOB { .ty = CFG_SENTINEL, .id = EOB }</span></div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="bnf__macros_8h.html#af11f8ed19fedc658e74733224839ccff">   55</a></span><span class="preprocessor">#define SEOC { { .ty = CFG_SENTINEL, .id = EOC } }</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="bnf__macros_8h.html#aa6abff88a7191ec249826ecc154edeae">   58</a></span><span class="preprocessor">#define TK(tk) { .ty = CFG_TOKEN, .id = PREFIX_TK(tk) }</span></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="bnf__macros_8h.html#a2f2eaf0cccb54c48b26a1747e777997b">   60</a></span><span class="preprocessor">#define NT(nt) { .ty = CFG_NONTERMINAL, .id = PREFIX_NT(nt) }</span></div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="bnf__macros_8h.html#a002b2f4894492820fe708b1b7e7c5e70">   62</a></span><span class="preprocessor">#define EPSILON SEOB</span></div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="bnf__macros_8h.html#abc088731af07796439675f9d86d9d70e">   69</a></span><span class="preprocessor">#define r(...) { { __VA_ARGS__ SEOB }, SEOC }</span></div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="bnf__macros_8h.html#addbf6a084daa0e9e2e3134af669e2eb9">   85</a></span><span class="preprocessor">#define rrr(head, listelem, delim) \</span></div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="preprocessor">    { { listelem, NT(POSTFIX_NT_REST(head)), SEOB }, SEOC }, \</span></div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="preprocessor">    { { delim, NT(head), SEOB }, { SEOB }, SEOC }</span></div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="bnf__macros_8h.html#a44af1408911ab98aca778f65b9290bd8">   96</a></span><span class="preprocessor">#define ropt(...) { { __VA_ARGS__, SEOB }, { SEOB }, SEOC }</span></div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno"><a class="line" href="bnf__macros_8h.html#ade80361c3df89829756eed474ab17d56">  103</a></span><span class="preprocessor">#define alt SEOB, }, {</span></div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#define SEOB { .ty = CFG_SENTINEL, .id = EOB }</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">#define SEOC { { .ty = CFG_SENTINEL, .id = EOC } }</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="bnf__macros_8h.html#aa6abff88a7191ec249826ecc154edeae">   52</a></span><span class="preprocessor">#define TK(tk) { .ty = CFG_TOKEN, .id = PREFIX_TK(tk) }</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="bnf__macros_8h.html#a2f2eaf0cccb54c48b26a1747e777997b">   54</a></span><span class="preprocessor">#define NT(nt) { .ty = CFG_NONTERMINAL, .id = PREFIX_NT(nt) }</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="bnf__macros_8h.html#a002b2f4894492820fe708b1b7e7c5e70">   57</a></span><span class="preprocessor">#define EPSILON SEOB</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="bnf__macros_8h.html#abc088731af07796439675f9d86d9d70e">   64</a></span><span class="preprocessor">#define r(...) { { __VA_ARGS__ SEOB }, SEOC }</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="bnf__macros_8h.html#addbf6a084daa0e9e2e3134af669e2eb9">   80</a></span><span class="preprocessor">#define rrr(head, listelem, delim) \</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="preprocessor">    { { listelem, NT(POSTFIX_NT_REST(head)), SEOB }, SEOC }, \</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="preprocessor">    { { delim, NT(head), SEOB }, { SEOB }, SEOC }</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="bnf__macros_8h.html#a44af1408911ab98aca778f65b9290bd8">   91</a></span><span class="preprocessor">#define ropt(...) { { __VA_ARGS__, SEOB }, { SEOB }, SEOC }</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="bnf__macros_8h.html#ade80361c3df89829756eed474ab17d56">   98</a></span><span class="preprocessor">#define alt SEOB, }, {</span></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span><span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

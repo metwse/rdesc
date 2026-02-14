@@ -72,21 +72,21 @@ $(function() {
   <div class="headertitle"><div class="title">librdesc </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>generic right-recursice descent parser</p>
-<p><code>librdesc</code> is a portable, table-driven algorithm-only parsing library written in standard C99. It provides the flexibility of a recursive descent parser with high degree of control in manual stack management.</p>
+<div class="textblock"><p>generic descent parser</p>
+<p><code>librdesc</code> is a portable, table-driven, algorithm-only parsing library written in standard C99. It provides the flexibility of a recursive descent parser with high degree of control in manual stack management.</p>
 <p><em>Check out <a href="https://metwse.github.io/rdesc/">online documentation</a> for details!</em></p>
-<h1><a class="anchor" id="autotoc_md1"></a>
+<h1><a class="anchor" id="autotoc_md3"></a>
 Documentation</h1>
 <p>Full API documentation is auto-generated using Doxygen: </p><div class="fragment"><div class="line">make docs</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md2"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md4"></a>
 &lt;tt&gt;contribute -Wai-slop&lt;/tt&gt;</h1>
 <p><img src="https://github.com/user-attachments/assets/bca16d5a-a6fe-4cbf-b41f-1176e000cff2" alt="no-ai-slop" width="96" height="96" align="right" class="inline"/></p>
 <p>Contributions are welcome! Please check our <a href="http://github.com/metwse/code-of-conduct">Code of Conduct</a> before submitting pull requests.</p>
-<h1><a class="anchor" id="autotoc_md3"></a>
+<h1><a class="anchor" id="autotoc_md5"></a>
 Building</h1>
 <p>You can build <code>librdesc</code> and its utilities using GNUMake. </p><div class="fragment"><div class="line">make        # Build the main library</div>
 <div class="line">make tests  # Build all test binaries</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md4"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md6"></a>
 Feature Flags</h2>
 <p>Providing <code>FEATURES</code> variable, you can toggle modules linked to the library. By default, only <code>stack</code> feature is enabled.</p>
 <div class="fragment"><div class="line">make FEATURES=&#39;stack dump_bnf dump_cst&#39;</div>
@@ -98,14 +98,14 @@ Feature Flags</h2>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><code>dump_bnf</code>   </td><td class="markdownTableBodyNone">Dump <code><a class="el" href="structrdesc__cfg.html" title="Context-free grammar definition.">rdesc_cfg</a></code> (Context-Free Grammar) in Backus–Naur form.    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>dump_cst</code>   </td><td class="markdownTableBodyNone">Dump <code><a class="el" href="structrdesc__node.html" title="A node in the CST.">rdesc_node</a></code> (Concrete Syntax Tree) as dotlang graph.   </td></tr>
+<td class="markdownTableBodyNone"><code>dump_cst</code>   </td><td class="markdownTableBodyNone">Dump <code>rdesc_node</code> (Concrete Syntax Tree) as dotlang graph.   </td></tr>
 </table>
-<h1><a class="anchor" id="autotoc_md5"></a>
+<h1><a class="anchor" id="autotoc_md7"></a>
 Installation</h1>
 <div class="fragment"><div class="line">make install PREFIX=/installation/path</div>
 </div><!-- fragment --><p> This command copies headers into <code>$PREFIX/include</code> and <code>librdesc.so/h</code> into <code>$PREFIX/lib</code>.</p>
 <p>Leave it empty to install <code>librdesc</code> system-wide: </p><div class="fragment"><div class="line">sudo make install</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md6"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md8"></a>
 Manual integration</h2>
 <p>Copy <code>include/*.h</code> to your project and static link against <code>librdesc.a</code> or dynamic link against <code>librdesc.so</code>. </p>
 </div></div><!-- contents -->
