@@ -27,8 +27,8 @@ static void destroy_tokens(struct rdesc *p,
 			   rdesc_token_destroyer_func tk_destroyer);
 
 void rdesc_init(struct rdesc *p,
-		size_t seminfo_size,
-		const struct rdesc_cfg *cfg)
+		const struct rdesc_cfg *cfg,
+		size_t seminfo_size)
 {
 	p->cfg = cfg;
 	p->seminfo_size = seminfo_size;

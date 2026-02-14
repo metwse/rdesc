@@ -63,8 +63,8 @@ extern "C" {
 
 /** @brief Initializes a new parser. */
 void rdesc_init(struct rdesc *parser,
-		size_t seminfo_size,
-		const struct rdesc_cfg *cfg);
+		const struct rdesc_cfg *cfg,
+		size_t seminfo_size);
 
 /**
  * @brief Frees memory allocated by the parser and destroys the parser instance.

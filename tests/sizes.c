@@ -12,7 +12,7 @@ int main(void)
 {
 	struct rdesc p;
 
-	rdesc_init(&p, 0, NULL);
+	rdesc_init(&p, NULL, 0);
 
 	/* nonterminal without a child */
 	rdesc_assert(sizeof_nt(0) == sizeof(nt_t),
@@ -32,7 +32,7 @@ int main(void)
 
 	rdesc_destroy(&p, NULL);
 
-	rdesc_init(&p, 32, NULL);
+	rdesc_init(&p, NULL, 32);
 
 	rdesc_assert(sizeof_tk(p) == sizeof(tk_t)
 			- sizeof(uint32_t) /* minus dummy seminfo field */

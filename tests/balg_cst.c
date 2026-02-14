@@ -29,7 +29,7 @@ int main(void)
 	rdesc_cfg_init(&cfg,
 		BALG_NT_COUNT, BALG_NT_VARIANT_COUNT, BALG_NT_BODY_LENGTH,
 		cast(struct rdesc_cfg_symbol *, balg));
-	rdesc_init(&p, sizeof(uint32_t), &cfg);
+	rdesc_init(&p, &cfg, sizeof(uint32_t));
 
 	rdesc_start(&p, NT_STMT);
 

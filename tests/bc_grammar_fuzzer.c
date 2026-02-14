@@ -197,7 +197,7 @@ void test_with_seminfo(const struct rdesc_cfg *cfg)
 
 	size_t *seminfo[seminfo_size];
 
-	rdesc_init(&p, seminfo_size * sizeof(size_t *), cfg);
+	rdesc_init(&p, cfg, seminfo_size * sizeof(size_t *));
 
 	rdesc_start(&p, NT_STMT);
 	while ((tk = next_tk(&g)) != TK_ENDSYM) {
@@ -231,7 +231,7 @@ int main(void)
 
 	/* test interruption & complete parse in the same parser */
 	for (int _fuzz = 0; _fuzz < 16; _fuzz++) {
-		rdesc_init(&p, rand() % 8, &cfg);
+		rdesc_init(&p, &cfg, rand() % 8);
 
 		test_interruption(&p);
 		test_complete_parse(&p);
@@ -240,7 +240,7 @@ int main(void)
 	}
 
 	/* test destroying the parser during a parse */
-	rdesc_init(&p, rand() % 8, &cfg);
+	rdesc_init(&p, &cfg, rand() % 8);
 
 	rdesc_start(&p, NT_STMT);
 	rdesc_pump(&p, NULL, TK_NUM, NULL);

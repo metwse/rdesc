@@ -3,12 +3,8 @@
  *
  * @section Introduction
  *
- * librdesc is a right-recursive, table-driven parsing library written in C99.
- * librdesc implements its own backtracing algorithm over Concrete Syntax Tree
- * (CST) and token stack.
- *
- * @section features Key Features
- *
+ * librdesc is a table-driven recursive descent parsing library written in C99.
+ * librdesc features:
  * - Table-Driven Parsing: Parser logic is generic and can be controlled at
  *   runtime without recompiling via the `struct rdesc_cfg` table.
  * - Pump Mechanism: Parsing is driven by `rdesc_pump()`, a state machine that
@@ -19,11 +15,13 @@
  * 1. Parser (`rdesc.h`): The engine that consumes the CFG and Input. It
  *    defines token and nonterminal structs and functions for bootstrapping
  *    the parser.
- * 2. CFG (`cfg.h`): Defines the CFG struct for rules. This usually populated
+ * 2. Tree macros (`cst_macros.h`): Macros enabling access to fields of parsed
+ *    CST.
+ * 3. CFG (`cfg.h`): Defines the CFG struct for rules. This usually populated
  *    with static constant data via macros.
- * 3. Rule macros (`bnf_macros.h`): A set of macros to facilitate definning
+ * 4. Rule macros (`bnf_macros.h`): A set of macros to facilitate definning
  *    context free grammars. See examples below for usage.
- * 4. Optional features (`util.h`): Development and debugging utilities.
+ * 5. Optional features (`util.h`): Development and debugging utilities.
  *
  * @section quickstart_sec Quick Start Guide
  *
@@ -40,9 +38,8 @@
  *
  * struct rdesc parser;
  *
- *                 /* vvv 8 is the size your grammar's semantic information */
- * rdesc_init(&parser, 8, &cfg);
- * // Extra 8 chars allocated for every token.
+ * rdesc_init(&parser, &cfg, 8);
+ *                       // ^^^ 8 is the size your grammar's semantic information
  * @endcode
  * 4. Pump Tokens: Feed tokens into the loop until a tree is ready.
  * @code{.c}
@@ -50,12 +47,15 @@
  *
  * enum rdesc_result res;
  * struct rdesc_node *cst;
- * while ((res = rdesc_pump(&parser, &cst, next_token())) == RDESC_CONTINUE) {
+ * while ((res = rdesc_pump(&parser,
+ *                          &cst,
+ *                          next_token_id(),
+ *                          next_token_seminfo())) == RDESC_CONTINUE) {
  *      // Acquire next_token from your lexer.
  * }
  *
  * if (res == RDESC_READY) {
- *      // Process the `cst`.
+ *      // Process the `cst` via `cst_macros.h`.
  * } else if (res == RDESC_NOMATCH) {
  *      // Handle syntax errors.
  * }
