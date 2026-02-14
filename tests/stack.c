@@ -1,5 +1,7 @@
+/* Stress test underlying stack implementation. */
+
 #include "../include/stack.h"
-#include "../src/detail.h" // IWYU pragma: keep
+#include "../src/detail.h"
 
 #include <stdint.h>
 #include <stdlib.h>

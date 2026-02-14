@@ -1,3 +1,5 @@
+/* Test dump_cst utility via dumping a boolean algebra statement. */
+
 #include "../include/cfg.h"
 #include "../include/cst_macros.h"
 #include "../include/util.h"
@@ -17,6 +19,7 @@ void balg_node_printer(const struct rdesc_node *node, FILE *out)
 	else
 		fprintf(out, "[label=\"%s\"]", balg_nt_names[rid(node)]);
 }
+
 
 int main(void)
 {
@@ -44,6 +47,6 @@ int main(void)
 	rdesc_assert(out, "coud not parse");
 	rdesc_dump_cst(stdout, &p, balg_node_printer);
 
-	rdesc_destroy(&p);
+	rdesc_destroy(&p, NULL);
 	rdesc_cfg_destroy(&cfg);
 }

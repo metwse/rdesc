@@ -11,6 +11,7 @@
 #include <string.h>
 
 
+/* Additional space for child pointers in nonterminal. */
 #define rchild_list_cap(p, nt_id) \
 	((p).cfg->child_caps[nt_id] * sizeof(size_t) + sizeof_node(p) - 1) \
 		/ sizeof_node(p)
@@ -22,6 +23,8 @@
 static void new_nt_node(struct rdesc *p, uint16_t nt_id);
 static void new_tk_node(struct rdesc *p, uint16_t tk_id, const void *seminfo);
 
+static void destroy_tokens(struct rdesc *p,
+			   rdesc_token_destroyer_func tk_destroyer);
 
 void rdesc_init(struct rdesc *p,
 		size_t seminfo_size,
@@ -35,14 +38,15 @@ void rdesc_init(struct rdesc *p,
 	rdesc_stack_init(&p->cst_stack, sizeof_node(*p));
 }
 
-void rdesc_destroy(struct rdesc *p /*,
-		   rdesc_token_destroyer_func token_destroyer*/) {
+void rdesc_destroy(struct rdesc *p, rdesc_token_destroyer_func tk_destroyer)
+{
+	destroy_tokens(p, tk_destroyer);
+
 	rdesc_stack_destroy(p->token_stack);
 	rdesc_stack_destroy(p->cst_stack);
 }
 
-void rdesc_start(struct rdesc *p,
-		 int start_symbol)
+void rdesc_start(struct rdesc *p, int start_symbol)
 {
 	rdesc_assert(p->cur == SIZE_MAX, "cannot start during parse");
 
@@ -50,12 +54,39 @@ void rdesc_start(struct rdesc *p,
 	new_nt_node(p, start_symbol);
 }
 
-void rdesc_reset(struct rdesc *p /*,
-		 rdesc_token_destroyer_func token_destroyer*/) {
+void rdesc_reset(struct rdesc *p,
+		 rdesc_token_destroyer_func tk_destroyer) {
+	destroy_tokens(p, tk_destroyer);
 	p->cur = SIZE_MAX;
 
 	rdesc_stack_reset(&p->token_stack);
 	rdesc_stack_reset(&p->cst_stack);
+}
+
+static void destroy_tokens(struct rdesc *p,
+			   rdesc_token_destroyer_func tk_destroyer)
+{
+	if (!tk_destroyer)
+		return;
+
+	/* Walk CST backwards to destroy all embedded tokens */
+	p->cur = rdesc_stack_len(p->cst_stack);
+	while (p->cur) {
+		node_t *top = rdesc_stack_at(p->cst_stack, p->cur - p->top_size);
+		uint16_t hold_top_size = p->top_size;
+
+		if (rtype(top) == CFG_TOKEN)
+			tk_destroyer(rid(top), rseminfo(top));
+
+		p->top_size = runwind_size(top);
+		p->cur = p->cur - hold_top_size;
+	}
+
+	/* Destroy tokens in backtrack stack */
+	for (size_t i = 0; i < rdesc_stack_len(p->token_stack); i++) {
+		tk_t *tk = rdesc_stack_at(p->token_stack, i);
+		tk_destroyer(tk->id, &tk->seminfo);
+	}
 }
 
 /* - THE PUMP -------------------------------------------------------------- */

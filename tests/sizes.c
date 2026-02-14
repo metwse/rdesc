@@ -1,3 +1,6 @@
+/* Validate the sizes of node types to ensure packing does not break memory
+ * layout. */
+
 #include "../include/rdesc.h"
 #include "../src/detail.h"
 
@@ -27,7 +30,7 @@ int main(void)
 			+ sizeof(size_t) /* plus size of parent pointer */,
 			"node size mismatch");
 
-	rdesc_destroy(&p);
+	rdesc_destroy(&p, NULL);
 
 	rdesc_init(&p, 32, NULL);
 
@@ -42,5 +45,5 @@ int main(void)
 			+ sizeof(uint16_t) + sizeof(size_t),
 			"node size mismatch");
 
-	rdesc_destroy(&p);
+	rdesc_destroy(&p, NULL);
 }

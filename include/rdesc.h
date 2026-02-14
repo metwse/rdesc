@@ -54,7 +54,7 @@ struct rdesc_node;
 
 
 /** @brief Function pointer type for freeing tokens. */
-typedef void (*rdesc_token_destroyer_func)(uint32_t id, void *seminfo);
+typedef void (*rdesc_token_destroyer_func)(uint16_t id, void *seminfo);
 
 
 #ifdef __cplusplus
@@ -72,8 +72,8 @@ void rdesc_init(struct rdesc *parser,
  * @note `seminfo` field in `struct rdesc_token` is ignored, i.e., not freed,
  *        unless `token_destroyer` is set.
  */
-void rdesc_destroy(struct rdesc *parser /*,
-		   rdesc_token_destroyer_func token_destroyer*/);
+void rdesc_destroy(struct rdesc *parser,
+		   rdesc_token_destroyer_func token_destroyer);
 
 /** @brief Sets start symbol for the next match. */
 void rdesc_start(struct rdesc *parser, int start_symbol);
@@ -84,8 +84,8 @@ void rdesc_start(struct rdesc *parser, int start_symbol);
  * @note `seminfo` field in `struct rdesc_token` is ignored, i.e., not freed,
  *        unless `token_destroyer` is set.
  */
-void rdesc_reset(struct rdesc *parser /*,
-		 rdesc_token_destroyer_func token_destroyer*/);
+void rdesc_reset(struct rdesc *parser,
+		 rdesc_token_destroyer_func token_destroyer);
 
 /**
  * @brief Drives the parsing process, the pump.

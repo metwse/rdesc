@@ -1,3 +1,6 @@
+/* Pass an invalid syntax and expect the tokens are pushed back to token
+ * stack. */
+
 #include "../include/cfg.h"
 #include "../include/rdesc.h"
 #include "../include/stack.h"
@@ -37,6 +40,6 @@ int main(void)
 	rdesc_assert(rdesc_stack_len(p.token_stack) == 9,
 	      "tokens should be pushed back to stack due to teardown ");
 
-	rdesc_destroy(&p);
+	rdesc_destroy(&p, NULL);
 	rdesc_cfg_destroy(&cfg);
 }

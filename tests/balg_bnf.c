@@ -1,3 +1,5 @@
+/* Dump boolean algebra grammar to test dump_bnf feature. */
+
 #include "../include/cfg.h"
 #include "../include/util.h"
 
