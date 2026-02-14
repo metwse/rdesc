@@ -79,7 +79,7 @@ void rdesc_stack_reserve(struct rdesc_stack **s, size_t reserved_space)
 	size_t increased_cap = (*s)->cap;
 
 	while (increased_cap <= (*s)->len + reserved_space) {
-		rdesc_assert(increased_cap < SIZE_MAX / 2,
+		rdesc_assert(increased_cap < SIZE_MAX / 2 / (*s)->element_size,
 			     "go fix your program!");
 		increased_cap *= 2;
 	}

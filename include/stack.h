@@ -81,6 +81,8 @@ void rdesc_stack_reserve(struct rdesc_stack **stack, size_t reserved_space);
  *         to allocated space for manual initialization.
  *
  * @note If count is 0, this is a no-op and returns a pointer at current top.
+ * @warning As this function may trigger realloc, the `element` SHALL NOT point
+ *          the stack.
  */
 void *rdesc_stack_multipush(struct rdesc_stack **stack, void *elements, size_t count);
 

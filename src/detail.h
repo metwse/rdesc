@@ -85,9 +85,11 @@
 		sizeof_nt(0)))
 
 
+/** @cond */
 typedef struct _rdesc_priv_node node_t;
 typedef struct _rdesc_priv_tk tk_t;
 typedef struct _rdesc_priv_nt nt_t;
+/** @endcond */
 
 
 #endif

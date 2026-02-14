@@ -225,7 +225,7 @@ enum rdesc_result rdesc_pump(struct rdesc *p,
 	if (has_token) {
 		tk->id = id_;
 		if (seminfo_)
-			memcpy(&tk->seminfo, seminfo_, sizeof_tk(*p));
+			memcpy(&tk->seminfo, seminfo_, p->seminfo_size);
 	}
 
 	while (true) {
