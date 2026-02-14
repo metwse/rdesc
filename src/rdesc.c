@@ -50,6 +50,8 @@ void rdesc_start(struct rdesc *p, int start_symbol)
 {
 	rdesc_assert(p->cur == SIZE_MAX, "cannot start during parse");
 
+	rdesc_stack_reset(&p->cst_stack);
+
 	p->top_size = 0;
 	new_nt_node(p, start_symbol);
 }
@@ -177,7 +179,7 @@ static inline enum internal_pump_state {
 	switch (rule.ty) {
 	case CFG_TOKEN:
 		if (rule.id == tk->id) {
-			/* Match! Add token to nonterminal's children. */
+			/* Match! Add the token to nonterminal's children. */
 			new_tk_node(p, tk->id, &tk->seminfo);
 		} else {
 			/* Push the token back to the token stack and continue

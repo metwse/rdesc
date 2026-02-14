@@ -56,12 +56,14 @@ enum bc_nt {
 	NT_STMT,
 };
 
-const char bc_tks[BC_TK_COUNT] = {
+const char bc_tks[BC_TK_COUNT + 1 /* for null-terminator */] = {
 	'\0',
 	'd', '.',
 	'-', '+', '*', '/',
 	'(', ')', ';',
 	'?',
+
+	'\0' /* required for exblex */
 };
 
 const char *const bc_nt_names[BC_NT_COUNT] = {
