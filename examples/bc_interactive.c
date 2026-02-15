@@ -1,9 +1,10 @@
 #include "../include/rdesc.h"
 #include "../include/cfg.h"
-#include "../src/exblex.h"
 
 #include "grammar/bc.h"
 #include "lib/bc_interpreter.h"
+#include "lib/exblex.h"
+#include "lib/exblex.c"
 
 #include <stdint.h>
 #include <stdio.h>

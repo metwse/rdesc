@@ -1,5 +1,5 @@
+#include "../../src/detail.h"
 #include "exblex.h"
-#include "detail.h"
 
 #include <ctype.h>
 #include <stdbool.h>

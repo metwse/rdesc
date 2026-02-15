@@ -74,7 +74,7 @@ void exblex_init(struct exblex *l,
  *         - Index into tokens[] array for the matched character or class
  *
  * @note For 'w' (word) and 'd' (digit) tokens, retrieve the matched text
- *       using @ref exblex_current_seminfo.
+ *       using exblex_current_seminfo.
  */
 uint16_t exblex_next(struct exblex *l);
 
