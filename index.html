@@ -81,7 +81,7 @@ Introduction</h1>
 <h1><a class="anchor" id="api"></a>
 API Overview</h1>
 <ol type="1">
-<li>Parser (<code><a class="el" href="rdesc_8h.html" title="The right-recursive descent parser.">rdesc.h</a></code>): The engine that consumes the CFG and Input. It defines token and nonterminal structs and functions for bootstrapping the parser.</li>
+<li>Parser (<code><a class="el" href="rdesc_8h.html" title="The recursive descent parser.">rdesc.h</a></code>): The engine that consumes the CFG and Input. It defines token and nonterminal structs and functions for bootstrapping the parser.</li>
 <li>Tree macros (<code><a class="el" href="cst__macros_8h.html" title="Macros for accessing fields of node structs.">cst_macros.h</a></code>): Macros enabling access to fields of parsed CST.</li>
 <li>CFG (<code><a class="el" href="cfg_8h.html" title="Context-free grammar (CFG) data structures.">cfg.h</a></code>): Defines the CFG struct for rules. This usually populated with static constant data via macros.</li>
 <li>Rule macros (<code><a class="el" href="bnf__macros_8h.html" title="Macros to facilitate defining context-free grammar in Backus-Naur form (BNF).">bnf_macros.h</a></code>): A set of macros to facilitate definning context free grammars. See examples below for usage.</li>
@@ -103,7 +103,7 @@ Quick Start Guide</h1>
 <div class="ttc" id="acfg_8h_html_a9255c935a3026877c283c41a78b36cc2"><div class="ttname"><a href="cfg_8h.html#a9255c935a3026877c283c41a78b36cc2">rdesc_cfg_init</a></div><div class="ttdeci">void rdesc_cfg_init(struct rdesc_cfg *cfg, uint32_t nonterminal_count, uint16_t nonterminal_variant_count, uint16_t nonterminal_body_length, const struct rdesc_cfg_symbol *production_rules)</div><div class="ttdoc">Initializes a context-free grammar object.</div><div class="ttdef"><b>Definition:</b> cfg.c:9</div></div>
 <div class="ttc" id="ardesc_8h_html_a2d01968c2899db9122e8044a1402b65e"><div class="ttname"><a href="rdesc_8h.html#a2d01968c2899db9122e8044a1402b65e">rdesc_init</a></div><div class="ttdeci">void rdesc_init(struct rdesc *parser, const struct rdesc_cfg *cfg, size_t seminfo_size)</div><div class="ttdoc">Initializes a new parser.</div><div class="ttdef"><b>Definition:</b> rdesc.c:29</div></div>
 <div class="ttc" id="astructrdesc__cfg_html"><div class="ttname"><a href="structrdesc__cfg.html">rdesc_cfg</a></div><div class="ttdoc">Context-free grammar definition.</div><div class="ttdef"><b>Definition:</b> cfg.h:20</div></div>
-<div class="ttc" id="astructrdesc_html"><div class="ttname"><a href="structrdesc.html">rdesc</a></div><div class="ttdoc">The right-recursive descent parser.</div><div class="ttdef"><b>Definition:</b> rdesc.h:30</div></div>
+<div class="ttc" id="astructrdesc_html"><div class="ttname"><a href="structrdesc.html">rdesc</a></div><div class="ttdoc">The recursive descent parser.</div><div class="ttdef"><b>Definition:</b> rdesc.h:30</div></div>
 <div class="ttc" id="astructrdesc_html_ab1a8201857ac8d5e46a213a1f89ec497"><div class="ttname"><a href="structrdesc.html#ab1a8201857ac8d5e46a213a1f89ec497">rdesc::cfg</a></div><div class="ttdeci">const struct rdesc_cfg * cfg</div><div class="ttdoc">Context-free grammar production rules.</div><div class="ttdef"><b>Definition:</b> rdesc.h:32</div></div>
 </div><!-- fragment --></li>
 <li>Pump Tokens: Feed tokens into the loop until a tree is ready. <div class="fragment"><div class="line"><a class="code hl_function" href="rdesc_8h.html#a7f34440d9a612153517d8931d80085d9">rdesc_start</a>(&amp;parser, NT_STMT);  <span class="comment">// Set your start symbol.</span></div>
