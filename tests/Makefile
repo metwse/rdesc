@@ -39,12 +39,12 @@ all: covr debug fuzz
 
 
 # - INTEGRATION ---------------------------------------------------------------
+# Test build rules compile from project root for gcovr compatibility.
+# And then regenerate dependency file as compilation from project root broke
+# dependency tracking.
 .SECONDARY:
 $(OBJ_DIR)/%.integration.debug.o: $(INTEGRATION_DIR)/%.c | $(OBJ_DIR)
-	# Test build rules compile from project root for gcovr compatibility.
 	cd ..; $(CC) $(TEST_CFLAGS) -c tests/$< -o tests/$@
-	# Regenerate dependency file as compilation from project root broke
-	# dependency tracking.
 	$(CC) -MM $< -MF $(@:.o=.d) -MT $@
 $(DIST_DIR)/%.integration.debug: $(OBJ_DIR)/%.integration.debug.o $(LIB_DEBUG) \
 		| $(DIST_DIR)
