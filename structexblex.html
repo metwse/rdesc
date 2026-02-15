@@ -83,18 +83,22 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a4bfa1b98dcef53afeefe4d6983bee062"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structexblex.html#a4bfa1b98dcef53afeefe4d6983bee062">buf</a></td></tr>
+<tr class="memitem:a4bfa1b98dcef53afeefe4d6983bee062"><td class="memItemLeft" align="right" valign="top"><a id="a4bfa1b98dcef53afeefe4d6983bee062" name="a4bfa1b98dcef53afeefe4d6983bee062"></a>
+const char *&#160;</td><td class="memItemRight" valign="bottom"><b>buf</b></td></tr>
+<tr class="memdesc:a4bfa1b98dcef53afeefe4d6983bee062"><td class="mdescLeft">&#160;</td><td class="mdescRight">Underlying null-terminated input buffer. <br /></td></tr>
 <tr class="separator:a4bfa1b98dcef53afeefe4d6983bee062"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a29636b80ad3395e4aef9613a337035"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structexblex.html#a7a29636b80ad3395e4aef9613a337035">cur</a></td></tr>
-<tr class="separator:a7a29636b80ad3395e4aef9613a337035"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0178e84dd86b49a85dda68978c4d8b2c"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structexblex.html#a0178e84dd86b49a85dda68978c4d8b2c">tokens</a></td></tr>
+<tr class="memitem:a0178e84dd86b49a85dda68978c4d8b2c"><td class="memItemLeft" align="right" valign="top"><a id="a0178e84dd86b49a85dda68978c4d8b2c" name="a0178e84dd86b49a85dda68978c4d8b2c"></a>
+const char *&#160;</td><td class="memItemRight" valign="bottom"><b>tokens</b></td></tr>
+<tr class="memdesc:a0178e84dd86b49a85dda68978c4d8b2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array of token characters. <br /></td></tr>
 <tr class="separator:a0178e84dd86b49a85dda68978c4d8b2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac9c32459c8daa29aba3a15c7d1568a1b"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structexblex.html#ac9c32459c8daa29aba3a15c7d1568a1b">token_count</a></td></tr>
+<tr class="memitem:ac9c32459c8daa29aba3a15c7d1568a1b"><td class="memItemLeft" align="right" valign="top"><a id="ac9c32459c8daa29aba3a15c7d1568a1b" name="ac9c32459c8daa29aba3a15c7d1568a1b"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><b>token_count</b></td></tr>
+<tr class="memdesc:ac9c32459c8daa29aba3a15c7d1568a1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of tokens in provided array. <br /></td></tr>
 <tr class="separator:ac9c32459c8daa29aba3a15c7d1568a1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a564d4a79d43e3ceb946a27b11c3a5d2c"><td class="memItemLeft" align="right" valign="top"><a id="a564d4a79d43e3ceb946a27b11c3a5d2c" name="a564d4a79d43e3ceb946a27b11c3a5d2c"></a>
-char&#160;</td><td class="memItemRight" valign="bottom"><b>peek</b></td></tr>
-<tr class="memdesc:a564d4a79d43e3ceb946a27b11c3a5d2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">A character that was part of the input stream but not consumed by the previous token (e.g., the <code>+</code> in <code>abc+def</code>). <br /></td></tr>
-<tr class="separator:a564d4a79d43e3ceb946a27b11c3a5d2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a29636b80ad3395e4aef9613a337035"><td class="memItemLeft" align="right" valign="top"><a id="a7a29636b80ad3395e4aef9613a337035" name="a7a29636b80ad3395e4aef9613a337035"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><b>cur</b></td></tr>
+<tr class="memdesc:a7a29636b80ad3395e4aef9613a337035"><td class="mdescLeft">&#160;</td><td class="mdescRight">(current) Position in the buffer. <br /></td></tr>
+<tr class="separator:a7a29636b80ad3395e4aef9613a337035"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>EXtremely Basic LEXer. </p>
@@ -102,72 +106,13 @@ char&#160;</td><td class="memItemRight" valign="bottom"><b>peek</b></td></tr>
 <ol type="1">
 <li>Words (<code>w</code>): Matches identifiers consisting of alphanumeric characters and underscores (<code>[a-zA-Z0-9_]</code>).</li>
 <li>Digits (<code>d</code>): Matches integer literals consisting of numeric digits (<code>[0-9]</code>).</li>
-<li>Punctuation: Matches single-character symbols provided in the lookup table (e.g., <code>+</code>, <code>*</code>, <code>;</code>).</li>
+<li>One-Character Punctuation: Matches single-character symbols provided in the lookup table (e.g., <code>+</code>, <code>*</code>, <code>;</code>).</li>
 </ol>
-<dl class="section note"><dt>Note</dt><dd>The lexer gives precedence to character classes (<code>w</code>, <code>d</code>). If a character does not fit into these classes, it is checked against the <code>tokens</code> table. </dd></dl>
-</div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a4bfa1b98dcef53afeefe4d6983bee062" name="a4bfa1b98dcef53afeefe4d6983bee062"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4bfa1b98dcef53afeefe4d6983bee062">&#9670;&#160;</a></span>buf</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const char* exblex::buf</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>underlying null-terminated input buffer </p>
-
-</div>
-</div>
-<a id="a7a29636b80ad3395e4aef9613a337035" name="a7a29636b80ad3395e4aef9613a337035"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7a29636b80ad3395e4aef9613a337035">&#9670;&#160;</a></span>cur</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t exblex::cur</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>current position in the buffer </p>
-
-</div>
-</div>
-<a id="ac9c32459c8daa29aba3a15c7d1568a1b" name="ac9c32459c8daa29aba3a15c7d1568a1b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac9c32459c8daa29aba3a15c7d1568a1b">&#9670;&#160;</a></span>token_count</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t exblex::token_count</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>number of tokens in the array </p>
-
-</div>
-</div>
-<a id="a0178e84dd86b49a85dda68978c4d8b2c" name="a0178e84dd86b49a85dda68978c4d8b2c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0178e84dd86b49a85dda68978c4d8b2c">&#9670;&#160;</a></span>tokens</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const char* exblex::tokens</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>array of valid token characters </p>
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li>src/<a class="el" href="exblex_8h_source.html">exblex.h</a></li>
+<dl class="section note"><dt>Note</dt><dd>The lexer gives precedence to character classes (<code>w</code>, <code>d</code>). If a character does not fit into these classes, it is checked against the <code>tokens</code> table.</dd>
+<dd>
+First character of <code>tokens</code> will be ignored for matching, as identifier 0 is reserved in <code>rdesc</code>. </dd></dl>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
+<li>examples/lib/<a class="el" href="exblex_8h_source.html">exblex.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

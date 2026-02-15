@@ -7,6 +7,7 @@ var searchData=
   ['epsilon_4',['EPSILON',['../bnf__macros_8h.html#a002b2f4894492820fe708b1b7e7c5e70',1,'bnf_macros.h']]],
   ['exblex_5',['exblex',['../structexblex.html',1,'']]],
   ['exblex_2eh_6',['exblex.h',['../exblex_8h.html',1,'']]],
-  ['exblex_5finit_7',['exblex_init',['../exblex_8h.html#ac6e733c25e150dab3e32b4c677345784',1,'exblex.h']]],
-  ['exblex_5fnext_8',['exblex_next',['../exblex_8h.html#abbe8702a4f9b94dbff710d463b38c1a5',1,'exblex.h']]]
+  ['exblex_5fcurrent_5fseminfo_7',['exblex_current_seminfo',['../exblex_8h.html#a909d2c73c4c5c503e21cd8d2a42dd81b',1,'exblex.c']]],
+  ['exblex_5finit_8',['exblex_init',['../exblex_8h.html#a7c615dcb7c50fb580be150525bfcaf9d',1,'exblex.c']]],
+  ['exblex_5fnext_9',['exblex_next',['../exblex_8h.html#ae691d76a1ab01f88980d07802cdadf38',1,'exblex.c']]]
 ];

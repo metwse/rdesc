@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.6"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>librdesc: src/exblex.h Source File</title>
+<title>librdesc: examples/lib/exblex.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -69,7 +69,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_d28a4824dc47e487b107a5db32ef43c4.html">examples</a></li><li class="navelem"><a class="el" href="dir_70544c095075e33fd63f73b4eb830389.html">lib</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -81,34 +81,48 @@ $(function() {
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#define EXBLEX_H</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;stddef.h&gt;</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="structexblex.html">   29</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structexblex.html">exblex</a> {</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="structexblex.html#a4bfa1b98dcef53afeefe4d6983bee062">   30</a></span>    <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code hl_variable" href="structexblex.html#a4bfa1b98dcef53afeefe4d6983bee062">buf</a> ;</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="structexblex.html#a7a29636b80ad3395e4aef9613a337035">   31</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structexblex.html#a7a29636b80ad3395e4aef9613a337035">cur</a> ;</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="structexblex.html#a0178e84dd86b49a85dda68978c4d8b2c">   32</a></span>    <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code hl_variable" href="structexblex.html#a0178e84dd86b49a85dda68978c4d8b2c">tokens</a> ;</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="structexblex.html#ac9c32459c8daa29aba3a15c7d1568a1b">   33</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structexblex.html#ac9c32459c8daa29aba3a15c7d1568a1b">token_count</a> ;</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="structexblex.html#a564d4a79d43e3ceb946a27b11c3a5d2c">   36</a></span>    <span class="keywordtype">char</span> <a class="code hl_variable" href="structexblex.html#a564d4a79d43e3ceb946a27b11c3a5d2c">peek</a>;</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>};</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="structexblex.html">   33</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structexblex.html">exblex</a> {</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="structexblex.html#a4bfa1b98dcef53afeefe4d6983bee062">   35</a></span>    <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code hl_variable" href="structexblex.html#a4bfa1b98dcef53afeefe4d6983bee062">buf</a>;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="structexblex.html#a0178e84dd86b49a85dda68978c4d8b2c">   38</a></span>    <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code hl_variable" href="structexblex.html#a0178e84dd86b49a85dda68978c4d8b2c">tokens</a>;</div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="exblex_8h.html#ac6e733c25e150dab3e32b4c677345784">   41</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="exblex_8h.html#ac6e733c25e150dab3e32b4c677345784">exblex_init</a>(<span class="keyword">struct</span> <a class="code hl_struct" href="structexblex.html">exblex</a> *l,</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>         <span class="keyword">const</span> <span class="keywordtype">char</span> *buf,</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>         <span class="keyword">const</span> <span class="keywordtype">char</span> *tokens,</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>         <span class="keywordtype">size_t</span> token_count);</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="exblex_8h.html#abbe8702a4f9b94dbff710d463b38c1a5">   51</a></span><span class="keyword">struct </span>rdesc_token <a class="code hl_function" href="exblex_8h.html#abbe8702a4f9b94dbff710d463b38c1a5">exblex_next</a>(struct <a class="code hl_struct" href="structexblex.html">exblex</a> *l);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="structexblex.html#ac9c32459c8daa29aba3a15c7d1568a1b">   41</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structexblex.html#ac9c32459c8daa29aba3a15c7d1568a1b">token_count</a>;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="comment">/* --- Fields from now on should be zero-intialized. --- */</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="structexblex.html#a7a29636b80ad3395e4aef9613a337035">   46</a></span>    <span class="keywordtype">size_t</span> <a class="code hl_variable" href="structexblex.html#a7a29636b80ad3395e4aef9613a337035">cur</a> <span class="comment">/* (current) Index lexing continues on. */</span>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordtype">char</span> pushback_char <span class="comment">/* A character that was part of the input stream but</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="comment">                * not consumed by the previous token (e.g., the `+`</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="comment">                * in `abc+def`). */</span>;</div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="aexblex_8h_html_abbe8702a4f9b94dbff710d463b38c1a5"><div class="ttname"><a href="exblex_8h.html#abbe8702a4f9b94dbff710d463b38c1a5">exblex_next</a></div><div class="ttdeci">struct rdesc_token exblex_next(struct exblex *l)</div><div class="ttdoc">Fetches the next token.</div></div>
-<div class="ttc" id="aexblex_8h_html_ac6e733c25e150dab3e32b4c677345784"><div class="ttname"><a href="exblex_8h.html#ac6e733c25e150dab3e32b4c677345784">exblex_init</a></div><div class="ttdeci">void exblex_init(struct exblex *l, const char *buf, const char *tokens, size_t token_count)</div><div class="ttdoc">Initializes the basic lexer.</div></div>
-<div class="ttc" id="astructexblex_html"><div class="ttname"><a href="structexblex.html">exblex</a></div><div class="ttdoc">EXtremely Basic LEXer.</div><div class="ttdef"><b>Definition:</b> exblex.h:29</div></div>
-<div class="ttc" id="astructexblex_html_a0178e84dd86b49a85dda68978c4d8b2c"><div class="ttname"><a href="structexblex.html#a0178e84dd86b49a85dda68978c4d8b2c">exblex::tokens</a></div><div class="ttdeci">const char * tokens</div><div class="ttdef"><b>Definition:</b> exblex.h:32</div></div>
-<div class="ttc" id="astructexblex_html_a4bfa1b98dcef53afeefe4d6983bee062"><div class="ttname"><a href="structexblex.html#a4bfa1b98dcef53afeefe4d6983bee062">exblex::buf</a></div><div class="ttdeci">const char * buf</div><div class="ttdef"><b>Definition:</b> exblex.h:30</div></div>
-<div class="ttc" id="astructexblex_html_a564d4a79d43e3ceb946a27b11c3a5d2c"><div class="ttname"><a href="structexblex.html#a564d4a79d43e3ceb946a27b11c3a5d2c">exblex::peek</a></div><div class="ttdeci">char peek</div><div class="ttdoc">A character that was part of the input stream but not consumed by the previous token (e....</div><div class="ttdef"><b>Definition:</b> exblex.h:36</div></div>
-<div class="ttc" id="astructexblex_html_a7a29636b80ad3395e4aef9613a337035"><div class="ttname"><a href="structexblex.html#a7a29636b80ad3395e4aef9613a337035">exblex::cur</a></div><div class="ttdeci">size_t cur</div><div class="ttdef"><b>Definition:</b> exblex.h:31</div></div>
-<div class="ttc" id="astructexblex_html_ac9c32459c8daa29aba3a15c7d1568a1b"><div class="ttname"><a href="structexblex.html#ac9c32459c8daa29aba3a15c7d1568a1b">exblex::token_count</a></div><div class="ttdeci">size_t token_count</div><div class="ttdef"><b>Definition:</b> exblex.h:33</div></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keywordtype">char</span> *current_seminfo <span class="comment">/* Holds semantic information pointer of the last</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="comment">                   * token and returns it in</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="comment">                   * `exblex_current_seminfo`. */</span>;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>};</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="keywordtype">void</span> <a class="code hl_function" href="exblex_8h.html#a7c615dcb7c50fb580be150525bfcaf9d">exblex_init</a>(<span class="keyword">struct</span> <a class="code hl_struct" href="structexblex.html">exblex</a> *l,</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>         <span class="keyword">const</span> <span class="keywordtype">char</span> *buf,</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>         <span class="keyword">const</span> <span class="keywordtype">char</span> *tokens);</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>uint16_t <a class="code hl_function" href="exblex_8h.html#ae691d76a1ab01f88980d07802cdadf38">exblex_next</a>(<span class="keyword">struct</span> <a class="code hl_struct" href="structexblex.html">exblex</a> *l);</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="keywordtype">char</span> *<a class="code hl_function" href="exblex_8h.html#a909d2c73c4c5c503e21cd8d2a42dd81b">exblex_current_seminfo</a>(<span class="keyword">struct</span> <a class="code hl_struct" href="structexblex.html">exblex</a> *l);</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aexblex_8h_html_a7c615dcb7c50fb580be150525bfcaf9d"><div class="ttname"><a href="exblex_8h.html#a7c615dcb7c50fb580be150525bfcaf9d">exblex_init</a></div><div class="ttdeci">void exblex_init(struct exblex *l, const char *buf, const char *tokens)</div><div class="ttdoc">Initializes the basic lexer with null-terminated list of chars.</div><div class="ttdef"><b>Definition:</b> exblex.c:12</div></div>
+<div class="ttc" id="aexblex_8h_html_a909d2c73c4c5c503e21cd8d2a42dd81b"><div class="ttname"><a href="exblex_8h.html#a909d2c73c4c5c503e21cd8d2a42dd81b">exblex_current_seminfo</a></div><div class="ttdeci">char * exblex_current_seminfo(struct exblex *l)</div><div class="ttdoc">Retrieves the semantic information for the last token.</div><div class="ttdef"><b>Definition:</b> exblex.c:89</div></div>
+<div class="ttc" id="aexblex_8h_html_ae691d76a1ab01f88980d07802cdadf38"><div class="ttname"><a href="exblex_8h.html#ae691d76a1ab01f88980d07802cdadf38">exblex_next</a></div><div class="ttdeci">uint16_t exblex_next(struct exblex *l)</div><div class="ttdoc">Fetches the next token.</div><div class="ttdef"><b>Definition:</b> exblex.c:33</div></div>
+<div class="ttc" id="astructexblex_html"><div class="ttname"><a href="structexblex.html">exblex</a></div><div class="ttdoc">EXtremely Basic LEXer.</div><div class="ttdef"><b>Definition:</b> exblex.h:33</div></div>
+<div class="ttc" id="astructexblex_html_a0178e84dd86b49a85dda68978c4d8b2c"><div class="ttname"><a href="structexblex.html#a0178e84dd86b49a85dda68978c4d8b2c">exblex::tokens</a></div><div class="ttdeci">const char * tokens</div><div class="ttdoc">Array of token characters.</div><div class="ttdef"><b>Definition:</b> exblex.h:38</div></div>
+<div class="ttc" id="astructexblex_html_a4bfa1b98dcef53afeefe4d6983bee062"><div class="ttname"><a href="structexblex.html#a4bfa1b98dcef53afeefe4d6983bee062">exblex::buf</a></div><div class="ttdeci">const char * buf</div><div class="ttdoc">Underlying null-terminated input buffer.</div><div class="ttdef"><b>Definition:</b> exblex.h:35</div></div>
+<div class="ttc" id="astructexblex_html_a7a29636b80ad3395e4aef9613a337035"><div class="ttname"><a href="structexblex.html#a7a29636b80ad3395e4aef9613a337035">exblex::cur</a></div><div class="ttdeci">size_t cur</div><div class="ttdoc">(current) Position in the buffer.</div><div class="ttdef"><b>Definition:</b> exblex.h:46</div></div>
+<div class="ttc" id="astructexblex_html_ac9c32459c8daa29aba3a15c7d1568a1b"><div class="ttname"><a href="structexblex.html#ac9c32459c8daa29aba3a15c7d1568a1b">exblex::token_count</a></div><div class="ttdeci">size_t token_count</div><div class="ttdoc">Number of tokens in provided array.</div><div class="ttdef"><b>Definition:</b> exblex.h:41</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
