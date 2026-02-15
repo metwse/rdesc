@@ -9,6 +9,7 @@
 #include "../../examples/grammar/boolean_algebra.h"
 
 #include <stddef.h>
+#include <stdint.h>
 
 
 void balg_node_printer(const struct rdesc_node *node, FILE *out)
@@ -33,15 +34,16 @@ int main(void)
 	rdesc_start(&p, NT_STMT);
 
 	struct rdesc_node *out = NULL;
-	rdesc_pump(&p, NULL, TK_IDENT, NULL);
-	rdesc_pump(&p, NULL, TK_LPAREN, NULL);
-	rdesc_pump(&p, NULL, TK_LPAREN, NULL);
-	rdesc_pump(&p, NULL, TK_IDENT, NULL);
-	rdesc_pump(&p, NULL, TK_EQ, NULL);
-	rdesc_pump(&p, NULL, TK_IDENT, NULL);
-	rdesc_pump(&p, NULL, TK_RPAREN, NULL);
-	rdesc_pump(&p, NULL, TK_RPAREN, NULL);
-	rdesc_pump(&p, &out, TK_SEMI, NULL);
+	uint16_t id;
+	id = TK_IDENT; rdesc_pump(&p, NULL, &id, NULL);
+	id = TK_LPAREN; rdesc_pump(&p, NULL, &id, NULL);
+	id = TK_LPAREN; rdesc_pump(&p, NULL, &id, NULL);
+	id = TK_IDENT; rdesc_pump(&p, NULL, &id, NULL);
+	id = TK_EQ; rdesc_pump(&p, NULL, &id, NULL);
+	id = TK_IDENT; rdesc_pump(&p, NULL, &id, NULL);
+	id = TK_RPAREN; rdesc_pump(&p, NULL, &id, NULL);
+	id = TK_RPAREN; rdesc_pump(&p, NULL, &id, NULL);
+	id = TK_SEMI; rdesc_pump(&p, &out, &id, NULL);
 
 	rdesc_assert(out, "coud not parse");
 	rdesc_dump_cst(stdout, &p, balg_node_printer);

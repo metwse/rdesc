@@ -20,22 +20,35 @@
 #define runwind_size(node) _rdesc_priv_node_deref(node).unwind_size
 
 
-static void new_nt_node(struct rdesc *p, uint16_t nt_id);
-static void new_tk_node(struct rdesc *p, uint16_t tk_id, const void *seminfo);
+static int new_nt_node(struct rdesc *p, uint16_t nt_id);
+static int new_tk_node(struct rdesc *p, uint16_t tk_id, const void *seminfo);
 
 static void destroy_tokens(struct rdesc *p,
 			   rdesc_token_destroyer_func tk_destroyer);
 
-void rdesc_init(struct rdesc *p,
-		const struct rdesc_cfg *cfg,
-		size_t seminfo_size)
+static inline void push_child(struct rdesc *p, size_t parent_idx, size_t child_idx);
+static inline void pop_child(struct rdesc *p, size_t node_idx);
+
+int rdesc_init(struct rdesc *p,
+	       const struct rdesc_cfg *cfg,
+	       size_t seminfo_size)
 {
 	p->cfg = cfg;
 	p->seminfo_size = seminfo_size;
 	p->cur = SIZE_MAX;
 
 	rdesc_stack_init(&p->token_stack, sizeof_tk(*p));
+	if (p->token_stack == NULL)
+		return 1;  /* could not intialize token stack  */
+
 	rdesc_stack_init(&p->cst_stack, sizeof_node(*p));
+	if (p->cst_stack == NULL) {
+		rdesc_stack_destroy(p->token_stack);
+
+		return 1;  /* could not intialize CST stack */
+	}
+
+	return 0;
 }
 
 void rdesc_destroy(struct rdesc *p, rdesc_token_destroyer_func tk_destroyer)
@@ -46,23 +59,36 @@ void rdesc_destroy(struct rdesc *p, rdesc_token_destroyer_func tk_destroyer)
 	rdesc_stack_destroy(p->cst_stack);
 }
 
-void rdesc_start(struct rdesc *p, int start_symbol)
+int rdesc_start(struct rdesc *p, int start_symbol)
 {
 	rdesc_assert(p->cur == SIZE_MAX, "cannot start during parse");
 
 	rdesc_stack_reset(&p->cst_stack);
+	if (p->cst_stack == NULL)
+		return 1;  /* could not reset CST stack */
 
 	p->top_size = 0;
-	new_nt_node(p, start_symbol);
+	if (new_nt_node(p, start_symbol)) {
+		p->cur = SIZE_MAX;
+
+		return 1;
+	}
+
+	return 0;
 }
 
-void rdesc_reset(struct rdesc *p,
+int rdesc_reset(struct rdesc *p,
 		 rdesc_token_destroyer_func tk_destroyer) {
 	destroy_tokens(p, tk_destroyer);
 	p->cur = SIZE_MAX;
 
 	rdesc_stack_reset(&p->token_stack);
 	rdesc_stack_reset(&p->cst_stack);
+
+	if (p->token_stack == NULL || p->cst_stack == NULL)
+		return 1;
+
+	return 0;
 }
 
 static void destroy_tokens(struct rdesc *p,
@@ -107,7 +133,7 @@ static void destroy_tokens(struct rdesc *p,
 
 /* Backtraces to the last nonterminal that is not completed, or teardowns the
  * entire CST. */
-static void nonterminal_failed(struct rdesc *p)
+static int nonterminal_failed(struct rdesc *p)
 {
 	/* Initialization: Start from the top. */
 	while (true) {
@@ -119,7 +145,11 @@ static void nonterminal_failed(struct rdesc *p)
 		 * to get it on the next iteration. */
 		p->top_size = runwind_size(top);
 		if (rtype(top) == CFG_TOKEN) {
-			rdesc_stack_push(&p->token_stack, &top->n.tk);
+			if (rdesc_stack_push(&p->token_stack, &top->n.tk) == NULL) {
+				/* Could not move token to token stack! Keep
+				 * existing token in CST and report error. :*/
+				return 1;
+			}
 		} else {
 			if (!is_construct_end(top)) {
 				rvariant(top)++;
@@ -135,31 +165,41 @@ static void nonterminal_failed(struct rdesc *p)
 					p->top_size =
 						1 + rchild_list_cap(*p, rid(top));
 
-					return;
+					return 0;
 				}
 			}
 		}
 
 		/* Remove element from parent's child pointer list. */
-		node_t *parent = cast(node_t *, rparent(p, top));
-		if (parent)
-			rchild_count(parent)--;
+		size_t parent_idx = _rdesc_priv_parent_idx(top);
+		if (parent_idx != SIZE_MAX)
+			pop_child(p, parent_idx);
+
+		/* Neglect error in multipop as we sure the node certainly
+		 * removed from stack. Multipop decreases length even if it
+		 * failed to realloc. */
 		rdesc_stack_multipop(&p->cst_stack, hold_top_size);
 
 		/* Parse operation fails if removed element does not belong to
 		 * any node, that is removing the node. */
-		if (!parent)
-			return;
+		if (parent_idx == SIZE_MAX)
+			return 0;
 	}
 }
 
 /* Internal pump state machine. Returns next action for outer pump loop.
  *
+ * EMEM: Provided token pushed to either CST stack or token stack, but memory
+ * allocation error occured afterwards.
+ * EMEM_TK_NOT_OWNED: Provided token did not to token stack or CST, and it
+ * still belong to caller.
  * READY: Parse complete,
  * CONTINUE: consume next token,
  * NOMATCH: parse failed,
  * RETRY: descend into nonterminal */
 static inline enum internal_pump_state {
+	EMEM,
+	EMEM_TK_NOT_OWNED,
 	READY,
 	CONTINUE,
 	NOMATCH,
@@ -169,7 +209,11 @@ static inline enum internal_pump_state {
 	node_t *n = rdesc_stack_at(p->cst_stack, p->cur);
 
 	if (rdesc_stack_len(p->cst_stack) == 0) {
-		rdesc_stack_push(&p->token_stack, tk);
+		if (rdesc_stack_push(&p->token_stack, tk) == NULL) {
+			/* Token should be stored for next start, but could
+			 * not because of push error. */
+			return EMEM_TK_NOT_OWNED;
+		}
 
 		return NOMATCH;
 	}
@@ -180,17 +224,28 @@ static inline enum internal_pump_state {
 	case CFG_TOKEN:
 		if (rule.id == tk->id) {
 			/* Match! Add the token to nonterminal's children. */
-			new_tk_node(p, tk->id, &tk->seminfo);
+			if (new_tk_node(p, tk->id, &tk->seminfo)) {
+				/* Could not add token to the current
+				 * nonterminal's children. */
+				return EMEM_TK_NOT_OWNED;
+			}
 		} else {
 			/* Push the token back to the token stack and continue
-			 * on next variant. */
-			rdesc_stack_push(&p->token_stack, tk);
+			 * on the next variant. */
+			if (rdesc_stack_push(&p->token_stack, tk) == NULL) {
+				/* Could not push token back to backtracking
+				 * stack. */
+				return EMEM_TK_NOT_OWNED;
+			}
 
-			nonterminal_failed(p);
+			if (nonterminal_failed(p)) {
+				/* Memory error in backtracking. */
+				return EMEM;
+			}
 		}
 
-		/* Climb the tree if to find incomplete nonterminal to
-		 * continue parsing on. */
+		/* Climb the tree if to find incomplete nonterminal to continue
+		 * parsing on. */
 		while (true) {
 			n = rdesc_stack_at(p->cst_stack, p->cur);
 			if (!is_body_complete(n))
@@ -198,6 +253,8 @@ static inline enum internal_pump_state {
 
 			p->cur = _rdesc_priv_parent_idx(n);
 
+			/* Every node, including the root is completed. Return
+			 * ready. */
 			if (p->cur == SIZE_MAX)
 				return READY;
 		}
@@ -205,7 +262,10 @@ static inline enum internal_pump_state {
 		return CONTINUE;
 
 	case CFG_NONTERMINAL:
-		new_nt_node(p, rule.id);
+		if (new_nt_node(p, rule.id)) {
+			/* An error occured before the token ever used. */
+			return EMEM_TK_NOT_OWNED;
+		}
 
 		return RETRY;
 
@@ -215,19 +275,20 @@ static inline enum internal_pump_state {
 
 enum rdesc_result rdesc_pump(struct rdesc *p,
 			     struct rdesc_node **out,
-			     uint16_t id_,
-			     const void *seminfo_)
+			     uint16_t *id_,
+			     void **seminfo_)
 {
 	rdesc_assert(p->cur != SIZE_MAX, "parser is not started");
 
 	uint8_t tk_[sizeof_tk(*p)];
 	tk_t *tk = cast(tk_t *, &tk_);
 
-	bool has_token = id_ != 0;
+
+	bool has_token = id_ != NULL;
 	if (has_token) {
-		tk->id = id_;
-		if (seminfo_)
-			memcpy(&tk->seminfo, seminfo_, p->seminfo_size);
+		tk->id = *id_;
+		if (seminfo_ != NULL)
+			memcpy(&tk->seminfo, *seminfo_, p->seminfo_size);
 	}
 
 	while (true) {
@@ -245,6 +306,17 @@ enum rdesc_result rdesc_pump(struct rdesc *p,
 		} while (state == RETRY);
 
 		switch (state) {
+		case EMEM:
+			return RDESC_ENOMEM;
+
+		case EMEM_TK_NOT_OWNED:
+			/* Return unowned tokens back to the caller. */
+			*id_ = tk->id;
+			if (seminfo_ != NULL)
+				*seminfo_ = &tk->seminfo;
+
+			return RDESC_ENOMEM_SEMINFO_NOT_OWNED;
+
 		case CONTINUE:
 			has_token = false;
 
@@ -275,7 +347,7 @@ struct rdesc_node *_rdesc_priv_cst_illegal_access(struct rdesc *parser,
 
 /* Makes the connection between parent and child, by adding `child_index` to
  * parent's children index list. */
-static void push_child(struct rdesc *p, size_t parent_idx, size_t child_idx)
+static inline void push_child(struct rdesc *p, size_t parent_idx, size_t child_idx)
 {
 	node_t *parent = rdesc_stack_at(p->cst_stack, parent_idx);
 
@@ -284,12 +356,24 @@ static void push_child(struct rdesc *p, size_t parent_idx, size_t child_idx)
 	rchild_count(parent)++;
 }
 
+/* Removes the last child from node. */
+static inline void pop_child(struct rdesc *p, size_t node_idx)
+{
+	node_t *parent = rdesc_stack_at(p->cst_stack, node_idx);
+
+	rchild_count(parent)--;
+}
+
 /* Pushes a new nonterminal to parser's CST stack and reserves space for its
  * children. */
-static void new_nt_node(struct rdesc *p, uint16_t nt_id)
+static int new_nt_node(struct rdesc *p, uint16_t nt_id)
 {
 	/* allocate node pointer */
 	node_t *n = rdesc_stack_push(&p->cst_stack, NULL);
+
+	if (n == NULL)
+		return 1;  /* node allocation failed */
+
 	/* the new node will be the p->cur, so that we need to hold parent_idx
 	 * in order to add it to its parent */
 	size_t parent_idx = p->cur;
@@ -307,15 +391,33 @@ static void new_nt_node(struct rdesc *p, uint16_t nt_id)
 	rchild_count(n) = 0;
 
 	uint16_t child_list_cap = rchild_list_cap(*p, nt_id);
-	rdesc_stack_multipush(&p->cst_stack, NULL, child_list_cap);
+	if (rdesc_stack_multipush(&p->cst_stack, NULL, child_list_cap) == NULL) {
+		/* Rollback changes if nonterminal is partially constructed. */
 
-	p->top_size = 1 + child_list_cap;
+		rdesc_stack_pop(&p->cst_stack);  /* Pop the node. */
+		p->cur = parent_idx;  /* Rollback parent. */
+
+		if (parent_idx != SIZE_MAX)
+			pop_child(p, parent_idx);
+
+		return 1;  /* child list allocation failed */
+	} else {
+		p->top_size = 1 + child_list_cap;
+
+		return 0;
+	}
+
+
 }
 
 /* Creates a new node in parser's CST stack and copies `seminfo` into it. */
-static void new_tk_node(struct rdesc *p, uint16_t tk_id, const void *seminfo)
+static int new_tk_node(struct rdesc *p, uint16_t tk_id, const void *seminfo)
 {
 	node_t *n = rdesc_stack_push(&p->cst_stack, NULL);
+
+	if (n == NULL)
+		return 1;  /* node allocation failed */
+
 	size_t node_id = rdesc_stack_len(p->cst_stack) - 1;
 
 	push_child(p, p->cur, node_id);
@@ -330,4 +432,6 @@ static void new_tk_node(struct rdesc *p, uint16_t tk_id, const void *seminfo)
 		memcpy(rseminfo(n), seminfo, p->seminfo_size);
 
 	p->top_size = 1;
+
+	return 0;
 }

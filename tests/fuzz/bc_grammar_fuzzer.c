@@ -111,18 +111,18 @@ void test_complete_parse(struct rdesc *p)
 {
 	struct grammar_generator g = DEFAULT_GENERATOR;
 
-	enum bc_tk tk;
+	uint16_t tk;
 	struct rdesc_node *cst;
-	uint64_t dummy_seminfo_buf = 0;
 
 	rdesc_start(p, NT_STMT);
 	while ((tk = next_tk(&g)) != TK_ENDSYM) {
 		g.group_start_p *= 0.9;
 
-		rdesc_pump(p, &cst, tk, &dummy_seminfo_buf);
+		rdesc_pump(p, &cst, &tk, NULL);
 	};
 
-	rdesc_assert(rdesc_pump(p, &cst,  TK_ENDSYM, NULL) == RDESC_READY,
+	tk = TK_ENDSYM;
+	rdesc_assert(rdesc_pump(p, &cst, &tk, NULL) == RDESC_READY,
 		     "could not match grammar");
 
 	rdesc_reset(p, NULL);
@@ -138,9 +138,8 @@ void test_interruption(struct rdesc *p)
 {
 	struct grammar_generator g = DEFAULT_GENERATOR;
 
-	enum bc_tk tk;
+	uint16_t tk;
 	struct rdesc_node *cst;
-	uint64_t dummy_seminfo_buf = 0;
 
 	bool broken = false;
 
@@ -153,11 +152,13 @@ void test_interruption(struct rdesc *p)
 			break;
 		}
 
-		rdesc_pump(p, &cst, tk, &dummy_seminfo_buf);
+		rdesc_pump(p, &cst, &tk, NULL);
 	};
 
-	if (broken && rand() < RAND_MAX / 2)
-		rdesc_pump(p, &cst, TK_DUMMY_AMBIGUITY_TRIGGER, &dummy_seminfo_buf);
+	if (broken && rand() < RAND_MAX / 2) {
+		tk = TK_DUMMY_AMBIGUITY_TRIGGER;
+		rdesc_pump(p, &cst, &tk, NULL);
+	}
 
 	rdesc_reset(p, dummy_token_destroyer);
 }
@@ -190,7 +191,7 @@ void test_with_seminfo(const struct rdesc_cfg *cfg)
 	struct grammar_generator g = DEFAULT_GENERATOR;
 
 	struct rdesc p;
-	enum bc_tk tk;
+	uint16_t tk;
 	struct rdesc_node *cst;
 
 	size_t seminfo_size = (2 + rand() % 8);
@@ -211,7 +212,9 @@ void test_with_seminfo(const struct rdesc_cfg *cfg)
 		*seminfo[0] = seminfo_size;
 		*seminfo[1] = tk;
 
-		rdesc_pump(&p, &cst, tk, seminfo);
+		uint16_t *id_ = &tk;
+		void *seminfo_ = &seminfo;
+		rdesc_pump(&p, &cst, id_, &seminfo_);
 	};
 
 	rdesc_destroy(&p, token_destroyer_for_test);
@@ -243,7 +246,8 @@ int main(void)
 	rdesc_init(&p, &cfg, rand() % 8);
 
 	rdesc_start(&p, NT_STMT);
-	rdesc_pump(&p, NULL, TK_NUM, NULL);
+	uint16_t id = TK_NUM;
+	rdesc_pump(&p, NULL, &id, NULL);
 
 	rdesc_destroy(&p, NULL);
 

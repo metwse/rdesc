@@ -37,10 +37,10 @@ void program(struct exblex *lex, struct rdesc *p)
 
 			uint16_t tk;
 			while ((tk = exblex_next(lex)) != 0) {
-				char *seminfo = exblex_current_seminfo(lex);
+				const void *seminfo = exblex_current_seminfo(lex);
+				void *seminfo_ = &seminfo;
 				pump_res =
-					rdesc_pump(p, &cst, tk,
-					           &seminfo);
+					rdesc_pump(p, &cst, &tk, &seminfo_);
 
 				if (pump_res == RDESC_CONTINUE)
 					continue;

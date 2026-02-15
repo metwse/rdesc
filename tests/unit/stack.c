@@ -24,7 +24,7 @@ void test_fuzz(void)
 	struct rdesc_stack *s;
 	rdesc_stack_init(&s, element_size);
 
-	rdesc_stack_reserve(&s, 64);
+	stack_reserve(&s, 64);
 
 	for (size_t i = 0; i < element_count; i += multipush_count) {
 		for (size_t j = 0; j < element_size * multipush_count; j++)

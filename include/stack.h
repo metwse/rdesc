@@ -32,7 +32,7 @@ struct rdesc_stack;
  * @param element_size Size of each element in bytes
  *
  * @post Stack is allocated with initial capacity and zero length.
- * @note Asserts on allocation failure.
+ * @note *stack set to NULL if allocation failed.
  */
 void rdesc_stack_init(struct rdesc_stack **stack, size_t element_size);
 
@@ -47,6 +47,7 @@ void rdesc_stack_destroy(struct rdesc_stack *stack);
  * @brief Clears the stack and resets capacity to initial size.
  *
  * @post Stack length is zero, capacity is reset to initial value.
+ * @note *stack set to NULL if allocation failed.
  */
 void rdesc_stack_reset(struct rdesc_stack **stack);
 
@@ -56,20 +57,10 @@ void rdesc_stack_reset(struct rdesc_stack **stack);
  * @return Pointer to element at index i
  *
  * @pre i < rdesc_stack_len(stack)
- * @note Asserts on out-of-bounds access.
+ *
  * @note Index 0 is the bottom of the stack.
  */
 void *rdesc_stack_at(struct rdesc_stack *stack, size_t index);
-
-/**
- * @brief Ensures capacity for at least reserved_space additional elements.
- *
- * Reserved space is minimum number of additional elements to accommodate. The
- * implementation shall grow capacity until requirement is met.
- *
- * @note Does nothing if current capacity is already sufficient.
- */
-void rdesc_stack_reserve(struct rdesc_stack **stack, size_t reserved_space);
 
 /**
  * @brief Pushes multiple elements onto the stack.
@@ -81,6 +72,8 @@ void rdesc_stack_reserve(struct rdesc_stack **stack, size_t reserved_space);
  *         to allocated space for manual initialization.
  *
  * @note If count is 0, this is a no-op and returns a pointer at current top.
+ * @note Return NULL if memory allocation is failed. Elements are not pushed
+ *       in case of failure.
  * @warning As this function may trigger realloc, the `element` SHALL NOT point
  *          the stack.
  */
@@ -100,8 +93,10 @@ void *rdesc_stack_push(struct rdesc_stack **stack, void *element);
  * @brief Pops multiple elements from the stack, and returns pointer to the
  *        element that was at the bottom of the popped range.
  *
- * @note If count is 0, this is a no-op and returns current top.
  *
+ * @note This may trigger realloc, return NULL if memory realloc is failed. The
+ *       stack should pop elements even if it failed to realloc.
+ * @note If count is 0, this is a no-op and returns current top.
  */
 void *rdesc_stack_multipop(struct rdesc_stack **stack, size_t count);
 

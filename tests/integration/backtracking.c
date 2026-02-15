@@ -9,6 +9,7 @@
 #include "../../examples/grammar/boolean_algebra.h"
 
 #include <stddef.h>
+#include <stdint.h>
 
 
 int main(void)
@@ -23,18 +24,19 @@ int main(void)
 
 	rdesc_start(&p, NT_STMT);
 
-	rdesc_pump(&p, NULL, TK_IDENT, NULL);
-	rdesc_pump(&p, NULL, TK_LPAREN, NULL);
-	rdesc_pump(&p, NULL, TK_LPAREN, NULL);
-	rdesc_pump(&p, NULL, TK_IDENT, NULL);
-	rdesc_pump(&p, NULL, TK_EQ, NULL);
-	rdesc_pump(&p, NULL, TK_IDENT, NULL);
-	rdesc_pump(&p, NULL, TK_RPAREN, NULL);
-	rdesc_pump(&p, NULL, TK_RPAREN, NULL);
+	uint16_t id;
+	id = TK_IDENT; rdesc_pump(&p, NULL, &id, NULL);
+	id = TK_LPAREN; rdesc_pump(&p, NULL, &id, NULL);
+	id = TK_LPAREN; rdesc_pump(&p, NULL, &id, NULL);
+	id = TK_IDENT; rdesc_pump(&p, NULL, &id, NULL);
+	id = TK_EQ; rdesc_pump(&p, NULL, &id, NULL);
+	id = TK_IDENT; rdesc_pump(&p, NULL, &id, NULL);
+	id = TK_RPAREN; rdesc_pump(&p, NULL, &id, NULL);
+	id = TK_RPAREN; rdesc_pump(&p, NULL, &id, NULL);
 	rdesc_assert(rdesc_stack_len(p.cst_stack) != 0,
 	      "gramar is valid so the CST expected to be not empty");
 
-	rdesc_pump(&p, NULL, TK_RPAREN, NULL);
+	id = TK_RPAREN; rdesc_pump(&p, NULL, &id, NULL);
 	rdesc_assert(rdesc_stack_len(p.cst_stack) == 0,
 	      "nomatch should teardown the CST");
 
