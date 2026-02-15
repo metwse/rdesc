@@ -1,6 +1,6 @@
 /**
  * @file rdesc.h
- * @brief The right-recursive descent parser.
+ * @brief The recursive descent parser.
  */
 
 #ifndef RDESC_H
@@ -16,7 +16,7 @@
 /** @brief patch version */
 #define RDESC_VERSION_PATCH 0
 /** @brief prerelease identifier */
-#define RDESC_VERSION_PRE_RELEASE "alpha.0"
+#define RDESC_VERSION_PRE_RELEASE "alpha"
 
 
 /** @brief Parsing status. */
@@ -26,7 +26,7 @@ enum rdesc_result {
 	RDESC_NOMATCH /** Provided tokens do not match with any rule. */,
 };
 
-/** @brief The right-recursive descent parser. */
+/** @brief The recursive descent parser. */
 struct rdesc {
 	/** @brief Context-free grammar production rules. */
 	const struct rdesc_cfg *cfg;
