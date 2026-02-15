@@ -3,6 +3,8 @@
 #include "../../include/stack.h"
 #include "../../src/detail.h"
 
+#define STACK_INITIAL_CAP 2
+
 #include "../../src/stack.c"
 
 #include <stdint.h>

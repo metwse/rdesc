@@ -65,14 +65,11 @@ int rdesc_start(struct rdesc *p, int start_symbol)
 
 	rdesc_stack_reset(&p->cst_stack);
 	if (p->cst_stack == NULL)
-		return 1;  /* could not reset CST stack */
+		return 1;  /* Could not reset CST stack. */
 
 	p->top_size = 0;
-	if (new_nt_node(p, start_symbol)) {
-		p->cur = SIZE_MAX;
-
-		return 1;
-	}
+	if (new_nt_node(p, start_symbol))
+		return 1;  /* Start symbol creation failed. */
 
 	return 0;
 }
@@ -175,9 +172,6 @@ static int nonterminal_failed(struct rdesc *p)
 		if (parent_idx != SIZE_MAX)
 			pop_child(p, parent_idx);
 
-		/* Neglect error in multipop as we sure the node certainly
-		 * removed from stack. Multipop decreases length even if it
-		 * failed to realloc. */
 		rdesc_stack_multipop(&p->cst_stack, hold_top_size);
 
 		/* Parse operation fails if removed element does not belong to
@@ -189,14 +183,19 @@ static int nonterminal_failed(struct rdesc *p)
 
 /* Internal pump state machine. Returns next action for outer pump loop.
  *
- * EMEM: Provided token pushed to either CST stack or token stack, but memory
- * allocation error occured afterwards.
- * EMEM_TK_NOT_OWNED: Provided token did not to token stack or CST, and it
- * still belong to caller.
- * READY: Parse complete,
- * CONTINUE: consume next token,
- * NOMATCH: parse failed,
- * RETRY: descend into nonterminal */
+ * - EMEM: Provided token pushed to either CST stack or token stack, but memory
+ *   allocation error occured afterwards.
+ *
+ * - EMEM_TK_NOT_OWNED: Provided token did not to token stack or CST, and it
+ *   still belong to caller.
+ *
+ * - READY: Parse complete,
+ *
+ * - CONTINUE: consume next token,
+ *
+ * - NOMATCH: parse failed,
+ *
+ * - RETRY: descend into nonterminal */
 static inline enum internal_pump_state {
 	EMEM,
 	EMEM_TK_NOT_OWNED,
@@ -275,20 +274,19 @@ static inline enum internal_pump_state {
 
 enum rdesc_result rdesc_pump(struct rdesc *p,
 			     struct rdesc_node **out,
-			     uint16_t *id_,
-			     void **seminfo_)
+			     uint16_t *id,
+			     void **seminfo)
 {
 	rdesc_assert(p->cur != SIZE_MAX, "parser is not started");
 
 	uint8_t tk_[sizeof_tk(*p)];
 	tk_t *tk = cast(tk_t *, &tk_);
 
-
-	bool has_token = id_ != NULL;
+	bool has_token = id != NULL;
 	if (has_token) {
-		tk->id = *id_;
-		if (seminfo_ != NULL)
-			memcpy(&tk->seminfo, *seminfo_, p->seminfo_size);
+		tk->id = *id;
+		if (seminfo != NULL)
+			memcpy(&tk->seminfo, *seminfo, p->seminfo_size);
 	}
 
 	while (true) {
@@ -311,9 +309,9 @@ enum rdesc_result rdesc_pump(struct rdesc *p,
 
 		case EMEM_TK_NOT_OWNED:
 			/* Return unowned tokens back to the caller. */
-			*id_ = tk->id;
-			if (seminfo_ != NULL)
-				*seminfo_ = &tk->seminfo;
+			*id = tk->id;
+			if (seminfo != NULL)
+				*seminfo = &tk->seminfo;
 
 			return RDESC_ENOMEM_SEMINFO_NOT_OWNED;
 

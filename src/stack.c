@@ -1,13 +1,30 @@
 #include "../include/stack.h"
 #include "detail.h"
 
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <stddef.h>
 #include <string.h>
 
 
+#ifndef STACK_INITIAL_CAP
 #define STACK_INITIAL_CAP 32
+#endif
+
+#ifndef STACK_MAX_CAP
+#define STACK_MAX_CAP SIZE_MAX
+#endif
+
+/* Macro to override malloc. */
+#ifndef xmalloc
+#define xmalloc malloc
+#endif
+
+/* Macro to override realloc. */
+#ifndef xrealloc
+#define xrealloc realloc
+#endif
 
 
 /**
@@ -36,10 +53,11 @@ static inline void *elem_at(struct rdesc_stack *s, size_t i)
 	return cast(void *, &s->elements[i * s->element_size]);
 }
 
-/* return non-zero value if reallocation failed */
+/* return non-zero value if reallocation failureed */
 static inline int resize_stack(struct rdesc_stack **s, size_t cap)
 {
-	struct rdesc_stack *new = realloc(*s, sizeof(struct rdesc_stack) + cap * (*s)->element_size);
+	struct rdesc_stack *new =
+		xrealloc(*s, sizeof(struct rdesc_stack) + cap * (*s)->element_size);
 
 	if (new) {
 		*s = new;
@@ -51,15 +69,14 @@ static inline int resize_stack(struct rdesc_stack **s, size_t cap)
 	}
 }
 
-/* returns non-zero value if resize failed */
+/* returns non-zero value if resize failureed */
 static int stack_reserve(struct rdesc_stack **s, size_t reserved_space)
 {
 	size_t increased_cap = (*s)->cap;
 
 	while (increased_cap <= (*s)->len + reserved_space) {
-		if (increased_cap >= SIZE_MAX / 2 / (*s)->element_size) {
+		if (increased_cap > STACK_MAX_CAP / (2 * (*s)->element_size))
 			return 1;
-		}
 
 		increased_cap *= 2;
 	}
@@ -72,9 +89,9 @@ static int stack_reserve(struct rdesc_stack **s, size_t reserved_space)
 
 void rdesc_stack_init(struct rdesc_stack **s, size_t element_size)
 {
-	*s = malloc(sizeof(struct rdesc_stack) + STACK_INITIAL_CAP * element_size);
+	*s = xmalloc(sizeof(struct rdesc_stack) + STACK_INITIAL_CAP * element_size);
 
-	if (s == NULL)
+	if (*s == NULL)
 		return;
 
 	(*s)->element_size = element_size;
@@ -90,10 +107,12 @@ void rdesc_stack_destroy(struct rdesc_stack *s)
 void rdesc_stack_reset(struct rdesc_stack **s)
 {
 	if ((*s)->cap > STACK_INITIAL_CAP) {
-		/* set *s to NULL if shrink failed */
+		/* set *s to NULL if shrink failureed */
 		if (resize_stack(s, STACK_INITIAL_CAP)) {
 			rdesc_stack_destroy(*s);
 			*s = NULL;
+
+			return;
 		}
 	}
 
@@ -106,9 +125,13 @@ void *rdesc_stack_at(struct rdesc_stack *s, size_t i)
 }
 
 void *rdesc_stack_multipush(struct rdesc_stack **s, void *element, size_t count)
+#ifndef inject_multipush_failure
+#define inject_multipush_failure(c) false
+#endif
 {
-	/* return null if extend failed */
-	if (stack_reserve(s, count))
+	/* return null if extend failureed */
+	if (inject_multipush_failure(count) ||
+	    stack_reserve(s, count))
 		return NULL;
 
 	void *top = elem_at(*s, (*s)->len);
@@ -137,11 +160,8 @@ void *rdesc_stack_multipop(struct rdesc_stack **s, size_t count)
 
 	(*s)->len -= count;
 
-	if (decreased_cap != (*s)->cap) {
-		/* return null if realloc failed */
-		if (resize_stack(s, decreased_cap))
-			return NULL;
-	}
+	if (decreased_cap != (*s)->cap)
+		resize_stack(s, decreased_cap);
 
 	return elem_at(*s, (*s)->len);
 }

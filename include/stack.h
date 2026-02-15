@@ -94,8 +94,8 @@ void *rdesc_stack_push(struct rdesc_stack **stack, void *element);
  *        element that was at the bottom of the popped range.
  *
  *
- * @note This may trigger realloc, return NULL if memory realloc is failed. The
- *       stack should pop elements even if it failed to realloc.
+ * @note This may trigger realloc. The stack implementation should handle
+ *       allocation errors and hide them from upper layers.
  * @note If count is 0, this is a no-op and returns current top.
  */
 void *rdesc_stack_multipop(struct rdesc_stack **stack, size_t count);
