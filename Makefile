@@ -18,7 +18,7 @@ OBJ_DIR = $(TARGET_DIR)/obj
 include config.mk
 
 # Compilation flags, selected based on MODE environment variable.
-CFLAGS_release = $(CFLAGS_COMMON) -O2 -fsanitize=address
+CFLAGS_release = $(CFLAGS_COMMON) -O2
 CFLAGS_debug = $(CFLAGS_COMMON) -O0 -g3 -fsanitize=address
 CFLAGS_test = $(CFLAGS_COMMON) -O0 -g3 --coverage
 
