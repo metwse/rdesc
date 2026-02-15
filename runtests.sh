@@ -1,18 +1,9 @@
 #!/bin/bash
 
-make all
+make -C tests covr -j
 
-for test in $(ls dist/*.test); do
+for test in $(ls ./dist/tests/*.covr); do
     valgrind $test > $test.log
 done
 
-valgrind dist/bc_interactive > dist/bc.log <<EOF
-1.0 + .2;
-2 / +2;
-1 * (-1 + 2);
-1 +++
-1 - invalid_token
-2;
-EOF
-
-gcovr
+gcovr *

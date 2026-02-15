@@ -1,10 +1,10 @@
-/* Generate random grammar and parse several statements with the same parser
+/* Generate a random grammar and parse several statements with the same parser
  * instance. */
 
-#include "../include/rdesc.h"
-#include "../src/detail.h"
+#include "../../include/rdesc.h"
+#include "../../src/detail.h"
 
-#include "../examples/grammar/bc.h"
+#include "../../examples/grammar/bc.h"
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -48,7 +48,7 @@ enum bc_tk next_tk(struct grammar_generator *g)
 		return TK_DUMMY_AMBIGUITY_TRIGGER;
 	}
 
-	enum bc_tk out;
+	enum bc_tk out = 0;
 
 	switch (g->state) {
 	case GENERATE_SIGN:

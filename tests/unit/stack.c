@@ -1,7 +1,9 @@
 /* Stress test underlying stack implementation. */
 
-#include "../include/stack.h"
-#include "../src/detail.h"
+#include "../../include/stack.h"
+#include "../../src/detail.h"
+
+#include "../../src/stack.c"
 
 #include <stdint.h>
 #include <stdlib.h>

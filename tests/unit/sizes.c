@@ -1,8 +1,11 @@
 /* Validate the sizes of node types to ensure packing does not break memory
  * layout. */
 
-#include "../include/rdesc.h"
-#include "../src/detail.h"
+#include "../../include/rdesc.h"
+#include "../../src/detail.h"
+
+#include "../../src/rdesc.c"
+#include "../../src/stack.c"
 
 #include <stddef.h>
 #include <stdint.h>

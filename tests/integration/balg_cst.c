@@ -1,13 +1,12 @@
 /* Test dump_cst utility via dumping a boolean algebra statement. */
 
-#include "../include/cfg.h"
-#include "../include/cst_macros.h"
-#include "../include/util.h"
-#include "../include/rdesc.h"
+#include "../../include/cfg.h"
+#include "../../include/cst_macros.h"
+#include "../../include/util.h"
+#include "../../include/rdesc.h"
+#include "../../src/detail.h"
 
-#include "../src/detail.h"
-
-#include "../examples/grammar/boolean_algebra.h"
+#include "../../examples/grammar/boolean_algebra.h"
 
 #include <stddef.h>
 

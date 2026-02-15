@@ -1,13 +1,12 @@
 /* Pass an invalid syntax and expect the tokens are pushed back to token
  * stack. */
 
-#include "../include/cfg.h"
-#include "../include/rdesc.h"
-#include "../include/stack.h"
+#include "../../include/cfg.h"
+#include "../../include/rdesc.h"
+#include "../../include/stack.h"
+#include "../../src/detail.h"
 
-#include "../src/detail.h"
-
-#include "../examples/grammar/boolean_algebra.h"
+#include "../../examples/grammar/boolean_algebra.h"
 
 #include <stddef.h>
 
@@ -32,8 +31,10 @@ int main(void)
 	rdesc_pump(&p, NULL, TK_IDENT, NULL);
 	rdesc_pump(&p, NULL, TK_RPAREN, NULL);
 	rdesc_pump(&p, NULL, TK_RPAREN, NULL);
-	rdesc_pump(&p, NULL, TK_RPAREN, NULL);
+	rdesc_assert(rdesc_stack_len(p.cst_stack) != 0,
+	      "gramar is valid so the CST expected to be not empty");
 
+	rdesc_pump(&p, NULL, TK_RPAREN, NULL);
 	rdesc_assert(rdesc_stack_len(p.cst_stack) == 0,
 	      "nomatch should teardown the CST");
 

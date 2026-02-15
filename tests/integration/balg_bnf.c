@@ -1,9 +1,9 @@
 /* Dump boolean algebra grammar to test dump_bnf feature. */
 
-#include "../include/cfg.h"
-#include "../include/util.h"
+#include "../../include/cfg.h"
+#include "../../include/util.h"
 
-#include "../examples/grammar/boolean_algebra.h"
+#include "../../examples/grammar/boolean_algebra.h"
 
 
 int main(void)
