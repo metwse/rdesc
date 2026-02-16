@@ -20,14 +20,25 @@
 #define runwind_size(node) _rdesc_priv_node_deref(node).unwind_size
 
 
+/* Constructs nonterminal. Returns non-zero and rolls back to previous valid
+ * state if construction fail*/
 static int new_nt_node(struct rdesc *p, uint16_t nt_id);
+/* Constructs token and returns 0 if the construction succeeded. */
 static int new_tk_node(struct rdesc *p, uint16_t tk_id, const void *seminfo);
 
+/* Destroys all tokens in CST and token stacks. */
 static void destroy_tokens(struct rdesc *p,
 			   rdesc_token_destroyer_func tk_destroyer);
 
-static inline void push_child(struct rdesc *p, size_t parent_idx, size_t child_idx);
-static inline void pop_child(struct rdesc *p, size_t node_idx);
+/* Adds children to parent's child list using indexes. This functoin does not
+ * fail even if realloc changed the stack pointer. */
+static inline void push_child(struct rdesc *p,
+			      size_t parent_idx,
+			      size_t child_idx);
+
+/* Similar to push child, this does not fail. */
+static inline void pop_child(struct rdesc *p,
+			     size_t node_idx);
 
 int rdesc_init(struct rdesc *p,
 	       const struct rdesc_cfg *cfg,
@@ -39,13 +50,13 @@ int rdesc_init(struct rdesc *p,
 
 	rdesc_stack_init(&p->token_stack, sizeof_tk(*p));
 	if (p->token_stack == NULL)
-		return 1;  /* could not intialize token stack  */
+		return 1;  /* Could not intialize token stack.  */
 
 	rdesc_stack_init(&p->cst_stack, sizeof_node(*p));
 	if (p->cst_stack == NULL) {
 		rdesc_stack_destroy(p->token_stack);
 
-		return 1;  /* could not intialize CST stack */
+		return 1;  /* Could not intialize CST stack. */
 	}
 
 	return 0;
@@ -132,23 +143,29 @@ static void destroy_tokens(struct rdesc *p,
  * entire CST. */
 static int nonterminal_failed(struct rdesc *p)
 {
+	size_t top_idx = rdesc_stack_len(p->cst_stack) - p->top_size;
+
+	size_t tokens_push = 0;
+
 	/* Initialization: Start from the top. */
 	while (true) {
-		p->cur = rdesc_stack_len(p->cst_stack) - p->top_size;
-		uint16_t hold_top_size = p->top_size;
-		node_t *top = rdesc_stack_at(p->cst_stack, p->cur);
+		node_t *top = rdesc_stack_at(p->cst_stack, top_idx);
 
 		/* Maintenance: Set the top size to previous element's size,
 		 * to get it on the next iteration. */
-		p->top_size = runwind_size(top);
 		if (rtype(top) == CFG_TOKEN) {
 			if (rdesc_stack_push(&p->token_stack, &top->n.tk) == NULL) {
 				/* Could not move token to token stack! Keep
 				 * existing token in CST and report error. :*/
+
+				rdesc_stack_multipop(&p->token_stack, tokens_push);
+
 				return 1;
 			}
+			tokens_push++;
 		} else {
 			if (!is_construct_end(top)) {
+				uint16_t hold_child_count = rchild_count(top);
 				rvariant(top)++;
 				rchild_count(top) = 0;
 
@@ -158,6 +175,43 @@ static int nonterminal_failed(struct rdesc *p)
 				 *
 				 * p->cur was set at loop start, so parsing
 				 * resumes on its next variant. */
+				bool is_construct_not_end = !is_construct_end(top);
+
+				rvariant(top)--;
+				rchild_count(top) = hold_child_count;
+
+				if (is_construct_not_end)
+					break;
+			}
+		}
+
+		size_t parent_idx = _rdesc_priv_parent_idx(top);
+
+		/* Parse operation fails if removed element does not belong to
+		 * any node, that is removing the node. */
+		if (parent_idx == SIZE_MAX)
+			break;
+
+		top_idx -= runwind_size(top);
+	}
+
+	/* TODO: WARNING: THIS PART WRITTEN AT 4 AM -- FIX --------------------
+	 * requires cleanup & optimization:
+	 * - already count total elements to pop in first traversal
+	 * - redundant variables with same value?
+	 * - unreadable.
+	 * - use one multipop */
+	while (true) {
+		p->cur = rdesc_stack_len(p->cst_stack) - p->top_size;
+		uint16_t hold_top_size = p->top_size;
+		node_t *top = rdesc_stack_at(p->cst_stack, p->cur);
+		p->top_size = runwind_size(top);
+
+		if (rtype(top) == CFG_NONTERMINAL) {
+			if (!is_construct_end(top)) {
+				rvariant(top)++;
+				rchild_count(top) = 0;
+
 				if (!is_construct_end(top)) {
 					p->top_size =
 						1 + rchild_list_cap(*p, rid(top));
@@ -282,7 +336,7 @@ enum rdesc_result rdesc_pump(struct rdesc *p,
 	uint8_t tk_[sizeof_tk(*p)];
 	tk_t *tk = cast(tk_t *, &tk_);
 
-	bool has_token = id != NULL;
+	bool has_token = *id != 0;
 	if (has_token) {
 		tk->id = *id;
 		if (seminfo != NULL)
@@ -375,10 +429,7 @@ static int new_nt_node(struct rdesc *p, uint16_t nt_id)
 	/* the new node will be the p->cur, so that we need to hold parent_idx
 	 * in order to add it to its parent */
 	size_t parent_idx = p->cur;
-	p->cur = rdesc_stack_len(p->cst_stack) - 1;  /* index of new node */
-
-	if (parent_idx != SIZE_MAX)
-		push_child(p, parent_idx, p->cur);
+	p->cur = rdesc_stack_len(p->cst_stack) - 1;  /* index of the new node */
 
 	_rdesc_priv_parent_idx(n) = parent_idx;
 	runwind_size(n) = p->top_size;
@@ -395,12 +446,12 @@ static int new_nt_node(struct rdesc *p, uint16_t nt_id)
 		rdesc_stack_pop(&p->cst_stack);  /* Pop the node. */
 		p->cur = parent_idx;  /* Rollback parent. */
 
-		if (parent_idx != SIZE_MAX)
-			pop_child(p, parent_idx);
-
 		return 1;  /* child list allocation failed */
 	} else {
 		p->top_size = 1 + child_list_cap;
+
+		if (parent_idx != SIZE_MAX)
+			push_child(p, parent_idx, p->cur);
 
 		return 0;
 	}

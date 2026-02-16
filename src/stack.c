@@ -16,16 +16,6 @@
 #define STACK_MAX_CAP SIZE_MAX
 #endif
 
-/* Macro to override malloc. */
-#ifndef xmalloc
-#define xmalloc malloc
-#endif
-
-/* Macro to override realloc. */
-#ifndef xrealloc
-#define xrealloc realloc
-#endif
-
 
 /**
  * @brief Default implementation of the stack.
@@ -53,8 +43,11 @@ static inline void *elem_at(struct rdesc_stack *s, size_t i)
 	return cast(void *, &s->elements[i * s->element_size]);
 }
 
-/* return non-zero value if reallocation failureed */
+/* return non-zero value if reallocation failure */
 static inline int resize_stack(struct rdesc_stack **s, size_t cap)
+#ifndef xrealloc
+#define xrealloc realloc
+#endif
 {
 	struct rdesc_stack *new =
 		xrealloc(*s, sizeof(struct rdesc_stack) + cap * (*s)->element_size);
@@ -69,7 +62,7 @@ static inline int resize_stack(struct rdesc_stack **s, size_t cap)
 	}
 }
 
-/* returns non-zero value if resize failureed */
+/* returns non-zero value if resize failure */
 static int stack_reserve(struct rdesc_stack **s, size_t reserved_space)
 {
 	size_t increased_cap = (*s)->cap;
@@ -88,6 +81,9 @@ static int stack_reserve(struct rdesc_stack **s, size_t reserved_space)
 }
 
 void rdesc_stack_init(struct rdesc_stack **s, size_t element_size)
+#ifndef xmalloc
+#define xmalloc malloc
+#endif
 {
 	*s = xmalloc(sizeof(struct rdesc_stack) + STACK_INITIAL_CAP * element_size);
 

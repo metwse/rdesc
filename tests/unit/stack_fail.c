@@ -5,7 +5,7 @@
 
 #define STACK_MAX_CAP STACK_INITIAL_CAP * 64
 
-#include "lib/instrumented_stack.c"
+#include "../lib/instrumented_stack.c"
 
 
 int main(void)

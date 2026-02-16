@@ -33,4 +33,4 @@ static int multipush_fail_at = -1;
 #define inject_multipush_failure(c) check_failure(&multipush_fail_at, c)
 
 
-#include "../../../src/stack.c"
+#include "../../src/stack.c"
