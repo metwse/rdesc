@@ -79,7 +79,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Macros to facilitate defining context-free grammar in Backus-Naur form (BNF).  
+<p>DSL macros for defining grammars in Backus-Naur form (BNF).  
 <a href="#details">More...</a></p>
 
 <p><a href="bnf__macros_8h_source.html">Go to the source code of this file.</a></p>
@@ -118,31 +118,31 @@ Macros</h2></td></tr>
 <tr class="separator:a2f2eaf0cccb54c48b26a1747e777997b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a002b2f4894492820fe708b1b7e7c5e70"><td class="memItemLeft" align="right" valign="top"><a id="a002b2f4894492820fe708b1b7e7c5e70" name="a002b2f4894492820fe708b1b7e7c5e70"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>EPSILON</b>&#160;&#160;&#160;SEOB</td></tr>
-<tr class="memdesc:a002b2f4894492820fe708b1b7e7c5e70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to create an epsilon production symbol. Use this to represent an empty production (ε). <br /></td></tr>
+<tr class="memdesc:a002b2f4894492820fe708b1b7e7c5e70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Epsilon production (empty/null production). Use to represent a variant that matches nothing (ε in BNF notation). <br /></td></tr>
 <tr class="separator:a002b2f4894492820fe708b1b7e7c5e70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc088731af07796439675f9d86d9d70e"><td class="memItemLeft" align="right" valign="top"><a id="abc088731af07796439675f9d86d9d70e" name="abc088731af07796439675f9d86d9d70e"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>r</b>(...)&#160;&#160;&#160;{ { __VA_ARGS__ SEOB }, SEOC }</td></tr>
 <tr class="memdesc:abc088731af07796439675f9d86d9d70e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to define a grammar rule. Adds end-of-body and construct sentinels to grammar rules. <br /></td></tr>
 <tr class="separator:abc088731af07796439675f9d86d9d70e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:addbf6a084daa0e9e2e3134af669e2eb9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bnf__macros_8h.html#addbf6a084daa0e9e2e3134af669e2eb9">rrr</a>(head,  listelem,  delim)</td></tr>
-<tr class="memdesc:addbf6a084daa0e9e2e3134af669e2eb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to define a pair of rules for a right-recursive list.  <br /></td></tr>
+<tr class="memdesc:addbf6a084daa0e9e2e3134af669e2eb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines right-recursive list rules.  <br /></td></tr>
 <tr class="separator:addbf6a084daa0e9e2e3134af669e2eb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a44af1408911ab98aca778f65b9290bd8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bnf__macros_8h.html#a44af1408911ab98aca778f65b9290bd8">ropt</a>(...)&#160;&#160;&#160;{ { __VA_ARGS__, SEOB }, { SEOB }, SEOC }</td></tr>
 <tr class="memdesc:a44af1408911ab98aca778f65b9290bd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to define an optional grammar rule (epsilon production).  <br /></td></tr>
 <tr class="separator:a44af1408911ab98aca778f65b9290bd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade80361c3df89829756eed474ab17d56"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bnf__macros_8h.html#ade80361c3df89829756eed474ab17d56">alt</a>&#160;&#160;&#160;SEOB, }, {</td></tr>
-<tr class="memdesc:ade80361c3df89829756eed474ab17d56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro for syntactic sugar to separate nonterminal alternatives.  <br /></td></tr>
+<tr class="memdesc:ade80361c3df89829756eed474ab17d56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Separates grammar alternatives (variant separator).  <br /></td></tr>
 <tr class="separator:ade80361c3df89829756eed474ab17d56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Macros to facilitate defining context-free grammar in Backus-Naur form (BNF). </p>
+<div class="textblock"><p>DSL macros for defining grammars in Backus-Naur form (BNF). </p>
 <p>Provides macros (r, rrr, ropt) to define these production rules in a readable way.</p>
 <h1><a class="anchor" id="prefix_sec"></a>
 Name Mapping for Identifiers</h1>
 <p><code>PREFIX_TK</code> and <code>PREFIX_NT</code> macros determine how a raw token name passed to <code><a class="el" href="bnf__macros_8h.html#aa6abff88a7191ec249826ecc154edeae" title="Macro to create a terminal (token) production symbol.">TK(...)</a></code>/<code><a class="el" href="bnf__macros_8h.html#a2f2eaf0cccb54c48b26a1747e777997b" title="Macro to create a nonterminal production symbol.">NT(...)</a></code> is expanded into a C identifier (typically an enum member).</p>
 <ul>
 <li>Default: Identity mapping. <code><a class="el" href="bnf__macros_8h.html#aa6abff88a7191ec249826ecc154edeae" title="Macro to create a terminal (token) production symbol.">TK(ID)</a></code>/<code><a class="el" href="bnf__macros_8h.html#a2f2eaf0cccb54c48b26a1747e777997b" title="Macro to create a nonterminal production symbol.">NT(ID)</a></code> expands to <code>ID</code>.</li>
-<li>Override: Define this macro before including the <code><a class="el" href="bnf__macros_8h.html" title="Macros to facilitate defining context-free grammar in Backus-Naur form (BNF).">bnf_macros.h</a></code> to add namespaces (e.g., <code>#define <a class="el" href="bnf__macros_8h.html#a99ea7c8e2a06e9b3daba34a56f10590f" title="See Name Mapping for Identifiers">PREFIX_TK(x)</a> MY_TK_ ## x</code>). </li>
+<li>Override: Define this macro before including <code><a class="el" href="bnf__macros_8h.html" title="DSL macros for defining grammars in Backus-Naur form (BNF).">bnf_macros.h</a></code> to add namespaces (e.g., <code>#define <a class="el" href="bnf__macros_8h.html#a99ea7c8e2a06e9b3daba34a56f10590f" title="See Name Mapping for Identifiers">PREFIX_TK(x)</a> MY_TK_ ## x</code>). </li>
 </ul>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ade80361c3df89829756eed474ab17d56" name="ade80361c3df89829756eed474ab17d56"></a>
@@ -157,8 +157,8 @@ Name Mapping for Identifiers</h1>
       </table>
 </div><div class="memdoc">
 
-<p>Macro for syntactic sugar to separate nonterminal alternatives. </p>
-<p>Expands to the end-of-body sentinel and new variant syntax. </p>
+<p>Separates grammar alternatives (variant separator). </p>
+<p>Expands to end-of-body sentinel and new variant initialization. Use between alternatives: <code><a class="el" href="bnf__macros_8h.html#abc088731af07796439675f9d86d9d70e" title="Macro to define a grammar rule. Adds end-of-body and construct sentinels to grammar rules.">r(X alt Y alt Z)</a></code> </p>
 
 </div>
 </div>
@@ -219,11 +219,11 @@ Name Mapping for Identifiers</h1>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line">    { { listelem, <a class="code hl_define" href="bnf__macros_8h.html#a2f2eaf0cccb54c48b26a1747e777997b">NT</a>(<a class="code hl_define" href="bnf__macros_8h.html#acff8e0466322631d1d45fab722a99fd1">POSTFIX_NT_REST</a>(head)), SEOB }, SEOC }, \</div>
 <div class="line">    { { delim, <a class="code hl_define" href="bnf__macros_8h.html#a2f2eaf0cccb54c48b26a1747e777997b">NT</a>(head), SEOB }, { SEOB }, SEOC }</div>
-<div class="ttc" id="abnf__macros_8h_html_a2f2eaf0cccb54c48b26a1747e777997b"><div class="ttname"><a href="bnf__macros_8h.html#a2f2eaf0cccb54c48b26a1747e777997b">NT</a></div><div class="ttdeci">#define NT(nt)</div><div class="ttdoc">Macro to create a nonterminal production symbol.</div><div class="ttdef"><b>Definition:</b> bnf_macros.h:54</div></div>
-<div class="ttc" id="abnf__macros_8h_html_acff8e0466322631d1d45fab722a99fd1"><div class="ttname"><a href="bnf__macros_8h.html#acff8e0466322631d1d45fab722a99fd1">POSTFIX_NT_REST</a></div><div class="ttdeci">#define POSTFIX_NT_REST(nt)</div><div class="ttdoc">Name mapping for nonterminal list to rest types.</div><div class="ttdef"><b>Definition:</b> bnf_macros.h:36</div></div>
+<div class="ttc" id="abnf__macros_8h_html_a2f2eaf0cccb54c48b26a1747e777997b"><div class="ttname"><a href="bnf__macros_8h.html#a2f2eaf0cccb54c48b26a1747e777997b">NT</a></div><div class="ttdeci">#define NT(nt)</div><div class="ttdoc">Macro to create a nonterminal production symbol.</div><div class="ttdef"><b>Definition:</b> bnf_macros.h:53</div></div>
+<div class="ttc" id="abnf__macros_8h_html_acff8e0466322631d1d45fab722a99fd1"><div class="ttname"><a href="bnf__macros_8h.html#acff8e0466322631d1d45fab722a99fd1">POSTFIX_NT_REST</a></div><div class="ttdeci">#define POSTFIX_NT_REST(nt)</div><div class="ttdoc">Name mapping for nonterminal list to rest types.</div><div class="ttdef"><b>Definition:</b> bnf_macros.h:35</div></div>
 </div><!-- fragment -->
-<p>Macro to define a pair of rules for a right-recursive list. </p>
-<p>This is the standard pattern for lists and operator precedence. It automatically defines the rule for 'head' and 'head_REST'.</p>
+<p>Defines right-recursive list rules. </p>
+<p>Creates two nonterminals: the list head and its rest continuation.</p>
 <p>For example, <code>rrr(EXPR_LS, <a class="el" href="bnf__macros_8h.html#a2f2eaf0cccb54c48b26a1747e777997b" title="Macro to create a nonterminal production symbol.">NT(EXPR)</a>, <a class="el" href="bnf__macros_8h.html#aa6abff88a7191ec249826ecc154edeae" title="Macro to create a terminal (token) production symbol.">TK(COMMA)</a>)</code> defines:</p><ol type="1">
 <li><code>&lt;expr_ls&gt; ::= &lt;expr&gt; &lt;expr_ls_rest&gt;</code></li>
 <li><code>&lt;expr_ls_rest&gt; ::= "," &lt;expr_ls&gt; | E</code></li>

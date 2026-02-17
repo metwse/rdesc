@@ -72,7 +72,7 @@ $(function() {
   <div class="headertitle"><div class="title">librdesc </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>generic descent parser</p>
+<div class="textblock"><p>deterministic recursive descent parser with ordered-choice semantics</p>
 <p><code>librdesc</code> is a portable, table-driven, algorithm-only parsing library written in standard C99. It provides the flexibility of a recursive descent parser with high degree of control in manual stack management.</p>
 <p><em>Check out <a href="https://metwse.github.io/rdesc/">online documentation</a> for details!</em></p>
 <h1><a class="anchor" id="autotoc_md3"></a>
@@ -100,7 +100,7 @@ Feature Flags</h2>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><code>stack</code>   </td><td class="markdownTableBodyNone">Use built-in stack implementation in backtracing, which uses <code>malloc/free</code> family functions.    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>dump_bnf</code>   </td><td class="markdownTableBodyNone">Dump <code><a class="el" href="structrdesc__cfg.html" title="Context-free grammar definition.">rdesc_cfg</a></code> (Context-Free Grammar) in Backus–Naur form.    </td></tr>
+<td class="markdownTableBodyNone"><code>dump_bnf</code>   </td><td class="markdownTableBodyNone">Dump <code><a class="el" href="structrdesc__grammar.html" title="Grammar definition.">rdesc_grammar</a></code> in Backus-Naur form.    </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><code>dump_cst</code>   </td><td class="markdownTableBodyNone">Dump <code>rdesc_node</code> (Concrete Syntax Tree) as dotlang graph.   </td></tr>
 </table>

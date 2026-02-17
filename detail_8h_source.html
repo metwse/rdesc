@@ -116,10 +116,10 @@ $(function() {
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="detail_8h.html#af17d62ec9e237a7644de6b9b34a48a34">   52</a></span><span class="preprocessor">#define cast(t, exp) ((t) (exp))</span></div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="detail_8h.html#a1bade34597788d63467633b17ac44d62">   55</a></span><span class="preprocessor">#define productions(cfg) \</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">    (*cast(const struct rdesc_cfg_symbol (*) \</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">        [(cfg).nt_count][(cfg).nt_variant_count][(cfg).nt_body_length], \</span></div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">          (cfg).rules))</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="detail_8h.html#ae2ee451b025abba1141e9097ec89dfa3">   55</a></span><span class="preprocessor">#define productions(grammar) \</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">    (*cast(const struct rdesc_grammar_symbol (*) \</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">        [(grammar).nt_count][(grammar).nt_variant_count][(grammar).nt_body_length], \</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">          (grammar).rules))</span></div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="detail_8h.html#a8b3e78f96c3612df489f1af2e80fe34b">   62</a></span><span class="preprocessor">#define sizeof_tk(p) \</span></div>

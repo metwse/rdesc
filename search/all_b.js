@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['tk_0',['TK',['../bnf__macros_8h.html#aa6abff88a7191ec249826ecc154edeae',1,'bnf_macros.h']]],
-  ['token_5fcount_1',['token_count',['../structexblex.html#ac9c32459c8daa29aba3a15c7d1568a1b',1,'exblex']]],
-  ['tokens_2',['tokens',['../structexblex.html#a0178e84dd86b49a85dda68978c4d8b2c',1,'exblex']]],
-  ['ty_3',['ty',['../structrdesc__cfg__symbol.html#a1bd12df565a2d599561d7b7ecf99cfe2',1,'rdesc_cfg_symbol']]]
+  ['sizeof_5fnode_0',['sizeof_node',['../detail_8h.html#af47634ff2a848fd89af71aa014c3dbdb',1,'detail.h']]],
+  ['sizeof_5fnt_1',['sizeof_nt',['../detail_8h.html#a4710c6749806de5262b7192dd80e4c48',1,'detail.h']]],
+  ['sizeof_5ftk_2',['sizeof_tk',['../detail_8h.html#a8b3e78f96c3612df489f1af2e80fe34b',1,'detail.h']]],
+  ['stack_2eh_3',['stack.h',['../stack_8h.html',1,'']]]
 ];

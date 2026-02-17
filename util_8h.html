@@ -74,7 +74,6 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">util.h File Reference</div></div>
 </div><!--header-->
@@ -86,28 +85,21 @@ $(function() {
 </div>
 <p><a href="util_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:a52cf9f8af893fe4c8936163b97d30643"><td class="memItemLeft" align="right" valign="top"><a id="a52cf9f8af893fe4c8936163b97d30643" name="a52cf9f8af893fe4c8936163b97d30643"></a>
-typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_node_printer_func</b>) (const struct rdesc_node *, FILE *out)</td></tr>
-<tr class="memdesc:a52cf9f8af893fe4c8936163b97d30643"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function pointer type for printing nodes. <br /></td></tr>
-<tr class="separator:a52cf9f8af893fe4c8936163b97d30643"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:afed53e0c861d45cd9c347b56b86b0a25"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#afed53e0c861d45cd9c347b56b86b0a25">rdesc_dump_cst</a> (FILE *out, const struct <a class="el" href="structrdesc.html">rdesc</a> *p, <a class="el" href="util_8h.html#a52cf9f8af893fe4c8936163b97d30643">rdesc_node_printer_func</a> node_printer)</td></tr>
-<tr class="memdesc:afed53e0c861d45cd9c347b56b86b0a25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dumps the concrete syntax tree (CST) as a graphviz DOT graph.  <br /></td></tr>
-<tr class="separator:afed53e0c861d45cd9c347b56b86b0a25"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f55bb4fbfc2e6c788251250c326fee7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a8f55bb4fbfc2e6c788251250c326fee7">rdesc_dump_bnf</a> (FILE *out, const struct <a class="el" href="structrdesc__cfg.html">rdesc_cfg</a> *cfg, const char *const tk_names[], const char *const nt_names[])</td></tr>
-<tr class="memdesc:a8f55bb4fbfc2e6c788251250c326fee7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dumps the Context-free grammar in BNF format.  <br /></td></tr>
-<tr class="separator:a8f55bb4fbfc2e6c788251250c326fee7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c97d21ee48590d162864ee9902dcd0b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a3c97d21ee48590d162864ee9902dcd0b">rdesc_dump_cst</a> (FILE *out, const struct <a class="el" href="structrdesc.html">rdesc</a> *parser, void(*node_printer)(const struct rdesc_node *, FILE *out))</td></tr>
+<tr class="memdesc:a3c97d21ee48590d162864ee9902dcd0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dumps the concrete syntax tree (CST) as a graphviz DOT graph.  <br /></td></tr>
+<tr class="separator:a3c97d21ee48590d162864ee9902dcd0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a669887108e0b678d3b5efe2b1ad95f62"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a669887108e0b678d3b5efe2b1ad95f62">rdesc_dump_bnf</a> (FILE *out, const struct <a class="el" href="structrdesc__grammar.html">rdesc_grammar</a> *grammar, const char *const tk_names[], const char *const nt_names[])</td></tr>
+<tr class="memdesc:a669887108e0b678d3b5efe2b1ad95f62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dumps the grammar in BNF format.  <br /></td></tr>
+<tr class="separator:a669887108e0b678d3b5efe2b1ad95f62"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Development and debugging utilities. </p>
 <p>This header provides tools for visualizing data structures in <code>librdesc</code>. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="a8f55bb4fbfc2e6c788251250c326fee7" name="a8f55bb4fbfc2e6c788251250c326fee7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8f55bb4fbfc2e6c788251250c326fee7">&#9670;&#160;</a></span>rdesc_dump_bnf()</h2>
+<a id="a669887108e0b678d3b5efe2b1ad95f62" name="a669887108e0b678d3b5efe2b1ad95f62"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a669887108e0b678d3b5efe2b1ad95f62">&#9670;&#160;</a></span>rdesc_dump_bnf()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -121,8 +113,8 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const struct <a class="el" href="structrdesc__cfg.html">rdesc_cfg</a> *&#160;</td>
-          <td class="paramname"><em>cfg</em>, </td>
+          <td class="paramtype">const struct <a class="el" href="structrdesc__grammar.html">rdesc_grammar</a> *&#160;</td>
+          <td class="paramname"><em>grammar</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -144,22 +136,22 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Dumps the Context-free grammar in BNF format. </p>
-<p>Iterates over the production rules defined in the configuration and prints them in a human-readable BNF format. (e.g.<code>A ::= B | C</code>)</p>
+<p>Dumps the grammar in BNF format. </p>
+<p>Prints all production rules in human-readable BNF format. (e.g.<code>A ::= B | C</code>)</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">out</td><td>Output file stream </td></tr>
-    <tr><td class="paramname">cfg</td><td>Underlying CFG </td></tr>
-    <tr><td class="paramname">tk_names</td><td>The token name or literal representation (e.g., <code>IDENT</code> or <code>+</code>). If you do not want to put double quotes around token name, put @ at the beginning of the name. </td></tr>
-    <tr><td class="paramname">nt_names</td><td>The raw name of the nonterminal (e.g., <code>expr</code>). The dumper handles the surrounding <code>&lt;</code> and <code>&gt;</code> characters automatically. </td></tr>
+    <tr><td class="paramname">grammar</td><td>Underlying grammar struct </td></tr>
+    <tr><td class="paramname">tk_names</td><td>The token name or literal representation (e.g., <code>IDENT</code> or <code>+</code>). Prefix with '@' to suppress automatic quote wrapping. </td></tr>
+    <tr><td class="paramname">nt_names</td><td>The raw name of the nonterminal (e.g., <code>expr</code>). Angle brackets <code>&lt;&gt;</code> are added automatically. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="afed53e0c861d45cd9c347b56b86b0a25" name="afed53e0c861d45cd9c347b56b86b0a25"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afed53e0c861d45cd9c347b56b86b0a25">&#9670;&#160;</a></span>rdesc_dump_cst()</h2>
+<a id="a3c97d21ee48590d162864ee9902dcd0b" name="a3c97d21ee48590d162864ee9902dcd0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c97d21ee48590d162864ee9902dcd0b">&#9670;&#160;</a></span>rdesc_dump_cst()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -174,12 +166,12 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const struct <a class="el" href="structrdesc.html">rdesc</a> *&#160;</td>
-          <td class="paramname"><em>p</em>, </td>
+          <td class="paramname"><em>parser</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="util_8h.html#a52cf9f8af893fe4c8936163b97d30643">rdesc_node_printer_func</a>&#160;</td>
+          <td class="paramtype">void(*)(const struct rdesc_node *, FILE *out)&#160;</td>
           <td class="paramname"><em>node_printer</em>&#160;</td>
         </tr>
         <tr>
@@ -194,7 +186,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">out</td><td>Output file stream </td></tr>
-    <tr><td class="paramname">p</td><td>Parser to dump CST </td></tr>
+    <tr><td class="paramname">parser</td><td>Parser to dump </td></tr>
     <tr><td class="paramname">node_printer</td><td>Callback to print token and nonterminal names. </td></tr>
   </table>
   </dd>

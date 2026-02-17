@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['rules_0',['rules',['../structrdesc__cfg.html#ac9aa8b0d604b9a9fbb9d7ce2ba6bbef0',1,'rdesc_cfg']]]
+  ['rules_0',['rules',['../structrdesc__grammar.html#a3c78a9ba353ca1d6781fc03e4db2745c',1,'rdesc_grammar']]]
 ];

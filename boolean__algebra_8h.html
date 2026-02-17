@@ -83,7 +83,7 @@ $(function() {
 
 <p>Boolean algebra grammar example for librdesc.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="cfg_8h_source.html">../../include/cfg.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="grammar_8h_source.html">../../include/grammar.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="bnf__macros_8h_source.html">../../include/bnf_macros.h</a>&quot;</code><br />
 </div>
 <p><a href="boolean__algebra_8h_source.html">Go to the source code of this file.</a></p>
@@ -180,11 +180,15 @@ Variables</h2></td></tr>
 <tr class="memitem:af69b0ef00608b4b7e99ad48335650110"><td class="memItemLeft" align="right" valign="top">const char *const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="boolean__algebra_8h.html#af69b0ef00608b4b7e99ad48335650110">balg_nt_names</a> [<a class="el" href="boolean__algebra_8h.html#ae22dc60420bad18229307a7d3f5ecf46">BALG_NT_COUNT</a>]</td></tr>
 <tr class="memdesc:af69b0ef00608b4b7e99ad48335650110"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nonterminal names (for debugging/printing CST).  <br /></td></tr>
 <tr class="separator:af69b0ef00608b4b7e99ad48335650110"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad18e757b81e1f550972352a9c5505231"><td class="memItemLeft" align="right" valign="top"><a id="ad18e757b81e1f550972352a9c5505231" name="ad18e757b81e1f550972352a9c5505231"></a>
+static const struct <a class="el" href="structrdesc__grammar__symbol.html">rdesc_grammar_symbol</a>&#160;</td><td class="memItemRight" valign="bottom"><b>balg</b> [<a class="el" href="boolean__algebra_8h.html#ae22dc60420bad18229307a7d3f5ecf46">BALG_NT_COUNT</a>][<a class="el" href="boolean__algebra_8h.html#a59b5b3ecee08187bc53a3be8faa2911a">BALG_NT_VARIANT_COUNT</a>][<a class="el" href="boolean__algebra_8h.html#a0eaae58589ac62e6b6e37e59a1be405f">BALG_NT_BODY_LENGTH</a>]</td></tr>
+<tr class="memdesc:ad18e757b81e1f550972352a9c5505231"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sample grammar. <br /></td></tr>
+<tr class="separator:ad18e757b81e1f550972352a9c5505231"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Boolean algebra grammar example for librdesc. </p>
-<p>This file defines a sample CFG for a simple Boolean Algebra language. It serves two main purposes:</p><ol type="1">
-<li>To demonstrate how to use the BNF macros (<code><a class="el" href="bnf__macros_8h.html" title="Macros to facilitate defining context-free grammar in Backus-Naur form (BNF).">bnf_macros.h</a></code>) to define grammars.</li>
+<p>This file defines a sample grammar for a simple Boolean Algebra language. It serves two main purposes:</p><ol type="1">
+<li>To demonstrate how to use the BNF macros (<code><a class="el" href="bnf__macros_8h.html" title="DSL macros for defining grammars in Backus-Naur form (BNF).">bnf_macros.h</a></code>) to define grammars.</li>
 <li>To act as a stress-test for the parser's backtracking engine by introducing intentional ambiguities.</li>
 </ol>
 <p>Language features:</p><ul>

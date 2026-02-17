@@ -99,9 +99,9 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>cast</b>(t,  exp)&#160;&#160;&#160;((t) (exp))</td></tr>
 <tr class="memdesc:af17d62ec9e237a7644de6b9b34a48a34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro highlights type casts. <br /></td></tr>
 <tr class="separator:af17d62ec9e237a7644de6b9b34a48a34"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1bade34597788d63467633b17ac44d62"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="detail_8h.html#a1bade34597788d63467633b17ac44d62">productions</a>(cfg)</td></tr>
-<tr class="memdesc:a1bade34597788d63467633b17ac44d62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal macro for casting symbol table pointer to 3D array type.  <br /></td></tr>
-<tr class="separator:a1bade34597788d63467633b17ac44d62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2ee451b025abba1141e9097ec89dfa3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="detail_8h.html#ae2ee451b025abba1141e9097ec89dfa3">productions</a>(grammar)</td></tr>
+<tr class="memdesc:ae2ee451b025abba1141e9097ec89dfa3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal macro for casting symbol table pointer to 3D array type.  <br /></td></tr>
+<tr class="separator:ae2ee451b025abba1141e9097ec89dfa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b3e78f96c3612df489f1af2e80fe34b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="detail_8h.html#a8b3e78f96c3612df489f1af2e80fe34b">sizeof_tk</a>(p)</td></tr>
 <tr class="memdesc:a8b3e78f96c3612df489f1af2e80fe34b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of a token node for parser (including its seminfo field).  <br /></td></tr>
 <tr class="separator:a8b3e78f96c3612df489f1af2e80fe34b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -116,8 +116,8 @@ Macros</h2></td></tr>
 <div class="textblock"><p>Internal rdesc utilities. </p>
 <p>Functions defined in this file used for exposing internal functions to test suite. </p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a1bade34597788d63467633b17ac44d62" name="a1bade34597788d63467633b17ac44d62"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1bade34597788d63467633b17ac44d62">&#9670;&#160;</a></span>productions</h2>
+<a id="ae2ee451b025abba1141e9097ec89dfa3" name="ae2ee451b025abba1141e9097ec89dfa3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2ee451b025abba1141e9097ec89dfa3">&#9670;&#160;</a></span>productions</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -126,16 +126,16 @@ Macros</h2></td></tr>
           <td class="memname">#define productions</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname">cfg</td><td>)</td>
+          <td class="paramname">grammar</td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    (*<a class="code hl_define" href="detail_8h.html#af17d62ec9e237a7644de6b9b34a48a34">cast</a>(<span class="keyword">const</span> <span class="keyword">struct</span> <a class="code hl_struct" href="structrdesc__cfg__symbol.html">rdesc_cfg_symbol</a> (*) \</div>
-<div class="line">        [(cfg).nt_count][(cfg).nt_variant_count][(cfg).nt_body_length], \</div>
-<div class="line">          (cfg).rules))</div>
+<b>Value:</b><div class="fragment"><div class="line">    (*<a class="code hl_define" href="detail_8h.html#af17d62ec9e237a7644de6b9b34a48a34">cast</a>(<span class="keyword">const</span> <span class="keyword">struct</span> <a class="code hl_struct" href="structrdesc__grammar__symbol.html">rdesc_grammar_symbol</a> (*) \</div>
+<div class="line">        [(grammar).nt_count][(grammar).nt_variant_count][(grammar).nt_body_length], \</div>
+<div class="line">          (grammar).rules))</div>
 <div class="ttc" id="adetail_8h_html_af17d62ec9e237a7644de6b9b34a48a34"><div class="ttname"><a href="detail_8h.html#af17d62ec9e237a7644de6b9b34a48a34">cast</a></div><div class="ttdeci">#define cast(t, exp)</div><div class="ttdoc">Macro highlights type casts.</div><div class="ttdef"><b>Definition:</b> detail.h:52</div></div>
-<div class="ttc" id="astructrdesc__cfg__symbol_html"><div class="ttname"><a href="structrdesc__cfg__symbol.html">rdesc_cfg_symbol</a></div><div class="ttdoc">A terminal or nonterminal representing the body (right side) of a production rule.</div><div class="ttdef"><b>Definition:</b> cfg.h:52</div></div>
+<div class="ttc" id="astructrdesc__grammar__symbol_html"><div class="ttname"><a href="structrdesc__grammar__symbol.html">rdesc_grammar_symbol</a></div><div class="ttdoc">A terminal or nonterminal representing the body (right side) of a production rule.</div><div class="ttdef"><b>Definition:</b> grammar.h:65</div></div>
 </div><!-- fragment -->
 <p>Internal macro for casting symbol table pointer to 3D array type. </p>
 

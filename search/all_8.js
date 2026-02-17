@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['postfix_5fnt_5frest_0',['POSTFIX_NT_REST',['../bnf__macros_8h.html#acff8e0466322631d1d45fab722a99fd1',1,'bnf_macros.h']]],
-  ['prefix_5fnt_1',['PREFIX_NT',['../bnf__macros_8h.html#a0cbafb1e03a0d5e350b1289a3a93608b',1,'PREFIX_NT():&#160;bnf_macros.h'],['../boolean__algebra_8h.html#a0cbafb1e03a0d5e350b1289a3a93608b',1,'PREFIX_NT():&#160;boolean_algebra.h']]],
-  ['prefix_5ftk_2',['PREFIX_TK',['../bnf__macros_8h.html#a99ea7c8e2a06e9b3daba34a56f10590f',1,'PREFIX_TK():&#160;bnf_macros.h'],['../boolean__algebra_8h.html#a99ea7c8e2a06e9b3daba34a56f10590f',1,'PREFIX_TK():&#160;boolean_algebra.h']]],
-  ['productions_3',['productions',['../detail_8h.html#a1bade34597788d63467633b17ac44d62',1,'detail.h']]]
+  ['nt_0',['NT',['../bnf__macros_8h.html#a2f2eaf0cccb54c48b26a1747e777997b',1,'bnf_macros.h']]],
+  ['nt_5fbody_5flength_1',['nt_body_length',['../structrdesc__grammar.html#a4ae4c04b1ed018c4a410ac6a78816013',1,'rdesc_grammar']]],
+  ['nt_5fcount_2',['nt_count',['../structrdesc__grammar.html#a99f6ce4ada94dd6cf808970eb36e7f47',1,'rdesc_grammar']]],
+  ['nt_5fvariant_5fcount_3',['nt_variant_count',['../structrdesc__grammar.html#a11125423a2ff72f91a3fc62d11b34888',1,'rdesc_grammar']]]
 ];

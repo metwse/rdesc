@@ -81,7 +81,8 @@ $(function() {
 
 <p>Macros for accessing fields of node structs.  
 <a href="#details">More...</a></p>
-
+<div class="textblock"><code>#include &lt;stddef.h&gt;</code><br />
+</div>
 <p><a href="cst__macros_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
@@ -91,7 +92,7 @@ Macros</h2></td></tr>
 <tr class="memdesc:afcc432a3cd9f47d513ccbd0ad17b77a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns parent of the node, or <code>NULL</code> if the node is root. <br /></td></tr>
 <tr class="separator:afcc432a3cd9f47d513ccbd0ad17b77a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4b431acfc2e0231fcb0f26d080f495b8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cst__macros_8h.html#a4b431acfc2e0231fcb0f26d080f495b8">rtype</a>(node)&#160;&#160;&#160;_rdesc_priv_node_deref(node).n.ty</td></tr>
-<tr class="memdesc:a4b431acfc2e0231fcb0f26d080f495b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns type of the node.  <br /></td></tr>
+<tr class="memdesc:a4b431acfc2e0231fcb0f26d080f495b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns node type (RDESC_TOKEN or RDESC_NONTERMINAL).  <br /></td></tr>
 <tr class="separator:a4b431acfc2e0231fcb0f26d080f495b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3375476432802e7919027e56ac0ec936"><td class="memItemLeft" align="right" valign="top"><a id="a3375476432802e7919027e56ac0ec936" name="a3375476432802e7919027e56ac0ec936"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>rid</b>(node)&#160;&#160;&#160;_rdesc_priv_node_deref(node).n.nt.id</td></tr>
@@ -116,7 +117,7 @@ Macros</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Macros for accessing fields of node structs. </p>
-<p><code>rdesc</code> returns opaque pointers abstracting away underlying complexity of memory layout. This header provides stable macros for dereferencing such pointers to terminal/nonterminal fields that are tentative and unstructured due to memory layout optimizations. </p>
+<p>The parser returns opaque CST node pointers that hide memory layout details. This header provides macros to safely access node fields despite the optimized, compact memory representation. </p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a4b431acfc2e0231fcb0f26d080f495b8" name="a4b431acfc2e0231fcb0f26d080f495b8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4b431acfc2e0231fcb0f26d080f495b8">&#9670;&#160;</a></span>rtype</h2>
@@ -134,8 +135,8 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Returns type of the node. </p>
-<dl class="section see"><dt>See also</dt><dd>enum <a class="el" href="cfg_8h.html#aa50d0c68b3753cc0c30f8fcda36e3c1d" title="The type of rdesc_cfg_symbol (the union&#39;s tag).">rdesc_cfg_symbol_type</a> </dd></dl>
+<p>Returns node type (RDESC_TOKEN or RDESC_NONTERMINAL). </p>
+<dl class="section see"><dt>See also</dt><dd>enum <a class="el" href="grammar_8h.html#af63a16e698eba55a6ed4c50c66f8cb6f" title="Symbol type discriminator for rdesc_grammar_symbol.">rdesc_grammar_symbol_type</a> </dd></dl>
 
 </div>
 </div>
