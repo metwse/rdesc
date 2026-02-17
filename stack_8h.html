@@ -99,9 +99,6 @@ Functions</h2></td></tr>
 <tr class="memitem:a5f3823dd2cd87f7b386f117fa9565472"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stack_8h.html#a5f3823dd2cd87f7b386f117fa9565472">rdesc_stack_at</a> (struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> *stack, size_t index)</td></tr>
 <tr class="memdesc:a5f3823dd2cd87f7b386f117fa9565472"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns pointer to the element at the specified index.  <br /></td></tr>
 <tr class="separator:a5f3823dd2cd87f7b386f117fa9565472"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2d5e538fc9574ffe685c62a0dc85b187"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stack_8h.html#a2d5e538fc9574ffe685c62a0dc85b187">rdesc_stack_reserve</a> (struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> **stack, size_t reserved_space)</td></tr>
-<tr class="memdesc:a2d5e538fc9574ffe685c62a0dc85b187"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ensures capacity for at least reserved_space additional elements.  <br /></td></tr>
-<tr class="separator:a2d5e538fc9574ffe685c62a0dc85b187"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9493cdca0ee71ccba88969cecd815599"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="stack_8h.html#a9493cdca0ee71ccba88969cecd815599">rdesc_stack_multipush</a> (struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> **stack, void *elements, size_t count)</td></tr>
 <tr class="memdesc:a9493cdca0ee71ccba88969cecd815599"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pushes multiple elements onto the stack.  <br /></td></tr>
 <tr class="separator:a9493cdca0ee71ccba88969cecd815599"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -161,10 +158,8 @@ Memory Management</h2>
 
 <p>Returns pointer to the element at the specified index. </p>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to element at index i</dd></dl>
-<dl class="section pre"><dt>Precondition</dt><dd>i &lt; rdesc_stack_len(stack) </dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Asserts on out-of-bounds access. </dd>
-<dd>
-Index 0 is the bottom of the stack. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd>i &lt; rdesc_stack_len(stack)</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Index 0 is the bottom of the stack. </dd></dl>
 
 </div>
 </div>
@@ -224,7 +219,7 @@ Index 0 is the bottom of the stack. </dd></dl>
   </dd>
 </dl>
 <dl class="section post"><dt>Postcondition</dt><dd>Stack is allocated with initial capacity and zero length. </dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Asserts on allocation failure. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>*stack is set to NULL if allocation fails. </dd></dl>
 
 </div>
 </div>
@@ -255,7 +250,9 @@ Index 0 is the bottom of the stack. </dd></dl>
 </div><div class="memdoc">
 
 <p>Pops multiple elements from the stack, and returns pointer to the element that was at the bottom of the popped range. </p>
-<dl class="section note"><dt>Note</dt><dd>If count is 0, this is a no-op and returns current top. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This may trigger realloc. The stack implementation should handle allocation errors and hide them from upper layers. </dd>
+<dd>
+If count is 0, this is a no-op and returns current top. </dd></dl>
 
 </div>
 </div>
@@ -294,8 +291,10 @@ Index 0 is the bottom of the stack. </dd></dl>
 <p>Pushes multiple elements onto the stack. </p>
 <p><code>elements</code> is array of elements to copy, or NULL to allocate uninitialized space.</p>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to the first pushed element in the stack, i.e., pointer to allocated space for manual initialization.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>If count is 0, this is a no-op and returns a pointer at current top. </dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>As this function may trigger realloc, the <code>element</code> SHALL NOT point the stack. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>If count is 0, this is a no-op and returns a pointer at current top. </dd>
+<dd>
+Returns NULL if memory allocation fails. Elements are not pushed in case of failure. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>As this function may trigger realloc, <code>element</code> SHALL NOT point to the stack. </dd></dl>
 
 </div>
 </div>
@@ -353,38 +352,6 @@ Index 0 is the bottom of the stack. </dd></dl>
 
 </div>
 </div>
-<a id="a2d5e538fc9574ffe685c62a0dc85b187" name="a2d5e538fc9574ffe685c62a0dc85b187"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2d5e538fc9574ffe685c62a0dc85b187">&#9670;&#160;</a></span>rdesc_stack_reserve()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void rdesc_stack_reserve </td>
-          <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structrdesc__stack.html">rdesc_stack</a> **&#160;</td>
-          <td class="paramname"><em>stack</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>reserved_space</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Ensures capacity for at least reserved_space additional elements. </p>
-<p>Reserved space is minimum number of additional elements to accommodate. The implementation shall grow capacity until requirement is met.</p>
-<dl class="section note"><dt>Note</dt><dd>Does nothing if current capacity is already sufficient. </dd></dl>
-
-</div>
-</div>
 <a id="a45215066c03201a0af698c9e081d7394" name="a45215066c03201a0af698c9e081d7394"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a45215066c03201a0af698c9e081d7394">&#9670;&#160;</a></span>rdesc_stack_reset()</h2>
 
@@ -403,6 +370,7 @@ Index 0 is the bottom of the stack. </dd></dl>
 
 <p>Clears the stack and resets capacity to initial size. </p>
 <dl class="section post"><dt>Postcondition</dt><dd>Stack length is zero, capacity is reset to initial value. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>*stack is set to NULL if allocation fails. </dd></dl>
 
 </div>
 </div>

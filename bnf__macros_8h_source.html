@@ -77,8 +77,8 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <a href="bnf__macros_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#ifndef BNF_MACROS_H</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#define BNF_MACROS_H</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#ifndef RDESC_BNF_MACROS_H</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#define RDESC_BNF_MACROS_H</span></div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#ifndef PREFIX_TK</span></div>
@@ -96,10 +96,10 @@ $(function() {
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="bnf__macros_8h.html#a82565bae95a7c5c9bd3b1f093c63883e">   40</a></span><span class="preprocessor">#define EOB -1</span></div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="bnf__macros_8h.html#ab6ad368e32c6304728c863dbb1e9d8dd">   42</a></span><span class="preprocessor">#define EOC -2</span></div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#define SEOB { .ty = CFG_SENTINEL, .id = EOB }</span></div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">#define SEOC { { .ty = CFG_SENTINEL, .id = EOC } }</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="bnf__macros_8h.html#aa6abff88a7191ec249826ecc154edeae">   52</a></span><span class="preprocessor">#define TK(tk) { .ty = CFG_TOKEN, .id = PREFIX_TK(tk) }</span></div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="bnf__macros_8h.html#a2f2eaf0cccb54c48b26a1747e777997b">   54</a></span><span class="preprocessor">#define NT(nt) { .ty = CFG_NONTERMINAL, .id = PREFIX_NT(nt) }</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#define SEOB { .ty = RDESC_SENTINEL, .id = EOB }</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">#define SEOC { { .ty = RDESC_SENTINEL, .id = EOC } }</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="bnf__macros_8h.html#aa6abff88a7191ec249826ecc154edeae">   52</a></span><span class="preprocessor">#define TK(tk) { .ty = RDESC_TOKEN, .id = PREFIX_TK(tk) }</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="bnf__macros_8h.html#a2f2eaf0cccb54c48b26a1747e777997b">   54</a></span><span class="preprocessor">#define NT(nt) { .ty = RDESC_NONTERMINAL, .id = PREFIX_NT(nt) }</span></div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="bnf__macros_8h.html#a002b2f4894492820fe708b1b7e7c5e70">   57</a></span><span class="preprocessor">#define EPSILON SEOB</span></div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>

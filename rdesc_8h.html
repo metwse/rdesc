@@ -76,7 +76,6 @@ $(function() {
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#define-members">Macros</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">rdesc.h File Reference</div></div>
@@ -100,56 +99,51 @@ Classes</h2></td></tr>
 Macros</h2></td></tr>
 <tr class="memitem:a444e26b41f93ae91fc18de2f6990704c"><td class="memItemLeft" align="right" valign="top"><a id="a444e26b41f93ae91fc18de2f6990704c" name="a444e26b41f93ae91fc18de2f6990704c"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>RDESC_VERSION_MAJOR</b>&#160;&#160;&#160;0</td></tr>
-<tr class="memdesc:a444e26b41f93ae91fc18de2f6990704c"><td class="mdescLeft">&#160;</td><td class="mdescRight">major version <br /></td></tr>
+<tr class="memdesc:a444e26b41f93ae91fc18de2f6990704c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Major version. <br /></td></tr>
 <tr class="separator:a444e26b41f93ae91fc18de2f6990704c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac26ce46ec1c0fcefbf059b54ae345508"><td class="memItemLeft" align="right" valign="top"><a id="ac26ce46ec1c0fcefbf059b54ae345508" name="ac26ce46ec1c0fcefbf059b54ae345508"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>RDESC_VERSION_MINOR</b>&#160;&#160;&#160;2</td></tr>
-<tr class="memdesc:ac26ce46ec1c0fcefbf059b54ae345508"><td class="mdescLeft">&#160;</td><td class="mdescRight">minor version <br /></td></tr>
+<tr class="memdesc:ac26ce46ec1c0fcefbf059b54ae345508"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minor version. <br /></td></tr>
 <tr class="separator:ac26ce46ec1c0fcefbf059b54ae345508"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2d00951dda9061078ef18db1b6163568"><td class="memItemLeft" align="right" valign="top"><a id="a2d00951dda9061078ef18db1b6163568" name="a2d00951dda9061078ef18db1b6163568"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>RDESC_VERSION_PATCH</b>&#160;&#160;&#160;0</td></tr>
-<tr class="memdesc:a2d00951dda9061078ef18db1b6163568"><td class="mdescLeft">&#160;</td><td class="mdescRight">patch version <br /></td></tr>
+<tr class="memdesc:a2d00951dda9061078ef18db1b6163568"><td class="mdescLeft">&#160;</td><td class="mdescRight">Patch version. <br /></td></tr>
 <tr class="separator:a2d00951dda9061078ef18db1b6163568"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09740b75a26b197222bc2b9510707f1a"><td class="memItemLeft" align="right" valign="top"><a id="a09740b75a26b197222bc2b9510707f1a" name="a09740b75a26b197222bc2b9510707f1a"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>RDESC_VERSION_PRE_RELEASE</b>&#160;&#160;&#160;&quot;alpha&quot;</td></tr>
-<tr class="memdesc:a09740b75a26b197222bc2b9510707f1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">prerelease identifier <br /></td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>RDESC_VERSION_PRE_RELEASE</b>&#160;&#160;&#160;&quot;alpha+api-review&quot;</td></tr>
+<tr class="memdesc:a09740b75a26b197222bc2b9510707f1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prerelease identifier. <br /></td></tr>
 <tr class="separator:a09740b75a26b197222bc2b9510707f1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:a5097d4ab8f6ae4efd30ae07554056a9c"><td class="memItemLeft" align="right" valign="top"><a id="a5097d4ab8f6ae4efd30ae07554056a9c" name="a5097d4ab8f6ae4efd30ae07554056a9c"></a>
-typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_token_destroyer_func</b>) (uint16_t id, void *seminfo)</td></tr>
-<tr class="memdesc:a5097d4ab8f6ae4efd30ae07554056a9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function pointer type for freeing tokens. <br /></td></tr>
-<tr class="separator:a5097d4ab8f6ae4efd30ae07554056a9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:ae1c47d0d0fe6789f714eaaab2f24983d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983d">rdesc_result</a> { <a class="el" href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983da3536c3180b6d6af0186a3572137154c3">RDESC_READY</a>
-, <a class="el" href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983daa5713dde97680749b32c95d7173ab2e0">RDESC_CONTINUE</a>
-, <a class="el" href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983da49ef64d4013eddadfd25db97f7e448bc">RDESC_NOMATCH</a>
+<tr class="memitem:ae1c47d0d0fe6789f714eaaab2f24983d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983d">rdesc_result</a> { <a class="el" href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983da0a91535194943302a9c9ad63e102656b">RDESC_ENOMEM</a> = -1
+, <a class="el" href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983da3536c3180b6d6af0186a3572137154c3">RDESC_READY</a> = 0
+, <a class="el" href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983daa5713dde97680749b32c95d7173ab2e0">RDESC_CONTINUE</a> = 1
+, <a class="el" href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983da49ef64d4013eddadfd25db97f7e448bc">RDESC_NOMATCH</a> = 2
  }</td></tr>
-<tr class="memdesc:ae1c47d0d0fe6789f714eaaab2f24983d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parsing status.  <a href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983d">More...</a><br /></td></tr>
+<tr class="memdesc:ae1c47d0d0fe6789f714eaaab2f24983d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pump status.  <a href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983d">More...</a><br /></td></tr>
 <tr class="separator:ae1c47d0d0fe6789f714eaaab2f24983d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a2d01968c2899db9122e8044a1402b65e"><td class="memItemLeft" align="right" valign="top"><a id="a2d01968c2899db9122e8044a1402b65e" name="a2d01968c2899db9122e8044a1402b65e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_init</b> (struct <a class="el" href="structrdesc.html">rdesc</a> *parser, const struct <a class="el" href="structrdesc__cfg.html">rdesc_cfg</a> *cfg, size_t seminfo_size)</td></tr>
-<tr class="memdesc:a2d01968c2899db9122e8044a1402b65e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new parser. <br /></td></tr>
-<tr class="separator:a2d01968c2899db9122e8044a1402b65e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a00c5c8ea3c3a42bb4afd6d3bfb4eb4b2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#a00c5c8ea3c3a42bb4afd6d3bfb4eb4b2">rdesc_destroy</a> (struct <a class="el" href="structrdesc.html">rdesc</a> *parser, <a class="el" href="rdesc_8h.html#a5097d4ab8f6ae4efd30ae07554056a9c">rdesc_token_destroyer_func</a> token_destroyer)</td></tr>
-<tr class="memdesc:a00c5c8ea3c3a42bb4afd6d3bfb4eb4b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees memory allocated by the parser and destroys the parser instance.  <br /></td></tr>
-<tr class="separator:a00c5c8ea3c3a42bb4afd6d3bfb4eb4b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f34440d9a612153517d8931d80085d9"><td class="memItemLeft" align="right" valign="top"><a id="a7f34440d9a612153517d8931d80085d9" name="a7f34440d9a612153517d8931d80085d9"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_start</b> (struct <a class="el" href="structrdesc.html">rdesc</a> *parser, int start_symbol)</td></tr>
-<tr class="memdesc:a7f34440d9a612153517d8931d80085d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets start symbol for the next match. <br /></td></tr>
-<tr class="separator:a7f34440d9a612153517d8931d80085d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab9e9def117568c801ab2cf6fc59f0d6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#aab9e9def117568c801ab2cf6fc59f0d6">rdesc_reset</a> (struct <a class="el" href="structrdesc.html">rdesc</a> *parser, <a class="el" href="rdesc_8h.html#a5097d4ab8f6ae4efd30ae07554056a9c">rdesc_token_destroyer_func</a> token_destroyer)</td></tr>
-<tr class="memdesc:aab9e9def117568c801ab2cf6fc59f0d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets parser and its state.  <br /></td></tr>
-<tr class="separator:aab9e9def117568c801ab2cf6fc59f0d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a77e4195e34406c423811a47dcd4222bc"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983d">rdesc_result</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#a77e4195e34406c423811a47dcd4222bc">rdesc_pump</a> (struct <a class="el" href="structrdesc.html">rdesc</a> *parser, struct rdesc_node **out, uint16_t id, const void *seminfo)</td></tr>
-<tr class="memdesc:a77e4195e34406c423811a47dcd4222bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Drives the parsing process, the pump.  <br /></td></tr>
-<tr class="separator:a77e4195e34406c423811a47dcd4222bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaddf4f60d37df2cedba6db6aa7c6d7e3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#aaddf4f60d37df2cedba6db6aa7c6d7e3">rdesc_init</a> (struct <a class="el" href="structrdesc.html">rdesc</a> *parser, const struct <a class="el" href="structrdesc__cfg.html">rdesc_cfg</a> *cfg, size_t seminfo_size, void(*token_destroyer)(uint16_t id, void *seminfo))</td></tr>
+<tr class="memdesc:aaddf4f60d37df2cedba6db6aa7c6d7e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new parser.  <br /></td></tr>
+<tr class="separator:aaddf4f60d37df2cedba6db6aa7c6d7e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ca947aade839cdb10de5d225316606c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#a6ca947aade839cdb10de5d225316606c">rdesc_destroy</a> (struct <a class="el" href="structrdesc.html">rdesc</a> *parser)</td></tr>
+<tr class="memdesc:a6ca947aade839cdb10de5d225316606c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees memory allocated by the parser and destroys the parser instance.  <br /></td></tr>
+<tr class="separator:a6ca947aade839cdb10de5d225316606c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e4c175ba9f4c0b71b86c995d43e6dd8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#a0e4c175ba9f4c0b71b86c995d43e6dd8">rdesc_start</a> (struct <a class="el" href="structrdesc.html">rdesc</a> *parser, int start_symbol)</td></tr>
+<tr class="memdesc:a0e4c175ba9f4c0b71b86c995d43e6dd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets start symbol for the next match.  <br /></td></tr>
+<tr class="separator:a0e4c175ba9f4c0b71b86c995d43e6dd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26330a2604012c9bd921a221119332b3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#a26330a2604012c9bd921a221119332b3">rdesc_reset</a> (struct <a class="el" href="structrdesc.html">rdesc</a> *parser)</td></tr>
+<tr class="memdesc:a26330a2604012c9bd921a221119332b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets parser and its state.  <br /></td></tr>
+<tr class="separator:a26330a2604012c9bd921a221119332b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a051a52291b592e6a1ac0ce7218320e28"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983d">rdesc_result</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#a051a52291b592e6a1ac0ce7218320e28">rdesc_pump</a> (struct <a class="el" href="structrdesc.html">rdesc</a> *parser, uint16_t id, void *seminfo)</td></tr>
+<tr class="memdesc:a051a52291b592e6a1ac0ce7218320e28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Drives the parsing process, the pump.  <br /></td></tr>
+<tr class="separator:a051a52291b592e6a1ac0ce7218320e28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1c08531ac922b0404a80580bcc2b366"><td class="memItemLeft" align="right" valign="top">struct rdesc_node *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#ab1c08531ac922b0404a80580bcc2b366">rdesc_root</a> (struct <a class="el" href="structrdesc.html">rdesc</a> *parser)</td></tr>
+<tr class="memdesc:ab1c08531ac922b0404a80580bcc2b366"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the root of the CST.  <br /></td></tr>
+<tr class="separator:ab1c08531ac922b0404a80580bcc2b366"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The recursive descent parser. </p>
@@ -166,21 +160,23 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_start</b> (stru
       </table>
 </div><div class="memdoc">
 
-<p>Parsing status. </p>
+<p>Pump status. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ae1c47d0d0fe6789f714eaaab2f24983da3536c3180b6d6af0186a3572137154c3" name="ae1c47d0d0fe6789f714eaaab2f24983da3536c3180b6d6af0186a3572137154c3"></a>RDESC_READY&#160;</td><td class="fielddoc"><p>A tree is ready for consumption. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ae1c47d0d0fe6789f714eaaab2f24983da0a91535194943302a9c9ad63e102656b" name="ae1c47d0d0fe6789f714eaaab2f24983da0a91535194943302a9c9ad63e102656b"></a>RDESC_ENOMEM&#160;</td><td class="fielddoc"><p>Memory allocation failed. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ae1c47d0d0fe6789f714eaaab2f24983da3536c3180b6d6af0186a3572137154c3" name="ae1c47d0d0fe6789f714eaaab2f24983da3536c3180b6d6af0186a3572137154c3"></a>RDESC_READY&#160;</td><td class="fielddoc"><p>A CST is ready for consumption. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ae1c47d0d0fe6789f714eaaab2f24983daa5713dde97680749b32c95d7173ab2e0" name="ae1c47d0d0fe6789f714eaaab2f24983daa5713dde97680749b32c95d7173ab2e0"></a>RDESC_CONTINUE&#160;</td><td class="fielddoc"><p>New tokens should be provided. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ae1c47d0d0fe6789f714eaaab2f24983da49ef64d4013eddadfd25db97f7e448bc" name="ae1c47d0d0fe6789f714eaaab2f24983da49ef64d4013eddadfd25db97f7e448bc"></a>RDESC_NOMATCH&#160;</td><td class="fielddoc"><p>Provided tokens do not match with any rule. </p>
+<tr><td class="fieldname"><a id="ae1c47d0d0fe6789f714eaaab2f24983da49ef64d4013eddadfd25db97f7e448bc" name="ae1c47d0d0fe6789f714eaaab2f24983da49ef64d4013eddadfd25db97f7e448bc"></a>RDESC_NOMATCH&#160;</td><td class="fielddoc"><p>Provided tokens do not match any rule. </p>
 </td></tr>
 </table>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a00c5c8ea3c3a42bb4afd6d3bfb4eb4b2" name="a00c5c8ea3c3a42bb4afd6d3bfb4eb4b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a00c5c8ea3c3a42bb4afd6d3bfb4eb4b2">&#9670;&#160;</a></span>rdesc_destroy()</h2>
+<a id="a6ca947aade839cdb10de5d225316606c" name="a6ca947aade839cdb10de5d225316606c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ca947aade839cdb10de5d225316606c">&#9670;&#160;</a></span>rdesc_destroy()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -189,12 +185,45 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_start</b> (stru
           <td class="memname">void rdesc_destroy </td>
           <td>(</td>
           <td class="paramtype">struct <a class="el" href="structrdesc.html">rdesc</a> *&#160;</td>
+          <td class="paramname"><em>parser</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Frees memory allocated by the parser and destroys the parser instance. </p>
+<dl class="section note"><dt>Note</dt><dd><code>seminfo</code> field in <code>struct rdesc_token</code> is ignored, i.e., not freed, unless <code>token_destroyer</code> is set. </dd></dl>
+
+</div>
+</div>
+<a id="aaddf4f60d37df2cedba6db6aa7c6d7e3" name="aaddf4f60d37df2cedba6db6aa7c6d7e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaddf4f60d37df2cedba6db6aa7c6d7e3">&#9670;&#160;</a></span>rdesc_init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int rdesc_init </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structrdesc.html">rdesc</a> *&#160;</td>
           <td class="paramname"><em>parser</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="rdesc_8h.html#a5097d4ab8f6ae4efd30ae07554056a9c">rdesc_token_destroyer_func</a>&#160;</td>
+          <td class="paramtype">const struct <a class="el" href="structrdesc__cfg.html">rdesc_cfg</a> *&#160;</td>
+          <td class="paramname"><em>cfg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>seminfo_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void(*)(uint16_t id, void *seminfo)&#160;</td>
           <td class="paramname"><em>token_destroyer</em>&#160;</td>
         </tr>
         <tr>
@@ -205,13 +234,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_start</b> (stru
       </table>
 </div><div class="memdoc">
 
-<p>Frees memory allocated by the parser and destroys the parser instance. </p>
-<dl class="section note"><dt>Note</dt><dd><code>seminfo</code> field in <code>struct rdesc_token</code> is ignored, i.e., not freed, unless <code>token_destroyer</code> is set. </dd></dl>
+<p>Initializes a new parser. </p>
+<dl class="section return"><dt>Returns</dt><dd>Non-zero value if memory allocation fails. </dd></dl>
 
 </div>
 </div>
-<a id="a77e4195e34406c423811a47dcd4222bc" name="a77e4195e34406c423811a47dcd4222bc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a77e4195e34406c423811a47dcd4222bc">&#9670;&#160;</a></span>rdesc_pump()</h2>
+<a id="a051a52291b592e6a1ac0ce7218320e28" name="a051a52291b592e6a1ac0ce7218320e28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a051a52291b592e6a1ac0ce7218320e28">&#9670;&#160;</a></span>rdesc_pump()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -225,19 +254,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_start</b> (stru
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">struct rdesc_node **&#160;</td>
-          <td class="paramname"><em>out</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">uint16_t&#160;</td>
           <td class="paramname"><em>id</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const void *&#160;</td>
+          <td class="paramtype">void *&#160;</td>
           <td class="paramname"><em>seminfo</em>&#160;</td>
         </tr>
         <tr>
@@ -253,9 +276,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_start</b> (stru
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">parser</td><td>Pointer to the parser instance. </td></tr>
-    <tr><td class="paramname">out</td><td>Output pointer for the resulting CST node (IF READY). </td></tr>
-    <tr><td class="paramname">id</td><td>Identifier of the next token to consume (15-bit, in 1-32767 range).<ul>
-<li><b>ID 0 is reserved</b> for resuming from backtrack stack. </li>
+    <tr><td class="paramname">id</td><td>Identifier of the next token to consume.<ul>
+<li><b>ID 0 is reserved</b> for resuming from the backtrack stack, used for start symbol changes or retries after memory allocation errors. </li>
 </ul>
 </td></tr>
     <tr><td class="paramname">seminfo</td><td>Extra semantic information for the token.<ul>
@@ -265,18 +287,62 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_start</b> (stru
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The current status of the parse operation. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The current status of the parse operation.</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Raises an error if parser is not started. </dd></dl>
 
 </div>
 </div>
-<a id="aab9e9def117568c801ab2cf6fc59f0d6" name="aab9e9def117568c801ab2cf6fc59f0d6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aab9e9def117568c801ab2cf6fc59f0d6">&#9670;&#160;</a></span>rdesc_reset()</h2>
+<a id="a26330a2604012c9bd921a221119332b3" name="a26330a2604012c9bd921a221119332b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26330a2604012c9bd921a221119332b3">&#9670;&#160;</a></span>rdesc_reset()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void rdesc_reset </td>
+          <td class="memname">int rdesc_reset </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structrdesc.html">rdesc</a> *&#160;</td>
+          <td class="paramname"><em>parser</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Resets parser and its state. </p>
+<dl class="section note"><dt>Note</dt><dd><code>seminfo</code> field in <code>struct rdesc_token</code> is ignored, i.e., not freed, unless <code>token_destroyer</code> is set.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Non-zero value if memory allocation fails. </dd></dl>
+
+</div>
+</div>
+<a id="ab1c08531ac922b0404a80580bcc2b366" name="ab1c08531ac922b0404a80580bcc2b366"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1c08531ac922b0404a80580bcc2b366">&#9670;&#160;</a></span>rdesc_root()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct rdesc_node * rdesc_root </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structrdesc.html">rdesc</a> *&#160;</td>
+          <td class="paramname"><em>parser</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the root of the CST. </p>
+<dl class="section note"><dt>Note</dt><dd>Returns NULL if parser does not contain any tree. </dd></dl>
+
+</div>
+</div>
+<a id="a0e4c175ba9f4c0b71b86c995d43e6dd8" name="a0e4c175ba9f4c0b71b86c995d43e6dd8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e4c175ba9f4c0b71b86c995d43e6dd8">&#9670;&#160;</a></span>rdesc_start()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int rdesc_start </td>
           <td>(</td>
           <td class="paramtype">struct <a class="el" href="structrdesc.html">rdesc</a> *&#160;</td>
           <td class="paramname"><em>parser</em>, </td>
@@ -284,8 +350,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_start</b> (stru
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="rdesc_8h.html#a5097d4ab8f6ae4efd30ae07554056a9c">rdesc_token_destroyer_func</a>&#160;</td>
-          <td class="paramname"><em>token_destroyer</em>&#160;</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>start_symbol</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -295,8 +361,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_start</b> (stru
       </table>
 </div><div class="memdoc">
 
-<p>Resets parser and its state. </p>
-<dl class="section note"><dt>Note</dt><dd><code>seminfo</code> field in <code>struct rdesc_token</code> is ignored, i.e., not freed, unless <code>token_destroyer</code> is set. </dd></dl>
+<p>Sets start symbol for the next match. </p>
+<dl class="section return"><dt>Returns</dt><dd>Non-zero value if memory allocation fails. </dd></dl>
 
 </div>
 </div>

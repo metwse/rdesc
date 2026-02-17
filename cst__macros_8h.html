@@ -109,53 +109,15 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>rchild_count</b>(nt_node)&#160;&#160;&#160;	_rdesc_priv_node_deref(nt_node).n.nt.child_count</td></tr>
 <tr class="memdesc:ae15086c40081fe4edf68f9f55f2f82e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns number of child nodes. <br /></td></tr>
 <tr class="separator:ae15086c40081fe4edf68f9f55f2f82e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ee7166f9b1eba8bf68cb9515972c04b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cst__macros_8h.html#a3ee7166f9b1eba8bf68cb9515972c04b">rchild</a>(p,  nt_node,  child_idx)</td></tr>
-<tr class="memdesc:a3ee7166f9b1eba8bf68cb9515972c04b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns child of the node by its index.  <br /></td></tr>
+<tr class="memitem:a3ee7166f9b1eba8bf68cb9515972c04b"><td class="memItemLeft" align="right" valign="top"><a id="a3ee7166f9b1eba8bf68cb9515972c04b" name="a3ee7166f9b1eba8bf68cb9515972c04b"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>rchild</b>(p,  nt_node,  child_idx)&#160;&#160;&#160;	_rdesc_priv_cst_illegal_access(p, _rdesc_priv_child_idx(nt_node, child_idx))</td></tr>
+<tr class="memdesc:a3ee7166f9b1eba8bf68cb9515972c04b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns child of the node by its index. <br /></td></tr>
 <tr class="separator:a3ee7166f9b1eba8bf68cb9515972c04b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Macros for accessing fields of node structs. </p>
 <p><code>rdesc</code> returns opaque pointers abstracting away underlying complexity of memory layout. This header provides stable macros for dereferencing such pointers to terminal/nonterminal fields that are tentative and unstructured due to memory layout optimizations. </p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a3ee7166f9b1eba8bf68cb9515972c04b" name="a3ee7166f9b1eba8bf68cb9515972c04b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3ee7166f9b1eba8bf68cb9515972c04b">&#9670;&#160;</a></span>rchild</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define rchild</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">p, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">nt_node, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">child_idx&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    _rdesc_priv_cst_illegal_access( \</div>
-<div class="line">        (<span class="keyword">struct</span> <a class="code hl_struct" href="structrdesc.html">rdesc</a> *) p, _rdesc_priv_child_idx(nt_node, child_idx))</div>
-<div class="ttc" id="astructrdesc_html"><div class="ttname"><a href="structrdesc.html">rdesc</a></div><div class="ttdoc">The recursive descent parser.</div><div class="ttdef"><b>Definition:</b> rdesc.h:30</div></div>
-</div><!-- fragment -->
-<p>Returns child of the node by its index. </p>
-
-</div>
-</div>
 <a id="a4b431acfc2e0231fcb0f26d080f495b8" name="a4b431acfc2e0231fcb0f26d080f495b8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4b431acfc2e0231fcb0f26d080f495b8">&#9670;&#160;</a></span>rtype</h2>
 
