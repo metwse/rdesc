@@ -1,7 +1,7 @@
 /**
  * @file bnf_macros.h
- * @brief Macros to facilitate defining context-free grammar in Backus-Naur
- *        form (BNF).
+ * @brief DSL (domain specific language) macros to facilitate defining grammar
+ * with Backus-Naur form (BNF).
  *
  * Provides macros (r, rrr, ropt) to define these production rules in a
  * readable way.

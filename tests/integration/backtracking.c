@@ -1,7 +1,7 @@
 /* Pass an invalid syntax and expect the tokens are pushed back to token
  * stack. */
 
-#include "../../include/cfg.h"
+#include "../../include/grammar.h"
 #include "../../include/rdesc.h"
 #include "../../include/stack.h"
 #include "../../src/detail.h"
@@ -14,13 +14,13 @@
 
 int main(void)
 {
-	struct rdesc_cfg cfg;
+	struct rdesc_grammar grammar;
 	struct rdesc p;
 
-	rdesc_cfg_init(&cfg,
-		BALG_NT_COUNT, BALG_NT_VARIANT_COUNT, BALG_NT_BODY_LENGTH,
-		cast(struct rdesc_cfg_symbol *, balg));
-	rdesc_init(&p, &cfg, sizeof(uint32_t), NULL);
+	rdesc_grammar_init(&grammar,
+			   BALG_NT_COUNT, BALG_NT_VARIANT_COUNT, BALG_NT_BODY_LENGTH,
+			   cast(struct rdesc_grammar_symbol *, balg));
+	rdesc_init(&p, &grammar, sizeof(uint32_t), NULL);
 
 	rdesc_start(&p, NT_STMT);
 
@@ -43,5 +43,5 @@ int main(void)
 	      "tokens should be pushed back to stack due to teardown ");
 
 	rdesc_destroy(&p);
-	rdesc_cfg_destroy(&cfg);
+	rdesc_grammar_destroy(&grammar);
 }

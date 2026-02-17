@@ -1,6 +1,7 @@
 /* Generate a random grammar and parse several statements with the same parser
  * instance. */
 
+#include "../../include/grammar.h"
 #include "../../include/rdesc.h"
 #include "../../src/detail.h"
 
@@ -87,7 +88,7 @@ void token_destroyer_for_test(uint16_t id, void *seminfo_)
 	free(id_in_seminfo);
 }
 
-void test_with_seminfo(const struct rdesc_cfg *cfg)
+void test_with_seminfo(const struct rdesc_grammar *grammar)
 {
 	struct bc_grammar_generator g = BC_DEFAULT_GENERATOR;
 
@@ -98,7 +99,7 @@ void test_with_seminfo(const struct rdesc_cfg *cfg)
 
 	size_t *seminfo[seminfo_size];
 
-	rdesc_init(&p, cfg, seminfo_size * sizeof(size_t *), token_destroyer_for_test);
+	rdesc_init(&p, grammar, seminfo_size * sizeof(size_t *), token_destroyer_for_test);
 
 	rdesc_start(&p, NT_STMT);
 	while ((tk = bc_fuzzer_next_tk(&g)) != TK_ENDSYM) {
@@ -123,16 +124,16 @@ int main(void)
 {
 	srand(time(NULL));
 
-	struct rdesc_cfg cfg;
+	struct rdesc_grammar grammar;
 	struct rdesc p;
 
-	rdesc_cfg_init(&cfg, BC_NT_COUNT, BC_NT_VARIANT_COUNT,
-		       BC_NT_BODY_LENGTH, (struct rdesc_cfg_symbol *) bc);
+	rdesc_grammar_init(&grammar, BC_NT_COUNT, BC_NT_VARIANT_COUNT,
+			   BC_NT_BODY_LENGTH, (struct rdesc_grammar_symbol *) bc);
 
 
 	/* test interruption & complete parse in the same parser */
 	for (int _fuzz = 0; _fuzz < 16; _fuzz++) {
-		rdesc_init(&p, &cfg, rand() % 8, NULL);
+		rdesc_init(&p, &grammar, rand() % 8, NULL);
 
 		test_interruption(&p);
 		test_complete_parse(&p);
@@ -141,7 +142,7 @@ int main(void)
 	}
 
 	/* test destroying the parser during a parse */
-	rdesc_init(&p, &cfg, rand() % 8, NULL);
+	rdesc_init(&p, &grammar, rand() % 8, NULL);
 
 	rdesc_start(&p, NT_STMT);
 	uint16_t id = TK_NUM;
@@ -150,9 +151,9 @@ int main(void)
 	rdesc_destroy(&p);
 
 	for (int _fuzz = 0; _fuzz < 16; _fuzz++) {
-		test_with_seminfo(&cfg);
+		test_with_seminfo(&grammar);
 	}
 
-	rdesc_cfg_destroy(&cfg);
+	rdesc_grammar_destroy(&grammar);
 
 }

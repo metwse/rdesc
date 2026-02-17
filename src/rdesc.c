@@ -1,6 +1,6 @@
 #include "../include/bnf_macros.h"
-#include "../include/cfg.h"
 #include "../include/cst_macros.h"
+#include "../include/grammar.h"
 #include "../include/rdesc.h"
 #include "../include/stack.h"
 #include "detail.h"
@@ -14,7 +14,7 @@
 
 /* Additional space for child pointers in nonterminal. */
 #define rchild_list_cap(p, nt_id) \
-	((p).cfg->child_caps[nt_id] * sizeof(size_t) + sizeof_node(p) - 1) \
+	((p).grammar->child_caps[nt_id] * sizeof(size_t) + sizeof_node(p) - 1) \
 		/ sizeof_node(p)
 
 /* Returns the previous node's unwind size (used to navigate backwards). */
@@ -41,11 +41,11 @@ static inline void pop_child(struct rdesc *p,
 			     size_t node_idx);
 
 int rdesc_init(struct rdesc *p,
-	       const struct rdesc_cfg *cfg,
+	       const struct rdesc_grammar *grammar,
 	       size_t seminfo_size,
 	       void (*token_destroyer)(uint16_t, void *))
 {
-	p->cfg = cfg;
+	p->grammar = grammar;
 	p->seminfo_size = seminfo_size;
 	p->token_destroyer = token_destroyer;
 
@@ -154,7 +154,7 @@ static void destroy_tokens(struct rdesc *p)
 
 /* - THE PUMP -------------------------------------------------------------- */
 #define current_variant_body(node) \
-	productions(*p->cfg)[rid(node)][rvariant(node)]
+	productions(*p->grammar)[rid(node)][rvariant(node)]
 #define next_symbol(node) \
 	current_variant_body(node)[rchild_count(node)]
 
@@ -298,7 +298,7 @@ static inline enum internal_pump_state {
 		return NOMATCH;
 	}
 
-	struct rdesc_cfg_symbol rule = next_symbol(n);
+	struct rdesc_grammar_symbol rule = next_symbol(n);
 
 	switch (rule.ty) {
 	case RDESC_TOKEN:

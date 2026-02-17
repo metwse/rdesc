@@ -4,24 +4,26 @@
  * @section Introduction
  *
  * librdesc is a table-driven recursive descent parsing library written in C99.
- * librdesc features:
+ * It features
  * - Table-Driven Parsing: Parser logic is generic and can be controlled at
- *   runtime without recompiling via the `struct rdesc_cfg` table.
+ *   runtime without recompiling.
  * - Pump Mechanism: Parsing is driven by `rdesc_pump()`, a state machine that
- *   allows for token by token feeding.
- * - Robus Error Recovery: The parser handles memory allocation errors as much
- *   as possible and remains in a valid state.
+ *   allows token by token feeding.
+ * - Robus Error Recovery: The engine handles memory allocation errors an
+ *   remains in a valid state even if memory allocation fails.
+ *
  *
  * @section API Overview
  *
- * 1. Parser (`rdesc.h`): The engine that consumes contex-free grammar tokens.
- *    It defines the core algorithm - parser state machine.
- * 2. Tree macros (`cst_macros.h`): Macros enabling access to fields of CST.
- * 3. CFG (`cfg.h`): Defines the context-free grammar struct for construction
- *    rules which usually populated with static constant data via macros.
+ * 1. Parser (`rdesc.h`): The engine that consumes tokens. It defines the core
+ *    algorithm - the parser state machine.
+ * 2. Tree macros (`cst_macros.h`): Macros to access fields of CST.
+ * 3. Grammar (`grammar.h`): Defines the grammar struct for construction
+ *    rules, which usually populated with static constant data via macros.
  * 4. Rule macros (`bnf_macros.h`): A set of macros to facilitate definning
- *    context free grammars. See @ref examples_sec for usage.
+ *    rdesc grammars. See @ref examples_sec for usage.
  * 5. Optional features (`util.h`): Development and debugging utilities.
+ *
  *
  * @section quickstart_sec Quick Start Guide
  *
@@ -29,17 +31,18 @@
  *
  * 1. Define the identifiers of tokens and nonterminals (e.g. create enums for
  *    your language symbols)
- * 2. Define your grammar, and its symbol table. You may use `bnf_macros.h` to
+ * 2. Define your grammar and its symbol table. You may use `bnf_macros.h` to
  *    create the rules table.
  * 3. Initialize:
  * @code{.c}
- * struct rdesc_cfg cfg;
- * rdesc_cfg_init(&cfg, ...);  // Load your rules
+ * struct rdesc_grammar grammar;
+ * rdesc_grammar_init(&grammar, ...);  // Load your rules
  *
  * struct rdesc parser;
- *                            // vvv function pointer for freeing seminfo
- * rdesc_init(&parser, &cfg, 8, token_destroyer_method);
- *                       // ^^^ 8 is the size your grammar's semantic information
+ *                              // vvv function pointer for freeing seminfo
+ * rdesc_init(&parser, &grammar, 8, token_destroyer_method);
+ *                           // ^^^ 8 is the size your grammar's semantic
+ *                           // information
  * @endcode
  * 4. Pump Tokens: Feed tokens into the loop until a tree is ready.
  * @code{.c}
@@ -62,6 +65,7 @@
  * }
  * @endcode
  *
+ *
  * @section examples_sec Examples
  *
  * - @ref boolean_algebra.h : A Boolean Algebra grammar demonstrating
@@ -69,6 +73,8 @@
  * - @ref bc.h : A Basic Calculator implementation demonstrating operator
  *   precedence and expressions.
  *
+ *
  * @section build_sec Building
+ *
  * See @ref README.md for building instructions.
  */

@@ -23,7 +23,7 @@
 #ifndef BC_H
 #define BC_H
 
-#include "../../include/cfg.h"
+#include "../../include/grammar.h"
 
 #define PREFIX_TK(tk) TK_ ## tk
 #define PREFIX_NT(nt) NT_ ## nt
@@ -76,7 +76,7 @@ const char *const bc_nt_names[BC_NT_COUNT] = {
 	"stmt",
 };
 
-static const struct rdesc_cfg_symbol
+static const struct rdesc_grammar_symbol
 bc[BC_NT_COUNT][BC_NT_VARIANT_COUNT][BC_NT_BODY_LENGTH] = {
 	/* <unsigned> ::= */ r(
 		TK(NUM),

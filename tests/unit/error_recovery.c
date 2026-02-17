@@ -1,6 +1,6 @@
 /* Test rdesc pumping mechanism under OOM stress. */
 
-#include "../../include/cfg.h"
+#include "../../include/grammar.h"
 #include "../../include/rdesc.h"
 #include "../../src/detail.h"
 
@@ -15,13 +15,13 @@
 #include "../lib/bc_fuzzer.c"
 
 #include "../../src/rdesc.c"
-#include "../../src/cfg.c"
+#include "../../src/grammar.c"
 
 
-void test_complete_parse(struct rdesc_cfg *cfg)
+void test_complete_parse(struct rdesc_grammar *grammar)
 {
 	struct rdesc p;
-	rdesc_init(&p, cfg, rand() % 8, NULL);
+	rdesc_init(&p, grammar, rand() % 8, NULL);
 
 	struct bc_grammar_generator g = BC_DEFAULT_GENERATOR;
 
@@ -62,15 +62,16 @@ int main(void)
 {
 	srand(time(NULL));
 
-	struct rdesc_cfg cfg;
+	struct rdesc_grammar grammar;
 
-	rdesc_cfg_init(&cfg, BC_NT_COUNT, BC_NT_VARIANT_COUNT,
-		       BC_NT_BODY_LENGTH, (struct rdesc_cfg_symbol *) bc);
+	rdesc_grammar_init(&grammar,
+			   BC_NT_COUNT, BC_NT_VARIANT_COUNT, BC_NT_BODY_LENGTH,
+			   (struct rdesc_grammar_symbol *) bc);
 
 	/* test interruption & complete parse in the same parser */
 	for (int _fuzz = 0; _fuzz < 32; _fuzz++) {
-		test_complete_parse(&cfg);
+		test_complete_parse(&grammar);
 	}
 
-	rdesc_cfg_destroy(&cfg);
+	rdesc_grammar_destroy(&grammar);
 }

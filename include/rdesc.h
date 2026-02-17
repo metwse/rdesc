@@ -35,8 +35,8 @@ enum rdesc_result {
 struct rdesc {
 	/** @cond */
 
-	/* Context-free grammar production rules. */
-	const struct rdesc_cfg *cfg;
+	/* Grammar production rules. */
+	const struct rdesc_grammar *grammar;
 
 	/* Size in bytes allocated for each token's semantic information. */
 	size_t seminfo_size;
@@ -81,7 +81,7 @@ extern "C" {
  * @return Non-zero value if memory allocation fails.
  */
 int rdesc_init(struct rdesc *parser,
-	       const struct rdesc_cfg *cfg,
+	       const struct rdesc_grammar *grammar,
 	       size_t seminfo_size,
 	       void (*token_destroyer)(uint16_t id, void *seminfo));
 
@@ -149,11 +149,6 @@ static inline enum rdesc_result rdesc_resume(struct rdesc *parser)
  * @note Returns NULL if parser does not contain any tree.
  */
 struct rdesc_node *rdesc_root(struct rdesc *parser);
-
-/** @cond */
-struct rdesc_node *_rdesc_priv_cst_illegal_access(const struct rdesc *parser,
-						  size_t index);
-/** @endcond */
 
 #ifdef __cplusplus
 }

@@ -1,5 +1,5 @@
 #include "../include/rdesc.h"
-#include "../include/cfg.h"
+#include "../include/grammar.h"
 
 #include "grammar/bc.h"
 #include "lib/bc_interpreter.h"
@@ -74,13 +74,14 @@ void program(struct exblex *lex, struct rdesc *p)
 int main(void)
 {
 	struct exblex lex;
-	struct rdesc_cfg cfg;
+	struct rdesc_grammar grammar;
 	struct rdesc p;
 
-	rdesc_cfg_init(&cfg, BC_NT_COUNT, BC_NT_VARIANT_COUNT,
-		       BC_NT_BODY_LENGTH, (struct rdesc_cfg_symbol *) bc);
+	rdesc_grammar_init(&grammar,
+			   BC_NT_COUNT, BC_NT_VARIANT_COUNT, BC_NT_BODY_LENGTH,
+			   (struct rdesc_grammar_symbol *) bc);
 	rdesc_init(&p,
-		   &cfg,
+		   &grammar,
 		   sizeof(void *) /* semantic info holds char* */,
 		   bc_tk_destroyer);
 
@@ -88,5 +89,5 @@ int main(void)
 	program(&lex, &p);
 
 	rdesc_destroy(&p);
-	rdesc_cfg_destroy(&cfg);
+	rdesc_grammar_destroy(&grammar);
 }

@@ -4,7 +4,7 @@ FULL_FEATURES = stack dump_cst dump_bnf
 # release, debug, or test
 MODE ?= release
 # List of essential files of the library.
-LIB_MANDATORY = rdesc cfg
+LIB_MANDATORY = rdesc grammar
 
 SRC_DIR = src
 INC_DIR = include

@@ -2,7 +2,7 @@
  * @file boolean_algebra.h
  * @brief Boolean algebra grammar example for librdesc.
  *
- * This file defines a sample CFG for a simple Boolean Algebra language. It
+ * This file defines a sample grammar for a simple Boolean Algebra language. It
  * serves two main purposes:
  * 1. To demonstrate how to use the BNF macros (`bnf_macros.h`) to define
  *    grammars.
@@ -20,7 +20,7 @@
 #ifndef BALG_H
 #define BALG_H
 
-#include "../../include/cfg.h"
+#include "../../include/grammar.h"
 
 /** @brief Add TK_ prefix in `TK` macro. */
 #define PREFIX_TK(tk) TK_ ## tk
@@ -128,8 +128,8 @@ const char *const balg_nt_names[BALG_NT_COUNT] = {
 	"expr_ls", "expr_ls_rest",
 };
 
-/** @brief Example context-free grammar. */
-static const struct rdesc_cfg_symbol
+/** @brief Sample grammar. */
+static const struct rdesc_grammar_symbol
 balg[BALG_NT_COUNT][BALG_NT_VARIANT_COUNT][BALG_NT_BODY_LENGTH] = {
 	/* <bit> ::= */ r(
 		TK(TRUE),

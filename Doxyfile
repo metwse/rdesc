@@ -5,4 +5,5 @@ INPUT                  = src/ include/ examples/ README.md mainpage.dox
 RECURSIVE              = YES
 GENERATE_HTML          = YES
 GENERATE_LATEX         = NO
+EXTRACT_STATIC         = YES
 QUIET                  = YES

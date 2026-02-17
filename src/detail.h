@@ -52,10 +52,10 @@
 #define cast(t, exp) ((t) (exp))
 
 /** @brief Internal macro for casting symbol table pointer to 3D array type. */
-#define productions(cfg) \
-	(*cast(const struct rdesc_cfg_symbol (*) \
-		[(cfg).nt_count][(cfg).nt_variant_count][(cfg).nt_body_length], \
-	      (cfg).rules))
+#define productions(grammar) \
+	(*cast(const struct rdesc_grammar_symbol (*) \
+		[(grammar).nt_count][(grammar).nt_variant_count][(grammar).nt_body_length], \
+	      (grammar).rules))
 
 
 /** @brief Size of a token node for parser (including its seminfo field). */

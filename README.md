@@ -46,7 +46,7 @@ make FEATURES='stack dump_bnf dump_cst'
 | Feature | Description |
 |--|--|
 | `stack` | Use built-in stack implementation in backtracing, which uses `malloc/free` family functions. |
-| `dump_bnf` | Dump `rdesc_cfg` (Context-Free Grammar) in Backus–Naur form. |
+| `dump_bnf` | Dump `rdesc_gramar` in Backus-Naur form. |
 | `dump_cst` | Dump `rdesc_node` (Concrete Syntax Tree) as dotlang graph. |
 
 You may use feature flag `full` to include all features.
