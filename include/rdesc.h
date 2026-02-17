@@ -9,13 +9,13 @@
 #include <stdint.h>
 #include <stddef.h>
 
-/** @brief major version */
+/** @brief Major version */
 #define RDESC_VERSION_MAJOR 0
-/** @brief minor version */
+/** @brief Minor version */
 #define RDESC_VERSION_MINOR 2
-/** @brief patch version */
+/** @brief Patch version */
 #define RDESC_VERSION_PATCH 0
-/** @brief prerelease identifier */
+/** @brief Prerelease identifier */
 #define RDESC_VERSION_PRE_RELEASE "alpha+api-review"
 
 
@@ -27,7 +27,7 @@ enum rdesc_result {
 	RDESC_READY = 0,
 	/** New tokens should be provided. */
 	RDESC_CONTINUE = 1,
-	/** Provided tokens do not match with any rule. */
+	/** Provided tokens do not match any rule. */
 	RDESC_NOMATCH = 2,
 };
 
@@ -50,7 +50,7 @@ struct rdesc {
 	void *saved_seminfo;
 
 	/* - Navigation - */
-	size_t cur  /* (currrent) Nonterminal being expaned, and might not be
+	size_t cur  /* (current) Nonterminal being expanded; may not be
 		     * the top element. */;
 	uint16_t top_unwind  /* Stack's top node's unwind distance. */;
 
@@ -78,7 +78,7 @@ extern "C" {
 /**
  * @brief Initializes a new parser.
  *
- * @return Non-zero value if memory allocation is failed.
+ * @return Non-zero value if memory allocation fails.
  */
 int rdesc_init(struct rdesc *parser,
 	       const struct rdesc_cfg *cfg,
@@ -96,7 +96,7 @@ void rdesc_destroy(struct rdesc *parser);
 /**
  * @brief Sets start symbol for the next match.
  *
- * @return Non-zero if memory allocation is failed.
+ * @return Non-zero value if memory allocation fails.
  */
 int rdesc_start(struct rdesc *parser, int start_symbol);
 
@@ -106,7 +106,7 @@ int rdesc_start(struct rdesc *parser, int start_symbol);
  * @note `seminfo` field in `struct rdesc_token` is ignored, i.e., not freed,
  *        unless `token_destroyer` is set.
  *
- * @return Non-zero if memory allocation is failed.
+ * @return Non-zero value if memory allocation fails.
  */
 int rdesc_reset(struct rdesc *parser);
 
@@ -118,8 +118,8 @@ int rdesc_reset(struct rdesc *parser);
  *
  * @param parser Pointer to the parser instance.
  * @param id Identifier of the next token to consume.
- *        - **ID 0 is reserved** for resuming from backtrack stack (for start
- *          symbol change or in retries due to memory allocation errors or )
+ *        - **ID 0 is reserved** for resuming from the backtrack stack, used
+ *          for start symbol changes or retries after memory allocation errors.
  * @param seminfo Extra semantic information for the token.
  *        - Semantic information pointer. The parser copies this data
  *          internally, so passing a pointer to stack-allocated data is valid.
@@ -144,7 +144,7 @@ static inline enum rdesc_result rdesc_resume(struct rdesc *parser)
 { return rdesc_pump(parser, 0, NULL); }
 
 /**
- * @brief Returns the root of CST.
+ * @brief Returns the root of the CST.
  *
  * @note Returns NULL if parser does not contain any tree.
  */
@@ -184,8 +184,8 @@ struct _rdesc_priv_nt {
 struct _rdesc_priv_node {
 	/* ALSO CHANGE sizeof_node macro for any change in this struct. */
 	size_t parent  /* Index of parent. */;
-	uint16_t unwind_size  /* Previous node's unwind size (for backwards
-			       * navigation on stack). */;
+	uint16_t unwind_size  /* Previous node's unwind size (for backward
+		               * navigation on the stack). */;
 
 	union {
 		uint16_t ty : 1  /* 0 for token and 1 for nonterminal. */;

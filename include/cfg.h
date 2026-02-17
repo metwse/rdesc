@@ -11,6 +11,7 @@
 
 #include <stdint.h>
 
+
 /**
  * @brief Context-free grammar definition.
  *
@@ -18,36 +19,41 @@
  * - [nt_count][nt_variant_count][nt_body_length]
  */
 struct rdesc_cfg {
-  /** @brief Context-free grammar production rules. */
-  const struct rdesc_cfg_symbol *rules;
-  /** @brief Total number of nonterminals. */
-  uint32_t nt_count;
-  /** @brief Maximum number of variants, used for segmenting production rules
-   * array to a 3D array. */
-  uint16_t nt_variant_count;
-  /** @brief Maximum number of symbols in a variant. */
-  uint16_t nt_body_length;
-  /** @brief Maximum number of children of nonterminal variants. */
-  uint16_t *child_caps;
+	/** @brief Context-free grammar production rules. */
+	const struct rdesc_cfg_symbol *rules;
+	/** @brief Total number of nonterminals. */
+	uint32_t nt_count;
+	/**
+	 * @brief Maximum number of variants, used to segment the production
+	 * rules array into a 3D array.
+	 */
+	uint16_t nt_variant_count;
+	/** @brief Maximum number of symbols in a variant. */
+	uint16_t nt_body_length;
+	/** @brief Maximum number of children of nonterminal variants. */
+	uint16_t *child_caps;
 };
 
 /** @brief The type of `rdesc_cfg_symbol` (the union's tag). */
 enum rdesc_cfg_symbol_type {
-  RDESC_TOKEN,
-  RDESC_NONTERMINAL,
-  /** @brief sentinel for terminating production body or variants of
-   * a nonterminal. */
-  RDESC_SENTINEL,
+	RDESC_TOKEN,
+	RDESC_NONTERMINAL,
+	/**
+	 * @brief Sentinel for terminating a production body or the variants
+	 * of a nonterminal.
+	 */
+	RDESC_SENTINEL,
 };
 
 /**
- * @brief A terminal/nonterminal to describe body (right side) of a production
- * rule.
+ * @brief A terminal or nonterminal representing the body (right side) of a
+ * production rule.
  */
 struct rdesc_cfg_symbol {
-  enum rdesc_cfg_symbol_type ty /** Type of the symbol. */;
-  int id /** Terminal, nonterminal, or sentinel identifier. */;
+	enum rdesc_cfg_symbol_type ty /** Type of the symbol. */;
+	int id /** Terminal, nonterminal, or sentinel identifier. */;
 };
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -55,9 +61,9 @@ extern "C" {
 
 /** @brief Initializes a context-free grammar object. */
 void rdesc_cfg_init(struct rdesc_cfg *cfg, uint32_t nonterminal_count,
-                    uint16_t nonterminal_variant_count,
-                    uint16_t nonterminal_body_length,
-                    const struct rdesc_cfg_symbol *production_rules);
+		    uint16_t nonterminal_variant_count,
+		    uint16_t nonterminal_body_length,
+		    const struct rdesc_cfg_symbol *production_rules);
 
 /** @brief Frees the context-free grammar struct. */
 void rdesc_cfg_destroy(struct rdesc_cfg *cfg);
@@ -65,5 +71,6 @@ void rdesc_cfg_destroy(struct rdesc_cfg *cfg);
 #ifdef __cplusplus
 }
 #endif
+
 
 #endif

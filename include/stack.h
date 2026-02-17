@@ -32,7 +32,7 @@ struct rdesc_stack;
  * @param element_size Size of each element in bytes
  *
  * @post Stack is allocated with initial capacity and zero length.
- * @note *stack set to NULL if allocation failed.
+ * @note *stack is set to NULL if allocation fails.
  */
 void rdesc_stack_init(struct rdesc_stack **stack, size_t element_size);
 
@@ -47,7 +47,7 @@ void rdesc_stack_destroy(struct rdesc_stack *stack);
  * @brief Clears the stack and resets capacity to initial size.
  *
  * @post Stack length is zero, capacity is reset to initial value.
- * @note *stack set to NULL if allocation failed.
+ * @note *stack is set to NULL if allocation fails.
  */
 void rdesc_stack_reset(struct rdesc_stack **stack);
 
@@ -72,10 +72,10 @@ void *rdesc_stack_at(struct rdesc_stack *stack, size_t index);
  *         to allocated space for manual initialization.
  *
  * @note If count is 0, this is a no-op and returns a pointer at current top.
- * @note Return NULL if memory allocation is failed. Elements are not pushed
+ * @note Returns NULL if memory allocation fails. Elements are not pushed
  *       in case of failure.
- * @warning As this function may trigger realloc, the `element` SHALL NOT point
- *          the stack.
+ * @warning As this function may trigger realloc, `element` SHALL NOT point
+ *          to the stack.
  */
 void *rdesc_stack_multipush(struct rdesc_stack **stack, void *elements, size_t count);
 

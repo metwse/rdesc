@@ -9,18 +9,18 @@
  *   runtime without recompiling via the `struct rdesc_cfg` table.
  * - Pump Mechanism: Parsing is driven by `rdesc_pump()`, a state machine that
  *   allows for token by token feeding.
+ * - Robus Error Recovery: The parser handles memory allocation errors as much
+ *   as possible and remains in a valid state.
  *
- * @section api API Overview
+ * @section API Overview
  *
- * 1. Parser (`rdesc.h`): The engine that consumes the CFG and Input. It
- *    defines token and nonterminal structs and functions for bootstrapping
- *    the parser.
- * 2. Tree macros (`cst_macros.h`): Macros enabling access to fields of parsed
- *    CST.
- * 3. CFG (`cfg.h`): Defines the CFG struct for rules. This usually populated
- *    with static constant data via macros.
+ * 1. Parser (`rdesc.h`): The engine that consumes contex-free grammar tokens.
+ *    It defines the core algorithm - parser state machine.
+ * 2. Tree macros (`cst_macros.h`): Macros enabling access to fields of CST.
+ * 3. CFG (`cfg.h`): Defines the context-free grammar struct for construction
+ *    rules which usually populated with static constant data via macros.
  * 4. Rule macros (`bnf_macros.h`): A set of macros to facilitate definning
- *    context free grammars. See examples below for usage.
+ *    context free grammars. See @ref examples_sec for usage.
  * 5. Optional features (`util.h`): Development and debugging utilities.
  *
  * @section quickstart_sec Quick Start Guide
@@ -37,24 +37,25 @@
  * rdesc_cfg_init(&cfg, ...);  // Load your rules
  *
  * struct rdesc parser;
- *
- * rdesc_init(&parser, &cfg, 8);
+ *                            // vvv function pointer for freeing seminfo
+ * rdesc_init(&parser, &cfg, 8, token_destroyer_method);
  *                       // ^^^ 8 is the size your grammar's semantic information
  * @endcode
  * 4. Pump Tokens: Feed tokens into the loop until a tree is ready.
  * @code{.c}
  * rdesc_start(&parser, NT_STMT);  // Set your start symbol.
  *
- * enum rdesc_result res;
- * struct rdesc_node *cst;
- * while ((res = rdesc_pump(&parser,
- *                          &cst,
- *                          next_token_id(),
- *                          next_token_seminfo())) == RDESC_CONTINUE) {
- *      // Acquire next_token from your lexer.
- * }
+ * enum rdesc_result parser_state;
+ * do {
+ *     // Acquire next_token from your lexer.
+ *     uint16_t tk = next_tk();
+ *     void *seminfo = next_seminfo();
+ *
+ *     parser_state = rdesc_pump(&parser, tk, seminfo);
+ * } while (parser_state == RDESC_CONTINUE);
  *
  * if (res == RDESC_READY) {
+ *      struct rdesc_node *cst = rdesc_root(&parser);
  *      // Process the `cst` via `cst_macros.h`.
  * } else if (res == RDESC_NOMATCH) {
  *      // Handle syntax errors.
