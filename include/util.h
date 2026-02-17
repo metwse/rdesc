@@ -34,16 +34,14 @@ void rdesc_dump_cst(FILE *out,
 /**
  * @brief Dumps the grammar in BNF format.
  *
- * Iterates over the production rules defined in the configuration and prints
- * them in a human-readable BNF format. (e.g.`A ::= B | C`)
+ * Prints all production rules in human-readable BNF format. (e.g.`A ::= B | C`)
  *
  * @param out Output file stream
  * @param grammar Underlying grammar struct
  * @param tk_names The token name or literal representation (e.g., `IDENT` or
- *        `+`). If you do not want to put double quotes around token name,
- *        put @ at the beginning of the name.
- * @param nt_names The raw name of the nonterminal (e.g., `expr`). The dumper
- *        handles the surrounding `<` and `>` characters automatically.
+ *        `+`). Prefix with '@' to suppress automatic quote wrapping.
+ * @param nt_names The raw name of the nonterminal (e.g., `expr`). Angle
+ *        brackets `<>` are added automatically.
  */
 void rdesc_dump_bnf(FILE *out,
 		    const struct rdesc_grammar *grammar,

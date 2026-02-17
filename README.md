@@ -1,5 +1,5 @@
 # librdesc
-generic descent parser
+deterministic recursive descent parser with ordered-choice semantics
 
 `librdesc` is a portable, table-driven, algorithm-only parsing library written
 in standard C99. It provides the flexibility of a recursive descent parser with
@@ -46,7 +46,7 @@ make FEATURES='stack dump_bnf dump_cst'
 | Feature | Description |
 |--|--|
 | `stack` | Use built-in stack implementation in backtracing, which uses `malloc/free` family functions. |
-| `dump_bnf` | Dump `rdesc_gramar` in Backus-Naur form. |
+| `dump_bnf` | Dump `rdesc_grammar` in Backus-Naur form. |
 | `dump_cst` | Dump `rdesc_node` (Concrete Syntax Tree) as dotlang graph. |
 
 You may use feature flag `full` to include all features.

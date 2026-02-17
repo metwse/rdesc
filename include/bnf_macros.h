@@ -1,7 +1,6 @@
 /**
  * @file bnf_macros.h
- * @brief DSL (domain specific language) macros to facilitate defining grammar
- * with Backus-Naur form (BNF).
+ * @brief DSL macros for defining grammars in Backus-Naur form (BNF).
  *
  * Provides macros (r, rrr, ropt) to define these production rules in a
  * readable way.
@@ -13,7 +12,7 @@
  * member).
  *
  * - Default: Identity mapping. `TK(ID)`/`NT(ID)` expands to `ID`.
- * - Override: Define this macro before including the `bnf_macros.h` to add
+ * - Override: Define this macro before including `bnf_macros.h` to add
  *   namespaces (e.g., `#define PREFIX_TK(x) MY_TK_ ## x`).
  */
 
@@ -52,8 +51,8 @@
 #define TK(tk) { .ty = RDESC_TOKEN, .id = PREFIX_TK(tk) }
 /** @brief Macro to create a nonterminal production symbol. */
 #define NT(nt) { .ty = RDESC_NONTERMINAL, .id = PREFIX_NT(nt) }
-/** @brief Macro to create an epsilon production symbol. Use this to represent
- * an empty production (ε). */
+/** @brief Epsilon production (empty/null production). Use to represent a
+ * variant that matches nothing (ε in BNF notation). */
 #define EPSILON SEOB
 
 
@@ -64,10 +63,9 @@
 #define r(...) { { __VA_ARGS__ SEOB }, SEOC }
 
 /**
- * @brief Macro to define a pair of rules for a right-recursive list.
+ * @brief Defines right-recursive list rules.
  *
- * This is the standard pattern for lists and operator precedence. It
- * automatically defines the rule for 'head' and 'head_REST'.
+ * Creates two nonterminals: the list head and its rest continuation.
  *
  * For example, `rrr(EXPR_LS, NT(EXPR), TK(COMMA))` defines:
  * 1. `<expr_ls> ::= <expr> <expr_ls_rest>`
@@ -91,9 +89,10 @@
 #define ropt(...) { { __VA_ARGS__, SEOB }, { SEOB }, SEOC }
 
 /**
- * @brief Macro for syntactic sugar to separate nonterminal alternatives.
+ * @brief Separates grammar alternatives (variant separator).
  *
- * Expands to the end-of-body sentinel and new variant syntax.
+ * Expands to end-of-body sentinel and new variant initialization.
+ * Use between alternatives: `r(X alt Y alt Z)`
  */
 #define alt SEOB, }, {
 

@@ -1,6 +1,12 @@
 /**
  * @file rdesc.h
- * @brief The recursive descent parser.
+ * @brief Deterministic recursive descent parser with ordered-choice semantics.
+ *
+ * rdesc parses grammars using prioritized alternatives where the first
+ * matching variant is selected, it tries grammar alternatives in declaration
+ * order.
+ *
+ * Provides unlimited lookahead via backtracking.
  */
 
 #ifndef RDESC_H
@@ -19,7 +25,7 @@
 #define RDESC_VERSION_PRE_RELEASE "alpha+api-review"
 
 
-/** @brief Pump status. */
+/** @brief Parse operation result codes. */
 enum rdesc_result {
 	/** Memory allocation failed. */
 	RDESC_ENOMEM = -1,
@@ -27,11 +33,11 @@ enum rdesc_result {
 	RDESC_READY = 0,
 	/** New tokens should be provided. */
 	RDESC_CONTINUE = 1,
-	/** Provided tokens do not match any rule. */
+	/** No grammar rule matches the provided tokens. */
 	RDESC_NOMATCH = 2,
 };
 
-/** @brief The recursive descent parser. */
+/** @brief Recursive descent parser state. */
 struct rdesc {
 	/** @cond */
 
@@ -58,7 +64,7 @@ struct rdesc {
 	void (*token_destroyer)(uint16_t, void *);
 
 	/* Token stack used to store tokens temporarily during nonterminal
-	 * backtracing. */
+	 * backtracking. */
 	struct rdesc_stack *token_stack;
 
 	/* Underlying concrete syntax tree. */
@@ -67,7 +73,7 @@ struct rdesc {
 	/** @endcond */
 };
 
-/** @brief A node in the CST */
+/** @brief Opaque CST (Concrete Syntax Tree) node. */
 struct rdesc_node;
 
 
@@ -78,6 +84,11 @@ extern "C" {
 /**
  * @brief Initializes a new parser.
  *
+ * @param parser Parser instance to initialize.
+ * @param grammar Grammar defining production rules (must outlive parser).
+ * @param seminfo_size Size in bytes of token semantic information.
+ * @param token_destroyer Optional callback to free token seminfo (can be NULL).
+ *
  * @return Non-zero value if memory allocation fails.
  */
 int rdesc_init(struct rdesc *parser,
@@ -87,9 +98,6 @@ int rdesc_init(struct rdesc *parser,
 
 /**
  * @brief Frees memory allocated by the parser and destroys the parser instance.
- *
- * @note `seminfo` field in `struct rdesc_token` is ignored, i.e., not freed,
- *        unless `token_destroyer` is set.
  */
 void rdesc_destroy(struct rdesc *parser);
 
@@ -101,10 +109,7 @@ void rdesc_destroy(struct rdesc *parser);
 int rdesc_start(struct rdesc *parser, int start_symbol);
 
 /**
- * @brief Resets parser and its state.
- *
- * @note `seminfo` field in `struct rdesc_token` is ignored, i.e., not freed,
- *        unless `token_destroyer` is set.
+ * @brief Resets the parser to its initial state.
  *
  * @return Non-zero value if memory allocation fails.
  */
@@ -118,8 +123,9 @@ int rdesc_reset(struct rdesc *parser);
  *
  * @param parser Pointer to the parser instance.
  * @param id Identifier of the next token to consume.
- *        - **ID 0 is reserved** for resuming from the backtrack stack, used
- *          for start symbol changes or retries after memory allocation errors.
+ *        - **ID 0 is reserved** for resuming from the backtrack stack. This
+ *          occurs after start symbol changes or memory allocation error
+ *          retries.
  * @param seminfo Extra semantic information for the token.
  *        - Semantic information pointer. The parser copies this data
  *          internally, so passing a pointer to stack-allocated data is valid.
@@ -127,14 +133,14 @@ int rdesc_reset(struct rdesc *parser);
  *
  * @return The current status of the parse operation.
  *
- * @warning Raises an error if parser is not started.
+ * @warning Raises an error if the parser is not started.
  */
 enum rdesc_result rdesc_pump(struct rdesc *parser, uint16_t id, void *seminfo);
 
 /**
  * @brief Resume parsing without providing a new token.
  *
- * Continues parsing using either:
+ * Resumes using either:
  * - The saved token from a previous ENOMEM error, or
  * - A token from the backtrack stack
  *
@@ -146,7 +152,7 @@ static inline enum rdesc_result rdesc_resume(struct rdesc *parser)
 /**
  * @brief Returns the root of the CST.
  *
- * @note Returns NULL if parser does not contain any tree.
+ * @note Returns NULL if no CST has been created yet.
  */
 struct rdesc_node *rdesc_root(struct rdesc *parser);
 
@@ -155,8 +161,8 @@ struct rdesc_node *rdesc_root(struct rdesc *parser);
 #endif
 
 /** @cond */
-/* These structs are private that should only be used with the provided CST
- * macros. */
+/* These structs are private and should only be accessed via the provided
+ * CST macros. */
 
 #pragma pack(push, 1)
 

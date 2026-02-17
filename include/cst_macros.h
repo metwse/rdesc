@@ -2,10 +2,9 @@
  * @file cst_macros.h
  * @brief Macros for accessing fields of node structs.
  *
- * `rdesc` returns opaque pointers abstracting away underlying complexity of
- * memory layout. This header provides stable macros for dereferencing such
- * pointers to terminal/nonterminal fields that are tentative and unstructured
- * due to memory layout optimizations.
+ * The parser returns opaque CST node pointers that hide memory layout details.
+ * This header provides macros to safely access node fields despite the
+ * optimized, compact memory representation.
  */
 
 #ifndef RDESC_CST_MACROS_H
@@ -20,7 +19,8 @@ struct rdesc;  /* defined in rdesc.h */
 #define rparent(p, node) \
 	_rdesc_priv_cst_illegal_access(p, _rdesc_priv_parent_idx(node))
 
-/** @brief Returns type of the node. @see enum rdesc_grammar_symbol_type */
+/** @brief Returns node type (RDESC_TOKEN or RDESC_NONTERMINAL).
+ * @see enum rdesc_grammar_symbol_type */
 #define rtype(node) _rdesc_priv_node_deref(node).n.ty
 
 /** @brief Returns the 15-bit identifier for underlying token/nonterminal. */

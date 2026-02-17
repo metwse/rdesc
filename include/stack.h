@@ -1,6 +1,6 @@
 /**
  * @file stack.h
- * @brief Generic dynamic stack interface contract.
+ * @brief Generic dynamic stack interface.
  *
  * This header defines the function signatures required to manipulate the
  * parser's stack. The stack is a generic, type-agnostic container that stores
@@ -82,8 +82,7 @@ void *rdesc_stack_multipush(struct rdesc_stack **stack, void *elements, size_t c
 /**
  * @brief Pushes a single element onto the stack.
  *
- * This function has the exact behavior with
- * `rdesc_stack_multipush(stack, element, 1)`.
+ * Equivalent to `rdesc_stack_multipush(stack, element, 1)`.
  *
  * @see rdesc_stack_multipush
  */
@@ -103,7 +102,7 @@ void *rdesc_stack_multipop(struct rdesc_stack **stack, size_t count);
 /**
  * @brief Removes and returns the top element from the stack.
  *
- * This function has the exact behavior with `rdesc_stack_multipop(stack, 1)`.
+ * Equivalent to `rdesc_stack_multipop(stack, 1)`.
  *
  * @see rdesc_stack_multipop
  */

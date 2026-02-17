@@ -4,14 +4,16 @@
  * @section Introduction
  *
  * librdesc is a table-driven recursive descent parsing library written in C99.
- * It features
+ *
  * - Table-Driven Parsing: Parser logic is generic and can be controlled at
  *   runtime without recompiling.
  * - Pump Mechanism: Parsing is driven by `rdesc_pump()`, a state machine that
  *   allows token by token feeding.
- * - Robus Error Recovery: The engine handles memory allocation errors an
+ * - Robus Error Recovery: The engine handles memory allocation errors and
  *   remains in a valid state even if memory allocation fails.
- *
+ * - Ordered-choice Semantics: Parses grammars using prioritized alternatives
+ *   where the first matching variant is selected. Provides unlimited lookahead
+ *   via backtracking.
  *
  * @section API Overview
  *
@@ -19,7 +21,7 @@
  *    algorithm - the parser state machine.
  * 2. Tree macros (`cst_macros.h`): Macros to access fields of CST.
  * 3. Grammar (`grammar.h`): Defines the grammar struct for construction
- *    rules, which usually populated with static constant data via macros.
+ *    rules, which usually populated with static constant data using macros.
  * 4. Rule macros (`bnf_macros.h`): A set of macros to facilitate definning
  *    rdesc grammars. See @ref examples_sec for usage.
  * 5. Optional features (`util.h`): Development and debugging utilities.
@@ -59,7 +61,7 @@
  *
  * if (res == RDESC_READY) {
  *      struct rdesc_node *cst = rdesc_root(&parser);
- *      // Process the `cst` via `cst_macros.h`.
+ *      // Process the `cst` (use `cst_macros.h`)
  * } else if (res == RDESC_NOMATCH) {
  *      // Handle syntax errors.
  * }
