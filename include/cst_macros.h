@@ -8,8 +8,8 @@
  * due to memory layout optimizations.
  */
 
-#ifndef CST_MACROS_H
-#define CST_MACROS_H
+#ifndef RDESC_CST_MACROS_H
+#define RDESC_CST_MACROS_H
 
 
 /** @brief Returns parent of the node, or `NULL` if the node is root. */

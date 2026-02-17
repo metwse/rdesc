@@ -17,8 +17,8 @@
  *   namespaces (e.g., `#define PREFIX_TK(x) MY_TK_ ## x`).
  */
 
-#ifndef BNF_MACROS_H
-#define BNF_MACROS_H
+#ifndef RDESC_BNF_MACROS_H
+#define RDESC_BNF_MACROS_H
 
 
 #ifndef PREFIX_TK
@@ -43,15 +43,15 @@
 
 /** @cond */
 /** sentinel struct for the end of a rule's body */
-#define SEOB { .ty = CFG_SENTINEL, .id = EOB }
+#define SEOB { .ty = RDESC_SENTINEL, .id = EOB }
 /** sentinel struct for the end of a construct's variants */
-#define SEOC { { .ty = CFG_SENTINEL, .id = EOC } }
+#define SEOC { { .ty = RDESC_SENTINEL, .id = EOC } }
 /** @endcond */
 
 /** @brief Macro to create a terminal (token) production symbol. */
-#define TK(tk) { .ty = CFG_TOKEN, .id = PREFIX_TK(tk) }
+#define TK(tk) { .ty = RDESC_TOKEN, .id = PREFIX_TK(tk) }
 /** @brief Macro to create a nonterminal production symbol. */
-#define NT(nt) { .ty = CFG_NONTERMINAL, .id = PREFIX_NT(nt) }
+#define NT(nt) { .ty = RDESC_NONTERMINAL, .id = PREFIX_NT(nt) }
 /** @brief Macro to create an epsilon production symbol. Use this to represent
  * an empty production (ε). */
 #define EPSILON SEOB

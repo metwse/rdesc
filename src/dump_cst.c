@@ -30,7 +30,7 @@ static void dump_graph_recursive(const struct rdesc *p,
 	node_printer(n, out);
 	fprintf(out, ";\n");
 
-	if (rtype(n) == CFG_NONTERMINAL) {
+	if (rtype(n) == RDESC_NONTERMINAL) {
 		for (uint16_t i = 0; i < rchild_count(n); i++)
 			dump_graph_recursive(p, rchild(p, n, i), this,
 					     id_counter, node_printer, out);

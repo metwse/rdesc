@@ -31,7 +31,7 @@ void rdesc_cfg_init(struct rdesc_cfg *cfg,
 
 			for (len = 0;
 				(sym = productions(*cfg)[nt_id][variant][len]).ty !=
-				CFG_SENTINEL;
+				RDESC_SENTINEL;
 				len++);
 
 			if (len > cfg->child_caps[nt_id])

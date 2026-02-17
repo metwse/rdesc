@@ -26,13 +26,13 @@ static void print_rule(const struct rdesc_cfg *cfg,
 			putc(' ', out);
 
 		const char *name = (
-			rule[i].ty == CFG_TOKEN ? tk_names : nt_names
+			rule[i].ty == RDESC_TOKEN ? tk_names : nt_names
 		)[rule[i].id];
-		const char *fstr = rule[i].ty == CFG_TOKEN ? (
+		const char *fstr = rule[i].ty == RDESC_TOKEN ? (
 			name[0] == '@' ? "%s" : "\"%s\""
 		) : "<%s>";
 
-		if (name[0] == '@' && rule[i].ty == CFG_TOKEN)
+		if (name[0] == '@' && rule[i].ty == RDESC_TOKEN)
 			name++;
 
 		fprintf(out, fstr, name);

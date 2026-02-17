@@ -16,11 +16,7 @@
 /** @brief patch version */
 #define RDESC_VERSION_PATCH 0
 /** @brief prerelease identifier */
-#define RDESC_VERSION_PRE_RELEASE "alpha+seminfo-ownership"
-
-
-/** @brief Function pointer type for freeing tokens. */
-typedef void (*rdesc_token_destroyer_func)(uint16_t id, void *seminfo);
+#define RDESC_VERSION_PRE_RELEASE "alpha+api-review"
 
 
 /** @brief Pump status. */
@@ -37,33 +33,37 @@ enum rdesc_result {
 
 /** @brief The recursive descent parser. */
 struct rdesc {
-	/** @brief Context-free grammar production rules. */
+	/** @cond */
+
+	/* Context-free grammar production rules. */
 	const struct rdesc_cfg *cfg;
 
-	/** @brief Size in bytes allocated for each token's semantic
-	 * information. */
+	/* Size in bytes allocated for each token's semantic information. */
 	size_t seminfo_size;
 
-	/** @cond */
-	uint16_t hold_tk  /* Extra space for holding a token in case of
-			   * memory allocation error. */;
+	/* - Error Recovery -
+	 *
+	 * Extra space for holding a token in case of memory allocation error.
+	 * Token will be copied to those fields for retry in next pump call.
+	 */
+	uint16_t saved_tk;
+	void *saved_seminfo;
 
-	void *hold_seminfo  /* Semantic information for held token. */;
+	/* - Navigation - */
+	size_t cur  /* (currrent) Nonterminal being expaned, and might not be
+		     * the top element. */;
+	uint16_t top_unwind  /* Stack's top node's unwind distance. */;
 
-	rdesc_token_destroyer_func tk_destroyer  /* Destructor method for
-						     * tokens the parser
-						     * owns. */;
+	/* Destructor method for tokens the parser owns. */
+	void (*token_destroyer)(uint16_t, void *);
 
-	struct rdesc_stack *token_stack  /* Token stack used to store tokens
-					  * temporarily during nonterminal
-					  * backtracing. */;
+	/* Token stack used to store tokens temporarily during nonterminal
+	 * backtracing. */
+	struct rdesc_stack *token_stack;
 
-	struct rdesc_stack *cst_stack /* Underlying concrete syntax tree. */;
+	/* Underlying concrete syntax tree. */
+	struct rdesc_stack *cst_stack;
 
-	size_t cur  /* (current) Index in CST that parsing continues on. */;
-
-	uint16_t top_size  /* Current top node's unwind size. Used to compute
-			    * its position: stack_len - top_size */;
 	/** @endcond */
 };
 
@@ -78,12 +78,12 @@ extern "C" {
 /**
  * @brief Initializes a new parser.
  *
- * @return Non-zero if memory allocation is failed.
+ * @return Non-zero value if memory allocation is failed.
  */
 int rdesc_init(struct rdesc *parser,
 	       const struct rdesc_cfg *cfg,
 	       size_t seminfo_size,
-	       rdesc_token_destroyer_func token_destroyer);
+	       void (*token_destroyer)(uint16_t id, void *seminfo));
 
 /**
  * @brief Frees memory allocated by the parser and destroys the parser instance.
@@ -118,8 +118,8 @@ int rdesc_reset(struct rdesc *parser);
  *
  * @param parser Pointer to the parser instance.
  * @param id Identifier of the next token to consume.
- *        - **ID 0 is reserved** for resuming from backtrack stack, for use
- *          in retries due to memory allocation errors or start symbol change.
+ *        - **ID 0 is reserved** for resuming from backtrack stack (for start
+ *          symbol change or in retries due to memory allocation errors or )
  * @param seminfo Extra semantic information for the token.
  *        - Semantic information pointer. The parser copies this data
  *          internally, so passing a pointer to stack-allocated data is valid.
@@ -130,6 +130,18 @@ int rdesc_reset(struct rdesc *parser);
  * @warning Raises an error if parser is not started.
  */
 enum rdesc_result rdesc_pump(struct rdesc *parser, uint16_t id, void *seminfo);
+
+/**
+ * @brief Resume parsing without providing a new token.
+ *
+ * Continues parsing using either:
+ * - The saved token from a previous ENOMEM error, or
+ * - A token from the backtrack stack
+ *
+ * This is equivalent to `rdesc_pump(parser, 0, NULL)`.
+ */
+static inline enum rdesc_result rdesc_resume(struct rdesc *parser)
+{ return rdesc_pump(parser, 0, NULL); }
 
 /**
  * @brief Returns the root of CST.
@@ -172,8 +184,8 @@ struct _rdesc_priv_nt {
 struct _rdesc_priv_node {
 	/* ALSO CHANGE sizeof_node macro for any change in this struct. */
 	size_t parent  /* Index of parent. */;
-	uint16_t unwind_size  /* Previous node's unwind size (for stack
-			       * backwards navigation). */;
+	uint16_t unwind_size  /* Previous node's unwind size (for backwards
+			       * navigation on stack). */;
 
 	union {
 		uint16_t ty : 1  /* 0 for token and 1 for nonterminal. */;

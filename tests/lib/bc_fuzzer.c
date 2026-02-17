@@ -98,9 +98,3 @@ enum bc_tk bc_fuzzer_next_tk(struct bc_grammar_generator *g)
 
 	return out;
 }
-
-void bc_fuzzer_dummy_token_destroyer(uint16_t id, void *seminfo)
-{
-	((void) id);
-	((void) seminfo);
-}

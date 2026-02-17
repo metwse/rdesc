@@ -33,11 +33,11 @@ struct rdesc_cfg {
 
 /** @brief The type of `rdesc_cfg_symbol` (the union's tag). */
 enum rdesc_cfg_symbol_type {
-  CFG_TOKEN,
-  CFG_NONTERMINAL,
+  RDESC_TOKEN,
+  RDESC_NONTERMINAL,
   /** @brief sentinel for terminating production body or variants of
    * a nonterminal. */
-  CFG_SENTINEL,
+  RDESC_SENTINEL,
 };
 
 /**

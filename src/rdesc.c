@@ -43,20 +43,21 @@ static inline void pop_child(struct rdesc *p,
 int rdesc_init(struct rdesc *p,
 	       const struct rdesc_cfg *cfg,
 	       size_t seminfo_size,
-	       rdesc_token_destroyer_func token_destroyer)
+	       void (*token_destroyer)(uint16_t, void *))
 {
 	p->cfg = cfg;
 	p->seminfo_size = seminfo_size;
-	p->cur = SIZE_MAX;
-	p->tk_destroyer = token_destroyer;
+	p->token_destroyer = token_destroyer;
 
-	p->hold_tk = 0;
+	p->cur = SIZE_MAX;
+	p->saved_tk = 0;
+
 	if (seminfo_size > 0) {
-		p->hold_seminfo = malloc(seminfo_size);
-		if (p->hold_seminfo == NULL)
+		p->saved_seminfo = malloc(seminfo_size);
+		if (p->saved_seminfo == NULL)
 			return 1; /* Could not preallocate extra seminfo space. */
 	} else {
-		p->hold_seminfo = NULL;
+		p->saved_seminfo = NULL;
 	}
 
 	rdesc_stack_init(&p->token_stack, sizeof_tk(*p));
@@ -79,6 +80,9 @@ void rdesc_destroy(struct rdesc *p)
 
 	rdesc_stack_destroy(p->token_stack);
 	rdesc_stack_destroy(p->cst_stack);
+
+	if (p->saved_seminfo != NULL)
+		free(p->saved_seminfo);
 }
 
 int rdesc_start(struct rdesc *p, int start_symbol)
@@ -89,7 +93,7 @@ int rdesc_start(struct rdesc *p, int start_symbol)
 	if (p->cst_stack == NULL)
 		return 1;  /* Could not reset CST stack. */
 
-	p->top_size = 0;
+	p->top_unwind = 0;
 	if (new_nt_node(p, start_symbol))
 		return 1;  /* Start symbol creation failed. */
 
@@ -98,42 +102,53 @@ int rdesc_start(struct rdesc *p, int start_symbol)
 
 int rdesc_reset(struct rdesc *p) {
 	destroy_tokens(p);
+
 	p->cur = SIZE_MAX;
+	p->saved_tk = 0;
 
 	rdesc_stack_reset(&p->token_stack);
-	rdesc_stack_reset(&p->cst_stack);
+	if (p->token_stack == NULL)
+		return 1;  /* Could not reset token stack.  */
 
-	if (p->token_stack == NULL || p->cst_stack == NULL)
-		return 1;
+	rdesc_stack_reset(&p->cst_stack);
+	if (p->cst_stack == NULL) {
+		rdesc_stack_destroy(p->token_stack);
+
+		return 1;  /* Could not reset CST stack. */
+	}
 
 	return 0;
 }
 
 static void destroy_tokens(struct rdesc *p)
 {
-	if (!p->tk_destroyer)
+	if (!p->token_destroyer)
 		return;
 
-	if (p->hold_tk)
-		p->tk_destroyer(p->hold_tk, p->hold_seminfo);
-
-	/* Walk CST backwards to destroy all embedded tokens */
-	p->cur = rdesc_stack_len(p->cst_stack);
-	while (p->cur) {
-		node_t *top = rdesc_stack_at(p->cst_stack, p->cur - p->top_size);
-		uint16_t hold_top_size = p->top_size;
-
-		if (rtype(top) == CFG_TOKEN)
-			p->tk_destroyer(rid(top), rseminfo(top));
-
-		p->top_size = runwind_size(top);
-		p->cur = p->cur - hold_top_size;
-	}
+	if (p->saved_tk)
+		p->token_destroyer(p->saved_tk, p->saved_seminfo);
 
 	/* Destroy tokens in backtrack stack */
 	for (size_t i = 0; i < rdesc_stack_len(p->token_stack); i++) {
 		tk_t *tk = rdesc_stack_at(p->token_stack, i);
-		p->tk_destroyer(tk->id, &tk->seminfo);
+		p->token_destroyer(tk->id, &tk->seminfo);
+	}
+
+	if (rdesc_stack_len(p->cst_stack)) {
+		/* Walk CST backwards to destroy all embedded tokens */
+		uint16_t top_unwind = p->top_unwind;
+
+		for (size_t top_idx = rdesc_stack_len(p->cst_stack) - top_unwind;
+		     top_idx > 0;  /* Termination: Cannot be a token */
+		     top_idx -= top_unwind) {
+			node_t *top = rdesc_stack_at(p->cst_stack, top_idx);
+			top_unwind = runwind_size(top);
+
+			if (rtype(top) == RDESC_TOKEN)
+				p->token_destroyer(rid(top), rseminfo(top));
+
+			top_unwind = runwind_size(top);
+		}
 	}
 }
 
@@ -145,17 +160,17 @@ static void destroy_tokens(struct rdesc *p)
 
 #define is_body_complete(node) \
 	(next_symbol(node).id == EOB && \
-	 next_symbol(node).ty == CFG_SENTINEL)
+	 next_symbol(node).ty == RDESC_SENTINEL)
 
 #define is_construct_end(node) \
 	(current_variant_body(node)[0].id == EOC && \
-	 current_variant_body(node)[0].ty == CFG_SENTINEL)
+	 current_variant_body(node)[0].ty == RDESC_SENTINEL)
 
 /* Backtraces to the last nonterminal that is not completed, or teardowns the
  * entire CST. */
 static int nonterminal_failed(struct rdesc *p)
 {
-	size_t top_idx = rdesc_stack_len(p->cst_stack) - p->top_size;
+	size_t top_idx = rdesc_stack_len(p->cst_stack) - p->top_unwind;
 
 	size_t tokens_push = 0;
 
@@ -165,7 +180,7 @@ static int nonterminal_failed(struct rdesc *p)
 
 		/* Maintenance: Set the top size to previous element's size,
 		 * to get it on the next iteration. */
-		if (rtype(top) == CFG_TOKEN) {
+		if (rtype(top) == RDESC_TOKEN) {
 			if (rdesc_stack_push(&p->token_stack, &top->n.tk) == NULL) {
 				/* Could not move token to token stack! Keep
 				 * existing token in CST and report error. :*/
@@ -177,12 +192,12 @@ static int nonterminal_failed(struct rdesc *p)
 			tokens_push++;
 		} else {
 			if (!is_construct_end(top)) {
-				uint16_t hold_child_count = rchild_count(top);
+				uint16_t saved_child_count = rchild_count(top);
 				rvariant(top)++;
 				rchild_count(top) = 0;
 
 				/* Termination: Found a nonterminal with
-				 * remaining variants. Set top_size to this
+				 * remaining variants. Set top_unwind to this
 				 * nonterminal's unwind size and return.
 				 *
 				 * p->cur was set at loop start, so parsing
@@ -190,7 +205,7 @@ static int nonterminal_failed(struct rdesc *p)
 				bool is_construct_not_end = !is_construct_end(top);
 
 				rvariant(top)--;
-				rchild_count(top) = hold_child_count;
+				rchild_count(top) = saved_child_count;
 
 				if (is_construct_not_end)
 					break;
@@ -214,18 +229,18 @@ static int nonterminal_failed(struct rdesc *p)
 	 * - unreadable.
 	 * - use one multipop */
 	while (true) {
-		p->cur = rdesc_stack_len(p->cst_stack) - p->top_size;
-		uint16_t hold_top_size = p->top_size;
+		p->cur = rdesc_stack_len(p->cst_stack) - p->top_unwind;
+		uint16_t saved_top_unwind = p->top_unwind;
 		node_t *top = rdesc_stack_at(p->cst_stack, p->cur);
-		p->top_size = runwind_size(top);
+		p->top_unwind = runwind_size(top);
 
-		if (rtype(top) == CFG_NONTERMINAL) {
+		if (rtype(top) == RDESC_NONTERMINAL) {
 			if (!is_construct_end(top)) {
 				rvariant(top)++;
 				rchild_count(top) = 0;
 
 				if (!is_construct_end(top)) {
-					p->top_size =
+					p->top_unwind =
 						1 + rchild_list_cap(*p, rid(top));
 
 					return 0;
@@ -238,7 +253,7 @@ static int nonterminal_failed(struct rdesc *p)
 		if (parent_idx != SIZE_MAX)
 			pop_child(p, parent_idx);
 
-		rdesc_stack_multipop(&p->cst_stack, hold_top_size);
+		rdesc_stack_multipop(&p->cst_stack, saved_top_unwind);
 
 		/* Parse operation fails if removed element does not belong to
 		 * any node, that is removing the node. */
@@ -252,16 +267,16 @@ static int nonterminal_failed(struct rdesc *p)
  * - EMEM: Provided token pushed to either CST stack or token stack, but memory
  *   allocation error occured afterwards.
  *
- * - EMEM_TK_NOT_OWNED: Provided token did not to token stack or CST, and it
- *   still belong to caller.
+ * - EMEM_TK_NOT_OWNED: Provided token did not pushed to token stack or CST,
+ *   and it still belong to caller.
  *
- * - READY: Parse complete,
+ * - READY: Parse complete.
  *
- * - CONTINUE: consume next token,
+ * - CONTINUE: Request the next token.
  *
- * - NOMATCH: parse failed,
+ * - NOMATCH: Parse failed.
  *
- * - RETRY: descend into nonterminal */
+ * - RETRY: Descend into nonterminal, caller should call this function again. */
 static inline enum internal_pump_state {
 	EMEM,
 	EMEM_TK_NOT_OWNED,
@@ -286,7 +301,7 @@ static inline enum internal_pump_state {
 	struct rdesc_cfg_symbol rule = next_symbol(n);
 
 	switch (rule.ty) {
-	case CFG_TOKEN:
+	case RDESC_TOKEN:
 		if (rule.id == tk->id) {
 			/* Match! Add the token to nonterminal's children. */
 			if (new_tk_node(p, tk->id, &tk->seminfo)) {
@@ -326,7 +341,7 @@ static inline enum internal_pump_state {
 
 		return CONTINUE;
 
-	case CFG_NONTERMINAL:
+	case RDESC_NONTERMINAL:
 		if (new_nt_node(p, rule.id)) {
 			/* An error occured before the token ever used. */
 			return EMEM_TK_NOT_OWNED;
@@ -346,16 +361,15 @@ enum rdesc_result rdesc_pump(struct rdesc *p, uint16_t id, void *seminfo)
 	tk_t *tk = cast(tk_t *, &tk_);
 
 	bool has_token;
-	if (p->hold_tk) {
+	if (p->saved_tk) {
 		rdesc_assert(id == 0, "shall not provide new token during resume");
 
 		has_token = true;
-		tk->id = p->hold_tk;
-		if (p->hold_seminfo != NULL)
-			memcpy(&tk->seminfo, p->hold_seminfo, p->seminfo_size);
+		tk->id = p->saved_tk;
+		if (p->saved_seminfo != NULL)
+			memcpy(&tk->seminfo, p->saved_seminfo, p->seminfo_size);
 
-		p->hold_tk = 0;
-		p->hold_seminfo = NULL;
+		p->saved_tk = 0;
 	} else {
 		has_token = id != 0;
 
@@ -385,9 +399,9 @@ enum rdesc_result rdesc_pump(struct rdesc *p, uint16_t id, void *seminfo)
 			return RDESC_ENOMEM;
 
 		case EMEM_TK_NOT_OWNED:
-			p->hold_tk = tk->id;
+			p->saved_tk = tk->id;
 			if (seminfo != NULL)
-				memcpy(p->hold_seminfo,
+				memcpy(p->saved_seminfo,
 				       &tk->seminfo,
 				       p->seminfo_size);
 
@@ -462,8 +476,8 @@ static int new_nt_node(struct rdesc *p, uint16_t nt_id)
 	p->cur = rdesc_stack_len(p->cst_stack) - 1;  /* index of the new node */
 
 	_rdesc_priv_parent_idx(n) = parent_idx;
-	runwind_size(n) = p->top_size;
-	rtype(n) = CFG_NONTERMINAL;
+	runwind_size(n) = p->top_unwind;
+	rtype(n) = RDESC_NONTERMINAL;
 
 	rid(n) = nt_id;
 	rvariant(n) = 0;
@@ -478,7 +492,7 @@ static int new_nt_node(struct rdesc *p, uint16_t nt_id)
 
 		return 1;  /* child list allocation failed */
 	} else {
-		p->top_size = 1 + child_list_cap;
+		p->top_unwind = 1 + child_list_cap;
 
 		if (parent_idx != SIZE_MAX)
 			push_child(p, parent_idx, p->cur);
@@ -502,15 +516,15 @@ static int new_tk_node(struct rdesc *p, uint16_t tk_id, const void *seminfo)
 	push_child(p, p->cur, node_id);
 
 	_rdesc_priv_parent_idx(n) = p->cur;
-	runwind_size(n) = p->top_size;
-	rtype(n) = CFG_TOKEN;
+	runwind_size(n) = p->top_unwind;
+	rtype(n) = RDESC_TOKEN;
 
 	rid(n) = tk_id;
 
 	if (seminfo)
 		memcpy(rseminfo(n), seminfo, p->seminfo_size);
 
-	p->top_size = 1;
+	p->top_unwind = 1;
 
 	return 0;
 }

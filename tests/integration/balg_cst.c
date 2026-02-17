@@ -14,7 +14,7 @@
 
 void balg_node_printer(const struct rdesc_node *node, FILE *out)
 {
-	if (rtype(node) == CFG_TOKEN)
+	if (rtype(node) == RDESC_TOKEN)
 		fprintf(out, "[shape=record,label=\"%s\"]", balg_tk_names[rid(node)]);
 	else
 		fprintf(out, "[label=\"%s\"]", balg_nt_names[rid(node)]);
