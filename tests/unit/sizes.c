@@ -15,7 +15,7 @@ int main(void)
 {
 	struct rdesc p;
 
-	rdesc_init(&p, NULL, 0);
+	rdesc_init(&p, NULL, 0, NULL);
 
 	/* nonterminal without a child */
 	rdesc_assert(sizeof_nt(0) == sizeof(nt_t),
@@ -33,9 +33,9 @@ int main(void)
 			+ sizeof(size_t) /* plus size of parent pointer */,
 			"node size mismatch");
 
-	rdesc_destroy(&p, NULL);
+	rdesc_destroy(&p);
 
-	rdesc_init(&p, NULL, 32);
+	rdesc_init(&p, NULL, 32, NULL);
 
 	rdesc_assert(sizeof_tk(p) == sizeof(tk_t)
 			- sizeof(uint32_t) /* minus dummy seminfo field */
@@ -48,5 +48,5 @@ int main(void)
 			+ sizeof(uint16_t) + sizeof(size_t),
 			"node size mismatch");
 
-	rdesc_destroy(&p, NULL);
+	rdesc_destroy(&p);
 }

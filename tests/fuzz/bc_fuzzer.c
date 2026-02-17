@@ -21,20 +21,19 @@ void test_complete_parse(struct rdesc *p)
 	struct bc_grammar_generator g = BC_DEFAULT_GENERATOR;
 
 	uint16_t tk;
-	struct rdesc_node *cst;
 
 	rdesc_start(p, NT_STMT);
 	while ((tk = bc_fuzzer_next_tk(&g)) != TK_ENDSYM) {
 		g.group_start_p *= 0.9;
 
-		rdesc_pump(p, &cst, &tk, NULL);
+		rdesc_pump(p, tk, NULL);
 	};
 
 	tk = TK_ENDSYM;
-	rdesc_assert(rdesc_pump(p, &cst, &tk, NULL) == RDESC_READY,
+	rdesc_assert(rdesc_pump(p, tk, NULL) == RDESC_READY,
 		     "could not match grammar");
 
-	rdesc_reset(p, NULL);
+	rdesc_reset(p);
 }
 
 void test_interruption(struct rdesc *p)
@@ -42,7 +41,6 @@ void test_interruption(struct rdesc *p)
 	struct bc_grammar_generator g = BC_DEFAULT_GENERATOR;
 
 	uint16_t tk;
-	struct rdesc_node *cst;
 
 	bool broken = false;
 
@@ -55,15 +53,15 @@ void test_interruption(struct rdesc *p)
 			break;
 		}
 
-		rdesc_pump(p, &cst, &tk, NULL);
+		rdesc_pump(p, tk, NULL);
 	};
 
 	if (broken && rand() < RAND_MAX / 2) {
 		tk = TK_DUMMY_AMBIGUITY_TRIGGER;
-		rdesc_pump(p, &cst, &tk, NULL);
+		rdesc_pump(p, tk, NULL);
 	}
 
-	rdesc_reset(p, bc_fuzzer_dummy_token_destroyer);
+	rdesc_reset(p);
 }
 
 void token_destroyer_for_test(uint16_t id, void *seminfo_)
@@ -95,13 +93,12 @@ void test_with_seminfo(const struct rdesc_cfg *cfg)
 
 	struct rdesc p;
 	uint16_t tk;
-	struct rdesc_node *cst;
 
 	size_t seminfo_size = (2 + rand() % 8);
 
 	size_t *seminfo[seminfo_size];
 
-	rdesc_init(&p, cfg, seminfo_size * sizeof(size_t *));
+	rdesc_init(&p, cfg, seminfo_size * sizeof(size_t *), token_destroyer_for_test);
 
 	rdesc_start(&p, NT_STMT);
 	while ((tk = bc_fuzzer_next_tk(&g)) != TK_ENDSYM) {
@@ -115,12 +112,10 @@ void test_with_seminfo(const struct rdesc_cfg *cfg)
 		*seminfo[0] = seminfo_size;
 		*seminfo[1] = tk;
 
-		uint16_t *id_ = &tk;
-		void *seminfo_ = &seminfo;
-		rdesc_pump(&p, &cst, id_, &seminfo_);
+		rdesc_pump(&p, tk, seminfo);
 	};
 
-	rdesc_destroy(&p, token_destroyer_for_test);
+	rdesc_destroy(&p);
 }
 
 
@@ -137,22 +132,22 @@ int main(void)
 
 	/* test interruption & complete parse in the same parser */
 	for (int _fuzz = 0; _fuzz < 16; _fuzz++) {
-		rdesc_init(&p, &cfg, rand() % 8);
+		rdesc_init(&p, &cfg, rand() % 8, NULL);
 
 		test_interruption(&p);
 		test_complete_parse(&p);
 
-		rdesc_destroy(&p, NULL);
+		rdesc_destroy(&p);
 	}
 
 	/* test destroying the parser during a parse */
-	rdesc_init(&p, &cfg, rand() % 8);
+	rdesc_init(&p, &cfg, rand() % 8, NULL);
 
 	rdesc_start(&p, NT_STMT);
 	uint16_t id = TK_NUM;
-	rdesc_pump(&p, NULL, &id, NULL);
+	rdesc_pump(&p, id, NULL);
 
-	rdesc_destroy(&p, NULL);
+	rdesc_destroy(&p);
 
 	for (int _fuzz = 0; _fuzz < 16; _fuzz++) {
 		test_with_seminfo(&cfg);

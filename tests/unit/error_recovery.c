@@ -21,19 +21,17 @@
 void test_complete_parse(struct rdesc_cfg *cfg)
 {
 	struct rdesc p;
-	rdesc_init(&p, cfg, rand() % 8);
+	rdesc_init(&p, cfg, rand() % 8, NULL);
 
 	struct bc_grammar_generator g = BC_DEFAULT_GENERATOR;
 
 	uint16_t tk;
-	struct rdesc_node *cst;
 
 	rdesc_start(&p, NT_STMT);
 
 	while ((tk = bc_fuzzer_next_tk(&g)) != TK_ENDSYM) {
 		g.group_start_p *= 0.9;
 
-		uint16_t *tk_ = &tk;
 		while (true) {
 			if (multipush_fail_at < 0)
 				multipush_fail_at = rand() % 8;
@@ -41,25 +39,22 @@ void test_complete_parse(struct rdesc_cfg *cfg)
 			if (realloc_fail_at < 0)
 				realloc_fail_at = rand() % 8;
 
-			enum rdesc_result res = rdesc_pump(&p, NULL, tk_, NULL);
+			enum rdesc_result res = rdesc_pump(&p, tk, NULL);
 
 			if (res == RDESC_CONTINUE) {
 				break;
 			} else if (res == RDESC_ENOMEM) {
 				tk = 0;
-			} else if (res != RDESC_ENOMEM_SEMINFO_NOT_OWNED) {
-				rdesc_assert(0, "unreachable");  // GCOVR_EXCL_LINE
 			}
 		}
 	}
 
 	multipush_fail_at = -1;
 	realloc_fail_at = -1;
-	tk = TK_ENDSYM;
-	rdesc_assert(rdesc_pump(&p, &cst, &tk, NULL) == RDESC_READY,
+	rdesc_assert(rdesc_pump(&p, TK_ENDSYM, NULL) == RDESC_READY,
 		     "could not match grammar");
 
-	rdesc_destroy(&p, NULL);
+	rdesc_destroy(&p);
 }
 
 

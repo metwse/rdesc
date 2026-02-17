@@ -36,8 +36,7 @@
 
 /** @brief Returns child of the node by its index. */
 #define rchild(p, nt_node, child_idx) \
-	_rdesc_priv_cst_illegal_access( \
-		(struct rdesc *) p, _rdesc_priv_child_idx(nt_node, child_idx))
+	_rdesc_priv_cst_illegal_access(p, _rdesc_priv_child_idx(nt_node, child_idx))
 
 
 /** @cond */

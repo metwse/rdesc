@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <string.h>
 
 
@@ -27,8 +28,7 @@ static int new_nt_node(struct rdesc *p, uint16_t nt_id);
 static int new_tk_node(struct rdesc *p, uint16_t tk_id, const void *seminfo);
 
 /* Destroys all tokens in CST and token stacks. */
-static void destroy_tokens(struct rdesc *p,
-			   rdesc_token_destroyer_func tk_destroyer);
+static void destroy_tokens(struct rdesc *p);
 
 /* Adds children to parent's child list using indexes. This functoin does not
  * fail even if realloc changed the stack pointer. */
@@ -42,11 +42,22 @@ static inline void pop_child(struct rdesc *p,
 
 int rdesc_init(struct rdesc *p,
 	       const struct rdesc_cfg *cfg,
-	       size_t seminfo_size)
+	       size_t seminfo_size,
+	       rdesc_token_destroyer_func token_destroyer)
 {
 	p->cfg = cfg;
 	p->seminfo_size = seminfo_size;
 	p->cur = SIZE_MAX;
+	p->tk_destroyer = token_destroyer;
+
+	p->hold_tk = 0;
+	if (seminfo_size > 0) {
+		p->hold_seminfo = malloc(seminfo_size);
+		if (p->hold_seminfo == NULL)
+			return 1; /* Could not preallocate extra seminfo space. */
+	} else {
+		p->hold_seminfo = NULL;
+	}
 
 	rdesc_stack_init(&p->token_stack, sizeof_tk(*p));
 	if (p->token_stack == NULL)
@@ -62,9 +73,9 @@ int rdesc_init(struct rdesc *p,
 	return 0;
 }
 
-void rdesc_destroy(struct rdesc *p, rdesc_token_destroyer_func tk_destroyer)
+void rdesc_destroy(struct rdesc *p)
 {
-	destroy_tokens(p, tk_destroyer);
+	destroy_tokens(p);
 
 	rdesc_stack_destroy(p->token_stack);
 	rdesc_stack_destroy(p->cst_stack);
@@ -85,9 +96,8 @@ int rdesc_start(struct rdesc *p, int start_symbol)
 	return 0;
 }
 
-int rdesc_reset(struct rdesc *p,
-		 rdesc_token_destroyer_func tk_destroyer) {
-	destroy_tokens(p, tk_destroyer);
+int rdesc_reset(struct rdesc *p) {
+	destroy_tokens(p);
 	p->cur = SIZE_MAX;
 
 	rdesc_stack_reset(&p->token_stack);
@@ -99,11 +109,13 @@ int rdesc_reset(struct rdesc *p,
 	return 0;
 }
 
-static void destroy_tokens(struct rdesc *p,
-			   rdesc_token_destroyer_func tk_destroyer)
+static void destroy_tokens(struct rdesc *p)
 {
-	if (!tk_destroyer)
+	if (!p->tk_destroyer)
 		return;
+
+	if (p->hold_tk)
+		p->tk_destroyer(p->hold_tk, p->hold_seminfo);
 
 	/* Walk CST backwards to destroy all embedded tokens */
 	p->cur = rdesc_stack_len(p->cst_stack);
@@ -112,7 +124,7 @@ static void destroy_tokens(struct rdesc *p,
 		uint16_t hold_top_size = p->top_size;
 
 		if (rtype(top) == CFG_TOKEN)
-			tk_destroyer(rid(top), rseminfo(top));
+			p->tk_destroyer(rid(top), rseminfo(top));
 
 		p->top_size = runwind_size(top);
 		p->cur = p->cur - hold_top_size;
@@ -121,7 +133,7 @@ static void destroy_tokens(struct rdesc *p,
 	/* Destroy tokens in backtrack stack */
 	for (size_t i = 0; i < rdesc_stack_len(p->token_stack); i++) {
 		tk_t *tk = rdesc_stack_at(p->token_stack, i);
-		tk_destroyer(tk->id, &tk->seminfo);
+		p->tk_destroyer(tk->id, &tk->seminfo);
 	}
 }
 
@@ -326,21 +338,32 @@ static inline enum internal_pump_state {
 	} // GCOV_EXCL_LINE
 }
 
-enum rdesc_result rdesc_pump(struct rdesc *p,
-			     struct rdesc_node **out,
-			     uint16_t *id,
-			     void **seminfo)
+enum rdesc_result rdesc_pump(struct rdesc *p, uint16_t id, void *seminfo)
 {
 	rdesc_assert(p->cur != SIZE_MAX, "parser is not started");
 
 	uint8_t tk_[sizeof_tk(*p)];
 	tk_t *tk = cast(tk_t *, &tk_);
 
-	bool has_token = *id != 0;
-	if (has_token) {
-		tk->id = *id;
-		if (seminfo != NULL)
-			memcpy(&tk->seminfo, *seminfo, p->seminfo_size);
+	bool has_token;
+	if (p->hold_tk) {
+		rdesc_assert(id == 0, "shall not provide new token during resume");
+
+		has_token = true;
+		tk->id = p->hold_tk;
+		if (p->hold_seminfo != NULL)
+			memcpy(&tk->seminfo, p->hold_seminfo, p->seminfo_size);
+
+		p->hold_tk = 0;
+		p->hold_seminfo = NULL;
+	} else {
+		has_token = id != 0;
+
+		if (has_token) {
+			tk->id = id;
+			if (seminfo != NULL)
+				memcpy(&tk->seminfo, seminfo, p->seminfo_size);
+		}
 	}
 
 	while (true) {
@@ -362,12 +385,13 @@ enum rdesc_result rdesc_pump(struct rdesc *p,
 			return RDESC_ENOMEM;
 
 		case EMEM_TK_NOT_OWNED:
-			/* Return unowned tokens back to the caller. */
-			*id = tk->id;
+			p->hold_tk = tk->id;
 			if (seminfo != NULL)
-				*seminfo = &tk->seminfo;
+				memcpy(p->hold_seminfo,
+				       &tk->seminfo,
+				       p->seminfo_size);
 
-			return RDESC_ENOMEM_SEMINFO_NOT_OWNED;
+			return RDESC_ENOMEM;
 
 		case CONTINUE:
 			has_token = false;
@@ -380,8 +404,6 @@ enum rdesc_result rdesc_pump(struct rdesc *p,
 			return RDESC_NOMATCH;
 
 		case READY:
-			*out = rdesc_stack_at(p->cst_stack, 0);
-
 			return RDESC_READY;
 
 		default: unreachable();  // GCOVR_EXCL_LINE
@@ -390,11 +412,19 @@ enum rdesc_result rdesc_pump(struct rdesc *p,
 }
 /* ------------------------------------------------------------------------- */
 
-struct rdesc_node *_rdesc_priv_cst_illegal_access(struct rdesc *parser,
+struct rdesc_node *rdesc_root(struct rdesc *p)
+{
+	if (rdesc_stack_len(p->cst_stack) == 0)
+		return NULL;
+
+	return rdesc_stack_at(p->cst_stack, 0);
+}
+
+struct rdesc_node *_rdesc_priv_cst_illegal_access(const struct rdesc *p,
 						  size_t index)
 {
 	return index == SIZE_MAX ?
-		NULL : rdesc_stack_at(parser->cst_stack, index);
+		NULL : rdesc_stack_at(p->cst_stack, index);
 }
 
 /* Makes the connection between parent and child, by adding `child_index` to

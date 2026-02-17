@@ -20,29 +20,28 @@ int main(void)
 	rdesc_cfg_init(&cfg,
 		BALG_NT_COUNT, BALG_NT_VARIANT_COUNT, BALG_NT_BODY_LENGTH,
 		cast(struct rdesc_cfg_symbol *, balg));
-	rdesc_init(&p, &cfg, sizeof(uint32_t));
+	rdesc_init(&p, &cfg, sizeof(uint32_t), NULL);
 
 	rdesc_start(&p, NT_STMT);
 
-	uint16_t id;
-	id = TK_IDENT; rdesc_pump(&p, NULL, &id, NULL);
-	id = TK_LPAREN; rdesc_pump(&p, NULL, &id, NULL);
-	id = TK_LPAREN; rdesc_pump(&p, NULL, &id, NULL);
-	id = TK_IDENT; rdesc_pump(&p, NULL, &id, NULL);
-	id = TK_EQ; rdesc_pump(&p, NULL, &id, NULL);
-	id = TK_IDENT; rdesc_pump(&p, NULL, &id, NULL);
-	id = TK_RPAREN; rdesc_pump(&p, NULL, &id, NULL);
-	id = TK_RPAREN; rdesc_pump(&p, NULL, &id, NULL);
+	rdesc_pump(&p, TK_IDENT, NULL);
+	rdesc_pump(&p, TK_LPAREN, NULL);
+	rdesc_pump(&p, TK_LPAREN, NULL);
+	rdesc_pump(&p, TK_IDENT, NULL);
+	rdesc_pump(&p, TK_EQ, NULL);
+	rdesc_pump(&p, TK_IDENT, NULL);
+	rdesc_pump(&p, TK_RPAREN, NULL);
+	rdesc_pump(&p, TK_RPAREN, NULL);
 	rdesc_assert(rdesc_stack_len(p.cst_stack) != 0,
 	      "gramar is valid so the CST expected to be not empty");
 
-	id = TK_RPAREN; rdesc_pump(&p, NULL, &id, NULL);
+	rdesc_pump(&p, TK_RPAREN, NULL);
 	rdesc_assert(rdesc_stack_len(p.cst_stack) == 0,
 	      "nomatch should teardown the CST");
 
 	rdesc_assert(rdesc_stack_len(p.token_stack) == 9,
 	      "tokens should be pushed back to stack due to teardown ");
 
-	rdesc_destroy(&p, NULL);
+	rdesc_destroy(&p);
 	rdesc_cfg_destroy(&cfg);
 }

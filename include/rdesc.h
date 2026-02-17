@@ -16,16 +16,16 @@
 /** @brief patch version */
 #define RDESC_VERSION_PATCH 0
 /** @brief prerelease identifier */
-#define RDESC_VERSION_PRE_RELEASE "alpha"
+#define RDESC_VERSION_PRE_RELEASE "alpha+seminfo-ownership"
+
+
+/** @brief Function pointer type for freeing tokens. */
+typedef void (*rdesc_token_destroyer_func)(uint16_t id, void *seminfo);
 
 
 /** @brief Pump status. */
 enum rdesc_result {
-	/** Memory allocation failed before provided seminfo copied to token
-	 * stack. User should destruct it. */
-	RDESC_ENOMEM_SEMINFO_NOT_OWNED = -2,
-	/** Memory allocation failed. Provided seminfo is cloned to token
-	 * stack, token_destroyer will do the destruction. */
+	/** Memory allocation failed. */
 	RDESC_ENOMEM = -1,
 	/** A CST is ready for consumption. */
 	RDESC_READY = 0,
@@ -45,6 +45,15 @@ struct rdesc {
 	size_t seminfo_size;
 
 	/** @cond */
+	uint16_t hold_tk  /* Extra space for holding a token in case of
+			   * memory allocation error. */;
+
+	void *hold_seminfo  /* Semantic information for held token. */;
+
+	rdesc_token_destroyer_func tk_destroyer  /* Destructor method for
+						     * tokens the parser
+						     * owns. */;
+
 	struct rdesc_stack *token_stack  /* Token stack used to store tokens
 					  * temporarily during nonterminal
 					  * backtracing. */;
@@ -62,10 +71,6 @@ struct rdesc {
 struct rdesc_node;
 
 
-/** @brief Function pointer type for freeing tokens. */
-typedef void (*rdesc_token_destroyer_func)(uint16_t id, void *seminfo);
-
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -77,7 +82,8 @@ extern "C" {
  */
 int rdesc_init(struct rdesc *parser,
 	       const struct rdesc_cfg *cfg,
-	       size_t seminfo_size);
+	       size_t seminfo_size,
+	       rdesc_token_destroyer_func token_destroyer);
 
 /**
  * @brief Frees memory allocated by the parser and destroys the parser instance.
@@ -85,8 +91,7 @@ int rdesc_init(struct rdesc *parser,
  * @note `seminfo` field in `struct rdesc_token` is ignored, i.e., not freed,
  *        unless `token_destroyer` is set.
  */
-void rdesc_destroy(struct rdesc *parser,
-		   rdesc_token_destroyer_func token_destroyer);
+void rdesc_destroy(struct rdesc *parser);
 
 /**
  * @brief Sets start symbol for the next match.
@@ -103,8 +108,7 @@ int rdesc_start(struct rdesc *parser, int start_symbol);
  *
  * @return Non-zero if memory allocation is failed.
  */
-int rdesc_reset(struct rdesc *parser,
-		 rdesc_token_destroyer_func token_destroyer);
+int rdesc_reset(struct rdesc *parser);
 
 /**
  * @brief Drives the parsing process, the pump.
@@ -113,22 +117,29 @@ int rdesc_reset(struct rdesc *parser,
  * internal backtracking stack or the provided id.
  *
  * @param parser Pointer to the parser instance.
- * @param out Output pointer for the resulting CST node (IF READY).
  * @param id Identifier of the next token to consume.
+ *        - **ID 0 is reserved** for resuming from backtrack stack, for use
+ *          in retries due to memory allocation errors or start symbol change.
  * @param seminfo Extra semantic information for the token.
  *        - Semantic information pointer. The parser copies this data
  *          internally, so passing a pointer to stack-allocated data is valid.
  *          NULL is acceptable.
  *
  * @return The current status of the parse operation.
+ *
+ * @warning Raises an error if parser is not started.
  */
-enum rdesc_result rdesc_pump(struct rdesc *parser,
-			     struct rdesc_node **out,
-			     uint16_t *id,
-			     void **seminfo);
+enum rdesc_result rdesc_pump(struct rdesc *parser, uint16_t id, void *seminfo);
+
+/**
+ * @brief Returns the root of CST.
+ *
+ * @note Returns NULL if parser does not contain any tree.
+ */
+struct rdesc_node *rdesc_root(struct rdesc *parser);
 
 /** @cond */
-struct rdesc_node *_rdesc_priv_cst_illegal_access(struct rdesc *parser,
+struct rdesc_node *_rdesc_priv_cst_illegal_access(const struct rdesc *parser,
 						  size_t index);
 /** @endcond */
 
