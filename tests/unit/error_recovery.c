@@ -10,11 +10,12 @@
 #include <time.h>
 
 #define STACK_INTIAL_CAP 1
+#define TEST_INSTRUMENTS
 
-#include "../lib/instrumented_stack.c"
 #include "../lib/bc_fuzzer.c"
 
 #include "../../src/rdesc.c"
+#include "../../src/stack.c"
 #include "../../src/grammar.c"
 
 

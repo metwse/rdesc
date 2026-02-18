@@ -16,6 +16,43 @@
 #define STACK_MAX_CAP SIZE_MAX
 #endif
 
+#ifdef TEST_INSTRUMENTS
+
+static bool check_failure(int *state, int count)
+{
+	if (*state > 0) {
+		*state -= count;
+		if (*state < 0)
+			*state = 0;
+	}
+
+	if (*state == 0) {
+		(*state)--;
+		return true;
+	}
+
+	return false;
+}
+
+int malloc_fail_at = -1;
+#define xmalloc(...) (check_failure(&malloc_fail_at, 1) ? \
+	NULL : malloc(__VA_ARGS__))
+
+int realloc_fail_at = -1;
+#define xrealloc(...) (check_failure(&realloc_fail_at, 1) ? \
+	NULL : realloc(__VA_ARGS__))
+
+int multipush_fail_at = -1;
+#define xmultipush(c) check_failure(&multipush_fail_at, c)
+
+#else
+
+#define xmalloc malloc
+#define xrealloc realloc
+#define xmultipush(c) false
+
+#endif
+
 
 /**
  * @brief Default implementation of the stack.
@@ -45,9 +82,6 @@ static inline void *elem_at(struct rdesc_stack *s, size_t i)
 
 /* return non-zero value if reallocation failure */
 static inline int resize_stack(struct rdesc_stack **s, size_t cap)
-#ifndef xrealloc
-#define xrealloc realloc
-#endif
 {
 	struct rdesc_stack *new =
 		xrealloc(*s, sizeof(struct rdesc_stack) + cap * (*s)->element_size);
@@ -81,9 +115,6 @@ static int stack_reserve(struct rdesc_stack **s, size_t reserved_space)
 }
 
 void rdesc_stack_init(struct rdesc_stack **s, size_t element_size)
-#ifndef xmalloc
-#define xmalloc malloc
-#endif
 {
 	*s = xmalloc(sizeof(struct rdesc_stack) + STACK_INITIAL_CAP * element_size);
 
@@ -121,13 +152,9 @@ void *rdesc_stack_at(struct rdesc_stack *s, size_t i)
 }
 
 void *rdesc_stack_multipush(struct rdesc_stack **s, void *element, size_t count)
-#ifndef inject_multipush_failure
-#define inject_multipush_failure(c) false
-#endif
 {
 	/* return null if extend failureed */
-	if (inject_multipush_failure(count) ||
-	    stack_reserve(s, count))
+	if (xmultipush(count) || stack_reserve(s, count))
 		return NULL;
 
 	void *top = elem_at(*s, (*s)->len);

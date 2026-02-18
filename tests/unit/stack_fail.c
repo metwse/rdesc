@@ -4,8 +4,9 @@
 #include "../../src/detail.h"
 
 #define STACK_MAX_CAP STACK_INITIAL_CAP * 64
+#define TEST_INSTRUMENTS
 
-#include "../lib/instrumented_stack.c"
+#include "../../src/stack.c"
 
 
 int main(void)
