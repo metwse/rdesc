@@ -19,8 +19,8 @@ include config.mk
 
 # Compilation flags, selected based on MODE environment variable.
 CFLAGS_release = $(CFLAGS_COMMON) -O2
-CFLAGS_debug = $(CFLAGS_COMMON) -O0 -g3 -fsanitize=address
-CFLAGS_test = $(CFLAGS_COMMON) -O0 -g3 --coverage
+CFLAGS_debug = $(CFLAGS_COMMON) -O0 -g3
+CFLAGS_test = $(CFLAGS_COMMON) -O0 -g3 --coverage -DTEST_INSTRUMENTS
 
 CFLAGS = $(CFLAGS_$(MODE))
 

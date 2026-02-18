@@ -1,9 +1,9 @@
 #!/bin/bash
 
-make -C tests covr -j
+make -C tests -j
 make -C examples all -j
 
-for test in $(ls ./dist/tests/*.covr); do
+for test in $(ls ./dist/tests/*.test); do
     valgrind $test > $test.log
 done
 
