@@ -1,4 +1,5 @@
 #include "../include/stack.h"
+#include "test_instruments.h"
 #include "detail.h"
 
 #include <stdbool.h>
@@ -14,43 +15,6 @@
 
 #ifndef STACK_MAX_CAP
 #define STACK_MAX_CAP SIZE_MAX
-#endif
-
-#ifdef TEST_INSTRUMENTS
-
-static bool check_failure(int *state, int count)
-{
-	if (*state > 0) {
-		*state -= count;
-		if (*state < 0)
-			*state = 0;
-	}
-
-	if (*state == 0) {
-		(*state)--;
-		return true;
-	}
-
-	return false;
-}
-
-int malloc_fail_at = -1;
-#define xmalloc(...) (check_failure(&malloc_fail_at, 1) ? \
-	NULL : malloc(__VA_ARGS__))
-
-int realloc_fail_at = -1;
-#define xrealloc(...) (check_failure(&realloc_fail_at, 1) ? \
-	NULL : realloc(__VA_ARGS__))
-
-int multipush_fail_at = -1;
-#define xmultipush(c) check_failure(&multipush_fail_at, c)
-
-#else
-
-#define xmalloc malloc
-#define xrealloc realloc
-#define xmultipush(c) false
-
 #endif
 
 
@@ -86,7 +50,7 @@ static inline int resize_stack(struct rdesc_stack **s, size_t cap)
 	struct rdesc_stack *new =
 		xrealloc(*s, sizeof(struct rdesc_stack) + cap * (*s)->element_size);
 
-	if (new) {
+	if (new != NULL) {
 		*s = new;
 		(*s)->cap = cap;
 
@@ -134,13 +98,7 @@ void rdesc_stack_destroy(struct rdesc_stack *s)
 void rdesc_stack_reset(struct rdesc_stack **s)
 {
 	if ((*s)->cap > STACK_INITIAL_CAP) {
-		/* set *s to NULL if shrink failureed */
-		if (resize_stack(s, STACK_INITIAL_CAP)) {
-			rdesc_stack_destroy(*s);
-			*s = NULL;
-
-			return;
-		}
+		resize_stack(s, STACK_INITIAL_CAP);
 	}
 
 	(*s)->len = 0;
@@ -153,8 +111,8 @@ void *rdesc_stack_at(struct rdesc_stack *s, size_t i)
 
 void *rdesc_stack_multipush(struct rdesc_stack **s, void *element, size_t count)
 {
-	/* return null if extend failureed */
-	if (xmultipush(count) || stack_reserve(s, count))
+	/* return null if grow failed */
+	if (stack_reserve(s, count) || (xmultipush(count)))
 		return NULL;
 
 	void *top = elem_at(*s, (*s)->len);

@@ -31,6 +31,9 @@ int main(void)
 			   cast(struct rdesc_grammar_symbol *, balg));
 	rdesc_init(&p, &grammar, sizeof(uint32_t), NULL);
 
+	rdesc_assert(rdesc_root(&p) == NULL,
+		     "no root expected");
+
 	rdesc_start(&p, NT_STMT);
 
 	rdesc_pump(&p, TK_IDENT, NULL);

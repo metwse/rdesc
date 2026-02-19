@@ -5,6 +5,7 @@ FULL_FEATURES = stack dump_cst dump_bnf
 MODE ?= release
 # List of essential files of the library.
 LIB_MANDATORY = rdesc grammar
+LIB_TEST = test_instruments
 
 SRC_DIR = src
 INC_DIR = include
@@ -28,11 +29,9 @@ ifeq ($(CFLAGS),)
 $(error "WARNING: unknown mode $(MODE).")
 endif
 
-ifeq ($(FEATURES),full)
-LIB = $(LIB_MANDATORY) $(FULL_FEATURES)
-else
-LIB = $(LIB_MANDATORY) $(FEATURES)
-endif
+LIB = $(LIB_MANDATORY) \
+	$(if $(filter $(FEATURES),full),$(FULL_FEATURES),$(FEATURES)) \
+	$(if $(filter $(MODE),test),$(LIB_TEST))
 
 SRCS = $(wildcard $(SRC_DIR)/*.c)
 

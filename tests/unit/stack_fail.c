@@ -6,6 +6,7 @@
 #define STACK_MAX_CAP STACK_INITIAL_CAP * 64
 #define TEST_INSTRUMENTS
 
+#include "../../src/test_instruments.c"
 #include "../../src/stack.c"
 
 
@@ -49,6 +50,6 @@ int main(void)
 
 	realloc_fail_at = 1;
 
-	rdesc_stack_reset(&s3);
-	rdesc_assert(s3 == NULL, "expect reset to be failed");
+	rdesc_stack_reset(&s3);  /* expected to be failed */
+	rdesc_stack_destroy(s3);
 }

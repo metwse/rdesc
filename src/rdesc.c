@@ -4,6 +4,7 @@
 #include "../include/rdesc.h"
 #include "../include/stack.h"
 #include "detail.h"
+#include "test_instruments.h"
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -50,10 +51,10 @@ int rdesc_init(struct rdesc *p,
 	p->token_destroyer = token_destroyer;
 
 	p->cur = SIZE_MAX;
-	p->saved_tk = 0;
 
 	if (seminfo_size > 0) {
-		p->saved_seminfo = malloc(seminfo_size);
+		p->saved_seminfo = xmalloc(seminfo_size);
+
 		if (p->saved_seminfo == NULL)
 			return 1; /* Could not preallocate extra seminfo space. */
 	} else {
@@ -61,11 +62,17 @@ int rdesc_init(struct rdesc *p,
 	}
 
 	rdesc_stack_init(&p->token_stack, sizeof_tk(*p));
-	if (p->token_stack == NULL)
+	if (p->token_stack == NULL) {
+		if (p->saved_seminfo != NULL)
+			free(p->saved_seminfo);
+
 		return 1;  /* Could not intialize token stack.  */
+	}
 
 	rdesc_stack_init(&p->cst_stack, sizeof_node(*p));
 	if (p->cst_stack == NULL) {
+		if (p->saved_seminfo != NULL)
+			free(p->saved_seminfo);
 		rdesc_stack_destroy(p->token_stack);
 
 		return 1;  /* Could not intialize CST stack. */
@@ -89,11 +96,11 @@ int rdesc_start(struct rdesc *p, int start_symbol)
 {
 	rdesc_assert(p->cur == SIZE_MAX, "cannot start during parse");
 
-	rdesc_stack_reset(&p->cst_stack);
-	if (p->cst_stack == NULL)
-		return 1;  /* Could not reset CST stack. */
-
+	p->saved_tk = 0;
 	p->top_unwind = 0;
+
+	rdesc_stack_reset(&p->cst_stack);
+
 	if (new_nt_node(p, start_symbol))
 		return 1;  /* Start symbol creation failed. */
 
@@ -104,18 +111,10 @@ int rdesc_reset(struct rdesc *p) {
 	destroy_tokens(p);
 
 	p->cur = SIZE_MAX;
-	p->saved_tk = 0;
 
 	rdesc_stack_reset(&p->token_stack);
-	if (p->token_stack == NULL)
-		return 1;  /* Could not reset token stack.  */
 
 	rdesc_stack_reset(&p->cst_stack);
-	if (p->cst_stack == NULL) {
-		rdesc_stack_destroy(p->token_stack);
-
-		return 1;  /* Could not reset CST stack. */
-	}
 
 	return 0;
 }
@@ -174,6 +173,9 @@ static int nonterminal_failed(struct rdesc *p)
 
 	size_t tokens_push = 0;
 
+	/* FIRT traversal: count the number of nodes to be pop and push tokens
+	 * to backtracking stack. */
+
 	/* Initialization: Start from the top. */
 	while (true) {
 		node_t *top = rdesc_stack_at(p->cst_stack, top_idx);
@@ -221,6 +223,11 @@ static int nonterminal_failed(struct rdesc *p)
 
 		top_idx -= runwind_size(top);
 	}
+
+	/* Two loops exists to enable rollback to valid state in case of
+	 * memory allocation failure. After the first loop ensure all the
+	 * tokens pushed back to backtracking stack, the second one removes
+	 * elements of first stack. */
 
 	/* TODO: WARNING: THIS PART WRITTEN AT 4 AM -- FIX --------------------
 	 * requires cleanup & optimization:
@@ -400,10 +407,7 @@ enum rdesc_result rdesc_pump(struct rdesc *p, uint16_t id, void *seminfo)
 
 		case EMEM_TK_NOT_OWNED:
 			p->saved_tk = tk->id;
-			if (seminfo != NULL)
-				memcpy(p->saved_seminfo,
-				       &tk->seminfo,
-				       p->seminfo_size);
+			memcpy(p->saved_seminfo, &tk->seminfo, p->seminfo_size);
 
 			return RDESC_ENOMEM;
 
