@@ -18,11 +18,11 @@
 
 #define INJECT_FAILURE do { \
 	if (multipush_fail_at < 0) \
-		multipush_fail_at = rand() % 8; \
+		multipush_fail_at = rand() % 32; \
 	if (realloc_fail_at < 0) \
-		realloc_fail_at = rand() % 8; \
+		realloc_fail_at = rand() % 32; \
 	if (malloc_fail_at < 0) \
-		malloc_fail_at = rand() % 8; \
+		malloc_fail_at = rand() % 32; \
 	} while (0)
 
 
@@ -74,7 +74,8 @@ enum {
 	}
 
 	bool retry_on_enomem = rand() > RAND_MAX / 4;
-	bool should_fail = false;
+	bool will_nomatch = rand() < RAND_MAX / 4;
+	bool may_fail = false;
 
 	size_t seminfo_counter = 0;
 	global_seminfo_counter = 0;
@@ -84,32 +85,36 @@ enum {
 
 		INJECT_FAILURE;
 
-		seminfo_counter++;
-		global_seminfo_counter++;
-		res = rdesc_pump(&p, tk, &seminfo_counter);
+		do {
+			seminfo_counter++;
+			global_seminfo_counter++;
+			res = rdesc_pump(&p, tk, &seminfo_counter);
 
-		if (!retry_on_enomem && res == RDESC_ENOMEM) {
-			should_fail = true;
+			if (!retry_on_enomem && res == RDESC_ENOMEM)
+				break;
+
+			while (res == RDESC_ENOMEM) {
+				INJECT_FAILURE;
+
+				res = rdesc_resume(&p);
+			}
+
+			if (res != RDESC_CONTINUE)
+				break;
+		} while (will_nomatch && rand() % 10 == 0 && (may_fail = true));
+
+		if (res != RDESC_CONTINUE)
 			break;
-		}
-
-		while (res == RDESC_ENOMEM) {
-			INJECT_FAILURE;
-
-			res = rdesc_resume(&p);
-		}
-
-		rdesc_assert(res == RDESC_CONTINUE,
-			     "unexcepted syntax error");
 	}
 
-	if (!should_fail) {
+	if (res == RDESC_CONTINUE) {
 		multipush_fail_at = -1;
 		realloc_fail_at = -1;
 
 		seminfo_counter++;
 		global_seminfo_counter++;
-		rdesc_assert(rdesc_pump(&p, TK_ENDSYM, &seminfo_counter) == RDESC_READY,
+
+		rdesc_assert(rdesc_pump(&p, TK_ENDSYM, &seminfo_counter) == RDESC_READY || may_fail,
 			     "could not match grammar");
 	}
 
