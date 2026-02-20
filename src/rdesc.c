@@ -92,7 +92,7 @@ void rdesc_destroy(struct rdesc *p)
 		free(p->saved_seminfo);
 }
 
-int rdesc_start(struct rdesc *p, int start_symbol)
+int rdesc_start(struct rdesc *p, uint16_t start_symbol)
 {
 	rdesc_assert(p->cur == SIZE_MAX, "cannot start during parse");
 
