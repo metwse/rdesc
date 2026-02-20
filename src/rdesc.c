@@ -23,7 +23,7 @@
 
 
 /* Constructs nonterminal. Returns non-zero and rolls back to previous valid
- * state if construction fail*/
+ * state if construction fails. */
 static int new_nt_node(struct rdesc *p, uint16_t nt_id);
 /* Constructs token and returns 0 if the construction succeeded. */
 static int new_tk_node(struct rdesc *p, uint16_t tk_id, const void *seminfo);
@@ -31,7 +31,7 @@ static int new_tk_node(struct rdesc *p, uint16_t tk_id, const void *seminfo);
 /* Destroys all tokens in CST and token stacks. */
 static void destroy_tokens(struct rdesc *p);
 
-/* Adds children to parent's child list using indexes. This functoin does not
+/* Adds children to parent's child list using indexes. This function does not
  * fail even if realloc changed the stack pointer. */
 static inline void push_child(struct rdesc *p,
 			      size_t parent_idx,
@@ -66,7 +66,7 @@ int rdesc_init(struct rdesc *p,
 		if (p->saved_seminfo != NULL)
 			free(p->saved_seminfo);
 
-		return 1;  /* Could not intialize token stack.  */
+		return 1;  /* Could not initialize token stack.  */
 	}
 
 	rdesc_stack_init(&p->cst_stack, sizeof_node(*p));
@@ -141,7 +141,6 @@ static void destroy_tokens(struct rdesc *p)
 		     top_idx > 0;  /* Termination: Cannot be a token */
 		     top_idx -= top_unwind) {
 			node_t *top = rdesc_stack_at(p->cst_stack, top_idx);
-			top_unwind = runwind_size(top);
 
 			if (rtype(top) == RDESC_TOKEN)
 				p->token_destroyer(rid(top), rseminfo(top));
@@ -167,7 +166,7 @@ static void destroy_tokens(struct rdesc *p)
 
 /* Backtraces to the last nonterminal that is not completed, or teardowns the
  * entire CST. */
-static int nonterminal_failed(struct rdesc *p)
+static inline int nonterminal_failed(struct rdesc *p)
 {
 	size_t scan_idx = rdesc_stack_len(p->cst_stack) - p->top_unwind;
 	size_t tokens_pushed = 0;
@@ -178,8 +177,8 @@ static int nonterminal_failed(struct rdesc *p)
 	while (true) {
 		node_t *top = rdesc_stack_at(p->cst_stack, scan_idx);
 
-		/* Maintenance: Set the top size to previous element's size,
-		 * to get it on the next iteration. */
+		/* Maintenance: The slice from scan_idx to stack_len does not
+		 * contain a nonterminal that have unchecked variant. */
 		if (rtype(top) == RDESC_TOKEN) {
 			if (rdesc_stack_push(&p->token_stack, &top->n.tk) == NULL) {
 				/* Could not move token to token stack! Keep
@@ -216,7 +215,7 @@ static int nonterminal_failed(struct rdesc *p)
 			break;
 	}
 
-	/* Two loops exists to enable rollback to valid state in case of
+	/* Two loops exist to enable rollback to valid state in case of
 	 * memory allocation failure. After the first loop ensure all the
 	 * tokens pushed back to backtracking stack, the second one removes
 	 * elements of first stack. */
@@ -232,8 +231,8 @@ static int nonterminal_failed(struct rdesc *p)
 		node_t *top = rdesc_stack_at(p->cst_stack, p->cur);
 
 		if (rtype(top) == RDESC_NONTERMINAL) {
-			/* Be careful: All children of the nonterminal has been
-			 * removed, so the top node is it. */
+			/* Be careful: All children have been removed, so the
+			 * nonterminal is now the topmost node. */
 			rvariant(top)++;
 			rchild_count(top) = 0;
 
@@ -270,9 +269,9 @@ static int nonterminal_failed(struct rdesc *p)
 /* Internal pump state machine. Returns next action for outer pump loop.
  *
  * - EMEM: Provided token pushed to either CST stack or token stack, but memory
- *   allocation error occured afterwards.
+ *   allocation error occurred afterwards.
  *
- * - EMEM_TK_NOT_OWNED: Provided token did not pushed to token stack or CST,
+ * - EMEM_TK_NOT_OWNED: Provided token was not pushed to token stack or CST,
  *   and it still belong to caller.
  *
  * - READY: Parse complete.

@@ -22,7 +22,7 @@
 /** @brief Patch version */
 #define RDESC_VERSION_PATCH 0
 /** @brief Prerelease identifier */
-#define RDESC_VERSION_PRE_RELEASE "beta"
+#define RDESC_VERSION_PRE_RELEASE "rc.1"
 
 
 /** @brief Parse operation result codes. */

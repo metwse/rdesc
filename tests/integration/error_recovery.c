@@ -22,7 +22,7 @@
 	if (realloc_fail_at < 0) \
 		realloc_fail_at = rand() % 32; \
 	if (malloc_fail_at < 0) \
-		malloc_fail_at = rand() % 32; \
+		malloc_fail_at = rand() % 8; \
 	} while (0)
 
 
@@ -74,8 +74,9 @@ enum {
 	}
 
 	bool retry_on_enomem = rand() > RAND_MAX / 4;
-	bool will_nomatch = rand() < RAND_MAX / 4;
-	bool may_fail = false;
+
+	bool token_may_repeat = rand() < RAND_MAX / 4;
+	bool token_repeated = false;
 
 	size_t seminfo_counter = 0;
 	global_seminfo_counter = 0;
@@ -101,7 +102,9 @@ enum {
 
 			if (res != RDESC_CONTINUE)
 				break;
-		} while (will_nomatch && rand() % 10 == 0 && (may_fail = true));
+		} while (token_may_repeat
+			 && rand() % 16 == 0
+			 && (token_repeated = true));
 
 		if (res != RDESC_CONTINUE)
 			break;
@@ -114,7 +117,8 @@ enum {
 		seminfo_counter++;
 		global_seminfo_counter++;
 
-		rdesc_assert(rdesc_pump(&p, TK_ENDSYM, &seminfo_counter) == RDESC_READY || may_fail,
+		rdesc_assert(rdesc_pump(&p, TK_ENDSYM, &seminfo_counter) == RDESC_READY
+			     || token_repeated /* allow match to be failed if a token is repeated */,
 			     "could not match grammar");
 	}
 
@@ -137,7 +141,7 @@ int main(void)
 	int failure_stats[3] = { 0, 0, 0 };
 
 	/* test interruption & complete parse in the same parser */
-	for (int _fuzz = 0; _fuzz < 512; _fuzz++)
+	for (int _fuzz = 0; _fuzz < 1024; _fuzz++)
 		failure_stats[test_complete_parse(&grammar)]++;
 
 	for (int i = 0; i < 3; i++)
