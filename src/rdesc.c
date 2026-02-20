@@ -169,16 +169,14 @@ static void destroy_tokens(struct rdesc *p)
  * entire CST. */
 static int nonterminal_failed(struct rdesc *p)
 {
-	size_t top_idx = rdesc_stack_len(p->cst_stack) - p->top_unwind;
+	size_t scan_idx = rdesc_stack_len(p->cst_stack) - p->top_unwind;
+	size_t tokens_pushed = 0;
 
-	size_t tokens_push = 0;
-
-	/* FIRT traversal: count the number of nodes to be pop and push tokens
-	 * to backtracking stack. */
+	/* FIRST traversal: Push tokens to backtracking stack. */
 
 	/* Initialization: Start from the top. */
 	while (true) {
-		node_t *top = rdesc_stack_at(p->cst_stack, top_idx);
+		node_t *top = rdesc_stack_at(p->cst_stack, scan_idx);
 
 		/* Maintenance: Set the top size to previous element's size,
 		 * to get it on the next iteration. */
@@ -187,41 +185,35 @@ static int nonterminal_failed(struct rdesc *p)
 				/* Could not move token to token stack! Keep
 				 * existing token in CST and report error. :*/
 
-				rdesc_stack_multipop(&p->token_stack, tokens_push);
+				rdesc_stack_multipop(&p->token_stack, tokens_pushed);
 
 				return 1;
 			}
-			tokens_push++;
-		} else {
-			if (!is_construct_end(top)) {
-				uint16_t saved_child_count = rchild_count(top);
-				rvariant(top)++;
-				rchild_count(top) = 0;
+			tokens_pushed++;
+		} else /* RDESC_NONTERMINAL */ {
+			uint16_t saved_child_count = rchild_count(top);
+			rvariant(top)++;
+			rchild_count(top) = 0;
 
-				/* Termination: Found a nonterminal with
-				 * remaining variants. Set top_unwind to this
-				 * nonterminal's unwind size and return.
-				 *
-				 * p->cur was set at loop start, so parsing
-				 * resumes on its next variant. */
-				bool is_construct_not_end = !is_construct_end(top);
+			/* Termination: Found a nonterminal with remaining
+			 * variants. */
+			bool is_construct_not_end = !is_construct_end(top);
 
-				rvariant(top)--;
-				rchild_count(top) = saved_child_count;
+			/* Rollback changes. The second loop will update the
+			 * nonterminal. */
+			rvariant(top)--;
+			rchild_count(top) = saved_child_count;
 
-				if (is_construct_not_end)
-					break;
-			}
+			if (is_construct_not_end)
+				break;
 		}
 
-		size_t parent_idx = _rdesc_priv_parent_idx(top);
+		scan_idx -= runwind_size(top);
 
 		/* Parse operation fails if removed element does not belong to
 		 * any node, that is removing the node. */
-		if (parent_idx == SIZE_MAX)
+		if (_rdesc_priv_parent_idx(top) == SIZE_MAX)
 			break;
-
-		top_idx -= runwind_size(top);
 	}
 
 	/* Two loops exists to enable rollback to valid state in case of
@@ -229,29 +221,27 @@ static int nonterminal_failed(struct rdesc *p)
 	 * tokens pushed back to backtracking stack, the second one removes
 	 * elements of first stack. */
 
-	/* TODO: WARNING: THIS PART WRITTEN AT 4 AM -- FIX --------------------
-	 * requires cleanup & optimization:
-	 * - already count total elements to pop in first traversal
-	 * - redundant variables with same value?
-	 * - unreadable.
-	 * - use one multipop */
+	/* Now the traversal changes the parser state. From now on no memory
+	 * failure can occur. */
+	p->cur = rdesc_stack_len(p->cst_stack) - p->top_unwind;
+	/* Safety: p->cur changed, so p->top_unwind MUST BE CHANGED. This is
+	 * guaranteed in next loop: Before every break we update
+	 * p->top_unwind. */
+
 	while (true) {
-		p->cur = rdesc_stack_len(p->cst_stack) - p->top_unwind;
-		uint16_t saved_top_unwind = p->top_unwind;
 		node_t *top = rdesc_stack_at(p->cst_stack, p->cur);
-		p->top_unwind = runwind_size(top);
 
 		if (rtype(top) == RDESC_NONTERMINAL) {
+			/* Be careful: All children of the nonterminal has been
+			 * removed, so the top node is it. */
+			rvariant(top)++;
+			rchild_count(top) = 0;
+
+			/* Found unfinished nonterminal. */
 			if (!is_construct_end(top)) {
-				rvariant(top)++;
-				rchild_count(top) = 0;
+				p->top_unwind = 1 + rchild_list_cap(*p, rid(top));
 
-				if (!is_construct_end(top)) {
-					p->top_unwind =
-						1 + rchild_list_cap(*p, rid(top));
-
-					return 0;
-				}
+				break;
 			}
 		}
 
@@ -260,13 +250,21 @@ static int nonterminal_failed(struct rdesc *p)
 		if (parent_idx != SIZE_MAX)
 			pop_child(p, parent_idx);
 
-		rdesc_stack_multipop(&p->cst_stack, saved_top_unwind);
+		/* Exit case, explained in previous loop. */
+		if (parent_idx == SIZE_MAX) {
+			p->top_unwind = 0;
 
-		/* Parse operation fails if removed element does not belong to
-		 * any node, that is removing the node. */
-		if (parent_idx == SIZE_MAX)
-			return 0;
-	}
+			break;
+		}
+
+		p->cur -= runwind_size(top);
+	};
+
+	/* Remove nodes after the p->cur, which is the top. */
+	rdesc_stack_multipop(&p->cst_stack,
+			     rdesc_stack_len(p->cst_stack) - (p->cur + p->top_unwind));
+
+	return 0;
 }
 
 /* Internal pump state machine. Returns next action for outer pump loop.

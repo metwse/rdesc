@@ -33,7 +33,7 @@ int main(void)
 	rdesc_pump(&p, TK_RPAREN, NULL);
 	rdesc_pump(&p, TK_RPAREN, NULL);
 	rdesc_assert(rdesc_stack_len(p.cst_stack) != 0,
-	      "gramar is valid so the CST expected to be not empty");
+	      "grammar is valid so the CST expected to be not empty");
 
 	rdesc_pump(&p, TK_RPAREN, NULL);
 	rdesc_assert(rdesc_stack_len(p.cst_stack) == 0,
