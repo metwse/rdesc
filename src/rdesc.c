@@ -107,7 +107,8 @@ int rdesc_start(struct rdesc *p, uint16_t start_symbol)
 	return 0;
 }
 
-int rdesc_reset(struct rdesc *p) {
+int rdesc_reset(struct rdesc *p)
+{
 	destroy_tokens(p);
 
 	p->cur = SIZE_MAX;

@@ -44,7 +44,7 @@ void rdesc_dump_bnf(FILE *out,
 		    const char *const tk_names[],
 		    const char *const nt_names[])
 {
-	for (uint32_t nt_id = 0 /* head of the rule*/;
+	for (uint16_t nt_id = 0 /* head of the rule*/;
 	     nt_id < grammar->nt_count; nt_id++) {
 		if (nt_id != 0)
 			fputc('\n', out);

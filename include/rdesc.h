@@ -122,7 +122,7 @@ int rdesc_reset(struct rdesc *parser);
  * internal backtracking stack or the provided id.
  *
  * @param parser Pointer to the parser instance.
- * @param id Identifier of the next token to consume.
+ * @param id **15-bit** identifier of the next token to consume.
  *        - **ID 0 is reserved** for resuming from the backtrack stack. This
  *          occurs after start symbol changes or memory allocation error
  *          retries.

@@ -7,7 +7,7 @@
 
 
 void rdesc_grammar_init(struct rdesc_grammar *grammar,
-			uint32_t nt_count,
+			uint16_t nt_count,
 			uint16_t nt_variant_count,
 			uint16_t nt_body_length,
 			const struct rdesc_grammar_symbol *rules)
