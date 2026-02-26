@@ -106,7 +106,7 @@ void rdesc_destroy(struct rdesc *parser);
  *
  * @return Non-zero value if memory allocation fails.
  */
-int rdesc_start(struct rdesc *parser, int start_symbol);
+int rdesc_start(struct rdesc *parser, uint16_t start_symbol);
 
 /**
  * @brief Resets the parser to its initial state.
