@@ -133,9 +133,9 @@ Functions</h2></td></tr>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_destroy</b> (struct <a class="el" href="structrdesc.html">rdesc</a> *parser)</td></tr>
 <tr class="memdesc:a6ca947aade839cdb10de5d225316606c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees memory allocated by the parser and destroys the parser instance. <br /></td></tr>
 <tr class="separator:a6ca947aade839cdb10de5d225316606c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0e4c175ba9f4c0b71b86c995d43e6dd8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#a0e4c175ba9f4c0b71b86c995d43e6dd8">rdesc_start</a> (struct <a class="el" href="structrdesc.html">rdesc</a> *parser, int start_symbol)</td></tr>
-<tr class="memdesc:a0e4c175ba9f4c0b71b86c995d43e6dd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets start symbol for the next match.  <br /></td></tr>
-<tr class="separator:a0e4c175ba9f4c0b71b86c995d43e6dd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e7ab2b0d3f6c4702d7678ae18928bce"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#a3e7ab2b0d3f6c4702d7678ae18928bce">rdesc_start</a> (struct <a class="el" href="structrdesc.html">rdesc</a> *parser, uint16_t start_symbol)</td></tr>
+<tr class="memdesc:a3e7ab2b0d3f6c4702d7678ae18928bce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets start symbol for the next match.  <br /></td></tr>
+<tr class="separator:a3e7ab2b0d3f6c4702d7678ae18928bce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26330a2604012c9bd921a221119332b3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#a26330a2604012c9bd921a221119332b3">rdesc_reset</a> (struct <a class="el" href="structrdesc.html">rdesc</a> *parser)</td></tr>
 <tr class="memdesc:a26330a2604012c9bd921a221119332b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets the parser to its initial state.  <br /></td></tr>
 <tr class="separator:a26330a2604012c9bd921a221119332b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -270,7 +270,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_destroy</b> (st
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">parser</td><td>Pointer to the parser instance. </td></tr>
-    <tr><td class="paramname">id</td><td>Identifier of the next token to consume.<ul>
+    <tr><td class="paramname">id</td><td><b>15-bit</b> identifier of the next token to consume.<ul>
 <li><b>ID 0 is reserved</b> for resuming from the backtrack stack. This occurs after start symbol changes or memory allocation error retries. </li>
 </ul>
 </td></tr>
@@ -361,8 +361,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_destroy</b> (st
 
 </div>
 </div>
-<a id="a0e4c175ba9f4c0b71b86c995d43e6dd8" name="a0e4c175ba9f4c0b71b86c995d43e6dd8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0e4c175ba9f4c0b71b86c995d43e6dd8">&#9670;&#160;</a></span>rdesc_start()</h2>
+<a id="a3e7ab2b0d3f6c4702d7678ae18928bce" name="a3e7ab2b0d3f6c4702d7678ae18928bce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e7ab2b0d3f6c4702d7678ae18928bce">&#9670;&#160;</a></span>rdesc_start()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -376,7 +376,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_destroy</b> (st
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
+          <td class="paramtype">uint16_t&#160;</td>
           <td class="paramname"><em>start_symbol</em>&#160;</td>
         </tr>
         <tr>
