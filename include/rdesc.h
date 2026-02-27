@@ -194,8 +194,6 @@ struct _rdesc_priv_node {
 		struct _rdesc_priv_tk tk;
 		struct _rdesc_priv_nt nt;
 	} n;
-
-	uint8_t _[];
 };
 
 #pragma pack(pop)

@@ -51,7 +51,8 @@ struct rdesc;  /* defined in rdesc.h */
 
 /* Returns index of the child in stack. */
 #define _rdesc_priv_child_idx(nt_node, child_index) \
-	(*(size_t *) (&_rdesc_priv_node_deref(nt_node)._[(child_index) * sizeof(size_t)]))
+	(*(size_t *) (&((uint8_t *) ((struct _rdesc_priv_node *) nt_node + 1)) \
+		[(child_index) * sizeof(size_t)]))
 
 #ifdef __cplusplus
 extern "C"
