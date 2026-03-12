@@ -1,5 +1,7 @@
 #include "test_instruments.h"
 
+#include <stdbool.h>
+
 
 int malloc_fail_at = -1;
 int realloc_fail_at = -1;

@@ -5,12 +5,9 @@ UNIT_DIR = unit
 DIST_DIR = ../dist/tests
 OBJ_DIR = $(DIST_DIR)/obj
 
-LIB_RELEASE = ../dist/release/librdesc.a
-LIB_TEST = ../dist/test/librdesc.a
-
 # No need to change rules below this line.
 
-include ../config.mk
+CFLAGS_COMMON = -std=c99 -Wall -Wextra -pedantic
 
 FUZZ_CFLAGS = $(CFLAGS_COMMON) -O2 -g3 -DAGRESSIVE_FUZZ
 TEST_CFLAGS = $(CFLAGS_COMMON) -O0 -g3 --coverage
@@ -30,14 +27,19 @@ FUZZ_TARGETS = \
 OBJS = $(wildcard $(OBJ_DIR)/*.o)
 
 
-# Check library rebuilds with root Makefile.
-default: check-lib-test
-	$(MAKE) $(TEST_TARGETS)
+default: $(TEST_TARGETS) $(FUZZ_TARGETS)
 
-fuzz: check-lib-release
-	$(MAKE) $(FUZZ_TARGETS)
 
-all: default fuzz
+RDESC_DIR := ..
+RDESC_FEATURES := full
+
+RDESC_MODE := test
+include ../rdesc.mk
+LIB_TEST := $(RDESC)
+
+RDESC_MODE := release
+include ../rdesc.mk
+LIB_RELEASE := $(RDESC)
 
 
 # Test build rules compile from project root for gcovr compatibility, And then
@@ -52,6 +54,7 @@ all: default fuzz
 $(OBJ_DIR)/%.integration.test.o: $(INTEGRATION_DIR)/%.c | $(OBJ_DIR)
 	cd ..; $(CC) $(TEST_CFLAGS) -c tests/$< -o tests/$@
 	$(CC) -MM $< -MF $(@:.o=.d) -MT $@
+
 $(DIST_DIR)/%.integration.test: $(OBJ_DIR)/%.integration.test.o $(LIB_TEST) \
 		| $(DIST_DIR)
 	$(CC) $(TEST_CFLAGS) $^ -o $@
@@ -61,6 +64,7 @@ $(DIST_DIR)/%.integration.test: $(OBJ_DIR)/%.integration.test.o $(LIB_TEST) \
 $(OBJ_DIR)/%.fuzz.release.o: $(FUZZ_DIR)/%.c | $(OBJ_DIR)
 	cd ..; $(CC) $(FUZZ_CFLAGS) -c tests/$< -o tests/$@
 	$(CC) -MM $< -MF $(@:.o=.d) -MT $@
+
 $(DIST_DIR)/%.fuzz.release: $(OBJ_DIR)/%.fuzz.release.o $(LIB_RELEASE) \
 		| $(DIST_DIR)
 	$(CC) $(FUZZ_CFLAGS) $^ -o $@
@@ -69,8 +73,8 @@ $(DIST_DIR)/%.fuzz.release: $(OBJ_DIR)/%.fuzz.release.o $(LIB_RELEASE) \
 $(OBJ_DIR)/%.fuzz.test.o: $(FUZZ_DIR)/%.c | $(OBJ_DIR)
 	cd ..; $(CC) $(TEST_CFLAGS) -c tests/$< -o tests/$@
 	$(CC) -MM $< -MF $(@:.o=.d) -MT $@
-$(DIST_DIR)/%.fuzz.test: $(OBJ_DIR)/%.fuzz.test.o $(LIB_TEST) \
-		| $(DIST_DIR)
+
+$(DIST_DIR)/%.fuzz.test: $(OBJ_DIR)/%.fuzz.test.o $(LIB_TEST) | $(DIST_DIR)
 	$(CC) $(TEST_CFLAGS) $^ -o $@
 
 # - UNIT ----------------------------------------------------------------------
@@ -82,22 +86,10 @@ $(DIST_DIR)/%.unit.test: $(OBJ_DIR)/%.unit.test.o | $(DIST_DIR)
 	$(CC) $(TEST_CFLAGS) $< -o $@
 
 
-# Library build rules.
-check-lib-test:
-	$(MAKE) -C .. FEATURES='full' MODE='test' -j
-
-check-lib-release:
-	$(MAKE) -C .. FEATURES='full' MODE='release' -j
-
-
 $(DIST_DIR) $(OBJ_DIR):
 	mkdir -p $@
-
-clean:
-	$(RM) $(DIST_DIR)
 
 
 -include $(OBJS:.o=.d)
 
-.PHONY: default all clean fuzz \
-	check-lib-test check-lib-release
+.PHONY: default all fuzz

@@ -1,76 +1,28 @@
-# Select features from 'stack', 'dump_cst', 'dump_bnf' or use 'full'.
-FEATURES ?= stack
-FULL_FEATURES = stack dump_cst dump_bnf
-# release, debug, or test
-MODE ?= release
-# List of essential files of the library.
-LIB_MANDATORY = rdesc grammar
-LIB_TEST = test_instruments
+RM = rm -rf
+INSTALL ?= install
 
-SRC_DIR = src
-INC_DIR = include
-DIST_DIR = dist
-TARGET_DIR = $(DIST_DIR)/$(MODE)
 
-OBJ_DIR = $(TARGET_DIR)/obj
+default: _default
 
-# No need to change rules below this line.
+include rdesc.mk
 
-include config.mk
-
-# Compilation flags, selected based on MODE environment variable.
-CFLAGS_release = $(CFLAGS_COMMON) -O2
-CFLAGS_debug = $(CFLAGS_COMMON) -O0 -g3
-CFLAGS_test = $(CFLAGS_COMMON) -O0 -g3 --coverage -DTEST_INSTRUMENTS
-
-CFLAGS = $(CFLAGS_$(MODE))
-
-ifeq ($(CFLAGS),)
-$(error "WARNING: unknown mode $(MODE).")
-endif
-
-LIB = $(LIB_MANDATORY) \
-	$(if $(filter $(FEATURES),full),$(FULL_FEATURES),$(FEATURES)) \
-	$(if $(filter $(MODE),test),$(LIB_TEST))
-
-SRCS = $(wildcard $(SRC_DIR)/*.c)
-
-OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
-LIB_OBJS = $(foreach o, $(LIB), $(OBJ_DIR)/$o.o)
-
-default: $(TARGET_DIR)/librdesc.so $(TARGET_DIR)/librdesc.a
+_default: $(RDESC) $(RDESC_SO)
 
 PREFIX ?= /usr/local
-install: $(TARGET_DIR)/librdesc.so $(TARGET_DIR)/librdesc.a
-	install -d $(DESTDIR)$(PREFIX)/lib/
-	install -d $(DESTDIR)$(PREFIX)/include/rdesc/
+install: $(RDESC) $(RDESC_SO)
+	$(INSTALL) -d $(DESTDIR)$(PREFIX)/lib/
+	$(INSTALL) -d $(DESTDIR)$(PREFIX)/include/rdesc/
 
-	install -m 755 $(TARGET_DIR)/librdesc.so $(DESTDIR)$(PREFIX)/lib/
-	install -m 644 $(TARGET_DIR)/librdesc.a $(DESTDIR)$(PREFIX)/lib/
+	$(INSTALL) -m 755 $(RDESC_SO) $(DESTDIR)$(PREFIX)/lib/
+	$(INSTALL) -m 644 $(RDESC) $(DESTDIR)$(PREFIX)/lib/
 
-	install -m 644 include/* $(DESTDIR)$(PREFIX)/include/rdesc/
-
-
-$(TARGET_DIR)/librdesc.a: $(LIB_OBJS) | $(TARGET_DIR)
-	ar rcs $@ $^
-
-$(TARGET_DIR)/librdesc.so: $(LIB_OBJS) | $(TARGET_DIR)
-	$(CC) $(CFLAGS) -shared -o $@ $^
-
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(TARGET_DIR) $(OBJ_DIR):
-	mkdir -p $@
-
+	$(INSTALL) -m 644 $(RDESC_INCLUDE_DIR)/* $(DESTDIR)$(PREFIX)/include/rdesc/
 
 clean:
-	$(RM) $(DIST_DIR) docs
+	$(RM) $(rdesc_DIST_DIR) docs
 
 docs:
 	doxygen
 
 
--include $(OBJS:.o=.d)
-
-.PHONY: default clean docs install
+.PHONY: default _default clean docs install
