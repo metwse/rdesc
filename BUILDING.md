@@ -6,7 +6,7 @@ tests, and examples.
 Build the main library:
 ```sh
 make              # Build release version (default)
-make MODE=debug   # Build with debug symbols and ASAN
+make MODE=debug   # Build with debug symbols
 make MODE=test    # Build with coverage instrumentation
 ```
 
@@ -37,9 +37,9 @@ Features, you may use feature flag `full` to include all flags.
 Tests are organized into three categories and built independently:
 ```sh
 cd tests
-make covr   # Build coverage-instrumented tests (integration, unit, fuzz)
-make debug  # Build debug tests with ASAN (integration, unit)
-make fuzz   # Build optimized fuzz tests
+make integration # Integration tests links librdesc as is
+make unit        # Tests with dependency injections
+make fuzz        # Build optimized fuzz tests
 ```
 
 Or from project root:
