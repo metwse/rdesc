@@ -72,61 +72,57 @@ $(function() {
   <div class="headertitle"><div class="title">librdesc </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>deterministic recursive descent parser with ordered-choice semantics</p>
-<p><code>librdesc</code> is a portable, table-driven, algorithm-only parsing library written in standard C99. It provides the flexibility of a recursive descent parser with high degree of control in manual stack management.</p>
+<div class="textblock"><p><em>deterministic recursive descent parser with ordered-choice semantics</em></p>
+<p><code>librdesc</code> is a portable and table-driven parsing library written in standard C99. It provides the flexibility of a recursive descent parser with high degree of control in manual stack management.</p>
 <p><em>Check out <a href="https://metwse.github.io/rdesc/">online documentation</a> for details!</em></p>
 <h1><a class="anchor" id="autotoc_md3"></a>
 Documentation</h1>
 <p>Full API documentation is auto-generated using Doxygen: </p><div class="fragment"><div class="line">make docs</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md4"></a>
+</div><!-- fragment --> <h1><a class="anchor" id="autotoc_md4"></a>
+Integration Guide</h1>
+<p>You can easily embed <code>librdesc</code> as a subproject and build dependency inside your own Makefiles by including the <a href="./rdesc.mk">rdesc.mk</a>.</p>
+<p>This avoids the need for system-wide installation and builds the library alongside your project.</p>
+<div class="fragment"><div class="line"># Set the path to your rdesc source folder. (REQUIRED)</div>
+<div class="line">RDESC_DIR := path/to/rdesc</div>
+<div class="line"> </div>
+<div class="line"># Optionally configure the build variables</div>
+<div class="line">RDESC_MODE := debug</div>
+<div class="line">RDESC_FEATURES := stack dump_cst</div>
+<div class="line"> </div>
+<div class="line"># You may prefer installing rdesc using git</div>
+<div class="line">$(RDESC_DIR)/rdesc.mk:</div>
+<div class="line">    git clone https://github.com/metwse/rdesc.git $(RDESC_DIR)</div>
+<div class="line"> </div>
+<div class="line"># Include the librdesc build system</div>
+<div class="line">include $(RDESC_DIR)/rdesc.mk</div>
+<div class="line"> </div>
+<div class="line"># ...</div>
+<div class="line"> </div>
+<div class="line"># Use the exported variables in your targets. $(RDESC) points to the static</div>
+<div class="line"># library path.</div>
+<div class="line">my_app: main.c $(RDESC)</div>
+<div class="line">    $(CC) -I$(RDESC_INCLUDE_DIR) $&lt; $(RDESC) -o $@</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md5"></a>
+Configuration Variables</h2>
+<p><code>librdesc</code> provides an include-based build which uses the following <code>RDESC_*</code> configuration variables to control the build process. When building directly from this repository's root makefile, you can drop the <code>RDESC_</code> prefix (e.g., <code>make MODE=debug</code>).</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Variable   </th><th class="markdownTableHeadNone">Description   </th><th class="markdownTableHeadNone">Default   </th><th class="markdownTableHeadNone">Valid Values    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>RDESC_MODE</code>   </td><td class="markdownTableBodyNone">Determines the optimization level and instrumentation.   </td><td class="markdownTableBodyNone"><code>release</code>   </td><td class="markdownTableBodyNone"><code>release</code>, <code>debug</code>, <code>test</code>    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><code>RDESC_FEATURES</code>   </td><td class="markdownTableBodyNone">Toggles modules linked into the library.   </td><td class="markdownTableBodyNone"><code>stack</code>   </td><td class="markdownTableBodyNone"><code>stack</code>, <code>dump_bnf</code>, <code>dump_cst</code>, <code>full</code>    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>RDESC_FLAGS</code>   </td><td class="markdownTableBodyNone">Internal flags to configure library behavior.   </td><td class="markdownTableBodyNone"><code>ASSERTIONS</code>   </td><td class="markdownTableBodyNone"><code>ASSERTIONS</code>, <code>full</code>    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><code>RDESC_DIR</code>   </td><td class="markdownTableBodyNone">Path to the root of the <code>librdesc</code> source repository.   </td><td class="markdownTableBodyNone"><code>.</code> (<em>do not</em> use default)   </td><td class="markdownTableBodyNone">rdesc path   </td></tr>
+</table>
+<p><code>rdesc.mk</code> defines two target variables: <code>RDESC</code>, the static library target and <code>RDESC_SO</code>, the shared object version. You can set these before including the <code>rdesc.mk</code> file to output into desired location, but you can also use the default values that output to rdesc's internal build directory.</p>
+<p>A variable named <code>RDESC_INCLUDE_DIR</code> is also defined to point to the folder containing the public headers.</p>
+<h1><a class="anchor" id="autotoc_md6"></a>
 &lt;tt&gt;contribute -Wai-slop&lt;/tt&gt;</h1>
 <p><img src="https://github.com/user-attachments/assets/bca16d5a-a6fe-4cbf-b41f-1176e000cff2" alt="no-ai-slop" width="96" height="96" align="right" class="inline"/></p>
-<p>Contributions are welcome! Please check our <a href="http://github.com/metwse/code-of-conduct">Code of Conduct</a> before submitting pull requests.</p>
-<h1><a class="anchor" id="autotoc_md5"></a>
-Building</h1>
-<p><code>librdesc</code> uses a modular build system with separate Makefiles for the library, tests, and examples.</p>
-<h2><a class="anchor" id="autotoc_md6"></a>
-Library</h2>
-<p>Build the main library: </p><div class="fragment"><div class="line">make              # Build release version (default)</div>
-<div class="line">make MODE=debug   # Build with debug symbols and ASAN</div>
-<div class="line">make MODE=test    # Build with coverage instrumentation</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md7"></a>
-Feature Flags</h2>
-<p>Providing <code>FEATURES</code> variable, you can toggle modules linked to the library. By default, only <code>stack</code> feature is enabled.</p>
-<div class="fragment"><div class="line">make FEATURES=&#39;stack dump_bnf dump_cst&#39;</div>
-</div><!-- fragment --><table class="markdownTable">
-<tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Feature   </th><th class="markdownTableHeadNone">Description    </th></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>stack</code>   </td><td class="markdownTableBodyNone">Use built-in stack implementation in backtracing, which uses <code>malloc/free</code> family functions.    </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>dump_bnf</code>   </td><td class="markdownTableBodyNone">Dump <code><a class="el" href="structrdesc__grammar.html" title="Grammar definition.">rdesc_grammar</a></code> in Backus-Naur form.    </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>dump_cst</code>   </td><td class="markdownTableBodyNone">Dump <code>rdesc_node</code> (Concrete Syntax Tree) as dotlang graph.   </td></tr>
-</table>
-<p>You may use feature flag <code>full</code> to include all features.</p>
-<h2><a class="anchor" id="autotoc_md8"></a>
-Tests</h2>
-<p>Tests are organized into three categories and built independently: </p><div class="fragment"><div class="line">cd tests</div>
-<div class="line">make covr   # Build coverage-instrumented tests (integration, unit, fuzz)</div>
-<div class="line">make debug  # Build debug tests with ASAN (integration, unit)</div>
-<div class="line">make fuzz   # Build optimized fuzz tests</div>
-</div><!-- fragment --><p>Or from project root: </p><div class="fragment"><div class="line">./runtests.sh   # Build and run all tests with coverage</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md9"></a>
-Examples</h2>
-<p>Examples build using their Makefile, and example output will be present in <code>dist/examples/</code> folder. </p><div class="fragment"><div class="line">cd examples</div>
-<div class="line">make            # Build example programs</div>
-</div><!-- fragment --><p>Examples statically links <code>librdesc</code> in tests mode.</p>
-<h1><a class="anchor" id="autotoc_md10"></a>
-Installation</h1>
-<div class="fragment"><div class="line">make install PREFIX=/installation/path</div>
-</div><!-- fragment --><p>This command copies headers into <code>$PREFIX/include</code> and <code>librdesc.so/a</code> into <code>$PREFIX/lib</code>.</p>
-<p>Leave it empty to install <code>librdesc</code> system-wide: </p><div class="fragment"><div class="line">sudo make install</div>
-</div><!-- fragment --><p>Also you can specify build mode and features for installation: </p><div class="fragment"><div class="line">sudo make install FEATURES=full MODE=debug</div>
-</div><!-- fragment --><p> Note: Test mode is not recommended for installation.</p>
-<h2><a class="anchor" id="autotoc_md11"></a>
-Manual integration</h2>
-<p>Copy <code>include/*.h</code> to your project and static link against <code>librdesc.a</code> or dynamic link against <code>librdesc.so</code>. </p>
+<p>Contributions are welcome! Please check our <a href="http://github.com/metwse/code-of-conduct">Code of Conduct</a> before submitting pull requests. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 <!-- start footer part -->
