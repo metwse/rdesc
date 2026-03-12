@@ -1,7 +1,8 @@
 PROJECT_NAME           = "librdesc"
 OUTPUT_DIRECTORY       = "docs/"
 MARKDOWN_SUPPORT       = YES
-INPUT                  = src/ include/ examples/ README.md mainpage.dox
+INPUT                  = src/ include/ examples/ \
+                         README.md BUILDING.md mainpage.dox
 RECURSIVE              = YES
 GENERATE_HTML          = YES
 GENERATE_LATEX         = NO

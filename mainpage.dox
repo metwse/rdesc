@@ -76,7 +76,8 @@
  *   precedence and expressions.
  *
  *
- * @section build_sec Building
+ * @section integration_sec Integration
  *
- * See @ref README.md for building instructions.
+ * See @ref README.md for integration instructions, or @ref BUILDING.md for
+ * manual integration.
  */

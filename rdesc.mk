@@ -7,7 +7,8 @@
 RDESC_FEATURES ?= stack
 # release, debug, or test
 RDESC_MODE ?= release
-# Available flags: 'LEFT_RECURSION', 'ASSERTIONS', or use 'full'
+# Available flags: 'ASSERTIONS', or use 'full' (currently only one flag
+# available, but in future new flags for extra checks may implemented)
 RDESC_FLAGS ?= ASSERTIONS
 
 # Directory containing rdesc source files.
@@ -33,13 +34,17 @@ rdesc_OBJ_MANDATORY := rdesc grammar
 rdesc_OBJ_TEST := test_instruments
 
 rdesc_ALL_FEATURES := stack dump_cst dump_bnf
-rdesc_ALL_FLAGS := ASSERTIONS LEFT_RECURSION
+rdesc_ALL_FLAGS := ASSERTIONS
 
 rdesc_CFLAGS_COMMON := -std=c99 -Wall -Wextra -pedantic -fPIC \
 			$(foreach f,\
 				$(if $(filter $(RDESC_FLAGS),full),\
 					$(rdesc_ALL_FLAGS),\
-					$(RDESC_FLAGS)),-DRDESC_$f)
+					$(RDESC_FLAGS)),-DRDESC_$f) \
+			$(foreach f,\
+				$(if $(filter $(RDESC_FEATURES),full),\
+					$(rdesc_ALL_FEATURES),\
+					$(RDESC_FEATURES)),-DRDESC_$f)
 
 rdesc_CFLAGS_release := $(rdesc_CFLAGS_COMMON) -O2
 rdesc_CFLAGS_debug := $(rdesc_CFLAGS_COMMON) -O0 -g3
