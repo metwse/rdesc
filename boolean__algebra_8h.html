@@ -84,20 +84,12 @@ $(function() {
 <p>Boolean algebra grammar example for librdesc.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="grammar_8h_source.html">../../include/grammar.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="bnf__macros_8h_source.html">../../include/bnf_macros.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="rule__macros_8h_source.html">../../include/rule_macros.h</a>&quot;</code><br />
 </div>
 <p><a href="boolean__algebra_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a99ea7c8e2a06e9b3daba34a56f10590f"><td class="memItemLeft" align="right" valign="top"><a id="a99ea7c8e2a06e9b3daba34a56f10590f" name="a99ea7c8e2a06e9b3daba34a56f10590f"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PREFIX_TK</b>(tk)&#160;&#160;&#160;TK_ ## tk</td></tr>
-<tr class="memdesc:a99ea7c8e2a06e9b3daba34a56f10590f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add TK_ prefix in <code>TK</code> macro. <br /></td></tr>
-<tr class="separator:a99ea7c8e2a06e9b3daba34a56f10590f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0cbafb1e03a0d5e350b1289a3a93608b"><td class="memItemLeft" align="right" valign="top"><a id="a0cbafb1e03a0d5e350b1289a3a93608b" name="a0cbafb1e03a0d5e350b1289a3a93608b"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PREFIX_NT</b>(nt)&#160;&#160;&#160;NT_ ## nt</td></tr>
-<tr class="memdesc:a0cbafb1e03a0d5e350b1289a3a93608b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add NT_ prefix in <code>NT</code> macro. <br /></td></tr>
-<tr class="separator:a0cbafb1e03a0d5e350b1289a3a93608b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7cbf9a1edb791896af995c324c0bfec3"><td class="memItemLeft" align="right" valign="top"><a id="a7cbf9a1edb791896af995c324c0bfec3" name="a7cbf9a1edb791896af995c324c0bfec3"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>BALG_TK_COUNT</b>&#160;&#160;&#160;14</td></tr>
 <tr class="memdesc:a7cbf9a1edb791896af995c324c0bfec3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total count of terminal symbols. <br /></td></tr>
@@ -188,7 +180,7 @@ static const struct <a class="el" href="structrdesc__grammar__symbol.html">rdesc
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Boolean algebra grammar example for librdesc. </p>
 <p>This file defines a sample grammar for a simple Boolean Algebra language. It serves two main purposes:</p><ol type="1">
-<li>To demonstrate how to use the BNF macros (<code><a class="el" href="bnf__macros_8h.html" title="DSL macros for defining grammars in Backus-Naur form (BNF).">bnf_macros.h</a></code>) to define grammars.</li>
+<li>To demonstrate how to use the rule macros (<code><a class="el" href="rule__macros_8h.html" title="DSL macros for defining grammar production rules.">rule_macros.h</a></code>) to define grammars.</li>
 <li>To act as a stress-test for the parser's backtracking engine by introducing intentional ambiguities.</li>
 </ol>
 <p>Language features:</p><ul>

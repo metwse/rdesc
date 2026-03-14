@@ -84,10 +84,10 @@ Introduction</h1>
 <h1><a class="anchor" id="API"></a>
 Overview</h1>
 <ol type="1">
-<li>Parser (<code><a class="el" href="rdesc_8h.html" title="Deterministic recursive descent parser with ordered-choice semantics.">rdesc.h</a></code>): The engine that consumes tokens. It defines the core algorithm - the parser state machine.</li>
+<li>Parser (<code><a class="el" href="rdesc_8h.html" title="The deterministic recursive descent parser.">rdesc.h</a></code>): The engine that consumes tokens. It defines the core algorithm - the parser state machine.</li>
 <li>Tree macros (<code><a class="el" href="cst__macros_8h.html" title="Macros for accessing fields of node structs.">cst_macros.h</a></code>): Macros to access fields of CST.</li>
 <li>Grammar (<code><a class="el" href="grammar_8h.html" title="Grammar data structures.">grammar.h</a></code>): Defines the grammar struct for construction rules, which usually populated with static constant data using macros.</li>
-<li>Rule macros (<code><a class="el" href="bnf__macros_8h.html" title="DSL macros for defining grammars in Backus-Naur form (BNF).">bnf_macros.h</a></code>): A set of macros to facilitate definning rdesc grammars. See <a class="el" href="index.html#examples_sec">Examples</a> for usage.</li>
+<li>Rule macros (<code><a class="el" href="rule__macros_8h.html" title="DSL macros for defining grammar production rules.">rule_macros.h</a></code>): A set of macros to facilitate definning rdesc grammars. See <a class="el" href="index.html#examples_sec">Examples</a> for usage.</li>
 <li>Optional features (<code><a class="el" href="util_8h.html" title="Development and debugging utilities.">util.h</a></code>): Development and debugging utilities.</li>
 </ol>
 <h1><a class="anchor" id="quickstart_sec"></a>
@@ -95,21 +95,21 @@ Quick Start Guide</h1>
 <p>To use librdesc, you typically follow these steps:</p>
 <ol type="1">
 <li>Define the identifiers of tokens and nonterminals (e.g. create enums for your language symbols)</li>
-<li>Define your grammar and its symbol table. You may use <code><a class="el" href="bnf__macros_8h.html" title="DSL macros for defining grammars in Backus-Naur form (BNF).">bnf_macros.h</a></code> to create the rules table.</li>
+<li>Define your grammar and its symbol table. You may use <code><a class="el" href="rule__macros_8h.html" title="DSL macros for defining grammar production rules.">rule_macros.h</a></code> to create the rules table.</li>
 <li>Initialize: <div class="fragment"><div class="line"><span class="keyword">struct </span><a class="code hl_struct" href="structrdesc__grammar.html">rdesc_grammar</a> grammar;</div>
-<div class="line"><a class="code hl_function" href="grammar_8h.html#a98b489e8be389fef3bd0ebdeba7d5fc6">rdesc_grammar_init</a>(&amp;grammar, ...);  <span class="comment">// Load your rules</span></div>
+<div class="line"><a class="code hl_function" href="grammar_8h.html#a7a9251631c0bbb81f171caeee451f823">rdesc_grammar_init</a>(&amp;grammar, ...);  <span class="comment">// Load your rules</span></div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">struct </span><a class="code hl_struct" href="structrdesc.html">rdesc</a> parser;</div>
 <div class="line">                             <span class="comment">// vvv function pointer for freeing seminfo</span></div>
-<div class="line"><a class="code hl_function" href="rdesc_8h.html#a7f061f9788e5aa8706e1e5aa9b816ce9">rdesc_init</a>(&amp;parser, &amp;grammar, 8, token_destroyer_method);</div>
+<div class="line"><a class="code hl_function" href="rdesc_8h.html#a13ebad573ee497f0fa71a75dd39d94b7">rdesc_init</a>(&amp;parser, &amp;grammar, 8, token_destroyer_method);</div>
 <div class="line">                          <span class="comment">// ^^^ 8 is the size your grammar&#39;s semantic</span></div>
 <div class="line">                          <span class="comment">// information</span></div>
-<div class="ttc" id="agrammar_8h_html_a98b489e8be389fef3bd0ebdeba7d5fc6"><div class="ttname"><a href="grammar_8h.html#a98b489e8be389fef3bd0ebdeba7d5fc6">rdesc_grammar_init</a></div><div class="ttdeci">void rdesc_grammar_init(struct rdesc_grammar *grammar, uint16_t nonterminal_count, uint16_t nonterminal_variant_count, uint16_t nonterminal_body_length, const struct rdesc_grammar_symbol *production_rules)</div><div class="ttdoc">Initializes a grammar struct.</div><div class="ttdef"><b>Definition:</b> grammar.c:9</div></div>
-<div class="ttc" id="ardesc_8h_html_a7f061f9788e5aa8706e1e5aa9b816ce9"><div class="ttname"><a href="rdesc_8h.html#a7f061f9788e5aa8706e1e5aa9b816ce9">rdesc_init</a></div><div class="ttdeci">int rdesc_init(struct rdesc *parser, const struct rdesc_grammar *grammar, size_t seminfo_size, void(*token_destroyer)(uint16_t id, void *seminfo))</div><div class="ttdoc">Initializes a new parser.</div></div>
-<div class="ttc" id="astructrdesc__grammar_html"><div class="ttname"><a href="structrdesc__grammar.html">rdesc_grammar</a></div><div class="ttdoc">Grammar definition.</div><div class="ttdef"><b>Definition:</b> grammar.h:25</div></div>
+<div class="ttc" id="agrammar_8h_html_a7a9251631c0bbb81f171caeee451f823"><div class="ttname"><a href="grammar_8h.html#a7a9251631c0bbb81f171caeee451f823">rdesc_grammar_init</a></div><div class="ttdeci">int rdesc_grammar_init(struct rdesc_grammar *grammar, uint16_t nonterminal_count, uint16_t nonterminal_variant_count, uint16_t nonterminal_body_length, const struct rdesc_grammar_symbol *production_rules) _rdesc_wur</div><div class="ttdoc">Initializes a grammar struct.</div><div class="ttdef"><b>Definition:</b> grammar.c:12</div></div>
+<div class="ttc" id="ardesc_8h_html_a13ebad573ee497f0fa71a75dd39d94b7"><div class="ttname"><a href="rdesc_8h.html#a13ebad573ee497f0fa71a75dd39d94b7">rdesc_init</a></div><div class="ttdeci">int rdesc_init(struct rdesc *parser, const struct rdesc_grammar *grammar, size_t seminfo_size, void(*token_destroyer)(uint16_t id, void *seminfo)) _rdesc_wur</div><div class="ttdoc">Initializes a new parser.</div></div>
+<div class="ttc" id="astructrdesc__grammar_html"><div class="ttname"><a href="structrdesc__grammar.html">rdesc_grammar</a></div><div class="ttdoc">Grammar definition.</div><div class="ttdef"><b>Definition:</b> grammar.h:27</div></div>
 <div class="ttc" id="astructrdesc_html"><div class="ttname"><a href="structrdesc.html">rdesc</a></div><div class="ttdoc">Recursive descent parser state.</div><div class="ttdef"><b>Definition:</b> rdesc.h:41</div></div>
 </div><!-- fragment --></li>
-<li>Pump Tokens: Feed tokens into the loop until a tree is ready. <div class="fragment"><div class="line"><a class="code hl_function" href="rdesc_8h.html#a3e7ab2b0d3f6c4702d7678ae18928bce">rdesc_start</a>(&amp;parser, NT_STMT);  <span class="comment">// Set your start symbol.</span></div>
+<li>Pump Tokens: Feed tokens into the loop until a tree is ready. <div class="fragment"><div class="line"><a class="code hl_function" href="rdesc_8h.html#a00111b43fe34f3e460e7a25a497cd807">rdesc_start</a>(&amp;parser, NT_STMT);  <span class="comment">// Set your start symbol.</span></div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">enum</span> <a class="code hl_enumeration" href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983d">rdesc_result</a> parser_state;</div>
 <div class="line"><span class="keywordflow">do</span> {</div>
@@ -117,7 +117,7 @@ Quick Start Guide</h1>
 <div class="line">    uint16_t tk = next_tk();</div>
 <div class="line">    <span class="keywordtype">void</span> *seminfo = next_seminfo();</div>
 <div class="line"> </div>
-<div class="line">    parser_state = <a class="code hl_function" href="rdesc_8h.html#a051a52291b592e6a1ac0ce7218320e28">rdesc_pump</a>(&amp;parser, tk, seminfo);</div>
+<div class="line">    parser_state = <a class="code hl_function" href="rdesc_8h.html#a62609057ab55de9246a39ca423b148a3">rdesc_pump</a>(&amp;parser, tk, seminfo);</div>
 <div class="line">} <span class="keywordflow">while</span> (parser_state == <a class="code hl_enumvalue" href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983daa5713dde97680749b32c95d7173ab2e0">RDESC_CONTINUE</a>);</div>
 <div class="line"> </div>
 <div class="line"><span class="keywordflow">if</span> (res == <a class="code hl_enumvalue" href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983da3536c3180b6d6af0186a3572137154c3">RDESC_READY</a>) {</div>
@@ -126,8 +126,8 @@ Quick Start Guide</h1>
 <div class="line">} <span class="keywordflow">else</span> <span class="keywordflow">if</span> (res == <a class="code hl_enumvalue" href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983da49ef64d4013eddadfd25db97f7e448bc">RDESC_NOMATCH</a>) {</div>
 <div class="line">     <span class="comment">// Handle syntax errors.</span></div>
 <div class="line">}</div>
-<div class="ttc" id="ardesc_8h_html_a051a52291b592e6a1ac0ce7218320e28"><div class="ttname"><a href="rdesc_8h.html#a051a52291b592e6a1ac0ce7218320e28">rdesc_pump</a></div><div class="ttdeci">enum rdesc_result rdesc_pump(struct rdesc *parser, uint16_t id, void *seminfo)</div><div class="ttdoc">Drives the parsing process, the pump.</div><div class="ttdef"><b>Definition:</b> rdesc.c:361</div></div>
-<div class="ttc" id="ardesc_8h_html_a3e7ab2b0d3f6c4702d7678ae18928bce"><div class="ttname"><a href="rdesc_8h.html#a3e7ab2b0d3f6c4702d7678ae18928bce">rdesc_start</a></div><div class="ttdeci">int rdesc_start(struct rdesc *parser, uint16_t start_symbol)</div><div class="ttdoc">Sets start symbol for the next match.</div><div class="ttdef"><b>Definition:</b> rdesc.c:95</div></div>
+<div class="ttc" id="ardesc_8h_html_a00111b43fe34f3e460e7a25a497cd807"><div class="ttname"><a href="rdesc_8h.html#a00111b43fe34f3e460e7a25a497cd807">rdesc_start</a></div><div class="ttdeci">int rdesc_start(struct rdesc *parser, uint16_t start_symbol) _rdesc_wur</div><div class="ttdoc">Sets start symbol for the next match.</div><div class="ttdef"><b>Definition:</b> rdesc.c:95</div></div>
+<div class="ttc" id="ardesc_8h_html_a62609057ab55de9246a39ca423b148a3"><div class="ttname"><a href="rdesc_8h.html#a62609057ab55de9246a39ca423b148a3">rdesc_pump</a></div><div class="ttdeci">enum rdesc_result rdesc_pump(struct rdesc *parser, uint16_t id, void *seminfo) _rdesc_wur</div><div class="ttdoc">Drives the parsing process, the pump.</div><div class="ttdef"><b>Definition:</b> rdesc.c:359</div></div>
 <div class="ttc" id="ardesc_8h_html_ae1c47d0d0fe6789f714eaaab2f24983d"><div class="ttname"><a href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983d">rdesc_result</a></div><div class="ttdeci">rdesc_result</div><div class="ttdoc">Parse operation result codes.</div><div class="ttdef"><b>Definition:</b> rdesc.h:29</div></div>
 <div class="ttc" id="ardesc_8h_html_ae1c47d0d0fe6789f714eaaab2f24983da3536c3180b6d6af0186a3572137154c3"><div class="ttname"><a href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983da3536c3180b6d6af0186a3572137154c3">RDESC_READY</a></div><div class="ttdeci">@ RDESC_READY</div><div class="ttdef"><b>Definition:</b> rdesc.h:33</div></div>
 <div class="ttc" id="ardesc_8h_html_ae1c47d0d0fe6789f714eaaab2f24983da49ef64d4013eddadfd25db97f7e448bc"><div class="ttname"><a href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983da49ef64d4013eddadfd25db97f7e448bc">RDESC_NOMATCH</a></div><div class="ttdeci">@ RDESC_NOMATCH</div><div class="ttdef"><b>Definition:</b> rdesc.h:37</div></div>

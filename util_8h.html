@@ -81,7 +81,8 @@ $(function() {
 
 <p>Development and debugging utilities.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;stdio.h&gt;</code><br />
+<div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
+<code>#include &lt;stdio.h&gt;</code><br />
 </div>
 <p><a href="util_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -93,6 +94,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a669887108e0b678d3b5efe2b1ad95f62"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a669887108e0b678d3b5efe2b1ad95f62">rdesc_dump_bnf</a> (FILE *out, const struct <a class="el" href="structrdesc__grammar.html">rdesc_grammar</a> *grammar, const char *const tk_names[], const char *const nt_names[])</td></tr>
 <tr class="memdesc:a669887108e0b678d3b5efe2b1ad95f62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dumps the grammar in BNF format.  <br /></td></tr>
 <tr class="separator:a669887108e0b678d3b5efe2b1ad95f62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65649d7892879785281bc74b13911a93"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a65649d7892879785281bc74b13911a93">rdesc_flip_left</a> (struct <a class="el" href="structrdesc.html">rdesc</a> *parser, struct rdesc_node *parent, uint16_t child_index)</td></tr>
+<tr class="memdesc:a65649d7892879785281bc74b13911a93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rotates a right-recursive concrete syntax tree into a left-recursive form.  <br /></td></tr>
+<tr class="separator:a65649d7892879785281bc74b13911a93"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Development and debugging utilities. </p>
@@ -137,11 +141,11 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Dumps the grammar in BNF format. </p>
-<p>Prints all production rules in human-readable BNF format. (e.g.<code>A ::= B | C</code>)</p>
+<p>Prints all production rules in human-readable BNF format. (e.g.<code>A ::= B / C</code>)</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">out</td><td>Output file stream </td></tr>
-    <tr><td class="paramname">grammar</td><td>Underlying grammar struct </td></tr>
+    <tr><td class="paramname">out</td><td>Output file stream. </td></tr>
+    <tr><td class="paramname">grammar</td><td>Underlying grammar struct. </td></tr>
     <tr><td class="paramname">tk_names</td><td>The token name or literal representation (e.g., <code>IDENT</code> or <code>+</code>). Prefix with '@' to suppress automatic quote wrapping. </td></tr>
     <tr><td class="paramname">nt_names</td><td>The raw name of the nonterminal (e.g., <code>expr</code>). Angle brackets <code>&lt;&gt;</code> are added automatically. </td></tr>
   </table>
@@ -185,9 +189,60 @@ Functions</h2></td></tr>
 <p>Dumps the concrete syntax tree (CST) as a graphviz DOT graph. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">out</td><td>Output file stream </td></tr>
-    <tr><td class="paramname">parser</td><td>Parser to dump </td></tr>
+    <tr><td class="paramname">out</td><td>Output file stream. </td></tr>
+    <tr><td class="paramname">parser</td><td>Parser to dump its root. </td></tr>
     <tr><td class="paramname">node_printer</td><td>Callback to print token and nonterminal names. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a65649d7892879785281bc74b13911a93" name="a65649d7892879785281bc74b13911a93"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65649d7892879785281bc74b13911a93">&#9670;&#160;</a></span>rdesc_flip_left()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rdesc_flip_left </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structrdesc.html">rdesc</a> *&#160;</td>
+          <td class="paramname"><em>parser</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct rdesc_node *&#160;</td>
+          <td class="paramname"><em>parent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>child_index</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Rotates a right-recursive concrete syntax tree into a left-recursive form. </p>
+<p>Performs an in-place transformation of a subtree to convert right-associative nodes into left-associative ones. This is typically used as a post-processing step for grammars transformed by the <code>rrr</code> (right-recursive-rewrite) macro.</p>
+<p>The function converts the structure represented by: </p><div class="fragment"><div class="line">A  → β A<span class="stringliteral">&#39;</span></div>
+<div class="line"><span class="stringliteral">A&#39;</span> → α A<span class="stringliteral">&#39; / ε</span></div>
+</div><!-- fragment --><p> into the left-recursive equivalent: </p><div class="fragment"><div class="line">A  → A α</div>
+<div class="line">   / β</div>
+</div><!-- fragment --><p> α and β may consist of multiple tokens or nonterminal nodes. CST connections are maintained to ensure valid destruction and traversal.</p>
+<p>The node to be rotated cannot be the root of the entire parse tree, so <code>parent</code> cannot be <code>NULL</code>. This is because a match is considered complete if and only if all nonterminals complete their bodies; this condition cannot be met if the start symbol (the root) is a recursive nonterminal.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parser</td><td>Pointer to the rdesc parser instance. </td></tr>
+    <tr><td class="paramname">parent</td><td>The parent node of the subtree root being rotated. </td></tr>
+    <tr><td class="paramname">child_index</td><td>The index of the target node (A) within the parent's child list. </td></tr>
   </table>
   </dd>
 </dl>

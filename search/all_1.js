@@ -16,7 +16,6 @@ var searchData=
   ['bc_5finterpreter_2eh_13',['bc_interpreter.h',['../bc__interpreter_8h.html',1,'']]],
   ['bc_5fpow10_14',['bc_pow10',['../bc__interpreter_8h.html#ace5ac51efc43f8021d151b0ace734a45',1,'bc_interpreter.h']]],
   ['bc_5ftk_5fdestroyer_15',['bc_tk_destroyer',['../bc__interpreter_8h.html#a3679d63efc32f19fa39b3b3c4cdde04c',1,'bc_interpreter.h']]],
-  ['bnf_5fmacros_2eh_16',['bnf_macros.h',['../bnf__macros_8h.html',1,'']]],
-  ['boolean_5falgebra_2eh_17',['boolean_algebra.h',['../boolean__algebra_8h.html',1,'']]],
-  ['buf_18',['buf',['../structexblex.html#a4bfa1b98dcef53afeefe4d6983bee062',1,'exblex']]]
+  ['boolean_5falgebra_2eh_16',['boolean_algebra.h',['../boolean__algebra_8h.html',1,'']]],
+  ['buf_17',['buf',['../structexblex.html#a4bfa1b98dcef53afeefe4d6983bee062',1,'exblex']]]
 ];

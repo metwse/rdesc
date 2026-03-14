@@ -82,9 +82,10 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Deterministic recursive descent parser with ordered-choice semantics.  
+<p>The deterministic recursive descent parser.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
+<div class="textblock"><code>#include &quot;detail.h&quot;</code><br />
+<code>#include &lt;stdint.h&gt;</code><br />
 <code>#include &lt;stddef.h&gt;</code><br />
 </div>
 <p><a href="rdesc_8h_source.html">Go to the source code of this file.</a></p>
@@ -126,33 +127,33 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a7f061f9788e5aa8706e1e5aa9b816ce9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#a7f061f9788e5aa8706e1e5aa9b816ce9">rdesc_init</a> (struct <a class="el" href="structrdesc.html">rdesc</a> *parser, const struct <a class="el" href="structrdesc__grammar.html">rdesc_grammar</a> *grammar, size_t seminfo_size, void(*token_destroyer)(uint16_t id, void *seminfo))</td></tr>
-<tr class="memdesc:a7f061f9788e5aa8706e1e5aa9b816ce9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new parser.  <br /></td></tr>
-<tr class="separator:a7f061f9788e5aa8706e1e5aa9b816ce9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13ebad573ee497f0fa71a75dd39d94b7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#a13ebad573ee497f0fa71a75dd39d94b7">rdesc_init</a> (struct <a class="el" href="structrdesc.html">rdesc</a> *parser, const struct <a class="el" href="structrdesc__grammar.html">rdesc_grammar</a> *grammar, size_t seminfo_size, void(*token_destroyer)(uint16_t id, void *seminfo)) _rdesc_wur</td></tr>
+<tr class="memdesc:a13ebad573ee497f0fa71a75dd39d94b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new parser.  <br /></td></tr>
+<tr class="separator:a13ebad573ee497f0fa71a75dd39d94b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ca947aade839cdb10de5d225316606c"><td class="memItemLeft" align="right" valign="top"><a id="a6ca947aade839cdb10de5d225316606c" name="a6ca947aade839cdb10de5d225316606c"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_destroy</b> (struct <a class="el" href="structrdesc.html">rdesc</a> *parser)</td></tr>
 <tr class="memdesc:a6ca947aade839cdb10de5d225316606c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees memory allocated by the parser and destroys the parser instance. <br /></td></tr>
 <tr class="separator:a6ca947aade839cdb10de5d225316606c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e7ab2b0d3f6c4702d7678ae18928bce"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#a3e7ab2b0d3f6c4702d7678ae18928bce">rdesc_start</a> (struct <a class="el" href="structrdesc.html">rdesc</a> *parser, uint16_t start_symbol)</td></tr>
-<tr class="memdesc:a3e7ab2b0d3f6c4702d7678ae18928bce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets start symbol for the next match.  <br /></td></tr>
-<tr class="separator:a3e7ab2b0d3f6c4702d7678ae18928bce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a26330a2604012c9bd921a221119332b3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#a26330a2604012c9bd921a221119332b3">rdesc_reset</a> (struct <a class="el" href="structrdesc.html">rdesc</a> *parser)</td></tr>
-<tr class="memdesc:a26330a2604012c9bd921a221119332b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets the parser to its initial state.  <br /></td></tr>
-<tr class="separator:a26330a2604012c9bd921a221119332b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a051a52291b592e6a1ac0ce7218320e28"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983d">rdesc_result</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#a051a52291b592e6a1ac0ce7218320e28">rdesc_pump</a> (struct <a class="el" href="structrdesc.html">rdesc</a> *parser, uint16_t id, void *seminfo)</td></tr>
-<tr class="memdesc:a051a52291b592e6a1ac0ce7218320e28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Drives the parsing process, the pump.  <br /></td></tr>
-<tr class="separator:a051a52291b592e6a1ac0ce7218320e28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00111b43fe34f3e460e7a25a497cd807"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#a00111b43fe34f3e460e7a25a497cd807">rdesc_start</a> (struct <a class="el" href="structrdesc.html">rdesc</a> *parser, uint16_t start_symbol) _rdesc_wur</td></tr>
+<tr class="memdesc:a00111b43fe34f3e460e7a25a497cd807"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets start symbol for the next match.  <br /></td></tr>
+<tr class="separator:a00111b43fe34f3e460e7a25a497cd807"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3131f040922cbf07eb78241c479b5e19"><td class="memItemLeft" align="right" valign="top"><a id="a3131f040922cbf07eb78241c479b5e19" name="a3131f040922cbf07eb78241c479b5e19"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_reset</b> (struct <a class="el" href="structrdesc.html">rdesc</a> *parser)</td></tr>
+<tr class="memdesc:a3131f040922cbf07eb78241c479b5e19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets the parser to its initial state. <br /></td></tr>
+<tr class="separator:a3131f040922cbf07eb78241c479b5e19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62609057ab55de9246a39ca423b148a3"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983d">rdesc_result</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#a62609057ab55de9246a39ca423b148a3">rdesc_pump</a> (struct <a class="el" href="structrdesc.html">rdesc</a> *parser, uint16_t id, void *seminfo) _rdesc_wur</td></tr>
+<tr class="memdesc:a62609057ab55de9246a39ca423b148a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Drives the parsing process, the pump.  <br /></td></tr>
+<tr class="separator:a62609057ab55de9246a39ca423b148a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6271e96df01616c20f3bc403353b3f15"><td class="memItemLeft" align="right" valign="top">static enum <a class="el" href="rdesc_8h.html#ae1c47d0d0fe6789f714eaaab2f24983d">rdesc_result</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#a6271e96df01616c20f3bc403353b3f15">rdesc_resume</a> (struct <a class="el" href="structrdesc.html">rdesc</a> *parser)</td></tr>
 <tr class="memdesc:a6271e96df01616c20f3bc403353b3f15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resume parsing without providing a new token.  <br /></td></tr>
 <tr class="separator:a6271e96df01616c20f3bc403353b3f15"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab1c08531ac922b0404a80580bcc2b366"><td class="memItemLeft" align="right" valign="top">struct rdesc_node *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#ab1c08531ac922b0404a80580bcc2b366">rdesc_root</a> (struct <a class="el" href="structrdesc.html">rdesc</a> *parser)</td></tr>
-<tr class="memdesc:ab1c08531ac922b0404a80580bcc2b366"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the root of the CST.  <br /></td></tr>
-<tr class="separator:ab1c08531ac922b0404a80580bcc2b366"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20b334efbec55ebf64783855d4d19123"><td class="memItemLeft" align="right" valign="top">_rdesc_wur struct rdesc_node *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rdesc_8h.html#a20b334efbec55ebf64783855d4d19123">rdesc_root</a> (struct <a class="el" href="structrdesc.html">rdesc</a> *parser)</td></tr>
+<tr class="memdesc:a20b334efbec55ebf64783855d4d19123"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the root of the CST.  <br /></td></tr>
+<tr class="separator:a20b334efbec55ebf64783855d4d19123"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Deterministic recursive descent parser with ordered-choice semantics. </p>
-<p>rdesc parses grammars using prioritized alternatives where the first matching variant is selected, it tries grammar alternatives in declaration order.</p>
-<p>Provides unlimited lookahead via backtracking. </p>
+<div class="textblock"><p>The deterministic recursive descent parser. </p>
+<p>rdesc parses grammars using prioritized alternatives where the first matching variant is selected, it tries grammar alternatives in declaration order, provides unlimited lookahead via backtracking. </p>
 </div><h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="ae1c47d0d0fe6789f714eaaab2f24983d" name="ae1c47d0d0fe6789f714eaaab2f24983d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae1c47d0d0fe6789f714eaaab2f24983d">&#9670;&#160;</a></span>rdesc_result</h2>
@@ -181,8 +182,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_destroy</b> (st
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a7f061f9788e5aa8706e1e5aa9b816ce9" name="a7f061f9788e5aa8706e1e5aa9b816ce9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7f061f9788e5aa8706e1e5aa9b816ce9">&#9670;&#160;</a></span>rdesc_init()</h2>
+<a id="a13ebad573ee497f0fa71a75dd39d94b7" name="a13ebad573ee497f0fa71a75dd39d94b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13ebad573ee497f0fa71a75dd39d94b7">&#9670;&#160;</a></span>rdesc_init()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -233,8 +234,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_destroy</b> (st
 
 </div>
 </div>
-<a id="a051a52291b592e6a1ac0ce7218320e28" name="a051a52291b592e6a1ac0ce7218320e28"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a051a52291b592e6a1ac0ce7218320e28">&#9670;&#160;</a></span>rdesc_pump()</h2>
+<a id="a62609057ab55de9246a39ca423b148a3" name="a62609057ab55de9246a39ca423b148a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a62609057ab55de9246a39ca423b148a3">&#9670;&#160;</a></span>rdesc_pump()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -286,27 +287,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_destroy</b> (st
 
 </div>
 </div>
-<a id="a26330a2604012c9bd921a221119332b3" name="a26330a2604012c9bd921a221119332b3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a26330a2604012c9bd921a221119332b3">&#9670;&#160;</a></span>rdesc_reset()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int rdesc_reset </td>
-          <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structrdesc.html">rdesc</a> *&#160;</td>
-          <td class="paramname"><em>parser</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Resets the parser to its initial state. </p>
-<dl class="section return"><dt>Returns</dt><dd>Non-zero value if memory allocation fails. </dd></dl>
-
-</div>
-</div>
 <a id="a6271e96df01616c20f3bc403353b3f15" name="a6271e96df01616c20f3bc403353b3f15"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6271e96df01616c20f3bc403353b3f15">&#9670;&#160;</a></span>rdesc_resume()</h2>
 
@@ -340,14 +320,14 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_destroy</b> (st
 
 </div>
 </div>
-<a id="ab1c08531ac922b0404a80580bcc2b366" name="ab1c08531ac922b0404a80580bcc2b366"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab1c08531ac922b0404a80580bcc2b366">&#9670;&#160;</a></span>rdesc_root()</h2>
+<a id="a20b334efbec55ebf64783855d4d19123" name="a20b334efbec55ebf64783855d4d19123"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20b334efbec55ebf64783855d4d19123">&#9670;&#160;</a></span>rdesc_root()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct rdesc_node * rdesc_root </td>
+          <td class="memname">_rdesc_wur struct rdesc_node * rdesc_root </td>
           <td>(</td>
           <td class="paramtype">struct <a class="el" href="structrdesc.html">rdesc</a> *&#160;</td>
           <td class="paramname"><em>parser</em></td><td>)</td>
@@ -361,8 +341,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rdesc_destroy</b> (st
 
 </div>
 </div>
-<a id="a3e7ab2b0d3f6c4702d7678ae18928bce" name="a3e7ab2b0d3f6c4702d7678ae18928bce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3e7ab2b0d3f6c4702d7678ae18928bce">&#9670;&#160;</a></span>rdesc_start()</h2>
+<a id="a00111b43fe34f3e460e7a25a497cd807" name="a00111b43fe34f3e460e7a25a497cd807"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00111b43fe34f3e460e7a25a497cd807">&#9670;&#160;</a></span>rdesc_start()</h2>
 
 <div class="memitem">
 <div class="memproto">

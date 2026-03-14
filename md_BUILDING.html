@@ -76,20 +76,22 @@ $(function() {
 <h2><a class="anchor" id="autotoc_md8"></a>
 Library</h2>
 <p>Build the main library: </p><div class="fragment"><div class="line">make              # Build release version (default)</div>
-<div class="line">make MODE=debug   # Build with debug symbols and ASAN</div>
+<div class="line">make MODE=debug   # Build with debug symbols</div>
 <div class="line">make MODE=test    # Build with coverage instrumentation</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md9"></a>
 Features</h2>
-<p>Providing <code>FEATURES</code> variable, you can toggle modules linked to the library. By default, only <code>stack</code> feature is enabled. You may use feature flag <code>full</code> to include all features.</p>
-<div class="fragment"><div class="line">make FEATURES=&#39;stack dump_bnf dump_cst&#39;</div>
+<p>Providing <code>FEATURES</code> variable, you can toggle modules linked to the library. By default, <code>stack</code> and <code>flip_left</code> features are enabled. You may use feature flag <code>full</code> to include all features.</p>
+<div class="fragment"><div class="line">make FEATURES=&#39;stack flip_left ...&#39;</div>
 </div><!-- fragment --><table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Feature   </th><th class="markdownTableHeadNone">Description    </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>stack</code>   </td><td class="markdownTableBodyNone">Use built-in stack implementation in backtracing, which uses <code>malloc/free</code> family functions.    </td></tr>
+<td class="markdownTableBodyNone"><code>stack</code> (default)   </td><td class="markdownTableBodyNone">Use built-in stack implementation in backtracing, which uses <code>malloc/free</code> family functions.    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>dump_bnf</code>   </td><td class="markdownTableBodyNone">Dump <code><a class="el" href="structrdesc__grammar.html" title="Grammar definition.">rdesc_grammar</a></code> in Backus-Naur form.    </td></tr>
+<td class="markdownTableBodyNone"><code>flip_left</code> (default)   </td><td class="markdownTableBodyNone">Convert right-recursive match to left-recursive.    </td></tr>
 <tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>dump_bnf</code>   </td><td class="markdownTableBodyNone">Dump <code><a class="el" href="structrdesc__grammar.html" title="Grammar definition.">rdesc_grammar</a></code> in Backus-Naur form.    </td></tr>
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><code>dump_cst</code>   </td><td class="markdownTableBodyNone">Dump <code>rdesc_node</code> (Concrete Syntax Tree) as dotlang graph.   </td></tr>
 </table>
 <h2><a class="anchor" id="autotoc_md10"></a>
@@ -104,9 +106,9 @@ Flags</h2>
 <h2><a class="anchor" id="autotoc_md11"></a>
 Tests</h2>
 <p>Tests are organized into three categories and built independently: </p><div class="fragment"><div class="line">cd tests</div>
-<div class="line">make covr   # Build coverage-instrumented tests (integration, unit, fuzz)</div>
-<div class="line">make debug  # Build debug tests with ASAN (integration, unit)</div>
-<div class="line">make fuzz   # Build optimized fuzz tests</div>
+<div class="line">make integration # Integration tests links librdesc as is</div>
+<div class="line">make unit        # Tests with dependency injections</div>
+<div class="line">make fuzz        # Build optimized fuzz tests</div>
 </div><!-- fragment --><p>Or from project root: </p><div class="fragment"><div class="line">./runtests.sh   # Build and run all tests with coverage</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md12"></a>
 Examples</h2>
