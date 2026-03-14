@@ -29,7 +29,7 @@
 
 #define BC_TK_COUNT 11
 
-#define BC_NT_COUNT 11
+#define BC_NT_COUNT 12
 #define BC_NT_VARIANT_COUNT 4
 #define BC_NT_BODY_LENGTH 5
 
@@ -43,11 +43,12 @@ enum bc_tk {
 };
 
 enum bc_nt {
-	NT_UNSIGNED, NT_OPTSIGN, NT_SIGNED,
+	NT_UNSIGNED_NUM, NT_SIGNED_NUM,
 
 	NT_EXPR, NT_EXPR_REST, NT_EXPR_OP,
 	NT_TERM, NT_TERM_REST, NT_TERM_OP,
-	NT_FACTOR,
+	NT_FACTOR, NT_OPTSIGN,
+	NT_ATOM,
 
 	NT_STMT,
 };
@@ -74,18 +75,13 @@ const char *const bc_nt_names[BC_NT_COUNT] = {
 
 static const struct rdesc_grammar_symbol
 bc[BC_NT_COUNT][BC_NT_VARIANT_COUNT][BC_NT_BODY_LENGTH] = {
-	/* <unsigned> ::= */ r(
+	/* <unsigned_num> ::= */ r(
 		TK(NUM)
 	alt	TK(DOT), TK(NUM)
 	alt	TK(NUM), TK(DOT), TK(NUM)
 	),
-	/* <optsign> ::= */ r(
-		TK(MINUS)
-	alt	TK(PLUS)
-	alt	EPSILON
-	),
-	/* <signed> ::= */ r(
-		NT(OPTSIGN), NT(UNSIGNED)
+	/* <signed_num> ::= */ r(
+		NT(OPTSIGN), NT(UNSIGNED_NUM)
 	),
 
 
@@ -104,7 +100,16 @@ bc[BC_NT_COUNT][BC_NT_VARIANT_COUNT][BC_NT_BODY_LENGTH] = {
 	),
 
 	/* <factor> ::= */ r(
-		NT(SIGNED)
+		NT(OPTSIGN), NT(ATOM)
+	),
+	/* <optsign> ::= */ r(
+		TK(MINUS)
+	alt	TK(PLUS)
+	alt	EPSILON
+	),
+
+	/* <atom> ::= */ r(
+		NT(SIGNED_NUM)
 	alt	TK(LPAREN), NT(EXPR), TK(RPAREN)
 	alt	TK(LPAREN), NT(EXPR), TK(RPAREN), TK(DUMMY_AMBIGUITY_TRIGGER)
 	),
@@ -117,4 +122,4 @@ bc[BC_NT_COUNT][BC_NT_VARIANT_COUNT][BC_NT_BODY_LENGTH] = {
 
 
 #endif
-/** @endcond */
+/** @endond */

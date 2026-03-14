@@ -3,8 +3,9 @@
  * @brief Basic interpreter for bc.
  */
 
-#include "../../include/rdesc.h"
 #include "../../include/cst_macros.h"
+#include "../../include/rdesc.h"
+#include "../../include/util.h"
 #include "../../src/common.h"
 
 #include "../grammar/bc.h"
@@ -34,12 +35,12 @@ static inline double bc_interpreter(struct rdesc *p, struct rdesc_node *n)
 {
 	size_t v = rvariant(n);
 
-	/* for use in str->num serialization in NT_UNSIGNED */
+	/* for use in str->num serialization in NT_UNSIGNED_NUM */
 	char **decimal_part, **floating_part;
 	double converted;
 
 	switch (rid(n)) {
-	case NT_UNSIGNED:
+	case NT_UNSIGNED_NUM:
 		switch (v) {
 		case 0:
 			decimal_part = rseminfo(rchild(p, n, 0));
@@ -72,43 +73,49 @@ static inline double bc_interpreter(struct rdesc *p, struct rdesc_node *n)
 	case NT_OPTSIGN:
 		return (v == 0) ? -1 : 1;
 
-	case NT_SIGNED:
-		return bc_interpreter(p, rchild(p, n, 0)) * bc_interpreter(p, rchild(p, n, 1));
+	case NT_SIGNED_NUM:
+	case NT_FACTOR:
+		return bc_interpreter(p, rchild(p, n, 0)) *
+			bc_interpreter(p, rchild(p, n, 1));
 
 	case NT_EXPR:
-		return bc_interpreter(p, rchild(p, n, 0)) + bc_interpreter(p, rchild(p, n, 1));
-
-	case NT_EXPR_REST:
 		switch (v) {
 		case 0:
-			return (rvariant(rchild(p, n, 0)) == 0 ? 1 : -1) *
-				bc_interpreter(p, rchild(p, n, 1));
+			rdesc_flip_left(p, n, 2)  /* flip term */;
+
+			return bc_interpreter(p, rchild(p, n, 0)) +
+				(rvariant(rchild(p, n, 1)) == 0 ? 1 : -1) *
+				bc_interpreter(p, rchild(p, n, 2));
 		default:
-			return 0;
+			rdesc_flip_left(p, n, 0)  /* flip term */;
+
+			return bc_interpreter(p, rchild(p, n, 0));
 		}
 
 	case NT_TERM:
-		return bc_interpreter(p, rchild(p, n, 0)) * bc_interpreter(p, rchild(p, n, 1));
-
-	case NT_TERM_REST:
 		switch (v) {
 		case 0:
-			return rvariant(rchild(p, n, 0)) == 0 ?
-				bc_interpreter(p, rchild(p, n, 1)) :
-				1 / bc_interpreter(p, rchild(p, n, 1));
+			return bc_interpreter(p, rchild(p, n, 0)) *
+				(rvariant(rchild(p, n, 1)) == 0 ?
+					bc_interpreter(p, rchild(p, n, 2)) :
+					1 / bc_interpreter(p, rchild(p, n, 2)));
 		default:
-			return 1;
+			return bc_interpreter(p, rchild(p, n, 0));
 		}
 
-	case NT_FACTOR:
+	case NT_ATOM:
 		switch (v) {
 		case 0:
 			return bc_interpreter(p, rchild(p, n, 0));
 		default:
+			rdesc_flip_left(p, n, 1)  /* flip expr */;
+
 			return bc_interpreter(p, rchild(p, n, 1));
 		}
 
 	case NT_STMT:
+		rdesc_flip_left(p, n, 0)  /* flip expr */;
+
 		return bc_interpreter(p, rchild(p, n, 0));
 	}
 
