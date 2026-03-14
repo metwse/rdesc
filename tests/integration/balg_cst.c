@@ -4,7 +4,7 @@
 #include "../../include/cst_macros.h"
 #include "../../include/util.h"
 #include "../../include/rdesc.h"
-#include "../../src/detail.h"
+#include "../../src/common.h"
 
 #include "../../examples/grammar/boolean_algebra.h"
 
@@ -26,24 +26,24 @@ int main(void)
 	struct rdesc_grammar grammar;
 	struct rdesc p;
 
-	rdesc_grammar_init(&grammar,
-			   BALG_NT_COUNT, BALG_NT_VARIANT_COUNT, BALG_NT_BODY_LENGTH,
-			   cast(struct rdesc_grammar_symbol *, balg));
-	rdesc_init(&p, &grammar, sizeof(uint32_t), NULL);
+	unwrap(rdesc_grammar_init(&grammar,
+				  BALG_NT_COUNT, BALG_NT_VARIANT_COUNT, BALG_NT_BODY_LENGTH,
+				  cast(struct rdesc_grammar_symbol *, balg)));
+	unwrap(rdesc_init(&p, &grammar, sizeof(uint32_t), NULL));
 
 	rdesc_assert(rdesc_root(&p) == NULL,
 		     "no root expected");
 
-	rdesc_start(&p, NT_STMT);
+	unwrap(rdesc_start(&p, NT_STMT));
 
-	rdesc_pump(&p, TK_IDENT, NULL);
-	rdesc_pump(&p, TK_LPAREN, NULL);
-	rdesc_pump(&p, TK_LPAREN, NULL);
-	rdesc_pump(&p, TK_IDENT, NULL);
-	rdesc_pump(&p, TK_EQ, NULL);
-	rdesc_pump(&p, TK_IDENT, NULL);
-	rdesc_pump(&p, TK_RPAREN, NULL);
-	rdesc_pump(&p, TK_RPAREN, NULL);
+	rdesc_assert(rdesc_pump(&p, TK_IDENT, NULL) == RDESC_CONTINUE,);
+	rdesc_assert(rdesc_pump(&p, TK_LPAREN, NULL) == RDESC_CONTINUE,);
+	rdesc_assert(rdesc_pump(&p, TK_LPAREN, NULL) == RDESC_CONTINUE,);
+	rdesc_assert(rdesc_pump(&p, TK_IDENT, NULL) == RDESC_CONTINUE,);
+	rdesc_assert(rdesc_pump(&p, TK_EQ, NULL) == RDESC_CONTINUE,);
+	rdesc_assert(rdesc_pump(&p, TK_IDENT, NULL) == RDESC_CONTINUE,);
+	rdesc_assert(rdesc_pump(&p, TK_RPAREN, NULL) == RDESC_CONTINUE,);
+	rdesc_assert(rdesc_pump(&p, TK_RPAREN, NULL) == RDESC_CONTINUE,);
 
 	rdesc_assert(rdesc_pump(&p, TK_SEMI, NULL) == RDESC_READY,
 		     "coud not parse");

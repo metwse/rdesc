@@ -3,7 +3,7 @@
 #include "../include/rdesc.h"
 #include "../include/rule_macros.h"
 #include "../include/stack.h"
-#include "detail.h"
+#include "common.h"
 #include "test_instruments.h"
 
 #include <stdbool.h>
@@ -107,7 +107,7 @@ int rdesc_start(struct rdesc *p, uint16_t start_symbol)
 	return 0;
 }
 
-int rdesc_reset(struct rdesc *p)
+void rdesc_reset(struct rdesc *p)
 {
 	destroy_tokens(p);
 
@@ -116,8 +116,6 @@ int rdesc_reset(struct rdesc *p)
 	rdesc_stack_reset(&p->token_stack);
 
 	rdesc_stack_reset(&p->cst_stack);
-
-	return 0;
 }
 
 static void destroy_tokens(struct rdesc *p)

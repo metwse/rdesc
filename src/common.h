@@ -1,13 +1,10 @@
 /**
- * @file detail.h
- * @brief Internal rdesc utilities.
- *
- * Functions defined in this file used for exposing internal functions to test
- * suite.
+ * @file common.h
+ * @brief Common rdesc utilities.
  */
 
-#ifndef RDESC_DETAIL_H
-#define RDESC_DETAIL_H
+#ifndef RDESC_COMMON_H
+#define RDESC_COMMON_H
 
 
 /** @brief Assertion macro that prints formatted error message if failed. */
@@ -33,6 +30,9 @@
 			raise(SIGINT); \
 		} \
 	} while(0)
+
+/* used in tests */
+#define unwrap(c) rdesc_assert(!(c), "discarded result indicate error")
 
 #ifdef RDESC_ASSERTIONS
 #define runtime_assertion(...) rdesc_assert(__VA_ARGS__)

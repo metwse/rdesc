@@ -1,5 +1,6 @@
 #include "../include/rdesc.h"
 #include "../include/grammar.h"
+#include "../src/common.h"
 
 #include "grammar/bc.h"
 #include "lib/bc_interpreter.h"
@@ -19,7 +20,7 @@ void program(struct exblex *lex, struct rdesc *p)
 	int pump_res;
 
 	while (true) {
-		rdesc_start(p, NT_STMT);
+		unwrap(rdesc_start(p, NT_STMT));
 
 		pump_res = -1;
 
@@ -77,13 +78,13 @@ int main(void)
 	struct rdesc_grammar grammar;
 	struct rdesc p;
 
-	rdesc_grammar_init(&grammar,
-			   BC_NT_COUNT, BC_NT_VARIANT_COUNT, BC_NT_BODY_LENGTH,
-			   (struct rdesc_grammar_symbol *) bc);
-	rdesc_init(&p,
-		   &grammar,
-		   sizeof(void *) /* semantic info holds char* */,
-		   bc_tk_destroyer);
+	unwrap(rdesc_grammar_init(&grammar,
+				  BC_NT_COUNT, BC_NT_VARIANT_COUNT, BC_NT_BODY_LENGTH,
+				  (struct rdesc_grammar_symbol *) bc));
+	unwrap(rdesc_init(&p,
+			  &grammar,
+			  sizeof(void *) /* semantic info holds char* */,
+			  bc_tk_destroyer));
 
 	printf("Basic Calculator, librdesc sample program\n");
 	program(&lex, &p);

@@ -14,6 +14,8 @@
 #ifndef RDESC_CST_MACROS_H
 #define RDESC_CST_MACROS_H
 
+#include "detail.h"  // IWYU pragma: export (for _rdesc_priv_node_deref)
+
 #include <stddef.h>
 
 struct rdesc;  /* defined in rdesc.h */

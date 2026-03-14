@@ -1,6 +1,6 @@
 #include "../include/stack.h"
+#include "common.h"
 #include "test_instruments.h"
-#include "detail.h"
 
 #include <stdbool.h>
 #include <stdint.h>

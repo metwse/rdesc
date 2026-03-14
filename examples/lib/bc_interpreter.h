@@ -5,7 +5,7 @@
 
 #include "../../include/rdesc.h"
 #include "../../include/cst_macros.h"
-#include "../../src/detail.h"
+#include "../../src/common.h"
 
 #include "../grammar/bc.h"
 

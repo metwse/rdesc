@@ -1,7 +1,7 @@
 /* Stress test underlying stack implementation. */
 
 #include "../../include/stack.h"
-#include "../../src/detail.h"
+#include "../../src/common.h"
 
 #define STACK_INITIAL_CAP 2
 

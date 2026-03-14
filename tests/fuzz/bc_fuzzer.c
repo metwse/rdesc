@@ -3,7 +3,7 @@
 
 #include "../../include/grammar.h"
 #include "../../include/rdesc.h"
-#include "../../src/detail.h"
+#include "../../src/common.h"
 
 #include "../../examples/grammar/bc.h"
 
@@ -23,11 +23,11 @@ void test_complete_parse(struct rdesc *p)
 
 	uint16_t tk;
 
-	rdesc_start(p, NT_STMT);
+	unwrap(rdesc_start(p, NT_STMT));
 	while ((tk = bc_fuzzer_next_tk(&g)) != TK_ENDSYM) {
 		g.group_start_p *= 0.9;
 
-		rdesc_pump(p, tk, NULL);
+		rdesc_assert(rdesc_pump(p, tk, NULL) == RDESC_CONTINUE,);
 	};
 
 	tk = TK_ENDSYM;
@@ -45,7 +45,7 @@ void test_interruption(struct rdesc *p)
 
 	bool broken = false;
 
-	rdesc_start(p, NT_STMT);
+	unwrap(rdesc_start(p, NT_STMT));
 	while ((tk = bc_fuzzer_next_tk(&g)) != TK_ENDSYM) {
 		g.group_start_p *= 0.9;
 
@@ -54,12 +54,15 @@ void test_interruption(struct rdesc *p)
 			break;
 		}
 
-		rdesc_pump(p, tk, NULL);
+		rdesc_assert(rdesc_pump(p, tk, NULL) == RDESC_CONTINUE,);
 	};
 
 	if (broken && rand() < RAND_MAX / 2) {
 		tk = TK_DUMMY_AMBIGUITY_TRIGGER;
-		rdesc_pump(p, tk, NULL);
+		enum rdesc_result res = rdesc_pump(p, tk, NULL);
+		rdesc_assert(res == RDESC_NOMATCH ||
+			     res == RDESC_CONTINUE,
+			     "nomatch expected (or continue with a low chance)");
 	}
 
 	rdesc_reset(p);
@@ -99,9 +102,10 @@ void test_with_seminfo(const struct rdesc_grammar *grammar)
 
 	size_t *seminfo[seminfo_size];
 
-	rdesc_init(&p, grammar, seminfo_size * sizeof(size_t *), token_destroyer_for_test);
+	unwrap(rdesc_init(&p, grammar, seminfo_size * sizeof(size_t *),
+			  token_destroyer_for_test));
 
-	rdesc_start(&p, NT_STMT);
+	unwrap(rdesc_start(&p, NT_STMT));
 	while ((tk = bc_fuzzer_next_tk(&g)) != TK_ENDSYM) {
 		g.group_start_p *= 0.9;
 
@@ -113,7 +117,7 @@ void test_with_seminfo(const struct rdesc_grammar *grammar)
 		*seminfo[0] = seminfo_size;
 		*seminfo[1] = tk;
 
-		rdesc_pump(&p, tk, seminfo);
+		rdesc_assert(rdesc_pump(&p, tk, seminfo) == RDESC_CONTINUE,);
 	};
 
 	rdesc_destroy(&p);
@@ -127,13 +131,15 @@ int main(void)
 	struct rdesc_grammar grammar;
 	struct rdesc p;
 
-	rdesc_grammar_init(&grammar, BC_NT_COUNT, BC_NT_VARIANT_COUNT,
-			   BC_NT_BODY_LENGTH, (struct rdesc_grammar_symbol *) bc);
+	unwrap(rdesc_grammar_init(&grammar,
+				  BC_NT_COUNT, BC_NT_VARIANT_COUNT, BC_NT_BODY_LENGTH,
+				  (struct rdesc_grammar_symbol *) bc));
 
 
 	/* test interruption & complete parse in the same parser */
 	for (int _fuzz = 0; _fuzz < 16; _fuzz++) {
-		rdesc_init(&p, &grammar, rand() % 8, NULL);
+		size_t seminfo_size = rand() % 8;
+		unwrap(rdesc_init(&p, &grammar, seminfo_size, NULL));
 
 		test_interruption(&p);
 		test_complete_parse(&p);
@@ -142,11 +148,12 @@ int main(void)
 	}
 
 	/* test destroying the parser during a parse */
-	rdesc_init(&p, &grammar, rand() % 8, NULL);
+	size_t seminfo_size = rand() % 8;
+	unwrap(rdesc_init(&p, &grammar, seminfo_size, NULL));
 
-	rdesc_start(&p, NT_STMT);
+	unwrap(rdesc_start(&p, NT_STMT));
 	uint16_t id = TK_NUM;
-	rdesc_pump(&p, id, NULL);
+	rdesc_assert(rdesc_pump(&p, id, NULL) == RDESC_CONTINUE,);
 
 	rdesc_destroy(&p);
 

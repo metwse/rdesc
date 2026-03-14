@@ -1,16 +1,16 @@
 /**
  * @file rdesc.h
- * @brief Deterministic recursive descent parser with ordered-choice semantics.
+ * @brief The deterministic recursive descent parser.
  *
  * rdesc parses grammars using prioritized alternatives where the first
  * matching variant is selected, it tries grammar alternatives in declaration
- * order.
- *
- * Provides unlimited lookahead via backtracking.
+ * order, provides unlimited lookahead via backtracking.
  */
 
 #ifndef RDESC_H
 #define RDESC_H
+
+#include "detail.h"
 
 #include <stdint.h>
 #include <stddef.h>
@@ -94,7 +94,7 @@ extern "C" {
 int rdesc_init(struct rdesc *parser,
 	       const struct rdesc_grammar *grammar,
 	       size_t seminfo_size,
-	       void (*token_destroyer)(uint16_t id, void *seminfo));
+	       void (*token_destroyer)(uint16_t id, void *seminfo)) _rdesc_wur;
 
 /**
  * @brief Frees memory allocated by the parser and destroys the parser instance.
@@ -106,14 +106,14 @@ void rdesc_destroy(struct rdesc *parser);
  *
  * @return Non-zero value if memory allocation fails.
  */
-int rdesc_start(struct rdesc *parser, uint16_t start_symbol);
+int rdesc_start(struct rdesc *parser, uint16_t start_symbol) _rdesc_wur;
 
 /**
  * @brief Resets the parser to its initial state.
  *
  * @return Non-zero value if memory allocation fails.
  */
-int rdesc_reset(struct rdesc *parser);
+void rdesc_reset(struct rdesc *parser);
 
 /**
  * @brief Drives the parsing process, the pump.
@@ -135,7 +135,9 @@ int rdesc_reset(struct rdesc *parser);
  *
  * @warning Raises an error if the parser is not started.
  */
-enum rdesc_result rdesc_pump(struct rdesc *parser, uint16_t id, void *seminfo);
+enum rdesc_result rdesc_pump(struct rdesc *parser,
+			     uint16_t id,
+			     void *seminfo) _rdesc_wur;
 
 /**
  * @brief Resume parsing without providing a new token.
@@ -147,7 +149,7 @@ enum rdesc_result rdesc_pump(struct rdesc *parser, uint16_t id, void *seminfo);
  * This is equivalent to `rdesc_pump(parser, 0, NULL)`.
  */
 static inline enum rdesc_result rdesc_resume(struct rdesc *parser)
-{ return rdesc_pump(parser, 0, NULL); }
+{ return rdesc_pump(parser, 0, NULL); } _rdesc_wur
 
 /**
  * @brief Returns the root of the CST.
@@ -159,45 +161,6 @@ struct rdesc_node *rdesc_root(struct rdesc *parser);
 #ifdef __cplusplus
 }
 #endif
-
-/** @cond */
-/* These structs are private and should only be accessed via the provided
- * CST macros. */
-
-#pragma pack(push, 1)
-
-struct _rdesc_priv_tk {
-	uint16_t _pad : 1;
-	uint16_t id : 15  /* Token identifier (0 reserved, 1-32767 valid). */;
-
-	uint32_t seminfo  /* Semantic info starts here and extends into
-			   * the flexible array member in _rdesc_priv_node. */;
-};
-
-struct _rdesc_priv_nt {
-	uint16_t _pad : 1;
-	uint16_t id : 15  /* 0 is NOT reserved unlike token ids. */;
-
-	uint16_t variant;
-	uint16_t child_count;
-};
-
-struct _rdesc_priv_node {
-	/* ALSO CHANGE sizeof_node macro for any change in this struct. */
-	size_t parent  /* Index of parent. */;
-	uint16_t unwind_size  /* Previous node's unwind size (for backward
-		               * navigation on the stack). */;
-
-	union {
-		uint16_t ty : 1  /* 0 for token and 1 for nonterminal. */;
-
-		struct _rdesc_priv_tk tk;
-		struct _rdesc_priv_nt nt;
-	} n;
-};
-
-#pragma pack(pop)
-/** @endcond */
 
 
 #endif

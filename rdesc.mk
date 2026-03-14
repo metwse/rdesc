@@ -48,7 +48,7 @@ rdesc_CFLAGS_COMMON := -std=c99 -Wall -Wextra -pedantic -fPIC \
 
 rdesc_CFLAGS_release := $(rdesc_CFLAGS_COMMON) -O2
 rdesc_CFLAGS_debug := $(rdesc_CFLAGS_COMMON) -O0 -g3
-rdesc_CFLAGS_test := $(rdesc_CFLAGS_COMMON) -O0 -g3 --coverage -DTEST_INSTRUMENTS
+rdesc_CFLAGS_test := $(rdesc_CFLAGS_COMMON) -O0 -g3 --coverage -fprofile-arcs -DTEST_INSTRUMENTS
 
 rdesc_CFLAGS := $(rdesc_CFLAGS_$(RDESC_MODE))
 

@@ -2,7 +2,7 @@
 
 #include "../../include/grammar.h"
 #include "../../include/rdesc.h"
-#include "../../src/detail.h"
+#include "../../src/common.h"
 
 #include <stdbool.h>
 #include <stdlib.h>
@@ -134,9 +134,13 @@ int main(void)
 
 	struct rdesc_grammar grammar;
 
-	rdesc_grammar_init(&grammar,
-			   BC_NT_COUNT, BC_NT_VARIANT_COUNT, BC_NT_BODY_LENGTH,
-			   (struct rdesc_grammar_symbol *) bc);
+	malloc_fail_at = 0;
+	rdesc_assert(rdesc_grammar_init(&grammar, 1, 2, 3, NULL) == 1,
+		     "grammar init expected to failed due to allocation error");
+
+	unwrap(rdesc_grammar_init(&grammar,
+				  BC_NT_COUNT, BC_NT_VARIANT_COUNT, BC_NT_BODY_LENGTH,
+				  (struct rdesc_grammar_symbol *) bc));
 
 	int failure_stats[3] = { 0, 0, 0 };
 

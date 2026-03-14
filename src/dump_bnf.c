@@ -1,7 +1,7 @@
 #include "../include/grammar.h"
 #include "../include/rule_macros.h"
 #include "../include/util.h"
-#include "detail.h"
+#include "common.h"
 
 #include <stdint.h>
 #include <stdio.h>

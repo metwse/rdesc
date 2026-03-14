@@ -12,6 +12,8 @@
 #ifndef RDESC_GRAMMAR_H
 #define RDESC_GRAMMAR_H
 
+#include "detail.h"
+
 #include <stdint.h>
 
 
@@ -74,11 +76,11 @@ extern "C" {
 #endif
 
 /** @brief Initializes a grammar struct. */
-void rdesc_grammar_init(struct rdesc_grammar *grammar,
-			uint16_t nonterminal_count,
-			uint16_t nonterminal_variant_count,
-			uint16_t nonterminal_body_length,
-			const struct rdesc_grammar_symbol *production_rules);
+int rdesc_grammar_init(struct rdesc_grammar *grammar,
+		       uint16_t nonterminal_count,
+		       uint16_t nonterminal_variant_count,
+		       uint16_t nonterminal_body_length,
+		       const struct rdesc_grammar_symbol *production_rules) _rdesc_wur;
 
 /** @brief Frees resources allocated by the grammar. */
 void rdesc_grammar_destroy(struct rdesc_grammar *grammar);

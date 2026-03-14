@@ -83,7 +83,8 @@
  *           / E
  * ```
  */
-#define ropt(...) { { __VA_ARGS__, SEOB }, { SEOB }, SEOC }
+#define ropt(...) \
+	r(__VA_ARGS__ alt EPSILON)
 
 /**
  * @brief Defines right-recursive list rules. `base` and `suffix` parameters

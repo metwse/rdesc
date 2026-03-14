@@ -2,7 +2,7 @@
  * layout. */
 
 #include "../../include/rdesc.h"
-#include "../../src/detail.h"
+#include "../../src/common.h"
 
 #include "../../src/rdesc.c"
 #include "../../src/stack.c"
@@ -15,7 +15,7 @@ int main(void)
 {
 	struct rdesc p;
 
-	rdesc_init(&p, NULL, 0, NULL);
+	unwrap(rdesc_init(&p, NULL, 0, NULL));
 
 	/* nonterminal without a child */
 	rdesc_assert(sizeof_nt(0) == sizeof(nt_t),
@@ -35,7 +35,7 @@ int main(void)
 
 	rdesc_destroy(&p);
 
-	rdesc_init(&p, NULL, 32, NULL);
+	unwrap(rdesc_init(&p, NULL, 32, NULL));
 
 	rdesc_assert(sizeof_tk(p) == sizeof(tk_t)
 			- sizeof(uint32_t) /* minus dummy seminfo field */

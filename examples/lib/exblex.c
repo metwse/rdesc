@@ -1,4 +1,4 @@
-#include "../../src/detail.h"
+#include "../../src/common.h"
 #include "exblex.h"
 
 #include <ctype.h>

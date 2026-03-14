@@ -1,7 +1,7 @@
 /* Basic tests to validate stack implementation. */
 
 #include "../../include/stack.h"
-#include "../../src/detail.h"
+#include "../../src/common.h"
 
 #define STACK_MAX_CAP STACK_INITIAL_CAP * 64
 #define TEST_INSTRUMENTS
