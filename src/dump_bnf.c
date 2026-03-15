@@ -56,7 +56,7 @@ void rdesc_dump_bnf(FILE *out,
 		     productions(*grammar)[nt_id][variant_id][0].id != EOC;
 		     variant_id++) {
 			if (variant_id != 0)
-				printf("\n %*s    / ", padding, "");
+				fprintf(out, "\n %*s    / ", padding, "");
 
 			print_rule(grammar, productions(*grammar)[nt_id][variant_id],
 				   nt_names, tk_names, out);
