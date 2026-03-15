@@ -1,13 +1,20 @@
 #!/bin/bash
 
-make -C tests -j
+set -e
+set -x # Komutları loglarda göster
+
+# Build tests
+make -C tests all -j
 make -C examples -j
 
-for test in $(ls ./dist/tests/*.test); do
-    valgrind $test > $test.log
+mkdir -p ./dist/tests
+
+# Run tests
+for test in $(ls ./dist/tests/*.test 2>/dev/null); do
+    valgrind --error-exitcode=1 $test > $test.log
 done
 
-valgrind dist/examples/bc_interactive > dist/examples/bc.log <<EOF
+valgrind --error-exitcode=1 dist/examples/bc_interactive > dist/examples/bc.log <<EOF
 1.0 + .2;
 2 / +2;
 1 * (-1 + 2);
@@ -16,5 +23,4 @@ valgrind dist/examples/bc_interactive > dist/examples/bc.log <<EOF
 2;
 EOF
 
-
-gcovr *
+gcovr --root . --exclude tests/ --exclude examples/

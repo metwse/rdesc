@@ -1,95 +1,52 @@
-FUZZ_DIR = fuzz
-INTEGRATION_DIR = integration
-UNIT_DIR = unit
+# rdesc/tests/Makefile - Robust & Gcovr Compatible
 
 DIST_DIR = ../dist/tests
-OBJ_DIR = $(DIST_DIR)/obj
+LIB_TEST = ../dist/test/librdesc.a
+LIB_RELEASE = ../dist/release/librdesc.a
 
-# No need to change rules below this line.
-
-CFLAGS_COMMON = -std=c99 -Wall -Wextra -pedantic
-
-FUZZ_CFLAGS = $(CFLAGS_COMMON) -O2 -g3 -DAGRESSIVE_FUZZ
+CFLAGS_COMMON = -std=c99 -Wall -Wextra -pedantic -Iinclude
 TEST_CFLAGS = $(CFLAGS_COMMON) -O0 -g3 --coverage
+BENCH_CFLAGS = $(CFLAGS_COMMON) -O3 -g3
+FUZZ_CFLAGS = $(CFLAGS_COMMON) -O2 -g3 -DAGRESSIVE_FUZZ
 
-FUZZ_SRCS = $(wildcard $(FUZZ_DIR)/*.c)
-INTEGRATION_SRCS = $(wildcard $(INTEGRATION_DIR)/*.c)
-UNIT_SRCS = $(wildcard $(UNIT_DIR)/*.c)
+INTEGRATION_SRCS = $(wildcard integration/*.c)
+UNIT_SRCS = $(wildcard unit/*.c)
+FUZZ_SRCS = $(wildcard fuzz/*.c)
 
 TEST_TARGETS = \
-	$(patsubst $(INTEGRATION_DIR)/%.c, $(DIST_DIR)/%.integration.test, $(INTEGRATION_SRCS)) \
-	$(patsubst $(FUZZ_DIR)/%.c, $(DIST_DIR)/%.fuzz.test, $(FUZZ_SRCS)) \
-	$(patsubst $(UNIT_DIR)/%.c, $(DIST_DIR)/%.unit.test, $(UNIT_SRCS))
+	$(patsubst integration/%.c, $(DIST_DIR)/%.integration.test, $(INTEGRATION_SRCS)) \
+	$(patsubst fuzz/%.c, $(DIST_DIR)/%.fuzz.test, $(FUZZ_SRCS)) \
+	$(patsubst unit/%.c, $(DIST_DIR)/%.unit.test, $(UNIT_SRCS))
 
-FUZZ_TARGETS = \
-	$(patsubst $(FUZZ_DIR)/%.c, $(DIST_DIR)/%.fuzz.release, $(FUZZ_SRCS))
+FUZZ_RELEASE_TARGETS = $(patsubst fuzz/%.c, $(DIST_DIR)/%.fuzz.release, $(FUZZ_SRCS))
+BENCH_TARGET = $(DIST_DIR)/benchmark
 
-OBJS = $(wildcard $(OBJ_DIR)/*.o)
+all: directories $(TEST_TARGETS) $(FUZZ_RELEASE_TARGETS) $(BENCH_TARGET)
 
+directories:
+	mkdir -p $(DIST_DIR)
 
-default: $(TEST_TARGETS) $(FUZZ_TARGETS)
+# Integration Tests
+$(DIST_DIR)/%.integration.test: integration/%.c $(LIB_TEST)
+	cd ..; $(CC) $(TEST_CFLAGS) tests/$< tests/$(LIB_TEST) -o tests/$@
 
+# Fuzz Tests (Debug)
+$(DIST_DIR)/%.fuzz.test: fuzz/%.c $(LIB_TEST)
+	cd ..; $(CC) $(TEST_CFLAGS) tests/$< tests/$(LIB_TEST) -o tests/$@
 
-RDESC_DIR := ..
-RDESC_FEATURES := full
+# Fuzz Tests (Release)
+$(DIST_DIR)/%.fuzz.release: fuzz/%.c $(LIB_RELEASE)
+	cd ..; $(CC) $(FUZZ_CFLAGS) tests/$< tests/$(LIB_RELEASE) -o tests/$@
 
-RDESC_MODE := test
-include ../rdesc.mk
-LIB_TEST := $(RDESC)
+# Unit Tests (Sadece kaynak)
+$(DIST_DIR)/%.unit.test: unit/%.c
+	cd ..; $(CC) $(TEST_CFLAGS) tests/$< -o tests/$@
 
-RDESC_MODE := release
-include ../rdesc.mk
-LIB_RELEASE := $(RDESC)
+# Benchmark
+$(BENCH_TARGET): benchmark.c $(LIB_RELEASE)
+	cd ..; $(CC) $(BENCH_CFLAGS) tests/benchmark.c tests/$(LIB_RELEASE) -o tests/$@
 
+clean:
+	rm -rf $(DIST_DIR)
 
-# Test build rules compile from project root for gcovr compatibility, And then
-# dependency files are regenerated as compilation from project root broke
-# dependency tracking.
-
-# Integration and fuzz tests links the entire library, unit tests uses include
-# directives and only include source files needed.
-
-# - INTEGRATION ---------------------------------------------------------------
-.SECONDARY:
-$(OBJ_DIR)/%.integration.test.o: $(INTEGRATION_DIR)/%.c | $(OBJ_DIR)
-	cd ..; $(CC) $(TEST_CFLAGS) -c tests/$< -o tests/$@
-	$(CC) -MM $< -MF $(@:.o=.d) -MT $@
-
-$(DIST_DIR)/%.integration.test: $(OBJ_DIR)/%.integration.test.o $(LIB_TEST) \
-		| $(DIST_DIR)
-	$(CC) $(TEST_CFLAGS) $^ -o $@
-
-# - FUZZ ----------------------------------------------------------------------
-.SECONDARY:
-$(OBJ_DIR)/%.fuzz.release.o: $(FUZZ_DIR)/%.c | $(OBJ_DIR)
-	cd ..; $(CC) $(FUZZ_CFLAGS) -c tests/$< -o tests/$@
-	$(CC) -MM $< -MF $(@:.o=.d) -MT $@
-
-$(DIST_DIR)/%.fuzz.release: $(OBJ_DIR)/%.fuzz.release.o $(LIB_RELEASE) \
-		| $(DIST_DIR)
-	$(CC) $(FUZZ_CFLAGS) $^ -o $@
-
-.SECONDARY:
-$(OBJ_DIR)/%.fuzz.test.o: $(FUZZ_DIR)/%.c | $(OBJ_DIR)
-	cd ..; $(CC) $(TEST_CFLAGS) -c tests/$< -o tests/$@
-	$(CC) -MM $< -MF $(@:.o=.d) -MT $@
-
-$(DIST_DIR)/%.fuzz.test: $(OBJ_DIR)/%.fuzz.test.o $(LIB_TEST) | $(DIST_DIR)
-	$(CC) $(TEST_CFLAGS) $^ -o $@
-
-# - UNIT ----------------------------------------------------------------------
-.SECONDARY:
-$(OBJ_DIR)/%.unit.test.o: $(UNIT_DIR)/%.c | $(OBJ_DIR)
-	cd ..; $(CC) $(TEST_CFLAGS) -c tests/$< -o tests/$@
-	$(CC) -MM $< -MF $(@:.o=.d) -MT $@
-$(DIST_DIR)/%.unit.test: $(OBJ_DIR)/%.unit.test.o | $(DIST_DIR)
-	$(CC) $(TEST_CFLAGS) $< -o $@
-
-
-$(DIST_DIR) $(OBJ_DIR):
-	mkdir -p $@
-
-
--include $(OBJS:.o=.d)
-
-.PHONY: default all fuzz
+.PHONY: all directories clean

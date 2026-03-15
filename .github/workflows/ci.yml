@@ -1,0 +1,30 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ "master", "main", "feature/**" ]
+  pull_request:
+    branches: [ "master", "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: install dependencies
+      run: |
+        apt-get update
+        apt-get install -y build-essential gcc g++ valgrind gcovr
+
+    - name: build library
+      run: |
+        make clean
+        make MODE=release
+        make MODE=test FEATURES=full
+
+    - name: run tests
+      run: |
+        ./runtests.sh
+        ./dist/tests/benchmark
