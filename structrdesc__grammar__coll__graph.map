@@ -1,0 +1,5 @@
+<map id="rdesc_grammar" name="rdesc_grammar">
+<area shape="rect" id="Node000001" title="Grammar definition." alt="" coords="33,93,157,119"/>
+<area shape="rect" id="Node000002" href="$structrdesc__grammar__symbol.html" title="A terminal or nonterminal representing the body (right side) of a production rule." alt="" coords="5,5,184,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="97,45,97,93,92,93,92,45"/>
+</map>
